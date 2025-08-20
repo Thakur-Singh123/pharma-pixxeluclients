@@ -55,6 +55,31 @@
                         </ul>
                     </div>
                 </li>
+
+                 {{-- Daily Visit --}}
+                 <li class="nav-item {{ request()->is('mr/visits*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseVisit"
+                        class="{{ request()->is('mr/visits*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/visits*') ? 'true' : 'false' }}">
+                        <i class="fas fa-user-md"></i>
+                        <p>Daily Visits</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('mr/visits*') ? 'show' : '' }}" id="collapseVisit">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('mr/create') ? 'active' : '' }}">
+                                  <a href="{{ url('mr/visit-create') }}">
+                                    <span class="sub-item">Add Visit</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/visits') ? 'active' : '' }}">
+                                  <a href="{{ url('mr/visits') }}">
+                                    <span class="sub-item">All Visits</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

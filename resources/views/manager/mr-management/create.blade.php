@@ -1,0 +1,158 @@
+@extends('manager.layouts.master')
+@section('content')
+    <div class="container">
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                
+                    {{-- Success Message --}}
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Add MR</div>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ route('manager.mrs.store') }}" method="POST" autocomplete="off">
+                                @csrf
+                                <div class="row">
+                                    <!-- Name -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="name">Full Name</label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ old('name') }}" placeholder="Enter Full Name">
+                                            @error('name')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="email2">Email Address</label>
+                                            <input type="email" class="form-control" id="email2" name="email"
+                                                value="{{ old('email') }}" placeholder="Enter Email" autocomplete="new-email">
+                                            @error('email')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Password -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                placeholder="Password" autocomplete="new-password">
+                                            @error('password')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Phone -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="phone">Phone Number</label>
+                                            <input type="text" class="form-control" id="phone" name="phone"
+                                                value="{{ old('phone') }}" placeholder="Enter Phone Number">
+                                            @error('phone')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Employee Code -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="employee_code">Employee Code</label>
+                                            <input type="text" class="form-control" id="employee_code" name="employee_code"
+                                                value="{{ old('employee_code') }}" placeholder="Enter Employee Code">
+                                            @error('employee_code')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Territory -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="territory">Territory</label>
+                                            <input type="text" class="form-control" id="territory" name="territory"
+                                                value="{{ old('territory') }}" placeholder="Enter Territory">
+                                            @error('territory')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- City -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="city">City</label>
+                                            <input type="text" class="form-control" id="city" name="city"
+                                                value="{{ old('city') }}" placeholder="Enter City">
+                                            @error('city')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- State -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="state">State</label>
+                                            <input type="text" class="form-control" id="state" name="state"
+                                                value="{{ old('state') }}" placeholder="Enter State">
+                                            @error('state')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Joining Date -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="joining_date">Joining Date</label>
+                                            <input type="date" class="form-control" id="joining_date" name="joining_date"
+                                                value="{{ old('joining_date') }}">
+                                            @error('joining_date')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Status -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select class="form-control" id="status" name="status">
+                                                <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
+                                                <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Inactive</option>
+                                            </select>
+                                            @error('status')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-action">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <a href="{{ route('manager.mrs.index') }}" class="btn btn-danger">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

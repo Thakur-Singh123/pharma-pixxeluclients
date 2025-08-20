@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -21,6 +20,21 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'first_name',
+        'last_name',
+        'dob',
+        'gender',
+        'mobile',
+        'address',
+        'image',
+        'status',
+        'user_type',
+        'phone',
+        'territory',
+        'city',
+        'state',
+        'joining_date',
+        'employee_code',
     ];
 
     /**
@@ -42,7 +56,13 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
+
+    public function mrs()
+    {
+        return $this->belongsToMany(User::class, 'manager_mr', 'manager_id', 'mr_id');
+    }
+
 }

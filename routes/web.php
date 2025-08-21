@@ -8,8 +8,8 @@ Route::get('/', function () {
 
 //Middlewares
 Route::group(['middleware' => 'auth'], function() {
-
 });
+
 
 
 Auth::routes();

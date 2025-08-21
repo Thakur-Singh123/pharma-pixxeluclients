@@ -12,10 +12,10 @@
             @endif
             <div class="card">
                <div class="card-header">
-                  <div class="card-title">Add Visit</div>
+                  <div class="card-title">Add Doctor</div>
                </div>
                <div class="card-body">
-                  <form action="{{ route('mr.submit.visit') }}" method="POST" autocomplete="off">
+                  <form action="{{ route('mr.submit.doctor') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                      @csrf
                      <div class="row">
                         <!-- Area Name -->
@@ -73,20 +73,74 @@
                               @enderror
                            </div>
                         </div>
+                        <!-- Doctor Name -->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="doctor_name">Doctor Name</label>
+                              <input type="text" class="form-control" id="doctor_name" name="doctor_name"
+                                 value="{{ old('doctor_name') }}" placeholder="Enter Doctor Name">
+                              @error('doctor_name')
+                              <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!-- Doctor Contact -->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="doctor_contact">Doctor Contact</label>
+                              <input type="text" class="form-control" id="doctor_contact" name="doctor_contact"
+                                 value="{{ old('doctor_contact') }}" placeholder="Enter Contact">
+                              @error('doctor_contact')
+                              <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!-- Location -->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="location">Location</label>
+                              <input type="text" class="form-control" id="location" name="location"
+                                 value="{{ old('location') }}" placeholder="Enter Location">
+                              @error('location')
+                              <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!-- Remarks -->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="remarks">Remarks</label>
+                              <input type="text" class="form-control" id="remarks" name="remarks"
+                                 value="{{ old('remarks') }}" placeholder="Enter remarks">
+                              @error('remarks')
+                              <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!-- image -->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="image">Image</label>
+                              <input
+                                 type="file" name="image"
+                                 class="form-control"
+                                 id="exampleFormControlFile1"
+                                 />
+                           </div>
+                        </div>
                         <!-- Status -->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="status">Status</label>
-                              <select class="form-control" id="status" name="status">
-                              <option value="" disabled="selected">Select Status</option>
-                              <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
-                              <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
-                              <option value="Suspend" {{ old('status') == 'Suspend' ? 'selected' : '' }}>Suspend</option>
-                              <option value="Approved" {{ old('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
+                              <label for="status">Visit Type</label>
+                              <select class="form-control" id="visit_type" name="visit_type">
+                                 <option value="" disabled="selected">Select Visit</option>
+                                 <option value="Ngo" {{ old('status') == 'Ngo' ? 'selected' : '' }}>Ngo</option>
+                                 <option value="Asha" {{ old('status') == 'Asha' ? 'selected' : '' }}>Asha</option>
+                                 <option value="Doctor" {{ old('status') == 'Doctor' ? 'selected' : '' }}>Doctor</option>
+                                 <option value="Religious" {{ old('status') == 'Religious' ? 'selected' : '' }}>Religious</option>
+                                  <option value="Places" {{ old('status') == 'Places' ? 'selected' : '' }}>Places</option>
+                                   <option value="Other" {{ old('status') == 'Other' ? 'selected' : '' }}>Other</option>
                               </select>
-                              @error('status')
-                              <small class="text-danger">{{ $message }}</small>
-                              @enderror
                            </div>
                         </div>
                      </div>

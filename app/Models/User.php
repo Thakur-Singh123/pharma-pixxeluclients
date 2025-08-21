@@ -64,5 +64,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'manager_mr', 'manager_id', 'mr_id');
     }
-
 }

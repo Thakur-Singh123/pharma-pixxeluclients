@@ -39,6 +39,6 @@ class TaskController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('tasks.index')->with('success', 'Task assigned successfully!');
+        return redirect()->route('manager.tasks.index')->with('success', 'Task assigned successfully!');
     }
 }

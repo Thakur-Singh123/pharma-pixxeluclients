@@ -65,8 +65,8 @@
                 </a>
                 <div class="collapse {{ request()->is('mr/visits*') ? 'show' : '' }}" id="collapseVisit">
                     <ul class="nav nav-collapse">
-                        <li class="{{ request()->is('mr/create') ? 'active' : '' }}">
-                            <a href="{{ url('mr/visit-create') }}">
+                        <li class="{{ request()->is('mr/visits/create') ? 'active' : '' }}">
+                            <a href="{{ url('mr/visits/create') }}">
                             <span class="sub-item">Add Visit</span>
                             </a>
                         </li>
@@ -85,25 +85,32 @@
                         <p>Tasks</p>
                     </a>
                 </li>
-                 {{-- Doctor --}}
+                {{-- Doctor list --}}
                 <li class="nav-item {{ request()->is('mr/doctors*') ? 'active' : '' }}">
-                <a data-bs-toggle="collapse" href="#collapseDoctor"
-                    class="{{ request()->is('mr/doctors*') ? '' : 'collapsed' }}"
-                    aria-expanded="{{ request()->is('mr/doctors*') ? 'true' : 'false' }}">
-                    <i class="fas fa-user-md"></i>
-                    <p>Doctors</p>
+                    <a href="{{ url('mr/doctors') }}" class="nav-link {{ request()->is('mr/doctors') ? 'active' : '' }}">
+                       <i class="fas fa-user-md"></i>
+                        <p>Doctors</p>
+                    </a>
+                </li>
+                {{-- Patient list --}}
+                <li class="nav-item {{ request()->is('mr/patients*') ? 'active' : '' }}">
+                <a data-bs-toggle="collapse" href="#collapsePateint"
+                    class="{{ request()->is('mr/patients*') ? '' : 'collapsed' }}"
+                    aria-expanded="{{ request()->is('mr/patients*') ? 'true' : 'false' }}">
+                    <i class="fas fa-notes-medical"></i>
+                    <p>Patient</p>
                     <span class="caret"></span>
                 </a>
-                <div class="collapse {{ request()->is('mr/doctors*') ? 'show' : '' }}" id="collapseDoctor">
+                <div class="collapse {{ request()->is('mr/patients*') ? 'show' : '' }}" id="collapsePateint">
                     <ul class="nav nav-collapse">
-                        <li class="{{ request()->is('mr/doctor-create') ? 'active' : '' }}">
-                            <a href="{{ url('mr/doctor-create') }}">
-                            <span class="sub-item">Add Doctor</span>
+                        <li class="{{ request()->is('mr/patients/create') ? 'active' : '' }}">
+                            <a href="{{ route('mr.patients.create') }}">
+                            <span class="sub-item">Add Patient</span>
                             </a>
                         </li>
-                        <li class="{{ request()->is('mr/doctors') ? 'active' : '' }}">
-                            <a href="{{ url('mr/doctors') }}">
-                            <span class="sub-item">All Doctors</span>
+                        <li class="{{ request()->is('mr/patients') ? 'active' : '' }}">
+                            <a href="{{ url('mr/patients') }}">
+                            <span class="sub-item">All Patient</span>
                             </a>
                         </li>
                     </ul>

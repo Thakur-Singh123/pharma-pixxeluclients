@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
 <div class="container">
    <div class="page-inner">
@@ -15,7 +15,7 @@
                   <div class="card-title">Add Doctor</div>
                </div>
                <div class="card-body">
-                  <form action="{{ route('mr.submit.doctor') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+                  <form action="{{ route('manager.submit.doctor') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                      @csrf
                      <div class="row">
                         <!-- Area Name -->
@@ -45,7 +45,7 @@
                            <div class="form-group">
                               <label for="district">Distrcit</label>
                               <input type="text" class="form-control" id="district" name="district"
-                                 placeholder="Enter District">
+                                value="{{ old('district') }}"  placeholder="Enter District">
                               @error('district')
                               <small class="text-danger">{{ $message }}</small>
                               @enderror
@@ -110,9 +110,8 @@
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="remarks">Remarks</label>
-                              <input type="text" class="form-control" id="remarks" name="remarks"
-                                 value="{{ old('remarks') }}" placeholder="Enter remarks">
-                              @error('remarks')
+                               <textarea name="remarks" rows="3" class="form-control">{{ old('remarks') }}</textarea>
+                               @error('remarks')
                               <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
@@ -128,19 +127,15 @@
                                  />
                            </div>
                         </div>
-                        <!-- Status -->
+                        <!-- Assigne MR -->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="status">Visit Type</label>
-                              <select class="form-control" id="visit_type" name="visit_type">
-                                 <option value="" disabled="selected">Select Visit</option>
-                                 <option value="Ngo" {{ old('status') == 'Ngo' ? 'selected' : '' }}>Ngo</option>
-                                 <option value="Asha" {{ old('status') == 'Asha' ? 'selected' : '' }}>Asha</option>
-                                 <option value="Doctor" {{ old('status') == 'Doctor' ? 'selected' : '' }}>Doctor</option>
-                                 <option value="Religious" {{ old('status') == 'Religious' ? 'selected' : '' }}>Religious</option>
-                                  <option value="Places" {{ old('status') == 'Places' ? 'selected' : '' }}>Places</option>
-                                   <option value="Other" {{ old('status') == 'Other' ? 'selected' : '' }}>Other</option>
-                              </select>
+                              <label for="status">Assigne MR</label>
+                            <select  class="form-control" id="visit_type" name="mr_id[]" multiple>
+                              @foreach($mrs as $mr)
+                                    <option value="{{ $mr->id }}">{{ $mr->name }}</option>
+                              @endforeach
+                           </select>
                            </div>
                         </div>
                      </div>

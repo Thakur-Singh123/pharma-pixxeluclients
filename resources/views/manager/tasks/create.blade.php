@@ -47,10 +47,10 @@
                                             <select class="form-control" id="status" name="status">
                                                 <option value="Pending" {{ old('status') == 'pending' ? 'selected' : '' }}>
                                                     Pending</option>
-                                                <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>
-                                                    Active</option>
+                                                <option value="in_progress" {{ old('status') == 'Active' ? 'selected' : '' }}>
+                                                   In Progress</option>
                                                 <option value="Pending"
-                                                    {{ old('status') == 'in_progress' ? 'selected' : '' }}>In Progress
+                                                    {{ old('status') == 'completed' ? 'selected' : '' }}>Completed
                                                 </option>
                                             </select>
                                             @error('status')

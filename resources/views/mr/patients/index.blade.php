@@ -14,7 +14,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">All Doctors</h4>
+                            <h4 class="card-title">All Patients</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -35,90 +35,62 @@
                                                 <th class="sorting_asc" tabindex="0"
                                                     aria-controls="basic-datatables" rowspan="1"
                                                     colspan="1" aria-sort="ascending"
-                                                    style="width: 242.688px;">Area Name
+                                                    style="width: 242.688px;">Name
                                                 </th>
                                                 <th class="sorting" tabindex="0"
                                                     aria-controls="basic-datatables" rowspan="1"
                                                     colspan="1"
-                                                    style="width: 366.578px;">Area Block
+                                                    style="width: 366.578px;">Age
                                                 </th>
                                                 <th class="sorting" tabindex="0"
                                                     aria-controls="basic-datatables" rowspan="1"
                                                     colspan="1"
-                                                    style="width: 187.688px;">District
+                                                    style="width: 187.688px;">Gender
                                                 </th>
                                                 <th class="sorting" tabindex="0"
                                                     aria-controls="basic-datatables" rowspan="1"
                                                     colspan="1"
-                                                    style="width: 84.5px;">State</th>
+                                                    style="width: 84.5px;">Disease</th>
                                                 <th class="sorting" tabindex="0"
                                                     aria-controls="basic-datatables" rowspan="1"
                                                     colspan="1"
-                                                    style="width: 184.234px;">Area Code
-                                                </th>
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="basic-datatables" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Salary: activate to sort column ascending"
-                                                    style="width: 156.312px;">Doctor Name
+                                                    style="width: 184.234px;">Address
                                                 </th>
                                                 <th class="sorting" tabindex="0"
                                                     aria-controls="basic-datatables" rowspan="1"
                                                     colspan="1"
                                                     aria-label="Salary: activate to sort column ascending"
-                                                    style="width: 156.312px;">Doctor Contact
+                                                    style="width: 156.312px;">Contact Number
                                                 </th>
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="basic-datatables" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Salary: activate to sort column ascending"
-                                                    style="width: 156.312px;">Location
-                                                </th>
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="basic-datatables" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Salary: activate to sort column ascending"
-                                                    style="width: 156.312px;">Remarks
-                                                </th>
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="basic-datatables" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Salary: activate to sort column ascending"
-                                                    style="width: 156.312px;">Visit Type
-                                                </th>
-                                                <th class="sorting" tabindex="0"
+                                                {{-- <th class="sorting" tabindex="0"
                                                     aria-controls="basic-datatables" rowspan="1"
                                                     colspan="1"
                                                     style="width: 156.312px;">Action
-                                                </th>
+                                                </th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @php $count = 1 @endphp
-                                            @foreach ($all_doctors as $doctor)
+                                            @foreach ($patients as $patient)
                                             <tr role="row">
                                                 <td class="sorting_1">{{ $count++ }}</td>
-                                                <td>{{ $doctor->area_name }}</td>
-                                                <td>{{ $doctor->area_block }}</td>
-                                                <td>{{ $doctor->district }}</td>
-                                                <td>{{ $doctor->state }}</td>
-                                                <td>{{ $doctor->area_code }}</td>
-                                                <td>{{ $doctor->doctor_name }}</td>
-                                                <td>{{ $doctor->doctor_contact }}</td>
-                                                <td>{{ $doctor->location }}</td>
-                                                <td>{{ $doctor->remarks }}</td>
-                                                <td>{{ $doctor->visit_type }}</td>
-                                                <td>
+                                                <td>{{ $patient->name }}</td>
+                                                <td>{{ $patient->age }}</td>
+                                                <td>{{ $patient->gender }}</td>
+                                                <td>{{ $patient->disease }}</td>
+                                                <td>{{ $patient->address }}</td>
+                                                <td>{{ $patient->contact_number }}</td>
+                                                {{-- <td>
                                                     <div class="form-button-action">
-                                                    <a href="{{ url('mr/edit-doctor', $doctor->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a href="{{ url('mr/delete-doctor', $doctor->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete"><i class="fa fa-trash"></i></a>
+                                                    <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a href="{{ url('mr/delete-visit', $visit->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete"><i class="fa fa-trash"></i></a>
                                                     </div>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                             @endforeach
                                         </tbody>
                                         </table>
-                                        {{ $all_doctors->links('pagination::bootstrap-5') }}
+                                        {{ $patients->links('pagination::bootstrap-5') }}
                                     </div>
                                 </div>
                             </div>

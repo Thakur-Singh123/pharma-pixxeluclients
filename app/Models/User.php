@@ -64,4 +64,22 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'manager_mr', 'manager_id', 'mr_id');
     }
+
+    public function managers()
+    {
+        return $this->belongsToMany(User::class, 'manager_mr', 'mr_id', 'manager_id');
+    }
+
+
+    public function doctors()
+    {
+        return $this->belongsToMany(Doctor::class, 'doctor_mr_assignments', 'mr_id', 'doctor_id'              
+        );
+    }
+
+    public function patients()
+    {
+        return $this->hasMany(Patient::class, 'mr_id');
+    }
+
 }

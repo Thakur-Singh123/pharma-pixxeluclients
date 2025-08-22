@@ -42,12 +42,12 @@
                     <div class="collapse {{ request()->is('manager/mrs*') ? 'show' : '' }}" id="collapseMR">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('manager/mrs/create') ? 'active' : '' }}">
-                                  <a href="{{ route('manager.mrs.create') }}">
+                                <a href="{{ route('manager.mrs.create') }}">
                                     <span class="sub-item">Add MR</span>
                                 </a>
                             </li>
                             <li class="{{ request()->is('manager/mrs') ? 'active' : '' }}">
-                                  <a href="{{ route('manager.mrs.index') }}">
+                                <a href="{{ route('manager.mrs.index') }}">
                                     <span class="sub-item">All MR</span>
                                 </a>
                             </li>
@@ -56,29 +56,52 @@
                 </li>
                 {{-- add task --}}
                 <li class="nav-item {{ request()->is('manager/tasks*') ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#collapseMR"
+                    <a data-bs-toggle="collapse" href="#collapseTask"
                         class="{{ request()->is('manager/tasks*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('manager/tasks*') ? 'true' : 'false' }}">
                         <i class="fas fa-user-md"></i>
                         <p>Task</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('manager/tasks*') ? 'show' : '' }}" id="collapseMR">
+                    <div class="collapse {{ request()->is('manager/tasks*') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('manager/tasks/create') ? 'active' : '' }}">
-                                  <a href="{{ route('manager.tasks.create') }}">
+                                <a href="{{ route('manager.tasks.create') }}">
                                     <span class="sub-item">Add Task</span>
                                 </a>
                             </li>
                             <li class="{{ request()->is('manager/tasks') ? 'active' : '' }}">
-                                  <a href="{{ route('manager.tasks.index') }}">
+                                <a href="{{ route('manager.tasks.index') }}">
                                     <span class="sub-item">All Task</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
-
+                {{-- Doctor --}}
+                <li class="nav-item {{ request()->is('manager/doctors*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseDoctor"
+                        class="{{ request()->is('manager/doctors*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/doctors*') ? 'true' : 'false' }}">
+                        <i class="fas fa-user-md"></i>
+                        <p>Doctors</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('manager/doctors*') ? 'show' : '' }}" id="collapseDoctor">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('manager/doctors/create') ? 'active' : '' }}">
+                                <a href="{{ url('manager/doctors/create') }}">
+                                    <span class="sub-item">Add Doctor</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/doctors') ? 'active' : '' }}">
+                                <a href="{{ url('manager/doctors') }}">
+                                    <span class="sub-item">All Doctors</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

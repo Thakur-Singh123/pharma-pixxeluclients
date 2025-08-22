@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -14,7 +14,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">All Visits</h4>
+                            <h4 class="card-title">All Doctors</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -60,7 +60,31 @@
                                                     aria-controls="basic-datatables" rowspan="1"
                                                     colspan="1"
                                                     aria-label="Salary: activate to sort column ascending"
-                                                    style="width: 156.312px;">Status
+                                                    style="width: 156.312px;">Doctor Name
+                                                </th>
+                                                <th class="sorting" tabindex="0"
+                                                    aria-controls="basic-datatables" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Salary: activate to sort column ascending"
+                                                    style="width: 156.312px;">Doctor Contact
+                                                </th>
+                                                <th class="sorting" tabindex="0"
+                                                    aria-controls="basic-datatables" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Salary: activate to sort column ascending"
+                                                    style="width: 156.312px;">Location
+                                                </th>
+                                                <th class="sorting" tabindex="0"
+                                                    aria-controls="basic-datatables" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Salary: activate to sort column ascending"
+                                                    style="width: 156.312px;">Remarks
+                                                </th>
+                                                <th class="sorting" tabindex="0"
+                                                    aria-controls="basic-datatables" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Salary: activate to sort column ascending"
+                                                    style="width: 156.312px;">Visit Type
                                                 </th>
                                                 <th class="sorting" tabindex="0"
                                                     aria-controls="basic-datatables" rowspan="1"
@@ -71,26 +95,30 @@
                                         </thead>
                                         <tbody>
                                             @php $count = 1 @endphp
-                                            @foreach ($all_visits as $visit)
+                                            @foreach ($all_doctors as $doctor)
                                             <tr role="row">
                                                 <td class="sorting_1">{{ $count++ }}</td>
-                                                <td>{{ $visit->area_name }}</td>
-                                                <td>{{ $visit->area_block }}</td>
-                                                <td>{{ $visit->district }}</td>
-                                                <td>{{ $visit->state }}</td>
-                                                <td>{{ $visit->area_code }}</td>
-                                                <td>{{ $visit->status }}</td>
+                                                <td>{{ $doctor->area_name }}</td>
+                                                <td>{{ $doctor->area_block }}</td>
+                                                <td>{{ $doctor->district }}</td>
+                                                <td>{{ $doctor->state }}</td>
+                                                <td>{{ $doctor->area_code }}</td>
+                                                <td>{{ $doctor->doctor_name }}</td>
+                                                <td>{{ $doctor->doctor_contact }}</td>
+                                                <td>{{ $doctor->location }}</td>
+                                                <td>{{ $doctor->remarks }}</td>
+                                                <td>{{ $doctor->visit_type }}</td>
                                                 <td>
                                                     <div class="form-button-action">
-                                                    <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a href="{{ url('mr/delete-visit', $visit->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete"><i class="fa fa-trash"></i></a>
+                                                    <a href="{{ url('manager/doctors/edit', $doctor->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a href="{{ url('manager/delete-doctor', $doctor->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete"><i class="fa fa-trash"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
                                         </table>
-                                        {{ $all_visits->links('pagination::bootstrap-5') }}
+                                        {{ $all_doctors->links('pagination::bootstrap-5') }}
                                     </div>
                                 </div>
                             </div>

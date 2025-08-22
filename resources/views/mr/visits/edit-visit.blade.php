@@ -73,6 +73,27 @@
                               @enderror
                            </div>
                         </div>
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="status">Doctor</label>
+                              <select name="doctor_id" class="form-control">
+                                 @foreach($assignedDoctors as $doctor)
+                                       <option value="{{ $doctor->id }}" {{ $doctor->id == $visit_detail->doctor->id ? 'selected' : ''}}>{{ $doctor->doctor_name }}</option>
+                                 @endforeach
+                              </select>
+                           </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="status">Visit Type</label>
+                        <select name="visit_type" class="form-control">
+                           <option value="Routine Visit" {{ 'Routine Visit' == $visit_detail->visit_type ? 'selected' : ''}}>Routine Visit</option>
+                           <option value="First Visit" {{ 'First Visit' == $visit_detail->visit_type ? 'selected' : ''}} >First Visit</option>
+                           <option value="Follow-up" {{ 'Follow-up' == $visit_detail->visit_type ? 'selected' : ''}} >Follow-up</option>
+                        </select>
+                           </div>
+                        </div>
                         <!-- Status -->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">

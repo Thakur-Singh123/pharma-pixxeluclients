@@ -71,7 +71,7 @@
                                         </thead>
                                         <tbody>
                                             @php $count = 1 @endphp
-                                            @foreach ($all_visits as $visit)
+                                            @forelse ($all_visits as $visit)
                                             <tr role="row">
                                                 <td class="sorting_1">{{ $count++ }}</td>
                                                 <td>{{ $visit->area_name }}</td>
@@ -87,7 +87,11 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="8" class="text-center">No visits found.</td>
+                                            </tr>
+                                            @endforelse
                                         </tbody>
                                         </table>
                                         {{ $all_visits->links('pagination::bootstrap-5') }}

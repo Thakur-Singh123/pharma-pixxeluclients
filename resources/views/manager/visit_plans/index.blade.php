@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
     <div class="container">
         <div class="page-inner">
@@ -14,7 +14,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">All Doctors</h4>
+                                    <h4 class="card-title">All MRs</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -30,33 +30,41 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.
-                                                                </th>
+                                                                    style="width: 242.688px;">S No.</th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Doctor Name
-                                                                </th>
+                                                                    style="width: 242.688px;">Location</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 366.578px;">Doctor Contact
-                                                                </th>
+                                                                    colspan="1"
+                                                                    style="width: 366.578px;">Note</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 366.578px;">Location
-                                                                </th>
+                                                                    colspan="1"
+                                                                    style="width: 366.578px;">Assigned MR</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 366.578px;">Assigned Doctor</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Status</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
-                                                            @forelse ($assignedDoctors as $doctor)
+                                                            @forelse ($visit_plans as $visit_plan)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}</td>
-                                                                    <td>{{ $doctor->doctor_name }}</td>
-                                                                    <td>{{ $doctor->doctor_contact }}</td>
-                                                                    <td>{{ $doctor->location }}</td>
+                                                                    <td>{{ $visit_plan->location }}</td>
+                                                                    <td>{{ $visit_plan->notes }}</td>
+                                                                    <td>{{ $visit_plan->mr->name }}</td>
+                                                                    <td>{{ $visit_plan->doctor->doctor_name }}</td>
+                                                                    <td>{{ $visit_plan->status }}</td>
                                                                 </tr>
-                                                            @empty
+                                                           @empty
                                                                 <tr>
                                                                     <td colspan="10" class="text-center">No record found
                                                                     </td>
@@ -64,7 +72,7 @@
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{ $assignedDoctors->links('pagination::bootstrap-5') }}
+                                                    {{ $visit_plans->links('pagination::bootstrap-5') }}
                                                 </div>
                                             </div>
                                         </div>

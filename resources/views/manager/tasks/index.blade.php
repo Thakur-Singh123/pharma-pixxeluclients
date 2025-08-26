@@ -51,7 +51,7 @@
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
-                                                            @foreach ($tasks as $task)
+                                                            @forelse ($tasks as $task)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}</td>
                                                                     <td>{{ $task->title }}</td>
@@ -59,7 +59,12 @@
                                                                     <td>{{ $task->mr->name }}</td>
                                                                     <td>{{ $task->status }}</td>
                                                                 </tr>
-                                                            @endforeach
+                                                           @empty
+                                                                <tr>
+                                                                    <td colspan="10" class="text-center">No record found
+                                                                    </td>
+                                                                </tr>
+                                                            @endforelse
                                                         </tbody>
                                                     </table>
                                                     {{ $tasks->links('pagination::bootstrap-5') }}

@@ -1,57 +1,82 @@
 @extends('mr.layouts.master')
 
 @section('content')
+@php
+    $present = $half = $absent = $leave = 0;
+    foreach($days as $d) {
+        if(($d['check_in'] ?? null) && ($d['check_out'] ?? null)) $present++;
+        else if(($d['check_in'] ?? null) && !($d['check_out'] ?? null)) $half++;
+        else $absent++;
+        // (for "leave" logic, add here if you support it in data)
+    }
+@endphp
+<style>
+    .att-table {width: 100%;border-collapse: separate;border-spacing: 0;background: #fff;border-radius: 14px;box-shadow: 0 3px 20px rgba(66,112,250,0.06);overflow: hidden;}
+    .att-table th, .att-table td {padding: 10px 7px;text-align: center;font-size: 1rem;vertical-align: middle;border: none;}
+    .att-table th {background: #f4f8fd;color: #4270fa;letter-spacing: 0.06em;font-weight: 700;}
+    .row-summary td {background: #f4f8fd;font-weight:700;font-size:1.09em;}
+    .summ-badge {padding:4px 17px;font-size:1.05em;font-weight:700;border-radius:18px;letter-spacing:0.02em;}
+    .summ-present {background:#e6fde9;color:#22ac45;border: 1px solid #a2f6b5;}
+    .summ-half {background:#fffce4;color:#b88d01;border: 1px solid #fff6a3;}
+    .summ-absent {background:#fff1ec;color:#df493b;border: 1px solid #ffcab9;}
+    .summ-leave {background:#ebf2fa;color:#3877b5;border: 1px solid #b3dafe;}
+    .att-present {color:#22ac45; font-weight:700;}
+    .att-half {color:#b88d01;font-weight:700;}
+    .att-absent {color:#df493b;font-weight:700;}
+    .att-leave {color:#3877b5;font-weight:700;}
+    .fa-fw {width:1.28em;}
+    @media (max-width:780px) {
+        .att-table th, .att-table td{font-size:0.93em;}
+    }
+</style>
 <div class="container">
     <div class="page-inner">
-        <h2 class="mb-4 fw-bold text-primary">Attendance for {{ now()->format('F Y') }}</h2>
-
-        <div class="row row-cols-1 row-cols-md-3 g-3">
-            @foreach($days as $day)
-                <div class="col">
-                    <div class="card shadow-sm border-0 rounded-4 h-100">
-                        <div class="card-body text-center">
-                            <h5 class="card-title mb-2">{{ \Carbon\Carbon::parse($day['date'])->format('d M, D') }}</h5>
-
-                            <div class="mb-3">
-                                <span class="badge
-                                    @if($day['check_in'] && $day['check_out']) bg-success
-                                    @elseif($day['check_in'] && !$day['check_out']) bg-warning text-dark
-                                    @else bg-danger
-                                    @endif
-                                    px-3 py-2 fs-6">
-                                    @if($day['check_in'] && $day['check_out'])
-                                        <i class="bi bi-check-circle me-1"></i> Present
-                                    @elseif($day['check_in'])
-                                        <i class="bi bi-clock me-1"></i> Half Day
-                                    @else
-                                        <i class="bi bi-x-circle me-1"></i> Absent
-                                    @endif
-                                </span>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center mt-2 px-2">
-                                <div>
-                                    <small class="text-muted d-block mb-1">
-                                        <i class="bi bi-box-arrow-in-right me-1"></i>Check In
-                                    </small>
-                                    <span class="fw-semibold text-success">
-                                        {{ $day['check_in'] ? \Carbon\Carbon::parse($day['check_in'])->format('h:i A') : '-' }}
-                                    </span>
-                                </div>
-                                <div>
-                                    <small class="text-muted d-block mb-1">
-                                        <i class="bi bi-box-arrow-right me-1"></i>Check Out
-                                    </small>
-                                    <span class="fw-semibold text-danger">
-                                        {{ $day['check_out'] ? \Carbon\Carbon::parse($day['check_out'])->format('h:i A') : '-' }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+    <div class="mb-4 text-center">
+        <h2 class="fw-bold text-primary">My Attendance ({{ now()->format('F Y') }})</h2>
+    </div>
+    <div class="row g-1 mb-3 align-items-center">
+        <div class="col-auto">
+            <span class="summ-badge summ-present"><i class="bi bi-check-circle-fill me-1"></i> Present: {{ $present }}</span>
+        </div>
+        <div class="col-auto">
+            <span class="summ-badge summ-half"><i class="bi bi-hourglass-split me-1"></i> Half Day: {{ $half }}</span>
+        </div>
+        <div class="col-auto">
+            <span class="summ-badge summ-absent"><i class="bi bi-x-circle-fill me-1"></i> Absent: {{ $absent }}</span>
         </div>
     </div>
+    <div class="table-responsive">
+        <table class="att-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($days as $d)
+                <tr>
+                    <td>{{ \Carbon\Carbon::parse($d['date'])->format('d M, D') }}</td>
+                    <td>
+                        @if(($d['check_in'] ?? null) && ($d['check_out'] ?? null))
+                            <span class="att-present"><i class="bi bi-check-circle-fill fa-fw me-1"></i> Present</span>
+                        @elseif(($d['check_in'] ?? null) && !($d['check_out'] ?? null))
+                            <span class="att-half"><i class="bi bi-hourglass-split fa-fw me-1"></i> Half Day</span>
+                        @else
+                            <span class="att-absent"><i class="bi bi-x-circle-fill fa-fw me-1"></i> Absent</span>
+                        @endif
+                    </td>
+                    <td>{{ $d['check_in'] ? \Carbon\Carbon::parse($d['check_in'])->format('h:i A') : '-' }}</td>
+                    <td>{{ $d['check_out'] ? \Carbon\Carbon::parse($d['check_out'])->format('h:i A') : '-' }}</td>
+                </tr>
+                @empty
+                <tr><td colspan="4">No data found.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
 </div>
 @endsection

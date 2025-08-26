@@ -14,10 +14,10 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">Add Task</div>
+                            <div class="card-title">Add Event</div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('manager.tasks.store') }}" method="POST" autocomplete="off">
+                            <form action="{{ route('manager.events.store') }}" method="POST" autocomplete="off">
                                 @csrf
                                 <div class="row">
                                     <!-- Title -->
@@ -25,8 +25,18 @@
                                         <div class="form-group">
                                             <label for="title">Title</label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                                value="{{ old('title') }}" placeholder="Enter Task Title">
+                                                value="{{ old('title') }}" placeholder="Enter Event Title">
                                             @error('title')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="title">Location</label>
+                                            <input type="text" class="form-control" id="location" name="location"
+                                                value="{{ old('location') }}" placeholder="Enter Location">
+                                            @error('location')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -44,29 +54,27 @@
                                     </div>
 
                                     <!-- Start Date -->
-                                    <div class="col-md-6">
+                                   <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="start_date">Start Date</label>
-                                            <input type="date" class="form-control" id="start_date" name="start_date"
-                                                value="{{ old('start_date') }}">
-                                            @error('start_date')
+                                            <label for="start_datetime">Start Date & Time</label>
+                                            <input type="datetime-local" class="form-control" id="start_datetime" name="start_datetime"
+                                                value="{{ old('start_datetime') }}">
+                                            @error('start_datetime')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
                                     </div>
 
-                                    <!-- End Date -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="end_date">End Date</label>
-                                            <input type="date" class="form-control" id="end_date" name="end_date"
-                                                value="{{ old('end_date') }}">
-                                            @error('end_date')
+                                            <label for="end_datetime">End Date & Time</label>
+                                            <input type="datetime-local" class="form-control" id="end_datetime" name="end_datetime"
+                                                value="{{ old('end_datetime') }}">
+                                            @error('end_datetime')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
                                     </div>
-
                                     <!-- Status -->
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -100,7 +108,7 @@
 
                                 <div class="card-action">
                                     <button type="submit" class="btn btn-success">Submit</button>
-                                    <a href="{{ route('manager.tasks.index') }}" class="btn btn-danger">Cancel</a>
+                                    <a href="{{ route('manager.events.index') }}" class="btn btn-danger">Cancel</a>
                                 </div>
                             </form>
                         </div>

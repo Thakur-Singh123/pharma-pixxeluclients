@@ -72,7 +72,7 @@
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
-                                                            @foreach ($mrs as $mr)
+                                                            @forelse ($mrs as $mr)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}</td>
                                                                     <td>{{ $mr->name }}</td>
@@ -85,7 +85,12 @@
                                                                     <td>{{ $mr->joining_date }}</td>
                                                                     <td>{{ $mr->status }}</td>
                                                                 </tr>
-                                                            @endforeach
+                                                          @empty
+                                                                <tr>
+                                                                    <td colspan="10" class="text-center">No record found
+                                                                    </td>
+                                                                </tr>
+                                                            @endforelse
                                                         </tbody>
                                                     </table>
                                                     {{ $mrs->links('pagination::bootstrap-5') }}

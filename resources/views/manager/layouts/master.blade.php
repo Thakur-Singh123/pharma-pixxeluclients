@@ -7,6 +7,8 @@
       <link rel="icon" href="{{ asset('public/admin/images/Final-Logo-BMS 2 (1) - Copy.png') }}" type="image/x-icon" />
       <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
       <!--css files-->
+      <!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
       <link rel="stylesheet" href="{{ asset('public/admin/assets/css/custom.css') }}" />
       <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.css') }}" />
       <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.min.css') }}" />
@@ -113,245 +115,21 @@
                </div>
             </footer>
          </div>
-         <!--custom template-->
-         <div class="custom-template">
-            <div class="title">Settings</div>
-            <div class="custom-content">
-               <div class="switcher">
-                  <div class="switch-block">
-                     <h4>Logo Header</h4>
-                     <div class="btnSwitch">
-                        <button
-                           type="button"
-                           class="selected changeLogoHeaderColor"
-                           data-color="dark"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="blue"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="purple"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="light-blue"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="green"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="orange"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="red"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="white"
-                           >
-                        </button>
-                        <br/>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="dark2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="blue2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="purple2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="light-blue2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="green2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="orange2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeLogoHeaderColor"
-                           data-color="red2"
-                           >
-                        </button>
-                     </div>
-                  </div>
-                  <div class="switch-block">
-                     <h4>Navbar Header</h4>
-                     <div class="btnSwitch">
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="dark"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="blue"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="purple"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="light-blue"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="green"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="orange"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="red"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="selected changeTopBarColor"
-                           data-color="white"
-                           >
-                        </button>
-                        <br/>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="dark2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="blue2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="purple2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="light-blue2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="green2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="orange2"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeTopBarColor"
-                           data-color="red2"
-                           >
-                        </button>
-                     </div>
-                  </div>
-                  <div class="switch-block">
-                     <h4>Sidebar</h4>
-                     <div class="btnSwitch">
-                        <button
-                           type="button"
-                           class="changeSideBarColor"
-                           data-color="white"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="selected changeSideBarColor"
-                           data-color="dark"
-                           >
-                        </button>
-                        <button
-                           type="button"
-                           class="changeSideBarColor"
-                           data-color="dark2"
-                           >
-                        </button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="custom-toggle">
-               <i class="icon-settings"></i>
-            </div>
-         </div>
       </div>
       <script>
          var base_url = '{{ url("/") }}'; 
       </script>
+      <!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
       <!--core js files-->
-      <script src="{{ asset('public/admin/assets/js/custom-ajax.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/custom-script.js') }}"></script>
+      {{-- <script src="{{ asset('public/admin/assets/js/custom-ajax.js') }}"></script>
+      <script src="{{ asset('public/admin/assets/js/custom-script.js') }}"></script> --}}
       <script src="{{ asset('public/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>
       <script src="{{ asset('public/admin/assets/js/core/popper.min.js') }}"></script>
       <script src="{{ asset('public/admin/assets/js/core/bootstrap.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/select2/js/select2.js') }}"></script>
+      {{-- <script src="{{ asset('public/admin/assets/select2/js/select2.js') }}"></script>
       <script src="{{ asset('public/admin/assets/select2/js/select2.min.js') }}"></script>
       <script src="{{ asset('public/admin/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
       <script src="{{ asset('public/admin/assets/js/plugin/chart.js/chart.min.js') }}"></script>
@@ -365,9 +143,10 @@
       <script src="{{ asset('public/admin/assets/js/kaiadmin.min.js') }}"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
-      <script src="{{ asset('public/admin/assets/js/setting-demo.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/demo.js') }}"></script>
+      <script src="{{ asset('public/admin/assets/js/setting-demo.js') }}"></script> --}}
+      {{-- <script src="{{ asset('public/admin/assets/js/demo.js') }}"></script> --}}
       <script src="{{ asset('public/admin/assets/js/plugin/webfont/webfont.min.js') }}"></script>
+   
       <script>
          WebFont.load({
            google: { families: ["Public Sans:300,400,500,600,700"] },

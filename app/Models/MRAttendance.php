@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class MRAttendance extends Model
 {
     protected $table    = 'mr_attendances';
-    protected $fillable = ['user_id', 'date', 'check_in', 'check_out'];
+    protected $fillable = ['user_id', 'date', 'check_in', 'check_out','status'];
 
     public function user()
     {

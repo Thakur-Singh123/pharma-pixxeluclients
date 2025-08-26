@@ -102,6 +102,70 @@
                         </ul>
                     </div>
                 </li>
+                {{-- Ta/Da --}}
+                <li class="nav-item {{ request()->is('manager/tada-records') ? 'active' : '' }}">
+                    <a href="{{ url('manager/tada-records') }}"
+                        class="nav-link {{ request()->is('manager/tada-records') ? 'active' : '' }}">
+                        <i class="fas fa-check-square"></i>
+                        <p>TA/DA</p>
+                    </a>
+                </li>
+                  {{-- Calendar --}}
+                <li class="nav-item {{ request()->is('manager/calendar*') ? 'active' : '' }}">
+                    <a href="{{ url('manager/calendar') }}"
+                        class="nav-link {{ request()->is('manager/calendar') ? 'active' : '' }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Calendar</p>
+                    </a>
+                </li>
+                {{-- events --}}
+                <li class="nav-item {{ request()->is('manager/events*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseEvent"
+                        class="{{ request()->is('manager/events*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/events*') ? 'true' : 'false' }}">
+                        <i class="fas fa-user-md"></i>
+                        <p>Events</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('manager/events*') ? 'show' : '' }}" id="collapseEvent">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('manager/events/create') ? 'active' : '' }}">
+                                <a href="{{ route('manager.events.create') }}">
+                                    <span class="sub-item">Add Event</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/events') ? 'active' : '' }}">
+                                <a href="{{ route('manager.events.index') }}">
+                                    <span class="sub-item">All Events</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                {{--visit plans --}}
+                <li class="nav-item {{ request()->is('manager/visit-plans*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseVisitPlan"
+                        class="{{ request()->is('manager/visit-plans*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/visit-plans*') ? 'true' : 'false' }}">
+                        <i class="fas fa-user-md"></i>
+                        <p>Visit Plans</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('manager/visit-plans*') ? 'show' : '' }}" id="collapseVisitPlan">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('manager/visit-plans/create') ? 'active' : '' }}">
+                                <a href="{{ route('manager.visit-plans.create') }}">
+                                    <span class="sub-item">Add Visit Plan</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/visit-plans') ? 'active' : '' }}">
+                                <a href="{{ route('manager.visit-plans.index') }}">
+                                    <span class="sub-item">All Visit Plans</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

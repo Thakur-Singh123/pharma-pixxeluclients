@@ -36,6 +36,8 @@ class TaskController extends Controller
             'manager_id'  => auth()->id(),
             'title'       => $request->title,
             'description' => $request->description,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
             'status' => $request->status,
         ]);
 

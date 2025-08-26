@@ -21,16 +21,18 @@
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label>Name</label>
-                                            <input type="text" name="name" class="form-control" value="{{old('name')}}">
+                                            <input type="text" name="name" class="form-control"
+                                                value="{{ old('name') }}">
                                             @error('name')
-                                           <small class="text-danger">{{ $message }}</small>
-                                        @enderror
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label>Age</label>
-                                            <input type="number" name="age" class="form-control" value="{{old('age')}}">
+                                            <input type="number" name="age" class="form-control"
+                                                value="{{ old('age') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
@@ -46,22 +48,24 @@
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label>Disease</label>
-                                            <input type="text" name="disease" class="form-control" value="{{old('disease')}}">
+                                            <input type="text" name="disease" class="form-control"
+                                                value="{{ old('disease') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label>Contact Number</label>
-                                            <input type="text" name="contact_number" class="form-control" value="{{old('contact_number')}}">
-                                                                             @error('contact_number')
-                                           <small class="text-danger">{{ $message }}</small>
-                                        @enderror
+                                            <input type="text" name="contact_number" class="form-control"
+                                                value="{{ old('contact_number') }}">
+                                            @error('contact_number')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label>Address</label>
-                                            <textarea name="address" class="form-control">{{old('address')}}</textarea>
+                                            <textarea name="address" class="form-control">{{ old('address') }}</textarea>
                                         </div>
                                     </div>
                                 </div>

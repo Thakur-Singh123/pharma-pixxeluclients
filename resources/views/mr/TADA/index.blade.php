@@ -1,4 +1,4 @@
-@extends('manager.layouts.master')
+@extends('mr.layouts.master')
 @section('content')
     <div class="container">
         <div class="page-inner">
@@ -13,8 +13,21 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">All Doctors</h4>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title">All TA/DA Claims</h4>
+                                    <form method="GET" action="{{ route('mr.tada.index') }}">
+                                        <select name="status" class="form-control" onchange="this.form.submit()">
+                                            <option value="">-- Filter by Status --</option>
+                                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
+                                                Pending</option>
+                                            <option value="approved"
+                                                {{ request('status') == 'approved' ? 'selected' : '' }}>
+                                                Approved</option>
+                                            <option value="rejected"
+                                                {{ request('status') == 'rejected' ? 'selected' : '' }}>
+                                                Rejected</option>
+                                        </select>
+                                    </form>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -35,52 +48,37 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Area Name
+                                                                    style="width: 242.688px;">Travel Date
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 366.578px;">Area Block
+                                                                    colspan="1" style="width: 366.578px;">Place Visited
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 187.688px;">District
+                                                                    colspan="1" style="width: 187.688px;">Distance (Km)
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 84.5px;">State</th>
+                                                                    colspan="1" style="width: 84.5px;">TA (amount)</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 184.234px;">Area Code
+                                                                    colspan="1" style="width: 184.234px;">DA (amount)
                                                                 </th>
-                                                                <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    aria-label="Salary: activate to sort column ascending"
-                                                                    style="width: 156.312px;">Doctor Name
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
                                                                     aria-label="Salary: activate to sort column ascending"
-                                                                    style="width: 156.312px;">Doctor Contact
+                                                                    style="width: 156.312px;">Total (amount)
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    aria-label="Salary: activate to sort column ascending"
-                                                                    style="width: 156.312px;">Location
+                                                                    colspan="1" style="width: 156.312px;">Mode Of Travel
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    aria-label="Salary: activate to sort column ascending"
-                                                                    style="width: 156.312px;">Remarks
-                                                                </th>
-                                                                <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    aria-label="Salary: activate to sort column ascending"
-                                                                    style="width: 156.312px;">Visit Type
+                                                                    colspan="1" style="width: 156.312px;">Attachment
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -90,31 +88,36 @@
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
-                                                            @forelse ($all_doctors as $doctor)
+                                                            @forelse ($tada_records as $tada_record)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}</td>
-                                                                    <td>{{ $doctor->area_name }}</td>
-                                                                    <td>{{ $doctor->area_block }}</td>
-                                                                    <td>{{ $doctor->district }}</td>
-                                                                    <td>{{ $doctor->state }}</td>
-                                                                    <td>{{ $doctor->area_code }}</td>
-                                                                    <td>{{ $doctor->doctor_name }}</td>
-                                                                    <td>{{ $doctor->doctor_contact }}</td>
-                                                                    <td>{{ $doctor->location }}</td>
-                                                                    <td>{{ $doctor->remarks }}</td>
-                                                                    <td>{{ $doctor->visit_type }}</td>
+                                                                    <td>{{ $tada_record->travel_date }}</td>
+                                                                    <td>{{ $tada_record->place_visited }}</td>
+                                                                    <td>{{ $tada_record->distance_km }}</td>
+                                                                    <td>{{ $tada_record->ta_amount }}</td>
+                                                                    <td>{{ $tada_record->da_amount }}</td>
+                                                                    <td>{{ $tada_record->total_amount }}</td>
+                                                                    <td>{{ $tada_record->mode_of_travel }}</td>
                                                                     <td>
-                                                                        <div class="form-button-action">
-                                                                            <a href="{{ url('manager/doctors/edit', $doctor->id) }}"
-                                                                                class="icon-button edit-btn custom-tooltip"
-                                                                                data-tooltip="Edit"><i
-                                                                                    class="fa fa-edit"></i></a>
-                                                                            <a href="{{ url('manager/delete-doctor', $doctor->id) }}"
-                                                                                class="icon-button delete-btn custom-tooltip"
-                                                                                data-tooltip="Delete"><i
-                                                                                    class="fa fa-trash"></i></a>
-                                                                        </div>
+                                                                        @if ($tada_record->attachment)
+                                                                            <a href="{{ asset('public/uploads/ta_da/' . $tada_record->attachment) }}"
+                                                                                target="_blank">View</a>
+                                                                        @else
+                                                                            -
+                                                                        @endif
                                                                     </td>
+                                                                    <td>
+                                                                        @if ($tada_record->status == 'pending')
+                                                                            <span style="color: orange;">Pending</span>
+                                                                        @elseif($tada_record->status == 'approved')
+                                                                            <span style="color: green;">Approved</span>
+                                                                        @elseif($tada_record->status == 'rejected')
+                                                                            <span style="color: red;">Rejected</span>
+                                                                        @else
+                                                                            <span style="color: gray;">Unknown</span>
+                                                                        @endif
+                                                                    </td>
+
                                                                 </tr>
                                                             @empty
                                                                 <tr>
@@ -123,8 +126,9 @@
                                                                 </tr>
                                                             @endforelse
                                                         </tbody>
+
                                                     </table>
-                                                    {{ $all_doctors->links('pagination::bootstrap-5') }}
+                                                    {{ $tada_records->links('pagination::bootstrap-5') }}
                                                 </div>
                                             </div>
                                         </div>

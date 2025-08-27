@@ -63,8 +63,8 @@
                                         <div class="form-group">
                                             <label for="visit_category">Visit Category</label>
                                             <select class="form-control" id="visit_category" name="visit_category">
-                                                <option value="hospital_visit" {{ old('visit_category') == 'hospital_visit' ? 'selected' : '' }}>Hospital Visit</option>
-                                                <option value="doctor_meeting" {{ old('visit_category') == 'doctor_meeting' ? 'selected' : '' }}>Doctor Meeting</option>
+                                                <option value="hospital" {{ old('visit_category') == 'hospital' ? 'selected' : '' }}>Hospital Visit</option>
+                                                <option value="doctor" {{ old('visit_category') == 'doctor' ? 'selected' : '' }}>Doctor Meeting</option>
                                                 <option value="camp" {{ old('visit_category') == 'camp' ? 'selected' : '' }}>Camp</option>
                                                 <option value="event" {{ old('visit_category') == 'event' ? 'selected' : '' }}>Event</option>
                                             </select>

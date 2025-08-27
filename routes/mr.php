@@ -38,5 +38,10 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
 
     //events
     Route::get('events', [App\Http\Controllers\MR\EventController::class,'index']);
+    //visit plans
+    Route::get('visit-plans', [App\Http\Controllers\MR\VisitPlanController::class,'index'])->name('visit-plans.index');
+    Route::post('visit-plans/{id}/interested', [App\Http\Controllers\MR\VisitPlanController::class,'expressInterest'])->name('visit-plan.interested');
+    Route::get('visit-plans/my-interested-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myInterestedPlans'])->name('visit-plans.my-interested');
+    Route::get('visit-plans/my-assigned-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myAssignedPlans'])->name('visit-plans.my-assigned');
 });
 

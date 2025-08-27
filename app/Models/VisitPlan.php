@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class VisitPlan extends Model
 {
     
+    protected $table = 'visit_plans';
     protected $fillable = [
         'plan_type',
         'visit_category',
@@ -21,4 +22,9 @@ class VisitPlan extends Model
         'is_locked',
         'status',
     ];
+
+    public function assignments()
+    {
+        return $this->hasMany(VisitPlanAssignement::class, 'visit_plan_id');
+    }
 }

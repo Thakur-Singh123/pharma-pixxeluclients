@@ -157,6 +157,35 @@
                         <p>Events</p>
                     </a>
                 </li>
+                {{-- visit plans --}}
+                 <li class="nav-item {{ request()->is('mr/visit-plans*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseVisit"
+                        class="{{ request()->is('mr/visit-plans*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/visit-plans*') ? 'true' : 'false' }}">
+                        <i class="fas fa-notes-medical"></i>
+                        <p>Visit Plans</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('mr/visit-plans*') ? 'show' : '' }}" id="collapseVisit">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('mr/visit-plans') ? 'active' : '' }}">
+                                <a href="{{ route('mr.visit-plans.index') }}">
+                                    <span class="sub-item">All Visit Plans</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/visit-plans/my-interested-plans') ? 'active' : '' }}">
+                                <a href="{{ route('mr.visit-plans.my-interested') }}">
+                                    <span class="sub-item">Interested Plans</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/visit-plans/my-assigned-plans') ? 'active' : '' }}">
+                                <a href="{{ route('mr.visit-plans.my-assigned') }}">
+                                    <span class="sub-item">Assigned Plans</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

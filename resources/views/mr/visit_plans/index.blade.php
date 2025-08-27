@@ -1,0 +1,116 @@
+@extends('mr.layouts.master')
+@section('content')
+    <div class="container">
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    {{-- Success Message --}}
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">All Plans</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <div id="basic-datatables_wrapper"
+                                            class="dataTables_wrapper container-fluid dt-bootstrap4">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table id="basic-datatables"
+                                                        class="display table table-striped table-hover dataTable"
+                                                        role="grid" aria-describedby="basic-datatables_info">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">S No.</th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Title</th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Plan Type</th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Category</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Description
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Start Date</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">End Date</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Location</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 156.312px;">Status</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 156.312px;">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php $count = 1 @endphp
+                                                            @forelse ($visit_plans as $visit_plan)
+                                                                <tr role="row">
+                                                                    <td class="sorting_1">{{ $count++ }}</td>
+                                                                    <td>{{ $visit_plan->title }}</td>
+                                                                    <td>{{ $visit_plan->plan_type }}</td>
+                                                                    <td>{{ $visit_plan->visit_category }}</td>
+                                                                    <td>{{ $visit_plan->description }}</td>
+                                                                    <td>{{ $visit_plan->start_date }}</td>
+                                                                    <td>{{ $visit_plan->end_date }}</td>
+                                                                    <td>{{ $visit_plan->location }}</td>
+                                                                    <td>{{ $visit_plan->status }}</td>
+                                                                    <td>
+                                                                        @if ($visit_plan->user_interest)
+                                                                            <span class="badge bg-success">Already Interested</span>
+                                                                        @else
+                                                                            <form method="POST"
+                                                                            action="{{ route('mr.visit-plan.interested', $visit_plan->id) }}">
+                                                                            @csrf
+                                                                            <button type="submit"
+                                                                                class="badge bg-success">
+                                                                                I am Interested
+                                                                            </button>
+                                                                        </form>
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                            @empty
+                                                                <tr>
+                                                                    <td colspan="10" class="text-center">No record found
+                                                                    </td>
+                                                                </tr>
+                                                            @endforelse
+                                                        </tbody>
+                                                    </table>
+                                                    {{ $visit_plans->links('pagination::bootstrap-5') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

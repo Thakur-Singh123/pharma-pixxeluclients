@@ -20,12 +20,13 @@
                             <form action="{{ route('manager.visit-plans.store') }}" method="POST" autocomplete="off">
                                 @csrf
                                 <div class="row">
+
                                     <!-- Title -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="title">Location</label>
-                                            <input type="text" class="form-control" id="location" name="location"
-                                                value="{{ old('location') }}" placeholder="Enter Task Title">
+                                            <label for="title">Title</label>
+                                            <input type="text" class="form-control" id="title" name="title"
+                                                value="{{ old('title') }}" placeholder="Enter Title">
                                             @error('title')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -35,9 +36,39 @@
                                     <!-- Description -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="description">Note</label>
-                                            <textarea class="form-control" id="note" name="note">{{ old('note') }}</textarea>
-                                            @error('note')
+                                            <label for="description">Description</label>
+                                            <textarea class="form-control" id="description" name="description">{{ old('description') }}</textarea>
+                                            @error('description')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Plan Type -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="plan_type">Plan Type</label>
+                                            <select class="form-control" id="plan_type" name="plan_type">
+                                                <option value="monthly" {{ old('plan_type') == 'monthly' ? 'selected' : '' }}>Monthly</option>
+                                                <option value="weekly" {{ old('plan_type') == 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                            </select>
+                                            @error('plan_type')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Visit Category -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="visit_category">Visit Category</label>
+                                            <select class="form-control" id="visit_category" name="visit_category">
+                                                <option value="hospital_visit" {{ old('visit_category') == 'hospital_visit' ? 'selected' : '' }}>Hospital Visit</option>
+                                                <option value="doctor_meeting" {{ old('visit_category') == 'doctor_meeting' ? 'selected' : '' }}>Doctor Meeting</option>
+                                                <option value="camp" {{ old('visit_category') == 'camp' ? 'selected' : '' }}>Camp</option>
+                                                <option value="event" {{ old('visit_category') == 'event' ? 'selected' : '' }}>Event</option>
+                                            </select>
+                                            @error('visit_category')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -46,14 +77,72 @@
                                     <!-- Start Date -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="start_date">Visit Date</label>
-                                            <input type="date" class="form-control" id="visit_date" name="visit_date"
-                                                value="{{ old('visit_date') }}">
-                                            @error('visit_date')
+                                            <label for="start_date">Start Date</label>
+                                            <input type="date" class="form-control" id="start_date" name="start_date"
+                                                value="{{ old('start_date') }}">
+                                            @error('start_date')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
                                     </div>
+
+                                    <!-- End Date -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="end_date">End Date</label>
+                                            <input type="date" class="form-control" id="end_date" name="end_date"
+                                                value="{{ old('end_date') }}">
+                                            @error('end_date')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Location -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="location">Location</label>
+                                            <input type="text" class="form-control" id="location" name="location"
+                                                value="{{ old('location') }}" placeholder="Enter Location">
+                                            @error('location')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Assign to MR -->
+                                    {{-- <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="assigned_to">Assign to MR</label>
+                                            <select class="form-control" id="assigned_to" name="assigned_to">
+                                                @foreach ($mrs as $mr)
+                                                    <option value="{{ $mr->id }}" {{ old('assigned_to') == $mr->id ? 'selected' : '' }}>
+                                                        {{ $mr->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('assigned_to')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div> --}}
+
+                                    <!-- Select Doctor -->
+                                    {{-- <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="doctor_id">Select Doctor</label>
+                                            <select class="form-control" id="doctor_id" name="doctor_id">
+                                                @foreach ($doctors as $doctor)
+                                                    <option value="{{ $doctor->id }}" {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
+                                                        {{ $doctor->doctor_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('doctor_id')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div> --}}
 
                                     <!-- Status -->
                                     <div class="col-md-6">
@@ -70,39 +159,24 @@
                                         </div>
                                     </div>
 
-                                    <!-- Assign to MR -->
+                                    <!-- Lock (checkbox) -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="mr_id">Assign to MR</label>
-                                            <select class="form-control" id="mr_id" name="mr_id" required>
-                                                @foreach ($mrs as $mr)
-                                                    <option value="{{ $mr->id }}">{{ $mr->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('mr_id')
+                                            <label>
+                                                <input type="checkbox" name="is_locked" value="1" {{ old('is_locked') ? 'checked' : '' }}>
+                                                Lock this plan
+                                            </label>
+                                            @error('is_locked')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
                                     </div>
-                                    <!--Select Doctor -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="mr_id">Select Doctor</label>
-                                            <select class="form-control" id="doctor_id" name="doctor_id" required>
-                                                @foreach ($doctors as $doctor)
-                                                    <option value="{{ $doctor->id }}">{{ $doctor->doctor_name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('doctor_id')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                    </div>
+
                                 </div>
 
                                 <div class="card-action">
                                     <button type="submit" class="btn btn-success">Submit</button>
-                                    <a href="{{ route('manager.tasks.index') }}" class="btn btn-danger">Cancel</a>
+                                    <a href="{{ route('manager.visit-plans.index') }}" class="btn btn-danger">Cancel</a>
                                 </div>
                             </form>
                         </div>

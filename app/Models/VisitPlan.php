@@ -8,22 +8,17 @@ class VisitPlan extends Model
 {
     
     protected $fillable = [
-        'manager_id',
-        'mr_id',
-        'visit_date',
+        'plan_type',
+        'visit_category',
+        'title',
+        'description',
+        'start_date',
+        'end_date',
         'location',
+        'created_by',
+        'assigned_to',
         'doctor_id',
-        'notes',
+        'is_locked',
         'status',
     ];
-
-    public function mr()
-    {
-        return $this->belongsTo(User::class, 'mr_id');
-    }
-
-    public function doctor()
-    {
-        return $this->belongsTo(Doctor::class, 'doctor_id');
-    }
 }

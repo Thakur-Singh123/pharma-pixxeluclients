@@ -34,19 +34,31 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Location</th>
+                                                                    style="width: 242.688px;">Title</th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Plan Type</th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Category</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Note</th>
+                                                                    style="width: 366.578px;">Description</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Assigned MR</th>
+                                                                    style="width: 366.578px;">Start Date</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Assigned Doctor</th>
+                                                                    style="width: 366.578px;">End Date</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 366.578px;">Location</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -58,10 +70,13 @@
                                                             @forelse ($visit_plans as $visit_plan)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}</td>
+                                                                    <td>{{ $visit_plan->title }}</td> 
+                                                                    <td>{{ $visit_plan->plan_type }}</td> 
+                                                                    <td>{{ $visit_plan->visit_category }}</td> 
+                                                                    <td>{{ $visit_plan->description }}</td>
+                                                                    <td>{{ $visit_plan->start_date }}</td>
+                                                                    <td>{{ $visit_plan->end_date }}</td>
                                                                     <td>{{ $visit_plan->location }}</td>
-                                                                    <td>{{ $visit_plan->notes }}</td>
-                                                                    <td>{{ $visit_plan->mr->name }}</td>
-                                                                    <td>{{ $visit_plan->doctor->doctor_name }}</td>
                                                                     <td>{{ $visit_plan->status }}</td>
                                                                 </tr>
                                                            @empty

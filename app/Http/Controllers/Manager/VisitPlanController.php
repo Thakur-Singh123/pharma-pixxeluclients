@@ -13,7 +13,7 @@ class VisitPlanController extends Controller
 {
     public function index()
     {
-        $visit_plans = VisitPlan::where('manager_id', auth()->id())->with('mr','doctor')->paginate(10);
+        $visit_plans = VisitPlan::where('created_by', auth()->id())->paginate(10);
         return view('manager.visit_plans.index', compact('visit_plans'));
     }
 
@@ -28,32 +28,33 @@ class VisitPlanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'mr_id' => 'required|exists:users,id',
-            'visit_date' => 'required|date',
-            'location' => 'required|string|max:255',
-            'doctor_id' => 'required|exists:doctors,id',
+            'plan_type' => 'required|string',
+            'visit_category' => 'required|string',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'location' => 'nullable|string',
+            'assigned_to' => 'nullable|exists:users,id',
+            'doctor_id' => 'nullable|exists:doctors,id',
             'note' => 'nullable|string',
-            'status' => 'required|in:planned,cancelled,completed',
-        ]); 
-        $is_create = VisitPlan::create([
-            'manager_id' => auth()->id(),
-            'mr_id' => $request->mr_id,
-            'visit_date' => $request->visit_date,
-            'location' => $request->location,
-            'doctor_id' => $request->doctor_id,
-            'notes' => $request->note,
-            'status' => $request->status,
         ]);
-        //check if created
-        if($is_create){
-            DoctorMrAssignement::firstOrCreate([
-                'doctor_id' => $request->doctor_id,
-                'mr_id' => $request->mr_id,
-            ]);
-             return redirect()->route('manager.visit-plans.index')->with('success', 'Visit Plan created successfully.');
-        } else {
-            return back()->with('error', 'Something went wrong. Please try again.');
-        }
-       
+
+        VisitPlan::create([
+            'plan_type' => $request->plan_type,
+            'visit_category' => $request->visit_category,
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'location' => $request->location,
+            'created_by' => auth()->id(),
+            'assigned_to' => $request->assigned_to,
+            'doctor_id' => $request->doctor_id,
+            'note' => $request->note,
+            'status' => $request->assigned_to ? 'assigned' : 'open',
+        ]);
+
+        return redirect()->route('manager.visit-plans.index')->with('success', 'Visit Plan created successfully.');   
     }
 }

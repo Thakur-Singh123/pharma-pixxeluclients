@@ -13,18 +13,19 @@ return new class extends Migration
     {
         Schema::create('visit_plans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('manager_id');
-            $table->unsignedBigInteger('mr_id')->nullable(); 
-            $table->date('visit_date'); 
-            $table->string('location'); 
-            $table->string('doctor_id'); 
-            $table->text('notes')->nullable(); 
-            $table->enum('status', ['planned', 'completed', 'cancelled'])->default('planned'); 
+            $table->string('plan_type'); // monthly, weekly
+            $table->enum('visit_category', ['hospital', 'doctor', 'area', 'camp', 'event']);
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->string('location')->nullable();
+            $table->unsignedBigInteger('created_by'); // manager id
+            $table->unsignedBigInteger('assigned_to')->nullable(); // MR id
+            $table->unsignedBigInteger('doctor_id')->nullable(); // MR id
+            $table->boolean('is_locked')->default(false);
+            $table->enum('status', ['open', 'interested', 'assigned', 'completed'])->default('open');
             $table->timestamps();
-
-            // foreign keys
-            $table->foreign('manager_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('mr_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

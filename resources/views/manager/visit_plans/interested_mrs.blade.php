@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
     <div class="container">
         <div class="page-inner">
@@ -14,7 +14,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Assigned Plans</h4>
+                                    <h4 class="card-title">Interested MRS</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -58,14 +58,19 @@
                                                                     colspan="1" style="width: 366.578px;">Location</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Interested MRS</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 156.312px;">Status</th>
-                                                               
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 156.312px;">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
-                                                            @forelse ($assignments as $assignment)
-                                                             @php $visit_plan = $assignment->visitPlan; @endphp
+                                                            @forelse ($intrested_mrs as $intrested_mr)
+                                                                @php $visit_plan = $intrested_mr->visitPlan; @endphp
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}</td>
                                                                     <td>{{ $visit_plan->title }}</td>
@@ -75,8 +80,34 @@
                                                                     <td>{{ $visit_plan->start_date }}</td>
                                                                     <td>{{ $visit_plan->end_date }}</td>
                                                                     <td>{{ $visit_plan->location }}</td>
+                                                                    <td>{{ $intrested_mr->mr->name }}</td>
                                                                     <td>{{ $visit_plan->status }}</td>
-                                                                  
+                                                                    <td style="display: flex; gap: 5px;">
+                                                                        <form
+                                                                            action="{{ route('manager.visit-plans.action', $intrested_mr->id) }}"
+                                                                            method="POST" style="display:inline;">
+                                                                            @csrf
+                                                                            <input type="hidden" name="action"
+                                                                                value="approve">
+                                                                            <button type="submit"
+                                                                                class="btn btn-success btn-sm"
+                                                                               >
+                                                                                Approve
+                                                                            </button>
+                                                                        </form>
+                                                                        <form
+                                                                            action="{{ route('manager.visit-plans.action', $intrested_mr->id) }}"
+                                                                            method="POST" style="display:inline;">
+                                                                            @csrf
+                                                                            <input type="hidden" name="action"
+                                                                                value="reject">
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger btn-sm"
+                                                                                >
+                                                                                Reject
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
                                                                 </tr>
                                                             @empty
                                                                 <tr>
@@ -86,7 +117,7 @@
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{ $assignments->links('pagination::bootstrap-5') }}
+                                                    {{ $intrested_mrs->links('pagination::bootstrap-5') }}
                                                 </div>
                                             </div>
                                         </div>

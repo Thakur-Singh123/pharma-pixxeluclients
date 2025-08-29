@@ -16,4 +16,9 @@ class VisitPlanInterest extends Model
     {
         return $this->belongsTo(VisitPlan::class, 'visit_plan_id');
     }
+
+    public function mr()
+    {
+        return $this->belongsTo(User::class, 'mr_id');
+    }
 }

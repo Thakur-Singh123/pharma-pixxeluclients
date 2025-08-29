@@ -14,7 +14,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Assigned Plans</h4>
+                                    <h4 class="card-title">All Reports</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -30,53 +30,41 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.</th>
+                                                                    style="width: 242.688px;">S No.
+                                                                </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Title</th>
-                                                                <th class="sorting_asc" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Plan Type</th>
-                                                                <th class="sorting_asc" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Category</th>
-                                                                <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 366.578px;">Description
+                                                                    style="width: 242.688px;">Report Date
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 366.578px;">Start Date</th>
+                                                                    colspan="1" style="width: 366.578px;">Total Visits
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 366.578px;">End Date</th>
+                                                                    colspan="1" style="width: 366.578px;">Patients Referred
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 366.578px;">Location</th>
+                                                                    colspan="1" style="width: 366.578px;">Notes
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 156.312px;">Status</th>
-                                                               
+                                                                    colspan="1" style="width: 366.578px;">Status
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
-                                                            @forelse ($assignments as $assignment)
-                                                             @php $visit_plan = $assignment->visitPlan; @endphp
+                                                            @forelse ($reports as $report)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}</td>
-                                                                    <td>{{ $visit_plan->title }}</td>
-                                                                    <td>{{ $visit_plan->plan_type }}</td>
-                                                                    <td>{{ $visit_plan->visit_category }}</td>
-                                                                    <td>{{ $visit_plan->description }}</td>
-                                                                    <td>{{ $visit_plan->start_date }}</td>
-                                                                    <td>{{ $visit_plan->end_date }}</td>
-                                                                    <td>{{ $visit_plan->location }}</td>
-                                                                    <td>{{ $visit_plan->status }}</td>
-                                                                  
+                                                                    <td>{{ $report->report_date }}</td>
+                                                                    <td>{{ $report->total_visits }}</td>
+                                                                    <td>{{ $report->patients_referred }}</td>
+                                                                    <td>{{ $report->notes }}</td>
+                                                                    <td>{{ $report->status }}</td>
                                                                 </tr>
                                                             @empty
                                                                 <tr>
@@ -86,7 +74,7 @@
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{ $assignments->links('pagination::bootstrap-5') }}
+                                                    {{ $reports->links('pagination::bootstrap-5') }}
                                                 </div>
                                             </div>
                                         </div>

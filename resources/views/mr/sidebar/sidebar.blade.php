@@ -159,14 +159,14 @@
                 </li>
                 {{-- visit plans --}}
                  <li class="nav-item {{ request()->is('mr/visit-plans*') ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#collapseVisit"
+                    <a data-bs-toggle="collapse" href="#collapseVisitPlan"
                         class="{{ request()->is('mr/visit-plans*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/visit-plans*') ? 'true' : 'false' }}">
                         <i class="fas fa-notes-medical"></i>
                         <p>Visit Plans</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/visit-plans*') ? 'show' : '' }}" id="collapseVisit">
+                    <div class="collapse {{ request()->is('mr/visit-plans*') ? 'show' : '' }}" id="collapseVisitPlan">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/visit-plans') ? 'active' : '' }}">
                                 <a href="{{ route('mr.visit-plans.index') }}">
@@ -186,6 +186,29 @@
                         </ul>
                     </div>
                 </li>
+                {{-- daily reports --}}
+                <li class="nav-item {{ request()->is('mr/daily-reports*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseDailyReport"
+                        class="{{ request()->is('mr/daily-reports*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/daily-reports*') ? 'true' : 'false' }}">
+                        <i class="fas fa-notes-medical"></i>
+                        <p>Daily Reports</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('mr/daily-reports*') ? 'show' : '' }}" id="collapseDailyReport">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('mr/daily-reports/create') ? 'active' : '' }}">
+                                <a href="{{ route('mr.daily-reports.create') }}">
+                                    <span class="sub-item">Add Report</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/daily-reports') ? 'active' : '' }}">
+                                <a href="{{ route('mr.daily-reports.index') }}">
+                                    <span class="sub-item">All Reports</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

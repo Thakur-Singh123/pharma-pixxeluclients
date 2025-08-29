@@ -30,5 +30,15 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     //attendance
     Route::get('/attendance', [App\Http\Controllers\Manager\AttendenceController::class, 'index'])->name('attendance.index');
     //visit plans
-    Route::resource('visit-plans', App\Http\Controllers\Manager\VisitPlanController::class);
+    Route::get('visit-plans', [App\Http\Controllers\Manager\VisitPlanController::class, 'index'])->name('visit-plans.index');
+    Route::get('visit-plans/create', [App\Http\Controllers\Manager\VisitPlanController::class, 'create'])->name('visit-plans.create');
+    Route::post('visit-plans/store', [App\Http\Controllers\Manager\VisitPlanController::class, 'store'])->name('visit-plans.store');
+    Route::get('/visit-plans/interested-mrs', [App\Http\Controllers\Manager\VisitPlanController::class, 'showInterestedMRS'])->name('visit.plans.interested.mrs');
+    Route::post('/visit-plans/action/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'approveRejectInterest'])->name('visit-plans.action');
+    Route::post('/visit-plans/add-comment/', [App\Http\Controllers\Manager\VisitPlanController::class, 'add_comment'])->name('visit-plans.add-comment');
+
+    //daily mr reports
+    Route::get('daily-mr-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'index']);
+    Route::post('review-reports/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'review'])->name('reports.review');
+
 });

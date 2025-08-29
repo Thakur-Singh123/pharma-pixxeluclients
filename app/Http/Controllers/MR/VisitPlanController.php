@@ -16,7 +16,7 @@ class VisitPlanController extends Controller
     public function index()
     {
         $manager = auth()->user()->managers->pluck('id')->toArray();
-          $visit_plans = VisitPlan::where('created_by', $manager)
+        $visit_plans = VisitPlan::where('created_by', $manager)
         ->whereDoesntHave('assignments')
          ->paginate(10);
 

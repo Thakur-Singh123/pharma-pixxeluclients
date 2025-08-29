@@ -43,5 +43,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::post('visit-plans/{id}/interested', [App\Http\Controllers\MR\VisitPlanController::class,'expressInterest'])->name('visit-plan.interested');
     Route::get('visit-plans/my-interested-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myInterestedPlans'])->name('visit-plans.my-interested');
     Route::get('visit-plans/my-assigned-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myAssignedPlans'])->name('visit-plans.my-assigned');
+
+    //daily report
+    Route::resource('daily-reports', App\Http\Controllers\MR\MRDailyReportController::class);
 });
 

@@ -163,8 +163,21 @@
                                     <span class="sub-item">All Visit Plans</span>
                                 </a>
                             </li>
+                            <li class="{{ request()->is('manager/visit-plans/interested-mrs') ? 'active' : '' }}">
+                                <a href="{{ route('manager.visit.plans.interested.mrs') }}">
+                                    <span class="sub-item">Interested MRS</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
+                </li>
+                {{--daily mr reports--}}
+                <li class="nav-item {{ request()->is('manager/daily-mr-reports*') ? 'active' : '' }}">
+                    <a href="{{ url('manager/daily-mr-reports') }}"
+                        class="nav-link {{ request()->is('manager/daily-mr-reports') ? 'active' : '' }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Daily MR Reports</p>
+                    </a>
                 </li>
                 <!--logout section-->
                 <li class="nav-item">

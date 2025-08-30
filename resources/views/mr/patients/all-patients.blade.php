@@ -68,7 +68,7 @@
                                             @php $count = 1 @endphp
                                             @forelse ($patients as $patient)
                                             <tr role="row">
-                                                <td class="sorting_1">{{ $count++ }}</td>
+                                                <td class="sorting_1">{{ $count++ }}.</td>
                                                 <td>{{ $patient->name }}</td>
                                                 <td>{{ $patient->age }}</td>
                                                 <td>{{ $patient->gender }}</td>
@@ -77,25 +77,16 @@
                                                 <td>{{ $patient->contact_number }}</td>
                                                 <td>
                                                     <div class="form-button-action">
-                                                    {{-- Edit --}}
-                                                    <a href="{{ route('mr.patients.edit', $patient->id) }}" 
-                                                        class="icon-button edit-btn custom-tooltip" 
-                                                        data-tooltip="Edit">
-                                                    <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    {{-- Delete --}}
-                                                    <form action="{{ route('mr.patients.destroy', $patient->id) }}" 
-                                                        method="POST" 
-                                                        style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <a href="#" 
-                                                            class="icon-button delete-btn custom-tooltip" 
-                                                            data-tooltip="Delete" 
-                                                            onclick="event.preventDefault(); this.closest('form').submit();">
-                                                        <i class="fa fa-trash"></i>
+                                                        <a href="{{ route('mr.patients.edit', $patient->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                            <i class="fa fa-edit"></i>
                                                         </a>
-                                                    </form>
+                                                        <form action="{{ route('mr.patients.destroy', $patient->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>

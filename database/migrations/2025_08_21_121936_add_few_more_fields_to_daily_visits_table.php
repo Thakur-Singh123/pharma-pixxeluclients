@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('daily_visits', function (Blueprint $table) {
-            $table->foreignId('mr_id')->constrained('users')->onDelete('cascade')->after('id');  
-            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade')->after('mr_id'); 
+            $table->foreignId('mr_id')->constrained('users')->onDelete('cascade');  
+            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade')->nullable(); 
             $table->string('visit_type')->after('doctor_id')->nullable();  // First Visit / Follow-up
         });
     }

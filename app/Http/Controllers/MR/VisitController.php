@@ -25,6 +25,7 @@ class VisitController extends Controller
             'state' => 'required|string',
             'area_code' => 'required|string',
             'status' => 'required|string',
+            'doctor_id' => 'required|string',
         ]);
         //Create visit
         $is_create_visit = Visit::create([
@@ -35,7 +36,7 @@ class VisitController extends Controller
             'area_code' => $request->area_code,
             'status' => 'Pending',
             'mr_id' => auth()->user()->id,
-            'doctor_id' => $request->doctor_id,
+            'doctor_id' => $request->doctor_id ?? NULL,
             'visit_type' => $request->visit_type,
         ]);
         //Check if visit created or not
@@ -57,9 +58,9 @@ class VisitController extends Controller
     public function edit_visit($id) {
         //Get visit detail
         $visit_detail = Visit::with('mr','doctor')->find($id);
-        //echo "<pre>";print_r($visit_detail);exit;
         $mr = auth()->user();
         $assignedDoctors = $mr->doctors()->get();
+       //echo "<pre>";print_r($assignedDoctors->toArray());exit;
         return view('mr.visits.edit-visit', compact('visit_detail','assignedDoctors'));
     }
 
@@ -73,6 +74,7 @@ class VisitController extends Controller
             'state' => 'required|string',
             'area_code' => 'required|string',
             'status' => 'required|string',
+            'doctor_id' => 'required|string',
         ]);
         //Update visit
         $is_update_visit = Visit::where('id', $id)->update([
@@ -83,7 +85,7 @@ class VisitController extends Controller
             'area_code' => $request->area_code,
             'status' => $request->status,
             'mr_id' => auth()->user()->id,
-            'doctor_id' => $request->doctor_id,
+            'doctor_id' => $request->doctor_id ?? NULL,
             'visit_type' => $request->visit_type,
         ]);
         //Check if visit updated or not

@@ -179,6 +179,14 @@
                         <p>Daily MR Reports</p>
                     </a>
                 </li>
+               {{-- attendance --}}
+                <li class="nav-item {{ request()->is('manager/attendance*') ? 'active' : '' }}">
+                    <a href="{{ url('manager/attendance') }}"
+                        class="nav-link {{ request()->is('manager/attendance') ? 'active' : '' }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Attendance</p>
+                    </a>
+                </li>
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

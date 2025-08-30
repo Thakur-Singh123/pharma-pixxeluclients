@@ -36,6 +36,7 @@
                                                                 <th>End Date</th>
                                                                 <th>Location</th>
                                                                 <th>Status</th>
+                                                                <th>Comment</th>
                                                                 <th>Add Comment</th>
                                                             </tr>
                                                         </thead>
@@ -52,6 +53,13 @@
                                                                     <td>{{ $visit_plan->end_date }}</td>
                                                                     <td>{{ $visit_plan->location }}</td>
                                                                     <td>{{ $visit_plan->status }}</td>
+                                                                    <td>
+                                                                        @forelse ($visit_plan->comments as $comment)
+                                                                        <span>{{ $comment->comment }}</span>
+                                                                        @empty
+                                                                        No comment
+                                                                        @endforelse
+                                                                    </td>
                                                                     <td>
                                                                         <button class="btn btn-success btn-sm" 
                                                                                 data-bs-toggle="modal" 

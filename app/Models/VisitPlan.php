@@ -27,4 +27,8 @@ class VisitPlan extends Model
     {
         return $this->hasMany(VisitPlanAssignement::class, 'visit_plan_id');
     }
+
+    public function comments(){
+       return $this->hasMany(VisitPlanComment::class, 'visit_plan_id','id');
+    } 
 }

@@ -47,6 +47,55 @@
                 <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
                     <div class="container-fluid">
                         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                            <li class="nav-item topbar-icon dropdown hidden-caret submenu">
+                                <a class="nav-link dropdown-toggle" href="#" id="notifDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="fa fa-bell"></i>
+                                    <span
+                                        class="notification">{{ auth()->user()->unreadNotifications->count() }}</span>
+                                </a>
+                                <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown"
+                                    data-bs-popper="static">
+                                    <li>
+                                        <div class="dropdown-title">
+                                            You have {{ auth()->user()->unreadNotifications->count() }} new
+                                            notification
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="scroll-wrapper notif-scroll scrollbar-outer"
+                                            style="position: relative;">
+                                            <div class="notif-scroll scrollbar-outer scroll-content"
+                                                style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 244px;">
+                                                <div class="notif-center">
+                                                    @forelse(auth()->user()->unreadNotifications as $notification)
+                                                        <a href="{{ route('notifications.read', $notification->id) }}">
+                                                            <div class="notif-icon notif-success">
+                                                                <i class=" {{ $notification->data['icon'] }}"></i>
+                                                            </div>
+                                                            <div class="notif-content">
+                                                                <span class="block">
+                                                                    {{ $notification->data['message'] }}
+                                                                </span>
+                                                                <span
+                                                                    class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                            </div>
+                                                        </a>
+                                                    @empty
+                                                        <span class="dropdown-item">No Notifications</span>
+                                                    @endforelse
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="see-all" href="{{ route('notifications.readAll') }}">
+                                            Mark all as read <i class="fa fa-check"></i>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
                             <li class="nav-item topbar-user dropdown hidden-caret">
                                 <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                                     aria-expanded="false">
@@ -136,66 +185,6 @@
     <script src="{{ asset('public/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/core/bootstrap.min.js') }}"></script>
-
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["assets/css/fonts.min.css"],
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script>
-    <script>
-        $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-            type: "line",
-            height: "70",
-            width: "100%",
-            lineWidth: "2",
-            lineColor: "#177dff",
-            fillColor: "rgba(23, 125, 255, 0.14)",
-        });
-
-        $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-            type: "line",
-            height: "70",
-            width: "100%",
-            lineWidth: "2",
-            lineColor: "#f3545d",
-            fillColor: "rgba(243, 84, 93, .14)",
-        });
-
-        $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-            type: "line",
-            height: "70",
-            width: "100%",
-            lineWidth: "2",
-            lineColor: "#ffa534",
-            fillColor: "rgba(255, 165, 52, .14)",
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $("#add-row").DataTable({
-                pageLength: 5,
-            });
-        });
-    </script>
-    <script>
-        $(function() {
-            $('.select2').select2()
-        });
-    </script>
 </body>
 
 </html>

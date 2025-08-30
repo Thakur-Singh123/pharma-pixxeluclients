@@ -8,6 +8,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\TaskAssignedNotification;
 
 class TaskController extends Controller
 {
@@ -31,7 +32,7 @@ class TaskController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        Task::create([
+        $task = Task::create([
             'mr_id'       => $request->mr_id,
             'manager_id'  => auth()->id(),
             'title'       => $request->title,
@@ -41,6 +42,11 @@ class TaskController extends Controller
             'status' => $request->status,
         ]);
 
+        $user = User::find($request->mr_id);
+        // Notification
+        if($user){
+            $user->notify(new TaskAssignedNotification($task));
+        }
         return redirect()->route('manager.tasks.index')->with('success', 'Task assigned successfully!');
     }
 }

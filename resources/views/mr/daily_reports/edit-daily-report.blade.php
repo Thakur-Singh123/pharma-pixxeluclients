@@ -11,7 +11,7 @@
                 @endif
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Add Daily Report</h4>
+                        <h4 class="card-title">Edit Daily Report</h4>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('mr.daily-reports.store') }}" method="POST" autocomplete="off">
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-success">Update</button>
                                 <button type="reset" class="btn btn-danger">Cancel</button>
                             </div>
                         </form>

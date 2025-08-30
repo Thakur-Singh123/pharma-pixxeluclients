@@ -4,7 +4,6 @@
    <div class="page-inner">
       <div class="row">
          <div class="col-md-12">
-            {{-- Success Message --}}
             @if (session('success'))
             <div class="alert alert-success">
                {{ session('success') }}
@@ -18,95 +17,101 @@
                   <form action="{{ route('mr.update.visit', $visit_detail->id) }}" method="POST" autocomplete="off">
                      @csrf
                      <div class="row">
-                        <!-- Area Name -->
+                        <!--Area Name-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="area_name">Area Name</label>
                               <input type="text" class="form-control" id="area_name" name="area_name"
                                  value="{{ old('area_name', $visit_detail->area_name) }}" placeholder="Enter Area Name">
                               @error('area_name')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- Area Block -->
+                        <!--Area Block-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="area_block">Area Block</label>
                               <input type="text" class="form-control" id="area_block" name="area_block"
                                  value="{{ old('area_block', $visit_detail->area_block) }}" placeholder="Enter Area Block">
                               @error('area_block')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- District -->
+                        <!--District-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="district">Distrcit</label>
                               <input type="text" class="form-control" id="district" name="district"
                                  value="{{ old('district', $visit_detail->district) }}" placeholder="Enter District">
                               @error('district')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- State -->
+                        <!--State-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="state">State</label>
                               <input type="text" class="form-control" id="state" name="state"
                                  value="{{ old('state', $visit_detail->state) }}" placeholder="Enter State">
                               @error('state')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- Employee Code -->
+                        <!--Employee Code-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="area_code">Area Code</label>
-                              <input type="text" class="form-control" id="area_code" name="area_code"
+                              <input type="number" class="form-control" id="area_code" name="area_code"
                                  value="{{ old('area_code', $visit_detail->area_code) }}" placeholder="Enter Area Code">
                               @error('area_code')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="status">Doctor</label>
-                              <select name="doctor_id" class="form-control">
-                                 @foreach($assignedDoctors as $doctor)
-                                       <option value="{{ $doctor->id }}" {{ $doctor->id == $visit_detail->doctor->id ? 'selected' : ''}}>{{ $doctor->doctor_name }}</option>
-                                 @endforeach
+                              <label for="status">Visit Type</label>
+                              <select name="visit_type" id="visit_type" class="form-control">
+                                 <option value="doctor">Doctor Visit</option>
+                                 <option value="other" @if($visit_detail->visit_type == 'other') selected @endif>Other Visit (NGOs, Asha workers, religious places,
+                                 etc.)</option>
                               </select>
                            </div>
                         </div>
-
-                        <div class="col-md-6 col-lg-4">
+                        <div class="col-md-6 col-lg-4" id="doctor_fields" style="display: block;">
                            <div class="form-group">
-                              <label for="status">Visit Type</label>
-                        <select name="visit_type" class="form-control">
-                           <option value="Routine Visit" {{ 'Routine Visit' == $visit_detail->visit_type ? 'selected' : ''}}>Routine Visit</option>
-                           <option value="First Visit" {{ 'First Visit' == $visit_detail->visit_type ? 'selected' : ''}} >First Visit</option>
-                           <option value="Follow-up" {{ 'Follow-up' == $visit_detail->visit_type ? 'selected' : ''}} >Follow-up</option>
-                        </select>
+                              <label for="status">Doctor</label>
+                              <select name="doctor_id" class="form-control">
+                                 <option value="">Please select</option>
+                                 <!--Get doctors-->
+                                 @foreach ($assignedDoctors as $doctor)
+                                 <option value="{{ $doctor->id }}" {{ $visit_detail->doctor?->id == $doctor->id ? 'selected' : '' }}>
+                                    {{ $doctor->doctor_name }}
+                                 </option>
+                                 @endforeach
+                              </select>
+                              @error('doctor_id')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
                            </div>
                         </div>
-                        <!-- Status -->
+                        <!--Status-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="status">Status</label>
                               <select class="form-control" id="status" name="status">
-                              <option value="" disabled="selected">Select Status</option>
-                              <option value="Active" {{ old('status', $visit_detail->status) == 'Active' ? 'selected' : '' }}>Active</option>
-                              <option value="Pending" {{ old('status', $visit_detail->status) == 'Pending' ? 'selected' : '' }}>Pending</option>
-                              <option value="Suspend" {{ old('status', $visit_detail->status) == 'Suspend' ? 'selected' : '' }}>Suspend</option>
-                              <option value="Approved" {{ old('status', $visit_detail->status) == 'Approved' ? 'selected' : '' }}>Approved</option>
+                                 <option value="" disabled="selected">Select Status</option>
+                                 <option value="Active" {{ old('status', $visit_detail->status) == 'Active' ? 'selected' : '' }}>Active</option>
+                                 <option value="Pending" {{ old('status', $visit_detail->status) == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                 <option value="Suspend" {{ old('status', $visit_detail->status) == 'Suspend' ? 'selected' : '' }}>Suspend</option>
+                                 <option value="Approved" {{ old('status', $visit_detail->status) == 'Approved' ? 'selected' : '' }}>Approved</option>
                               </select>
                               @error('status')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
@@ -122,4 +127,16 @@
       </div>
    </div>
 </div>
+<script>
+   function toggleDoctorFields() {
+      let visitType = document.getElementById('visit_type').value;
+      if (visitType === 'doctor') {
+         document.getElementById('doctor_fields').style.display = 'block';
+      } else {
+         document.getElementById('doctor_fields').style.display = 'none';
+      }
+   }
+   document.getElementById('visit_type').addEventListener('change', toggleDoctorFields);
+   toggleDoctorFields();
+</script>
 @endsection

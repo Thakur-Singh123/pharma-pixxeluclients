@@ -22,21 +22,21 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);
     //Task
     Route::get('/tasks', [App\Http\Controllers\MR\TaskController::class, 'all_tasks']);
-    //doctors
+    //Doctors
     Route::get('/doctors', [App\Http\Controllers\MR\DoctorController::class, 'index'])->name('doctors.index');
     Route::post('/doctors/submit', [App\Http\Controllers\MR\DoctorController::class, 'submit_doctor'])->name('doctors.submit');
 
-    //patients
-    Route::resource('patients', App\Http\Controllers\MR\PatientController::class);
+    //Patients
+    Route::resource('/patients', App\Http\Controllers\MR\PatientController::class);
     //TADA
     Route::resource('/tada', App\Http\Controllers\MR\TADAController::class);
 
-    //calnedar
+    //Calnedar
     Route::get('/calendar', [App\Http\Controllers\MR\CalendarController::class, 'index'])->name('calendar.index');
     Route::get('/calendar/tasks', [App\Http\Controllers\MR\CalendarController::class, 'getTasks'])->name('calendar.tasks');
     Route::get('/calendar/events', [App\Http\Controllers\MR\CalendarController::class, 'getEvents'])->name('calendar.events');
 
-    //events
+    //Events
     Route::get('events', [App\Http\Controllers\MR\EventController::class,'index']);
     //visit plans
     Route::get('visit-plans', [App\Http\Controllers\MR\VisitPlanController::class,'index'])->name('visit-plans.index');
@@ -44,7 +44,7 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('visit-plans/my-interested-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myInterestedPlans'])->name('visit-plans.my-interested');
     Route::get('visit-plans/my-assigned-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myAssignedPlans'])->name('visit-plans.my-assigned');
 
-    //daily report
+    //Daily report
     Route::resource('daily-reports', App\Http\Controllers\MR\MRDailyReportController::class);
 });
 

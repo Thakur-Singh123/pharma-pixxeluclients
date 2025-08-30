@@ -13,7 +13,8 @@ class VisitPlanController extends Controller
 {
     public function index()
     {
-        $visit_plans = VisitPlan::where('created_by', auth()->id())->paginate(10);
+        $visit_plans = VisitPlan::where('created_by', auth()->id())->with('comments')->paginate(10);
+        //echo "<pre>";print_r($visit_plans->toArray());exit;
         return view('manager.visit_plans.index', compact('visit_plans'));
     }
 
@@ -101,13 +102,20 @@ class VisitPlanController extends Controller
     }
 
     //function for add comment
-    public function add_comment(Request $request){
-        $create_comment = VisitPlanComment::UpdateorCreate(
-           ['visit_plan_id' => $request->visit_id]
-           [
-               'related_id' => auth()->id(),
-               'role' => 'manager'
-           ]
-        );
+    public function add_comment(Request $request)
+    {
+        $request->validate([
+            'visit_id' => 'required|exists:visit_plans,id',
+            'comment' => 'required|string',
+        ]);
+        
+        VisitPlanComment::create([
+            'visit_plan_id' => $request->visit_id,
+            'comment' => $request->comment,
+            'related_id' => auth()->id(),
+            'role' => 'manager',
+        ]);
+
+        return redirect()->back()->with('success', 'Comment added successfully.');
     }
 }

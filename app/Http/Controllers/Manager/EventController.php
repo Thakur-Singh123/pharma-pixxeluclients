@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Events;
 use App\Models\User;
-
+use App\Notifications\EventAssignedNotification;
 class EventController extends Controller
 {
     //functions for event management can be added here
@@ -48,6 +48,11 @@ class EventController extends Controller
         $event->status = $request->status;
         $event->save();
 
+        $user = User::find($request->mr_id);
+        // Notification
+        if($user){
+            $user->notify(new EventAssignedNotification($event));
+        }
         return redirect()->route('manager.events.index')->with('success', 'Event created successfully.');
     }
 }

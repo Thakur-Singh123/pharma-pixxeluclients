@@ -41,7 +41,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label class="form-label">Distance Km</label>
-                                        <input type="text" name="distance_km" class="form-control" placeholder="Enter distnace" value="{{ old('distance_km') }}">
+                                        <input type="number" name="distance_km" class="form-control" placeholder="Enter distnace" value="{{ old('distance_km') }}">
                                         @error('distance_km')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

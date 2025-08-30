@@ -7,6 +7,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/profile', [App\Http\Controllers\MR\ProfileController::class, 'profile']); 
     Route::get('/edit-profile', [App\Http\Controllers\MR\ProfileController::class, 'edit_profile']);
     Route::post('/update-profile/{id}', [App\Http\Controllers\MR\ProfileController::class, 'update_profile'])->name('update.profile');
+    Route::get('/change-password', [App\Http\Controllers\MR\ProfileController::class, 'change_password']);
+    Route::post('/submit-password/{id}', [App\Http\Controllers\MR\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
 
     Route::get('/dashboard', [App\Http\Controllers\MR\DashboardController::class, 'dashboard']);
     Route::get('/attendance', [App\Http\Controllers\MR\AttendanceController::class, 'index'])->name('attendance.index');

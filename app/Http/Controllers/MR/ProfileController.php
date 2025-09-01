@@ -31,12 +31,11 @@ class ProfileController extends Controller
     public function update_profile(Request $request, $id) {
         //Validate iinput fields
         $request->validate([
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'dob' => 'required|string',
-            'mobile' => 'required|string',
-            'gender' => 'required|string', 
-            'address' => 'required|string',
+            'name' =>'required|string',
+            'phone' =>'required|string',
+            'city' =>'required|string',
+            'joining_date' =>'required|string',
+            'state' =>'required|string', 
         ]);
         //Check if image is exit or not
         $filename ="default.png";
@@ -55,37 +54,35 @@ class ProfileController extends Controller
             $file->move(public_path('uploads/users'), $filename);
             //Update profile record with image
             $update_profile = User::where('id', $id)->update([
-                'name' => $request->first_name . ' ' . $request->last_name,
-                'first_name' =>$request->first_name,
-                'last_name' =>$request->last_name,
-                'dob' =>$request->dob,
-                'mobile' =>$request->mobile,
-                'gender' =>$request->gender,
-                'address' =>$request->address,
+                'name' =>$request->name,
+                'phone' =>$request->phone,
+                'city' =>$request->city,
+                'joining_date' =>$request->joining_date,
+                'territory' =>$request->territory,
+                'state' =>$request->state,
                 'image' =>$filename,
             ]);
             //Check if Profile updated or not
             if ($update_profile) {
                 return back()->with('success', 'Profile updated successfully.');
             } else {
-                return back()->with('unsuccess', 'someting went wrong.');
+                return back()->with('success', 'someting went wrong.');
             }        
         } else {
             //Update profile record without image
             $update_profile = User::where('id', $id)->update([
-                'name' => $request->first_name . ' ' . $request->last_name,
-                'first_name' =>$request->first_name,
-                'last_name' =>$request->last_name,
-                'dob' =>$request->dob,
-                'mobile' =>$request->mobile,
-                'gender' =>$request->gender,
-                'address' =>$request->address,
+                'name' =>$request->name,
+                'phone' =>$request->phone,
+                'city' =>$request->city,
+                'joining_date' =>$request->joining_date,
+                'territory' =>$request->territory,
+                'state' =>$request->state,
             ]);
             //Check if Profile updated or not
             if ($update_profile) {
                 return back()->with('success', 'Profile updated successfully.');
             } else {
-                return back()->with('unsuccess', 'someting went wrong!');
+                return back()->with('success', 'someting went wrong!');
             } 
         }
     }

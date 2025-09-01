@@ -4,8 +4,16 @@
    <div class="page-inner">
       <div class="row">
          <div class="col-md-12">
-            <!--success message-->
-            @include('admin.notification')
+            @if(session('success'))
+               <div class="alert alert-success">
+                  {{ session('success') }}
+               </div>
+            @endif
+            @if(session('unsuccess'))
+               <div class="alert alert-danger">
+                  {{ session('unsuccess') }}
+               </div>
+            @endif
             <div class="card">
                <div class="card-header">
                   <div class="card-title">Update Password</div>

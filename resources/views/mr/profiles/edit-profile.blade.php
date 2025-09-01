@@ -4,8 +4,11 @@
    <div class="page-inner">
       <div class="row">
          <div class="col-md-12">
-           <!--success message-->
-           @include('admin.notification')
+            @if (session('success'))
+               <div class="alert alert-success">
+                  {{ session('success') }}
+               </div>
+            @endif
             <div class="card">
                <div class="card-header">
                   <div class="card-title">Edit Profile</div>
@@ -42,8 +45,8 @@
                               @enderror
                            </div>
                            <div class="form-group mb-3">
-                              <label for="phone" class="@error('phone') is-invalid @enderror">Phpone</label>
-                              <input type="text" name="phone" id="phone" class="form-control" value="{{ old('phone', $user_profile->phone) }}" placeholder="Enter phone number">
+                              <label for="phone" class="@error('phone') is-invalid @enderror">Phone</label>
+                              <input type="number" name="phone" id="phone" class="form-control" value="{{ old('phone', $user_profile->phone) }}" placeholder="Enter phone number">
                               @error('phone')
                               <span class="invalid-feedback" role="alert">
                                  <strong>{{ $message }}</strong>
@@ -59,7 +62,7 @@
                               </span>
                               @enderror
                            </div>
-                                        <div class="form-group mb-3">
+                           <div class="form-group mb-3">
                               <label for="joining_date" class="@error('joining_date') is-invalid @enderror">Joining Date</label>
                               <input type="date" name="joining_date" id="joining_date" class="form-control" value="{{ old('joining_date', $user_profile->joining_date) }}" placeholder="Enter joining date">
                               @error('joining_date')
@@ -77,7 +80,7 @@
                            </div>
                            <div class="form-group mb-3 ">
                               <label for="territory">Territory</label>
-                              <input type="text" class="form-control" value="{{ old('territory', $user_profile->territory) }}" placeholder="Enter territory">
+                              <input type="text" name="territory" class="form-control" value="{{ old('territory', $user_profile->territory) }}" placeholder="Enter territory">
                            </div>
                            <div class="form-group mb-3">
                               <label for="state" class="@error('state') is-invalid @enderror">State</label>

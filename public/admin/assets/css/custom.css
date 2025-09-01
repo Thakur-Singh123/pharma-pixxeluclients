@@ -456,5 +456,11 @@ img.image-css {
 	font-style: italic;
 	font-size: 16px;
 }
-
-
+.alert.alert-success {
+    color: #2c9930;
+    font-size: 16px;
+}
+.alert.alert-danger {
+    color: red;
+    font-size: 16px;
+}

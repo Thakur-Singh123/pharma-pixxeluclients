@@ -68,23 +68,22 @@
                                                             <td>{{ $report->status }}</td>
                                                             <td>
                                                                 <div class="form-button-action">
-                                                                <a href="{{ route('mr.daily-reports.edit', $report->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                <i class="fa fa-edit"></i>
-                                                                </a>
-                                                                <form action="{{ route('mr.daily-reports.destroy', $report->id) }}" method="POST" style="display:inline;">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
-                                                                    <i class="fa fa-trash"></i>
+                                                                    <a href="{{ route('mr.daily-reports.edit', $report->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                        <i class="fa fa-edit"></i>
                                                                     </a>
-                                                                </form>
+                                                                    <form action="{{ route('mr.daily-reports.destroy', $report->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </a>
+                                                                    </form>
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         @empty
                                                         <tr>
-                                                            <td colspan="10" class="text-center">No record found
-                                                            </td>
+                                                            <td colspan="10" class="text-center">No record found</td>
                                                         </tr>
                                                         @endforelse
                                                     </tbody>

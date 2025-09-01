@@ -4,7 +4,8 @@ namespace App\Http\Controllers\MR;
 use App\Http\Controllers\Controller;
 use App\Models\TADARecords;
 use Illuminate\Http\Request;
-
+use App\Models\User;
+use App\Notifications\TADACreateNotification;
 class TADAController extends Controller
 {
     //Function for view create TADA form
@@ -57,6 +58,11 @@ class TADAController extends Controller
         if (!$is_create_tada) {
             return redirect()->back()->with('error', 'Failed to create TADA claim.');
         }
+        //notification
+        $manager  = auth()->user()->managers->pluck('id');
+        $manager  = $manager->first();
+        $manager  = User::find($manager);
+        $manager->notify(new TADACreateNotification($is_create_tada));
         return redirect()->route('mr.tada.index')->with('success', 'TADA claim created successfully.');
     }
 
@@ -120,6 +126,12 @@ class TADAController extends Controller
             ]);
             //Check if tada updated or not
             if ($is_update_tada) {
+                //notification
+                // $mr = auth()->user();
+                // $manager  = $mr->managers()->pluck('users.id');
+                // $manager  = $manager->first();
+                // $manager  = User::find($manager);
+                // $manager->notify(new TADACreateNotification($is_update_tada));
                 return redirect()->route('mr.tada.index')->with('success', 'TADA claim updated successfully.');
             } else {
                 return redirect()->back()->with('error', 'Failed to update TADA claim.');
@@ -145,6 +157,12 @@ class TADAController extends Controller
             ]);
             //Check if tada updated or not
             if ($is_update_tada) {
+                   //notification
+                // $mr = auth()->user();
+                // $manager  = $mr->managers()->pluck('users.id');
+                // $manager  = $manager->first();
+                // $manager  = User::find($manager);
+                // $manager->notify(new TADACreateNotification($is_update_tada));
                 return redirect()->route('mr.tada.index')->with('success', 'TADA claim updated successfully.');
             } else {
                 return redirect()->back()->with('error', 'Failed to update TADA claim.');

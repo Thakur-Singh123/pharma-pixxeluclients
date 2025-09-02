@@ -72,7 +72,7 @@
                                                                 <a href="{{ url('manager/edit-visit-plan', $visit_plan->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
                                                                     <i class="fa fa-edit"></i>
                                                                 </a>
-                                                                <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete">
+                                                                <a href="{{ url('manager/delete-visit-plan', $visit_plan->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete">
                                                                     <i class="fa fa-trash"></i>
                                                                 </a>
                                                             </div>

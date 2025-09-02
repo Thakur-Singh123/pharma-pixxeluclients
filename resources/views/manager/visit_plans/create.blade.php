@@ -59,6 +59,7 @@
                                             <option value="" disabled>Select Category</option>
                                             <option value="hospital" {{ old('visit_category') == 'hospital' ? 'selected' : '' }}>Hospital Visit</option>
                                             <option value="doctor" {{ old('visit_category') == 'doctor' ? 'selected' : '' }}>Doctor Meeting</option>
+                                            <option value="area" {{ old('visit_category') == 'area' ? 'selected' : '' }}>Area</option>
                                             <option value="camp" {{ old('visit_category') == 'camp' ? 'selected' : '' }}>Camp</option>
                                             <option value="event" {{ old('visit_category') == 'event' ? 'selected' : '' }}>Event</option>
                                         </select>
@@ -139,8 +140,9 @@
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status">
                                             <option value="" disabled>Select Status</option>
-                                            <option value="planned" {{ old('status') == 'planned' ? 'selected' : '' }}>Planned</option>
-                                            <option value="cancelled" {{ old('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                            <option value="open" {{ old('status') == 'open' ? 'selected' : '' }}>Open</option>
+                                            <option value="interested" {{ old('status') == 'interested' ? 'selected' : '' }}>Interested</option>
+                                            <option value="assigned" {{ old('status') == 'assigned' ? 'selected' : '' }}>Assigned</option>
                                             <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
                                         </select>
                                         @error('status')

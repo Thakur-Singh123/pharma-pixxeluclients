@@ -38,9 +38,9 @@ class VisitPlanController extends Controller
             'start_date' =>'required|date',
             'end_date'  =>'required|date|after_or_equal:start_date',
             'location' =>'nullable|string',
-            'assigned_to' =>'nullable|exists:users,id',
-            'doctor_id' => 'nullable|exists:doctors,id',
-            'note' => 'nullable|string',
+            //'assigned_to' =>'nullable|exists:users,id',
+            //'doctor_id' => 'nullable|exists:doctors,id',
+            //'note' => 'nullable|string',
         ]);
         //Create visit plan
         $is_create_visit = VisitPlan::create([
@@ -52,10 +52,10 @@ class VisitPlanController extends Controller
             'end_date' => $request->end_date,
             'location' => $request->location,
             'created_by' => auth()->id(),
-            'assigned_to' => $request->assigned_to,
-            'doctor_id' => $request->doctor_id,
-            'note' => $request->note,
-            'status' => $request->assigned_to ? 'assigned' : 'open',
+            //'assigned_to' => $request->assigned_to,
+            //'doctor_id' => $request->doctor_id,
+            //'note' => $request->note,
+            'status' => $request->status,
         ]);
         //Check if visit plan created or not
         if($is_create_visit) {
@@ -131,5 +131,55 @@ class VisitPlanController extends Controller
         //Get visit plan
         $visit_detail = VisitPlan::find($id);
         return view('manager.visit_plans.edit-visit-plan', compact('visit_detail'));
+    }
+
+    //Function for update visit plan
+    public function update(Request $request, $id) {
+        //Validate inputs fields
+        $request->validate([
+            'plan_type' =>'required|string',
+            'visit_category' =>'required|string',
+            'title' =>'required|string',
+            'description' =>'nullable|string',
+            'start_date' =>'required|date',
+            'end_date'  =>'required|date|after_or_equal:start_date',
+            'location' =>'nullable|string',
+            //'assigned_to' =>'nullable|exists:users,id',
+            //'doctor_id' => 'nullable|exists:doctors,id',
+            //'note' => 'nullable|string',
+        ]);
+        //Update visit plan
+        $is_update_visit = VisitPlan::where('id', $id)->update([
+            'plan_type' => $request->plan_type,
+            'visit_category' => $request->visit_category,
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'location' => $request->location,
+            'created_by' => auth()->id(),
+            //'assigned_to' => $request->assigned_to,
+            //'doctor_id' => $request->doctor_id,
+            //'note' => $request->note,
+            'status' => $request->status,
+        ]);
+        //Check if visit plan updated or not
+        if($is_update_visit) {
+            return redirect()->route('manager.visit-plans.index')->with('success', 'Visit Plan updated successfully.');
+        } else {
+           return back()->with('error', 'Opps something went wrong!'); 
+        }
+    }
+
+    //Function for delete visit plan
+    public function delete($id) {
+        //Delete visit plan
+        $is_delete_visit = VisitPlan::where('id', $id)->delete();
+        //Check if visit plan deleted or not
+        if($is_delete_visit) {
+            return redirect()->route('manager.visit-plans.index')->with('success', 'Visit Plan deleted successfully.');
+        } else {
+           return back()->with('error', 'Opps something went wrong!'); 
+        }
     }
 }

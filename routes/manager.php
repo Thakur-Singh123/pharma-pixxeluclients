@@ -32,6 +32,8 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/visit-plans/create', [App\Http\Controllers\Manager\VisitPlanController::class, 'create'])->name('visit-plans.create');
     Route::post('/visit-plans/store', [App\Http\Controllers\Manager\VisitPlanController::class, 'store'])->name('visit-plans.store');
     Route::get('/edit-visit-plan/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'edit']);
+    Route::post('/visit-plan/update/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'update'])->name('visit-plans.update');
+    Route::get('/delete-visit-plan/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'delete']);
     Route::get('/visit-plans/interested-mrs', [App\Http\Controllers\Manager\VisitPlanController::class, 'showInterestedMRS'])->name('visit.plans.interested.mrs');
     Route::post('/visit-plans/action/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'approveRejectInterest'])->name('visit-plans.action');
     Route::post('/visit-plans/add-comment/', [App\Http\Controllers\Manager\VisitPlanController::class, 'add_comment'])->name('visit-plans.add-comment');

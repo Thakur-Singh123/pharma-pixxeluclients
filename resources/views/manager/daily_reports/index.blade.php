@@ -69,7 +69,7 @@
                                                             @php $count = 1 @endphp
                                                             @forelse ($reports as $report)
                                                                 <tr role="row">
-                                                                    <td class="sorting_1">{{ $count++ }}</td>
+                                                                    <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $report->report_date }}</td>
                                                                     <td>{{ $report->mr->name ?? 'N/A' }}</td>
                                                                     <td>{{ $report->total_visits }}</td>

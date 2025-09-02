@@ -11,63 +11,121 @@ use Illuminate\Support\Facades\Hash;
 
 class MRController extends Controller
 {
-   
-    public function index()
-    {
+   //Function for all mrs
+    public function index() {
+        //Get mrs
         $manager = User::find(auth()->id());
-        $mrs = $manager->mrs()->paginate(10);
+        $mrs = $manager->mrs()->OrderBy('ID', 'DESC')->paginate(10);
         return view('manager.mr-management.index', compact('mrs'));
     }
 
-    //function for showing the create MR form
-    public function create()
-    {
+    //Function for create mr
+    public function create() {
         return view('manager.mr-management.create');
     }
 
-    //function for storing the MR data
-    public function store(Request $request)
-    {
-        // Validation
+    //Function for submit mr
+    public function store(Request $request) {
+        //Validation input fields
         $request->validate([
-            'name'          => 'required|string|max:255',
-            'email'         => 'required|email|unique:users,email',
-            'password'      => 'required|min:6',
-            'phone'         => 'nullable|string|max:15',
-            'employee_code' => 'nullable|string|unique:users,employee_code',
-            'territory'     => 'nullable|string|max:255',
-            'city'          => 'nullable|string|max:255',
-            'state'         => 'nullable|string|max:255',
-            'joining_date'  => 'nullable|date',
-            'status'        => 'required|in:Active,Pending',
+            'name' =>'required|string|max:255',
+            'email' =>'required|email|unique:users,email',
+            'password' =>'required|min:6',
+            'phone' =>'nullable|string|max:15',
+            'employee_code' =>'nullable|string|unique:users,employee_code',
+            'territory' =>'nullable|string|max:255',
+            'city' =>'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'joining_date' =>'nullable|date',
+            'status' =>'required|in:Active,Pending',
         ]);
-
-        // Save MR
-        $create = User::create([
-            'name'          => $request->name,
-            'email'         => $request->email,
-            'password'      => Hash::make($request->password),
-            'phone'         => $request->phone,
+        //Create mr
+        $is_create_mr = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
             'employee_code' => $request->employee_code,
-            'territory'     => $request->territory,
-            'city'          => $request->city,
-            'state'         => $request->state,
-            'joining_date'  => $request->joining_date,
-            'status'        => $request->status,
-            'user_type'          => 'MR',
-
+            'territory' => $request->territory,
+            'city' => $request->city,
+            'state' => $request->state,
+            'joining_date' => $request->joining_date,
+            'status' => $request->status,
+            'user_type' => 'MR',
         ]);
-
-         //check user created
-        if (!$create) {
+        //Check if mr created or not
+        if (!$is_create_mr) {
             return redirect()->back()->with('error', 'Failed to add MR');
         } else {
-            // Create MangerMR record
+            //Create MangerMR record
             MangerMR::create([
                 'manager_id' => Auth::id(),
-                'mr_id'      => $create->id,
+                'mr_id'      => $is_create_mr->id,
             ]);
         }
-        return redirect()->route('manager.mrs.index')->with('success', 'MR added successfully');
+        return redirect()->route('manager.mrs.index')->with('success', 'MR created successfully');
+    }
+
+    //Function for edit mr
+    public function edit($id) {
+        //Get mr detail
+        $mr_detail = User::find($id);
+        return view('manager.mr-management.edit-mr', compact('mr_detail'));
+    }
+
+    //Function for update mr
+    public function update(Request $request, $id) {
+        //Validation input fields
+        $request->validate([
+            'name' =>'required|string|max:255',
+            //'email' =>'required|email|unique:users,email',
+            'password' =>'required|min:6',
+            'phone' =>'nullable|string|max:15',
+            'employee_code' =>'nullable|string|unique:users,employee_code',
+            'territory' =>'nullable|string|max:255',
+            'city' =>'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'joining_date' =>'nullable|date',
+            'status' =>'required|in:Active,Pending',
+        ]);
+        //Get mr detail
+        $mr = User::findOrFail($id);
+        $is_update_mr = $mr->update([
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'territory' => $request->territory,
+            'city' => $request->city,
+            'state' => $request->state,
+            'joining_date' => $request->joining_date,
+            'status' => $request->status,
+            'user_type' => 'MR',
+        ]);
+        //Check if mr updated or not
+        if (!$is_update_mr) {
+            return redirect()->back()->with('error', 'Failed to updated MR');
+        } else {
+            //Delete old mr
+            MangerMR::where('mr_id', $id)->where('manager_id', Auth::id())->delete();
+            //Create ManagerMR record
+            MangerMR::create([
+                'manager_id' => Auth::id(),
+                'mr_id' => $mr->id,
+            ]);
+        }
+        return redirect()->route('manager.mrs.index')->with('success', 'MR updated successfully');
+    }
+
+    //Function for delete mr
+    public function destroy($id) {
+        //Delete mr
+        $is_delete_mr = User::where('id', $id)->delete();
+        //Check if mr deleted or not
+        if ($is_delete_mr) {
+            MangerMR::where('mr_id', $id)->where('manager_id', Auth::id())->delete();
+            return redirect()->route('manager.mrs.index')->with('success', 'MR deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'Failed to deleted MR');
+        }
     }
 }

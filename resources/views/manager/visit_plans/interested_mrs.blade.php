@@ -72,7 +72,7 @@
                                                             @forelse ($intrested_mrs as $intrested_mr)
                                                                 @php $visit_plan = $intrested_mr->visitPlan; @endphp
                                                                 <tr role="row">
-                                                                    <td class="sorting_1">{{ $count++ }}</td>
+                                                                    <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $visit_plan->title }}</td>
                                                                     <td>{{ $visit_plan->plan_type }}</td>
                                                                     <td>{{ $visit_plan->visit_category }}</td>

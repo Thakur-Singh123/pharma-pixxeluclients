@@ -12,6 +12,7 @@ class DoctorController extends Controller
 {
     //Function for add doctor
     public function add_doctor() {
+        //Get auth login user
         $current_user = User::find(auth()->id());
         //Get all MRs
         $mrs = $current_user->mrs;
@@ -53,7 +54,6 @@ class DoctorController extends Controller
             'doctor_contact' => $request->doctor_contact,
             'location' => $request->location,
             'remarks' => $request->remarks,
-            'visit_type' =>$request->visit_type,
             'picture' => $filename,
         ]);
         //Check if doctor created or not
@@ -67,7 +67,7 @@ class DoctorController extends Controller
                     ]);
                 }
             }
-            return back()->with('success', 'Doctor created successfully.');
+            return redirect()->route('manager.doctors')->with('success', 'Doctor created successfully.');
         } else {
             return back()->with('unsuccess', 'Opps something went wrong!');
         }
@@ -122,12 +122,11 @@ class DoctorController extends Controller
                 'doctor_contact' => $request->doctor_contact,
                 'location' => $request->location,
                 'remarks' => $request->remarks,
-                'visit_type' =>$request->visit_type,
                 'picture' => $filename,
             ]);
             //Check if doctor updated or not
             if ($is_updated_doctor) {
-                return back()->with('success', 'Doctor updated successfully.');
+                return redirect()->route('manager.doctors')->with('success', 'Doctor updated successfully.');
             } else {
                 return back()->with('unsuccess', 'Opps something went wrong!');
             }
@@ -143,7 +142,6 @@ class DoctorController extends Controller
                 'doctor_contact' => $request->doctor_contact,
                 'location' => $request->location,
                 'remarks' => $request->remarks,
-                'visit_type' =>$request->visit_type,
             ]);
             //Check if doctor updated or not
             if ($is_updated_doctor) {
@@ -158,7 +156,7 @@ class DoctorController extends Controller
                         ]);
                     }
                 }
-                return back()->with('success', 'Doctor updated successfully.');
+                return redirect()->route('manager.doctors')->with('success', 'Doctor updated successfully.');
             } else {
                 return back()->with('unsuccess', 'Opps something went wrong!');
             }
@@ -169,11 +167,11 @@ class DoctorController extends Controller
     public function delete_doctor($id) {
         //Delete doctor
         $is_doctor_delete = Doctor::where('id', $id)->delete();
-        //Check if doctor updated or not
+        //Check if doctor deleted or not
         if ($is_doctor_delete) {
             //Delete doctor MR assignment
             DoctorMrAssignement::where('doctor_id', $id)->delete();
-            return back()->with('success', 'Doctor deleted successfully.');
+            return redirect()->route('manager.doctors')->with('success', 'Doctor deleted successfully.');
         } else {
             return back()->with('unsuccess', 'Opps something went wrong!');
         }

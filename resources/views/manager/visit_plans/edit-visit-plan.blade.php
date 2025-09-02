@@ -11,17 +11,17 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Add Visit Plan</div>
+                        <div class="card-title">Edit Visit Plan</div>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('manager.visit-plans.store') }}" method="POST" autocomplete="off">
+                        <form action="{{ route('manager.visit-plans.update', $visit_detail->id) }}" method="POST" autocomplete="off">
                             @csrf
                             <div class="row">
                                 <!--Title-->
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter title">
+                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title',$visit_detail->title) }}" placeholder="Enter title">
                                         @error('title')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -31,7 +31,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description') }}</textarea>
+                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description',$visit_detail->description) }}</textarea>
                                         @error('description')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -43,8 +43,8 @@
                                         <label for="plan_type">Plan Type</label>
                                         <select class="form-control" id="plan_type" name="plan_type">
                                             <option value="" disabled>Select Plan</option>
-                                            <option value="monthly" {{ old('plan_type') == 'monthly' ? 'selected' : '' }}>Monthly</option>
-                                            <option value="weekly" {{ old('plan_type') == 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                            <option value="monthly" {{ old('plan_type', $visit_detail->plan_type) == 'monthly' ? 'selected' : '' }}>Monthly</option>
+                                            <option value="weekly" {{ old('plan_type', $visit_detail->plan_type) == 'weekly' ? 'selected' : '' }}>Weekly</option>
                                         </select>
                                         @error('plan_type')
                                             <small class="text-danger">{{ $message }}</small>
@@ -57,11 +57,11 @@
                                         <label for="visit_category">Visit Category</label>
                                         <select class="form-control" id="visit_category" name="visit_category">
                                             <option value="" disabled>Select Category</option>
-                                            <option value="hospital" {{ old('visit_category') == 'hospital' ? 'selected' : '' }}>Hospital Visit</option>
-                                            <option value="doctor" {{ old('visit_category') == 'doctor' ? 'selected' : '' }}>Doctor Meeting</option>
-                                            <option value="area" {{ old('visit_category') == 'area' ? 'selected' : '' }}>Area</option>
-                                            <option value="camp" {{ old('visit_category') == 'camp' ? 'selected' : '' }}>Camp</option>
-                                            <option value="event" {{ old('visit_category') == 'event' ? 'selected' : '' }}>Event</option>
+                                            <option value="hospital" {{ old('visit_category', $visit_detail->visit_category) == 'hospital' ? 'selected' : '' }}>Hospital Visit</option>
+                                            <option value="doctor" {{ old('visit_category', $visit_detail->visit_category) == 'doctor' ? 'selected' : '' }}>Doctor Meeting</option>
+                                            <option value="area" {{ old('visit_category', $visit_detail->visit_category) == 'area' ? 'selected' : '' }}>Area</option>
+                                            <option value="camp" {{ old('visit_category', $visit_detail->visit_category) == 'camp' ? 'selected' : '' }}>Camp</option>
+                                            <option value="event" {{ old('visit_category', $visit_detail->visit_category) == 'event' ? 'selected' : '' }}>Event</option>
                                         </select>
                                         @error('visit_category')
                                             <small class="text-danger">{{ $message }}</small>
@@ -72,7 +72,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_date">Start Date</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date') }}">
+                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date',$visit_detail->start_date) }}">
                                         @error('start_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -82,7 +82,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date') }}">
+                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date',$visit_detail->end_date) }}">
                                         @error('end_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -92,7 +92,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="location">Location</label>
-                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}" placeholder="Enter location">
+                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location',$visit_detail->location) }}" placeholder="Enter location">
                                         @error('location')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -140,10 +140,10 @@
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status">
                                             <option value="" disabled>Select Status</option>
-                                            <option value="open" {{ old('status') == 'open' ? 'selected' : '' }}>Open</option>
-                                            <option value="interested" {{ old('status') == 'interested' ? 'selected' : '' }}>Interested</option>
-                                            <option value="assigned" {{ old('status') == 'assigned' ? 'selected' : '' }}>Assigned</option>
-                                            <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                                            <option value="open" {{ old('status', $visit_detail->status) == 'open' ? 'selected' : '' }}>Open</option>
+                                            <option value="interested" {{ old('status', $visit_detail->status) == 'interested' ? 'selected' : '' }}>Interested</option>
+                                            <option value="assigned" {{ old('status', $visit_detail->status) == 'assigned' ? 'selected' : '' }}>Assigned</option>
+                                            <option value="completed" {{ old('status', $visit_detail->status) == 'completed' ? 'selected' : '' }}>Completed</option>
                                         </select>
                                         @error('status')
                                             <small class="text-danger">{{ $message }}</small>
@@ -163,7 +163,7 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-success">Update</button>
                                 <a href="{{ route('manager.visit-plans.index') }}" class="btn btn-danger">Cancel</a>
                             </div>
                         </form>

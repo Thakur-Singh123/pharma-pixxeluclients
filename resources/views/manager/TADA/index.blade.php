@@ -90,7 +90,7 @@
                                                             @php $count = 1 @endphp
                                                             @forelse ($tada_records as $tada_record)
                                                                 <tr role="row">
-                                                                    <td class="sorting_1">{{ $count++ }}</td>
+                                                                    <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $tada_record->travel_date }}</td>
                                                                     <td>{{ $tada_record->place_visited }}</td>
                                                                     <td>{{ $tada_record->distance_km }}</td>

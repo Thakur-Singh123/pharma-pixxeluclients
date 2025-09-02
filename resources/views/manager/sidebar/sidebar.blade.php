@@ -179,13 +179,29 @@
                         <p>Daily MR Reports</p>
                     </a>
                 </li>
-               {{-- attendance --}}
+                  {{--attendance --}}
                 <li class="nav-item {{ request()->is('manager/attendance*') ? 'active' : '' }}">
-                    <a href="{{ url('manager/attendance') }}"
-                        class="nav-link {{ request()->is('manager/attendance') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-alt"></i>
+                    <a data-bs-toggle="collapse" href="#collapseattendance"
+                        class="{{ request()->is('manager/attendance*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/attendance*') ? 'true' : 'false' }}">
+                        <i class="fas fa-user-md"></i>
                         <p>Attendance</p>
+                        <span class="caret"></span>
                     </a>
+                    <div class="collapse {{ request()->is('manager/attendance*') ? 'show' : '' }}" id="collapseattendance">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('manager/attendance') ? 'active' : '' }}">
+                                <a href="{{ route('manager.attendance.index') }}">
+                                    <span class="sub-item">Monthly Attendance</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/attendance/daily') ? 'active' : '' }}">
+                                <a href="{{ route('manager.daily.attendance') }}">
+                                    <span class="sub-item">Today Attendance</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <!--logout section-->
                 <li class="nav-item">

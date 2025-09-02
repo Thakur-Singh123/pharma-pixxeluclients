@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\MRAttendance;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AttendenceController extends Controller
@@ -51,5 +52,21 @@ class AttendenceController extends Controller
             'month' => $month,
             'year'  => $year
         ]);
+    }
+
+    //function to show attendance daily
+    public function daily_attendance()
+    {
+        $mrIds = auth()->user()->mrs->pluck('id');
+       $users = User::whereIn('id', $mrIds)
+        ->with(['attendance' => function ($q) {
+            $q->whereDate('date', today());
+        }])
+        ->get()
+        ->toArray(); 
+
+    return view('manager.attendence.daily-attendance', [
+        'attendances' => $users
+    ]);
     }
 }

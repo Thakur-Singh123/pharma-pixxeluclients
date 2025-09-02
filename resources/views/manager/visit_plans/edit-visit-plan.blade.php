@@ -11,7 +11,7 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Add Visit Plan</div>
+                        <div class="card-title">Edit Visit Plan</div>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('manager.visit-plans.store') }}" method="POST" autocomplete="off">
@@ -21,7 +21,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter title">
+                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title',$visit_detail->title) }}" placeholder="Enter title">
                                         @error('title')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -31,7 +31,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description') }}</textarea>
+                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description',$visit_detail->description) }}</textarea>
                                         @error('description')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-success">Update</button>
                                 <a href="{{ route('manager.visit-plans.index') }}" class="btn btn-danger">Cancel</a>
                             </div>
                         </form>

@@ -4,7 +4,6 @@
    <div class="page-inner">
       <div class="row">
          <div class="col-md-12">
-            {{-- Success Message --}}
             @if (session('success'))
             <div class="alert alert-success">
                {{ session('success') }}
@@ -18,105 +17,105 @@
                   <form action="{{ route('manager.submit.doctor') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                      @csrf
                      <div class="row">
-                        <!-- Area Name -->
+                        <!--Area Name-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="area_name">Area Name</label>
                               <input type="text" class="form-control" id="area_name" name="area_name"
                                  value="{{ old('area_name') }}" placeholder="Enter Area Name">
                               @error('area_name')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- Area Block -->
+                        <!--Area Block-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="area_block">Area Block</label>
                               <input type="text" class="form-control" id="area_block" name="area_block"
                                  value="{{ old('area_block') }}" placeholder="Enter Area Block">
                               @error('area_block')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- District -->
+                        <!--District-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="district">Distrcit</label>
                               <input type="text" class="form-control" id="district" name="district"
-                                value="{{ old('district') }}"  placeholder="Enter District">
+                                 value="{{ old('district') }}"  placeholder="Enter District">
                               @error('district')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- State -->
+                        <!--State-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="state">State</label>
                               <input type="text" class="form-control" id="state" name="state"
                                  value="{{ old('state') }}" placeholder="Enter State">
                               @error('state')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- Employee Code -->
+                        <!--Employee Code-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="area_code">Area Code</label>
-                              <input type="text" class="form-control" id="area_code" name="area_code"
+                              <input type="number" class="form-control" id="area_code" name="area_code"
                                  value="{{ old('area_code') }}" placeholder="Enter Area Code">
                               @error('area_code')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- Doctor Name -->
+                        <!--Doctor Name-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="doctor_name">Doctor Name</label>
                               <input type="text" class="form-control" id="doctor_name" name="doctor_name"
                                  value="{{ old('doctor_name') }}" placeholder="Enter Doctor Name">
                               @error('doctor_name')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- Doctor Contact -->
+                        <!--Doctor Contact-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="doctor_contact">Doctor Contact</label>
-                              <input type="text" class="form-control" id="doctor_contact" name="doctor_contact"
+                              <input type="number" class="form-control" id="doctor_contact" name="doctor_contact"
                                  value="{{ old('doctor_contact') }}" placeholder="Enter Contact">
                               @error('doctor_contact')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- Location -->
+                        <!--Location-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="location">Location</label>
                               <input type="text" class="form-control" id="location" name="location"
                                  value="{{ old('location') }}" placeholder="Enter Location">
                               @error('location')
-                              <small class="text-danger">{{ $message }}</small>
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- Remarks -->
+                        <!--Remarks-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="remarks">Remarks</label>
-                               <textarea name="remarks" rows="3" class="form-control">{{ old('remarks') }}</textarea>
-                               @error('remarks')
-                              <small class="text-danger">{{ $message }}</small>
+                              <textarea name="remarks" rows="3" class="form-control">{{ old('remarks') }}</textarea>
+                              @error('remarks')
+                                 <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>
-                        <!-- image -->
+                        <!--image-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="image">Image</label>
@@ -127,15 +126,15 @@
                                  />
                            </div>
                         </div>
-                        <!-- Assigne MR -->
+                        <!--Assigne MR-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="status">Assigne MR</label>
-                            <select  class="form-control" id="visit_type" name="mr_id[]" multiple>
-                              @foreach($mrs as $mr)
+                              <select  class="form-control select2" id="visit_type" name="mr_id[]" multiple>
+                                 @foreach($mrs as $mr)
                                     <option value="{{ $mr->id }}">{{ $mr->name }}</option>
-                              @endforeach
-                           </select>
+                                 @endforeach
+                              </select>
                            </div>
                         </div>
                      </div>

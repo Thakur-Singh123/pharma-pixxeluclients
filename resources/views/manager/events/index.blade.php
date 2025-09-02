@@ -4,7 +4,6 @@
         <div class="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    {{-- Success Message --}}
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -22,50 +21,62 @@
                                             class="dataTables_wrapper container-fluid dt-bootstrap4">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <table id="basic-datatables"
-                                                        class="display table table-striped table-hover dataTable"
-                                                        role="grid" aria-describedby="basic-datatables_info">
+                                                    <table id="basic-datatables" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="basic-datatables_info">
                                                         <thead>
                                                             <tr role="row">
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.</th>
+                                                                    style="width: 242.688px;">S No.
+                                                                </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Title</th>
+                                                                    style="width: 242.688px;">Title
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Description</th>
+                                                                    style="width: 366.578px;">Description
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Assigned To</th>
+                                                                    style="width: 366.578px;">Assigned To
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Location</th>
+                                                                    style="width: 156.312px;">Location
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Start Date & Time</th>
+                                                                    style="width: 156.312px;">Start Date & Time
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">End Date & Time</th>
+                                                                    style="width: 156.312px;">End Date & Time
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Status</th>
+                                                                    style="width: 156.312px;">Status
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Action
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
+                                                            <!--Get events-->
                                                             @forelse ($events as $event)
                                                                 <tr role="row">
-                                                                    <td class="sorting_1">{{ $count++ }}</td>
+                                                                    <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $event->title }}</td>
                                                                     <td>{{ $event->description }}</td>
                                                                     <td>{{ $event->mr->name }}</td>
@@ -73,11 +84,24 @@
                                                                     <td>{{ $event->start_datetime }}</td>
                                                                     <td>{{ $event->end_datetime }}</td>
                                                                     <td>{{ $event->status }}</td>
+                                                                    <td>
+                                                                        <div class="form-button-action">
+                                                                            <a href="{{ route('manager.events.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                                <i class="fa fa-edit"></i>
+                                                                            </a>
+                                                                            <form action="{{ route('manager.events.destroy', $event->id) }}" method="POST" style="display:inline;">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                                    <i class="fa fa-trash"></i>
+                                                                                </a>
+                                                                            </form>
+                                                                        </div>
+                                                                    </td>
                                                                 </tr>
                                                            @empty
                                                                 <tr>
-                                                                    <td colspan="10" class="text-center">No record found
-                                                                    </td>
+                                                                    <td colspan="10" class="text-center">No record found</td>
                                                                 </tr>
                                                             @endforelse
                                                         </tbody>

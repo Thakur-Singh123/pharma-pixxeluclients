@@ -150,6 +150,19 @@
                                         </select>
                                     </div>
                                 </div>
+                                <!--Status-->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select name="status" class="form-control">
+                                            <option value="active" {{ $doctor_detail->status == 'active' ? 'selected' : '' }}>Active</option>
+                                            <option value="pending" {{ $doctor_detail->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                        </select>
+                                        @error('status')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-action">
                                 <button type="submit" class="btn btn-success">Update</button>

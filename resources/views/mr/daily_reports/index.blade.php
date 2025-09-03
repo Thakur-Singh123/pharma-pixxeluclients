@@ -65,7 +65,16 @@
                                                             <td>{{ $report->total_visits }}</td>
                                                             <td>{{ $report->patients_referred }}</td>
                                                             <td>{{ $report->notes }}</td>
-                                                            <td>{{ $report->status }}</td>
+                                                            <td
+                                                                style="color: {{ $report->status == 'pending'
+                                                                    ? 'orange'
+                                                                    : ($report->status == 'rejected'
+                                                                        ? 'blue'
+                                                                        : ($report->status == 'approved'
+                                                                            ? 'green'
+                                                                            : 'black')) }}">
+                                                                {{ ucfirst($report->status) }}
+                                                            </td>
                                                             <td>
                                                                 <div class="form-button-action">
                                                                     <a href="{{ route('mr.daily-reports.edit', $report->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

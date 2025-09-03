@@ -25,7 +25,7 @@ class TADAController extends Controller
             'mode_of_travel' => 'required|string',
             'purpose' => 'required|string',
             'remarks' => 'nullable|string',
-            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'attachment' => 'required|file',
         ]);
         //Check if attachment exists or not
         $attachmentPath = null;
@@ -96,7 +96,6 @@ class TADAController extends Controller
             'mode_of_travel' => 'required|string',
             'purpose' => 'required|string',
             'remarks' => 'nullable|string',
-            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
         //Check if attachment exists or not
         $attachmentPath = null;

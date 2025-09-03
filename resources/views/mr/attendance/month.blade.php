@@ -47,35 +47,59 @@
     </div>
     <div class="table-responsive">
         <table class="att-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Check In</th>
-                    <th>Check Out</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($days as $d)
-                <tr>
-                    <td>{{ \Carbon\Carbon::parse($d['date'])->format('d M, D') }}</td>
-                    <td>
-                        @if(($d['check_in'] ?? null) && ($d['check_out'] ?? null))
-                            <span class="att-present"><i class="bi bi-check-circle-fill fa-fw me-1"></i> Present</span>
-                        @elseif(($d['check_in'] ?? null) && !($d['check_out'] ?? null))
-                            <span class="att-half"><i class="bi bi-hourglass-split fa-fw me-1"></i> Half Day</span>
-                        @else
-                            <span class="att-absent"><i class="bi bi-x-circle-fill fa-fw me-1"></i> Absent</span>
-                        @endif
-                    </td>
-                    <td>{{ $d['check_in'] ? \Carbon\Carbon::parse($d['check_in'])->format('h:i A') : '-' }}</td>
-                    <td>{{ $d['check_out'] ? \Carbon\Carbon::parse($d['check_out'])->format('h:i A') : '-' }}</td>
-                </tr>
-                @empty
-                <tr><td colspan="4">No data found.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Total Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($days as $d)
+            @php
+                $checkIn = $d['check_in'] ? \Carbon\Carbon::parse($d['check_in']) : null;
+                $checkOut = $d['check_out'] ? \Carbon\Carbon::parse($d['check_out']) : null;
+
+                $totalTime = null;
+                $status = 'absent';
+
+                if ($checkIn && $checkOut) {
+                    $diffInMinutes = $checkIn->diffInMinutes($checkOut);
+                    $hours = floor($diffInMinutes / 60);
+                    $minutes = $diffInMinutes % 60;
+                    $totalTime = sprintf('%02dh %02dm', $hours, $minutes);
+
+                    $status = $hours >= 8 ? 'present' : 'half-day';
+                } elseif ($checkIn && !$checkOut) {
+                    $status = 'half-day';
+                }
+            @endphp
+
+            <tr>
+                <td>{{ \Carbon\Carbon::parse($d['date'])->format('d M, D') }}</td>
+                <td>
+                    @if($status === 'present')
+                        <span class="att-present"><i class="bi bi-check-circle-fill fa-fw me-1"></i> Present</span>
+                    @elseif($status === 'half')
+                        <span class="att-half"><i class="bi bi-hourglass-split fa-fw me-1"></i> Half Day</span>
+                    @else
+                        <span class="att-absent"><i class="bi bi-x-circle-fill fa-fw me-1"></i> Absent</span>
+                    @endif
+                </td>
+                <td>{{ $checkIn ? $checkIn->format('h:i A') : '-' }}</td>
+                <td>{{ $checkOut ? $checkOut->format('h:i A') : '-' }}</td>
+                <td>{{ $totalTime ?? '-' }}</td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="5" class="text-center text-muted">No data found.</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
     </div>
 </div>
 </div>

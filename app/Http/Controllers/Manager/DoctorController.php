@@ -55,6 +55,7 @@ class DoctorController extends Controller
             'location' => $request->location,
             'remarks' => $request->remarks,
             'picture' => $filename,
+            'status' => 'active',
         ]);
         //Check if doctor created or not
         if ($is_create_doctor) {
@@ -123,6 +124,7 @@ class DoctorController extends Controller
                 'location' => $request->location,
                 'remarks' => $request->remarks,
                 'picture' => $filename,
+                'status' => $request->status,
             ]);
             //Check if doctor updated or not
             if ($is_updated_doctor) {
@@ -142,6 +144,7 @@ class DoctorController extends Controller
                 'doctor_contact' => $request->doctor_contact,
                 'location' => $request->location,
                 'remarks' => $request->remarks,
+                'status' => $request->status,
             ]);
             //Check if doctor updated or not
             if ($is_updated_doctor) {

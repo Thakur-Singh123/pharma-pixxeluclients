@@ -49,10 +49,23 @@ class AttendanceController extends Controller
 
         if ($attendance && ! $attendance->check_out) {
             $attendance->check_out = Carbon::now()->toTimeString();
-            // Only if checked in, now it's FULL present
+
             if ($attendance->check_in) {
-                $attendance->status = 'present';
+                // Calculate total working hours
+                $checkIn  = Carbon::parse($attendance->check_in);
+                $checkOut = Carbon::parse($attendance->check_out);
+
+                $hoursWorked = $checkIn->diffInHours($checkOut);
+
+                if ($hoursWorked >= 8) {
+                    $attendance->status = 'present';
+                } elseif ($hoursWorked >= 4) {
+                    $attendance->status = 'half-day';
+                } else {
+                    $attendance->status = 'absent';
+                }
             }
+
             $attendance->save();
         }
 

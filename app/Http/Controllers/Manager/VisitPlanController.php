@@ -7,6 +7,8 @@ use App\Models\VisitPlan;
 use App\Models\VisitPlanInterest;
 use App\Models\VisitPlanAssignement;
 use App\Models\VisitPlanComment;
+use App\Models\User;
+use App\Notifications\VisitPlanNotification;
 use Illuminate\Http\Request;
 
 class VisitPlanController extends Controller
@@ -59,6 +61,12 @@ class VisitPlanController extends Controller
         ]);
         //Check if visit plan created or not
         if($is_create_visit) {
+            //Send notification to interested mrs
+            $mrs = auth()->user()->mrs->pluck('id')->toArray();
+            foreach ($mrs as $mr) {
+                $user = User::find($mr);
+                $user->notify(new VisitPlanNotification($is_create_visit));
+            }
             return redirect()->route('manager.visit-plans.index')->with('success', 'Visit Plan created successfully.');
         } else {
            return back()->with('error', 'Opps something went wrong!'); 

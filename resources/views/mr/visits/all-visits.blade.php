@@ -79,7 +79,16 @@
                                                 <td>{{ $visit->district }}</td>
                                                 <td>{{ $visit->state }}</td>
                                                 <td>{{ $visit->area_code }}</td>
-                                                <td>{{ $visit->status }}</td>
+                                                <td style="color: {{ 
+                                                        $visit->status == 'Pending' ? 'orange' : 
+                                                        ($visit->status == 'Suspended' ? 'blue' : 
+                                                        ($visit->status == 'Active' ? 'green' : 
+                                                        ($visit->status == 'Approved' ? 'red' : 'black'))) 
+                                                    }}">
+                                                        {{ 
+                                                            ucfirst($visit->status) 
+                                                        }}
+                                                </td>
                                                 <td>
                                                     <div class="form-button-action">
                                                     <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>

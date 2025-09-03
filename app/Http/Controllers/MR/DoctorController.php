@@ -48,6 +48,7 @@ class DoctorController extends Controller
             'location'       => $request->location,
             'remarks'        => $request->remarks,
             'picture'        => $filename,
+            'status'         => 'pending',
         ]);
         //Check if doctor created or not
         if ($is_create_doctor) {

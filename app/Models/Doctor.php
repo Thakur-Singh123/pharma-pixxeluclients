@@ -9,7 +9,7 @@ class Doctor extends Model
     //Call migration
     protected $table = 'doctors';
     protected $fillable = ['user_id','area_name','area_block','district','state','area_code','doctor_id','doctor_name','doctor_contact',
-    'location','picture','remarks','visit_type'];
+    'location','picture','remarks','visit_type','status'];
 
     //get the mr that owns the doctor
     public function mr()

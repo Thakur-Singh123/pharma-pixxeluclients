@@ -43,6 +43,9 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/visit-plans/action/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'approveRejectInterest'])->name('visit-plans.action');
     Route::post('/visit-plans/add-comment/', [App\Http\Controllers\Manager\VisitPlanController::class, 'add_comment'])->name('visit-plans.add-comment');
     //Daily mr reports
-    Route::get('daily-mr-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'index']);
+    Route::get('daily-mr-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'index'])->name('daily-reports.index');
     Route::post('review-reports/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'review'])->name('reports.review');
+    Route::get('edit-report/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'edit'])->name('reports.edit.daily');
+    Route::PUT('update-daily-report/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'update'])->name('reports.update.daily');
+    Route::get('export-daily-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'export'])->name('reports.export.daily');
 });

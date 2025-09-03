@@ -75,6 +75,12 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Status
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
@@ -94,6 +100,10 @@
                                                             <td>{{ $doctor->doctor_contact }}</td>
                                                             <td>{{ $doctor->location }}</td>
                                                             <td>{{ $doctor->remarks }}</td>
+                                                            <td
+                                                                style="color: {{ $doctor->status == 'pending' ? 'orange' : ($doctor->status == 'active' ? 'green' : 'red') }}">
+                                                                {{ ucfirst($doctor->status) }}
+                                                            </td>
                                                             <td>
                                                                 <div class="form-button-action">
                                                                     <a href="{{ url('manager/doctors/edit', $doctor->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

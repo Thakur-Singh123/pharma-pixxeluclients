@@ -11,7 +11,7 @@ class VisitController extends Controller
     //Function for add visit
     public function add_visit() {
         $mr = auth()->user();
-        $assignedDoctors = $mr->doctors()->get();
+        $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
         return view('mr.visits.add-visit',compact('assignedDoctors'));
     }
 
@@ -59,7 +59,7 @@ class VisitController extends Controller
         //Get visit detail
         $visit_detail = Visit::with('mr','doctor')->find($id);
         $mr = auth()->user();
-        $assignedDoctors = $mr->doctors()->get();
+        $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
        //echo "<pre>";print_r($assignedDoctors->toArray());exit;
         return view('mr.visits.edit-visit', compact('visit_detail','assignedDoctors'));
     }

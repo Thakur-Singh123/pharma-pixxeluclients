@@ -43,18 +43,38 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Start Date
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">End date
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Status
                                                                 </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
-                                                            @forelse ($all_tasks as $visit)
+                                                            @forelse ($all_tasks as $task)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}</td>
-                                                                    <td>{{ $visit->title }}</td>
-                                                                    <td>{{ $visit->description }}</td>
-                                                                    <td>{{ $visit->status }}</td>
+                                                                    <td>{{ $task->title }}</td>
+                                                                    <td>{{ $task->description }}</td>
+                                                                    <td>{{ $task->start_date }}</td>
+                                                                    <td>{{ $task->end_date }}</td>
+                                                                    <td style="color: {{ 
+                                                                        $task->status == 'pending' ? 'orange' : 
+                                                                        ($task->status == 'in_progress' ? 'blue' : 
+                                                                        ($task->status == 'completed' ? 'green' : 'black')) 
+                                                                    }}">
+                                                                        {{ 
+                                                                            $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) 
+                                                                        }}
+                                                                    </td>
                                                                 </tr>
                                                             @empty
                                                                 <tr>

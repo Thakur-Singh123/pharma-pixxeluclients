@@ -81,7 +81,16 @@
                                                                     <td>{{ $visit_plan->end_date }}</td>
                                                                     <td>{{ $visit_plan->location }}</td>
                                                                     <td>{{ $intrested_mr->mr->name }}</td>
-                                                                    <td>{{ $visit_plan->status }}</td>
+                                                                    <td style="color: {{ 
+                                                                            $visit_plan->status == 'assigned' ? 'orange' : 
+                                                                            ($visit_plan->status == 'interested' ? 'blue' : 
+                                                                            ($visit_plan->status == 'completed' ? 'green' : 
+                                                                            ($visit_plan->status == 'open' ? 'red' : 'black'))) 
+                                                                        }}">
+                                                                            {{ 
+                                                                                ucfirst($visit_plan->status) 
+                                                                            }}
+                                                                    </td>
                                                                     <td style="display: flex; gap: 5px;">
                                                                         <form
                                                                             action="{{ route('manager.visit-plans.action', $intrested_mr->id) }}"

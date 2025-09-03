@@ -72,7 +72,15 @@
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ $event->start_datetime }}</td>
                                                                     <td>{{ $event->end_datetime }}</td>
-                                                                    <td>{{ $event->status }}</td>
+                                                                    <td style="color: {{ 
+                                                                        $event->status == 'pending' ? 'orange' : 
+                                                                        ($event->status == 'in_progress' ? 'blue' : 
+                                                                        ($event->status == 'completed' ? 'green' : 'black')) 
+                                                                    }}">
+                                                                        {{ 
+                                                                            $event->status == 'in_progress' ? 'In Progress' : ucfirst($event->status) 
+                                                                        }}
+                                                                    </td>
                                                                 </tr>
                                                            @empty
                                                                 <tr>

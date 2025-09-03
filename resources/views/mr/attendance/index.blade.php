@@ -65,15 +65,30 @@
             </div>
 
             <div class="my-3">
-                @if($attendance && $attendance->check_in && $attendance->check_out)
-                    <span class="status-big stat-present"><i class="bi bi-patch-check-fill me-1"></i> Present</span>
-                @elseif($attendance && $attendance->check_in)
-                    <span class="status-big stat-half"><i class="bi bi-hourglass-split me-1"></i> Half Day</span>
+                @if($attendance)
+                    @if($attendance->status === 'present')
+                        <span class="status-big stat-present">
+                            <i class="bi bi-patch-check-fill me-1"></i> Present
+                        </span>
+                    @elseif($attendance->status === 'half-day' || $attendance->status === 'half')
+                        <span class="status-big stat-half">
+                            <i class="bi bi-hourglass-split me-1"></i> Half Day
+                        </span>
+                    @elseif($attendance->status === 'absent')
+                        <span class="status-big stat-absent">
+                            <i class="bi bi-x-circle me-1"></i> Absent
+                        </span>
+                    @else
+                        <span class="status-big stat-absent">
+                            <i class="bi bi-question-circle me-1"></i> Unknown
+                        </span>
+                    @endif
                 @else
-                    <span class="status-big stat-absent"><i class="bi bi-x-circle me-1"></i> Absent</span>
+                    <span class="status-big stat-absent">
+                        <i class="bi bi-x-circle me-1"></i> Absent
+                    </span>
                 @endif
             </div>
-
             <div class="pt-4">
                 <form action="{{ route('mr.attendance.checkin') }}" method="POST" class="d-inline">
                     @csrf

@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All MRs</h4>
+                                <h4 class="card-title">All Tasks</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -47,6 +47,16 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                style="width: 156.312px;">Start Date
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 156.312px;">End date
+                                                            </th>
+                                                             <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -64,7 +74,17 @@
                                                             <td>{{ $task->title }}</td>
                                                             <td>{{ $task->description }}</td>
                                                             <td>{{ $task->mr->name }}</td>
-                                                            <td>{{ $task->status }}</td>
+                                                            <td>{{ $task->start_date }}</td>
+                                                            <td>{{ $task->end_date }}</td>
+                                                            <td style="color: {{ 
+                                                                    $task->status == 'pending' ? 'orange' : 
+                                                                    ($task->status == 'in_progress' ? 'blue' : 
+                                                                    ($task->status == 'completed' ? 'green' : 'black')) 
+                                                                }}">
+                                                                    {{ 
+                                                                        $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) 
+                                                                    }}
+                                                            </td>
                                                             <td>
                                                                 <div class="form-button-action">
                                                                     <a href="{{ route('manager.tasks.edit', $task->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <!--Territory-->
-                                <div class="col-md-6 col-lg-4">
+                                {{-- <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="territory">Territory</label>
                                         <input type="text" class="form-control" id="territory" name="territory" value="{{ old('territory') }}" placeholder="Enter territory">
@@ -76,7 +76,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!--City-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">

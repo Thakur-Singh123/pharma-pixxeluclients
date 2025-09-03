@@ -13,8 +13,26 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Reports</h4>
+                                    <div class="d-flex" style="gap: 20px;">
+                                        <form method="GET" action="{{ route('manager.daily-reports.index') }}" class="m-0" id="filter-form">
+                                            <select name="filter_by" onchange="this.form.submit()"
+                                                class="form-control">
+                                                <option value="today" {{ request('filter_by') == 'today' ? 'selected' : '' }}>
+                                                    Today</option>
+                                                <option value="week" {{ request('filter_by') == 'week' ? 'selected' : '' }}>
+                                                    This Week</option>
+                                                <option value="month" {{ request('filter_by') == 'month' ? 'selected' : '' }}>
+                                                    This Month</option>
+                                                <option value="year" {{ request('filter_by') == 'year' ? 'selected' : '' }}>
+                                                    This Year</option>
+                                                <option value="all" {{ request('filter_by') == 'all' ? 'selected' : '' }}>
+                                                    All</option>
+                                            </select>
+                                        </form>
+                                        <a href="{{ route('manager.reports.export.daily', ['filter_by' => request('filter_by') ?? 'today']) }}" class="btn btn-primary">Export Report</a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -61,6 +79,10 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Approval
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 366.578px;">Action
                                                                 </th>
                                                             </tr>
@@ -75,7 +97,16 @@
                                                                     <td>{{ $report->total_visits }}</td>
                                                                     <td>{{ $report->patients_referred }}</td>
                                                                     <td>{{ $report->notes }}</td>
-                                                                    <td>{{ $report->status }}</td>
+                                                                    <td
+                                                                        style="color: {{ $report->status == 'pending'
+                                                                            ? 'orange'
+                                                                            : ($report->status == 'rejected'
+                                                                                ? 'blue'
+                                                                                : ($report->status == 'approved'
+                                                                                    ? 'green'
+                                                                                    : 'black')) }}">
+                                                                        {{ ucfirst($report->status) }}
+                                                                    </td>
                                                                     <td>
                                                                         @if ($report->status == 'pending')
                                                                             <form
@@ -88,7 +119,7 @@
                                                                                     class="btn btn-danger btn-sm">Reject</button>
                                                                             </form>
                                                                         @elseif ($report->status == 'approved')
-                                                                        <form
+                                                                            <form
                                                                                 action="{{ route('manager.reports.review', $report->id) }}"
                                                                                 method="POST">
                                                                                 @csrf
@@ -96,7 +127,7 @@
                                                                                     class="btn btn-danger btn-sm">Reject</button>
                                                                             </form>
                                                                         @elseif ($report->status == 'rejected')
-                                                                        <form
+                                                                            <form
                                                                                 action="{{ route('manager.reports.review', $report->id) }}"
                                                                                 method="POST">
                                                                                 @csrf
@@ -104,6 +135,15 @@
                                                                                     class="btn btn-success btn-sm">Approve</button>
                                                                             </form>
                                                                         @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-button-action">
+                                                                            <a href="{{ route('manager.reports.edit.daily', $report->id) }}"
+                                                                                class="icon-button edit-btn custom-tooltip"
+                                                                                data-tooltip="Edit">
+                                                                                <i class="fa fa-edit"></i>
+                                                                            </a>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             @empty

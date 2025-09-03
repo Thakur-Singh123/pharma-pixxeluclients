@@ -3,13 +3,24 @@
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'])->group(function () {
+    //Profile
+    Route::get('/profile', [App\Http\Controllers\Manager\ProfileController::class, 'profile']); 
+    Route::get('/edit-profile', [App\Http\Controllers\Manager\ProfileController::class, 'edit_profile']);
+    Route::post('/update-profile/{id}', [App\Http\Controllers\Manager\ProfileController::class, 'update_profile'])->name('update.profile');
+    Route::get('/change-password', [App\Http\Controllers\Manager\ProfileController::class, 'change_password']);
+    Route::post('/submit-password/{id}', [App\Http\Controllers\Manager\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
     //Dashboard
     Route::get('/dashboard', [App\Http\Controllers\Manager\DashboardController::class, 'dashboard']);
+    //Mrs
     Route::resource('mrs', App\Http\Controllers\Manager\MRController::class);
+    //Daily visits
+    Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
     //Task management
     Route::resource('tasks', App\Http\Controllers\Manager\TaskController::class);
     //Event management
     Route::resource('events', App\Http\Controllers\Manager\EventController::class);
+    //Patient
+    Route::resource('patients', App\Http\Controllers\Manager\PatientController::class);
     //Doctor
     Route::get('/doctors/create', [App\Http\Controllers\Manager\DoctorController::class, 'add_doctor']);
     Route::post('/submit-doctor', [App\Http\Controllers\Manager\DoctorController::class, 'submit_doctor'])->name('submit.doctor');

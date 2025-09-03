@@ -129,7 +129,7 @@
                                                 <div class="u-text">
                                                     <h4>{{ auth()->user()->name }}</h4>
                                                     <p class="text-muted">{{ auth()->user()->email }}</p>
-                                                    <a href="{{ url('admin/profile') }}"
+                                                    <a href="{{ url('manager/profile') }}"
                                                         class="profile-btn btn-xs btn-secondarys btn-sm">View
                                                         Profile</a>
                                                 </div>
@@ -137,12 +137,12 @@
                                         </li>
                                         <li>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item {{ Request::is('admin/edit-profile') ? 'active' : '' }}"
-                                                href="{{ url('admin/edit-profile') }}">
+                                            <a class="dropdown-item {{ Request::is('manager/edit-profile') ? 'active' : '' }}"
+                                                href="{{ url('manager/edit-profile') }}">
                                                 Edit Profile
                                             </a>
-                                            <a class="dropdown-item {{ Request::is('admin/change-password') ? 'active' : '' }}"
-                                                href="{{ url('admin/change-password') }}">
+                                            <a class="dropdown-item {{ Request::is('admimanagern/change-password') ? 'active' : '' }}"
+                                                href="{{ url('manager/change-password') }}">
                                                 Update Password
                                             </a>
                                             <a href="{{ route('logout') }}" class="dropdown-item"

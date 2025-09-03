@@ -9,8 +9,9 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::post('/update-profile/{id}', [App\Http\Controllers\MR\ProfileController::class, 'update_profile'])->name('update.profile');
     Route::get('/change-password', [App\Http\Controllers\MR\ProfileController::class, 'change_password']);
     Route::post('/submit-password/{id}', [App\Http\Controllers\MR\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
-
+    //Dashboard
     Route::get('/dashboard', [App\Http\Controllers\MR\DashboardController::class, 'dashboard']);
+    //Attendance
     Route::get('/attendance', [App\Http\Controllers\MR\AttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance/check-in', [App\Http\Controllers\MR\AttendanceController::class, 'checkIn'])->name('attendance.checkin');
     Route::post('/attendance/check-out', [App\Http\Controllers\MR\AttendanceController::class, 'checkOut'])->name('attendance.checkout');
@@ -27,17 +28,14 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     //Doctors
     Route::get('/doctors', [App\Http\Controllers\MR\DoctorController::class, 'index'])->name('doctors.index');
     Route::post('/doctors/submit', [App\Http\Controllers\MR\DoctorController::class, 'submit_doctor'])->name('doctors.submit');
-
     //Patients
     Route::resource('/patients', App\Http\Controllers\MR\PatientController::class);
     //TADA
     Route::resource('/tada', App\Http\Controllers\MR\TADAController::class);
-
     //Calnedar
     Route::get('/calendar', [App\Http\Controllers\MR\CalendarController::class, 'index'])->name('calendar.index');
     Route::get('/calendar/tasks', [App\Http\Controllers\MR\CalendarController::class, 'getTasks'])->name('calendar.tasks');
     Route::get('/calendar/events', [App\Http\Controllers\MR\CalendarController::class, 'getEvents'])->name('calendar.events');
-
     //Events
     Route::get('events', [App\Http\Controllers\MR\EventController::class,'index']);
     //visit plans
@@ -45,7 +43,6 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::post('visit-plans/{id}/interested', [App\Http\Controllers\MR\VisitPlanController::class,'expressInterest'])->name('visit-plan.interested');
     Route::get('visit-plans/my-interested-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myInterestedPlans'])->name('visit-plans.my-interested');
     Route::get('visit-plans/my-assigned-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myAssignedPlans'])->name('visit-plans.my-assigned');
-
     //Daily report
     Route::resource('daily-reports', App\Http\Controllers\MR\MRDailyReportController::class);
 });

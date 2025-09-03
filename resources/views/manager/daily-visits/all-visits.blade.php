@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All MRs</h4>
+                                <h4 class="card-title">All Visits</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -29,91 +29,73 @@
                                                                 colspan="1" aria-sort="ascending"
                                                                 style="width: 242.688px;">S No.
                                                             </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 84.5px;">Employee Code
-                                                            </th>
                                                             <th class="sorting_asc" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" aria-sort="ascending"
-                                                                style="width: 242.688px;">Name
+                                                                style="width: 242.688px;">Area Name
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 366.578px;">Email
+                                                                style="width: 366.578px;">Area Block
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 187.688px;">Phone
+                                                                style="width: 187.688px;">District
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 84.5px;">State</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Area Code
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Mr Name
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
-                                                                style="width: 156.312px;">City
-                                                            </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 156.312px;">State
-                                                            </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 156.312px;">Joining Date
-                                                            </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
                                                                 style="width: 156.312px;">Status
-                                                            </th>
-                                                               <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @php $count = 1 @endphp
-                                                        <!--Get mrs-->
-                                                        @forelse ($mrs as $mr)
+                                                        @forelse ($all_visits as $visit)
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
-                                                            <td>{{ $mr->employee_code }}</td>
-                                                            <td>{{ $mr->name }}</td>
-                                                            <td>{{ $mr->email }}</td>
-                                                            <td>{{ $mr->phone }}</td>
-                                                            <td>{{ $mr->city }}</td>
-                                                            <td>{{ $mr->state }}</td>
-                                                            <td>{{ $mr->joining_date }}</td>
-                                                            <td>{{ $mr->status }}</td>
-                                                            <td>
-                                                                <div class="form-button-action">
-                                                                    <a href="{{ route('manager.mrs.edit', $mr->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                        <i class="fa fa-edit"></i>
-                                                                    </a>
-                                                                    <form action="{{ route('manager.mrs.destroy', $mr->id) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
-                                                                            <i class="fa fa-trash"></i>
-                                                                        </a>
-                                                                    </form>
-                                                                </div>
+                                                            <td>{{ $visit->area_name }}</td>
+                                                            <td>{{ $visit->area_block }}</td>
+                                                            <td>{{ $visit->district }}</td>
+                                                            <td>{{ $visit->state }}</td>
+                                                            <td>{{ $visit->area_code }}</td>
+                                                            <td>{{ $visit->mr['name'] }}</td>
+                                                            <td style="color: {{ 
+                                                                    $visit->status == 'Pending' ? 'orange' : 
+                                                                    ($visit->status == 'Suspended' ? 'blue' : 
+                                                                    ($visit->status == 'Active' ? 'green' : 
+                                                                    ($visit->status == 'Approved' ? 'red' : 'black'))) 
+                                                                }}">
+                                                                    {{ 
+                                                                        ucfirst($visit->status) 
+                                                                    }}
                                                             </td>
                                                         </tr>
                                                         @empty
                                                         <tr>
-                                                            <td colspan="10" class="text-center">No record found</td>
+                                                            <td colspan="8" class="text-center">No visits found.</td>
                                                         </tr>
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $mrs->links('pagination::bootstrap-5') }}
+                                                {{ $all_visits->links('pagination::bootstrap-5') }}
                                             </div>
                                         </div>
                                     </div>

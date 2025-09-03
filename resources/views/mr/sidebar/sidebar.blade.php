@@ -35,7 +35,7 @@
                     <a data-bs-toggle="collapse" href="#collapseMR"
                         class="{{ request()->is('mr/attendance*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/attendance*') ? 'true' : 'false' }}">
-                        <i class="fas fa-calendar-check"></i>
+                        <i class="fas fa-user-check"></i>
                         <p>Attendance</p>
                         <span class="caret"></span>
                     </a>
@@ -59,7 +59,7 @@
                     <a data-bs-toggle="collapse" href="#collapseVisit"
                         class="{{ request()->is('mr/visits*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/visits*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-walking"></i>
                         <p>Daily Visits</p>
                         <span class="caret"></span>
                     </a>
@@ -81,7 +81,7 @@
                 {{-- Daily tasks --}}
                 <li class="nav-item {{ request()->is('mr/tasks') ? 'active' : '' }}">
                     <a href="{{ url('mr/tasks') }}" class="nav-link {{ request()->is('mr/tasks') ? 'active' : '' }}">
-                        <i class="fas fa-check-square"></i>
+                        <i class="fas fa-clipboard-list"></i>
                         <p>Tasks</p>
                     </a>
                 </li>
@@ -98,7 +98,7 @@
                     <a data-bs-toggle="collapse" href="#collapsePateint"
                         class="{{ request()->is('mr/patients*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/patients*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-stethoscope"></i>
                         <p>Patient</p>
                         <span class="caret"></span>
                     </a>
@@ -122,7 +122,7 @@
                     <a data-bs-toggle="collapse" href="#collapseTADA"
                         class="{{ request()->is('mr/tada*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/tada*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-suitcase-rolling"></i>
                         <p>TA/DA</p>
                         <span class="caret"></span>
                     </a>
@@ -153,7 +153,7 @@
                 <li class="nav-item {{ request()->is('mr/events*') ? 'active' : '' }}">
                     <a href="{{ url('mr/events') }}"
                         class="nav-link {{ request()->is('mr/events') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-alt"></i>
+                        <i class="fas fa-calendar-check"></i>
                         <p>Events</p>
                     </a>
                 </li>
@@ -162,7 +162,7 @@
                     <a data-bs-toggle="collapse" href="#collapseVisitPlan"
                         class="{{ request()->is('mr/visit-plans*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/visit-plans*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-tasks"></i>
                         <p>Visit Plans</p>
                         <span class="caret"></span>
                     </a>
@@ -191,7 +191,7 @@
                     <a data-bs-toggle="collapse" href="#collapseDailyReport"
                         class="{{ request()->is('mr/daily-reports*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/daily-reports*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-chart-bar"></i>
                         <p>Daily Reports</p>
                         <span class="caret"></span>
                     </a>

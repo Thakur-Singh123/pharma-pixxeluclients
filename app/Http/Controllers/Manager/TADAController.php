@@ -12,7 +12,7 @@ class TADAController extends Controller
     {
         $manger = auth()->user();
         //mr list with pending tada records
-        $mrs          = $manger->mrs()->pluck('users.id');
+        $mrs = $manger->mrs()->pluck('users.id');
         if(request()->has('status') && in_array(request('status'), ['pending', 'approved', 'rejected'])) {
             $tada_records = TADARecords::whereIn('mr_id', $mrs)
                 ->where('status', request('status'))

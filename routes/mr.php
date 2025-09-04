@@ -11,19 +11,19 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::post('/submit-password/{id}', [App\Http\Controllers\MR\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
     //Dashboard
     Route::get('/dashboard', [App\Http\Controllers\MR\DashboardController::class, 'dashboard']);
-    //Attendance
+    //Attendances
     Route::get('/attendance', [App\Http\Controllers\MR\AttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance/check-in', [App\Http\Controllers\MR\AttendanceController::class, 'checkIn'])->name('attendance.checkin');
     Route::post('/attendance/check-out', [App\Http\Controllers\MR\AttendanceController::class, 'checkOut'])->name('attendance.checkout');
     Route::get('/attendance/monthly', [App\Http\Controllers\MR\AttendanceController::class, 'month'])->name('attendance.monthly');
-    //Daily visit
+    //Daily visits
     Route::get('/visits/create', [App\Http\Controllers\MR\VisitController::class, 'add_visit']);
     Route::post('/submit-visit', [App\Http\Controllers\MR\VisitController::class, 'submit_visit'])->name('submit.visit');
     Route::get('/visits', [App\Http\Controllers\MR\VisitController::class, 'all_visits']);
     Route::get('/visits/edit/{id}', [App\Http\Controllers\MR\VisitController::class, 'edit_visit']);
     Route::post('/update-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'update_visit'])->name('update.visit');
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);
-    //Task
+    //Tasks
     Route::get('/tasks', [App\Http\Controllers\MR\TaskController::class, 'all_tasks']);
     //Doctors
     Route::get('/doctors', [App\Http\Controllers\MR\DoctorController::class, 'index'])->name('doctors.index');
@@ -38,12 +38,12 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/calendar/events', [App\Http\Controllers\MR\CalendarController::class, 'getEvents'])->name('calendar.events');
     //Events
     Route::get('events', [App\Http\Controllers\MR\EventController::class,'index']);
-    //visit plans
+    //Visit plans
     Route::get('visit-plans', [App\Http\Controllers\MR\VisitPlanController::class,'index'])->name('visit-plans.index');
     Route::post('visit-plans/{id}/interested', [App\Http\Controllers\MR\VisitPlanController::class,'expressInterest'])->name('visit-plan.interested');
     Route::get('visit-plans/my-interested-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myInterestedPlans'])->name('visit-plans.my-interested');
     Route::get('visit-plans/my-assigned-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myAssignedPlans'])->name('visit-plans.my-assigned');
-    //Daily report
+    //Daily reports
     Route::resource('daily-reports', App\Http\Controllers\MR\MRDailyReportController::class);
 });
 

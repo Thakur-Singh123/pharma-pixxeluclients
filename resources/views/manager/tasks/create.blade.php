@@ -21,7 +21,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter Task Title">
+                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter task title">
                                         @error('title')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -41,7 +41,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_date">Start Date</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date') }}">
+                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date', now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
                                         @error('start_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date') }}">
+                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date', now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
                                         @error('end_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

@@ -23,7 +23,7 @@
                                             <table id="basic-datatables" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="basic-datatables_info">
                                                 <thead>
                                                     <tr role="row">
-                                                        <th>S No.</th>
+                                                        <th>Sr No.</th>
                                                         <th>Title</th>
                                                         <th>Plan Type</th>
                                                         <th>Category</th>
@@ -47,8 +47,8 @@
                                                         <td>{{ $visit_plan->plan_type }}</td>
                                                         <td>{{ $visit_plan->visit_category }}</td>
                                                         <td>{{ $visit_plan->description }}</td>
-                                                        <td>{{ $visit_plan->start_date }}</td>
-                                                        <td>{{ $visit_plan->end_date }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($visit_plan->start_date)->format('d M, Y') }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($visit_plan->end_date)->format('d M, Y') }}</td>
                                                         <td>{{ $visit_plan->location }}</td>
                                                         <td style="color: {{ 
                                                                 $visit_plan->status == 'assigned' ? 'orange' : 

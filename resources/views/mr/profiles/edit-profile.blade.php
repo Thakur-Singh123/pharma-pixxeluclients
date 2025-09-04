@@ -64,7 +64,7 @@
                            </div>
                            <div class="form-group mb-3">
                               <label for="joining_date" class="@error('joining_date') is-invalid @enderror">Joining Date</label>
-                              <input type="date" name="joining_date" id="joining_date" class="form-control" value="{{ old('joining_date', $user_profile->joining_date) }}" placeholder="Enter joining date">
+                              <input type="date" name="joining_date" id="joining_date" class="form-control" value="{{ old('joining_date', $user_profile->joining_date ?? now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
                               @error('joining_date')
                               <span class="invalid-feedback" role="alert">
                                  <strong>{{ $message }}</strong>

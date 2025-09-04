@@ -4,7 +4,6 @@
         <div class="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    {{-- Success Message --}}
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -43,7 +42,7 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.
+                                                                    style="width: 242.688px;">Sr No.
                                                                 </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -88,10 +87,11 @@
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
+                                                            <!--Get tada records-->
                                                             @forelse ($tada_records as $tada_record)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
-                                                                    <td>{{ $tada_record->travel_date }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($tada_record->travel_date)->format('d M, Y') }}</td>
                                                                     <td>{{ $tada_record->place_visited }}</td>
                                                                     <td>{{ $tada_record->distance_km }}</td>
                                                                     <td>{{ $tada_record->ta_amount }}</td>
@@ -144,7 +144,6 @@
                                                                 </tr>
                                                             @endforelse
                                                         </tbody>
-
                                                     </table>
                                                     {{ $tada_records->links('pagination::bootstrap-5') }}
                                                 </div>

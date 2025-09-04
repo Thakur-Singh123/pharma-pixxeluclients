@@ -27,7 +27,7 @@
                                                             <th class="sorting_asc" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" aria-sort="ascending"
-                                                                style="width: 242.688px;">S No.
+                                                                style="width: 242.688px;">Sr No.
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
@@ -89,7 +89,7 @@
                                                             <td>{{ $mr->phone }}</td>
                                                             <td>{{ $mr->city }}</td>
                                                             <td>{{ $mr->state }}</td>
-                                                            <td>{{ $mr->joining_date }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($mr->joining_date)->format('d M, Y') }}</td>
                                                             <td>{{ $mr->status }}</td>
                                                             <td>
                                                                 <div class="form-button-action">

@@ -4,7 +4,6 @@
         <div class="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    {{-- Success Message --}}
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -30,7 +29,7 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.
+                                                                    style="width: 242.688px;">Sr No.
                                                                 </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -59,13 +58,14 @@
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
+                                                            <!--Get tasks-->
                                                             @forelse ($all_tasks as $task)
                                                                 <tr role="row">
-                                                                    <td class="sorting_1">{{ $count++ }}</td>
+                                                                    <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $task->title }}</td>
                                                                     <td>{{ $task->description }}</td>
-                                                                    <td>{{ $task->start_date }}</td>
-                                                                    <td>{{ $task->end_date }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                                     <td style="color: {{ 
                                                                         $task->status == 'pending' ? 'orange' : 
                                                                         ($task->status == 'in_progress' ? 'blue' : 

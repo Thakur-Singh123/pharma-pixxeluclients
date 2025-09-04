@@ -4,7 +4,6 @@
         <div class="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    {{-- Success Message --}}
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -30,7 +29,7 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.</th>
+                                                                    style="width: 242.688px;">Sr No.</th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
@@ -65,13 +64,13 @@
                                                             @php $count = 1 @endphp
                                                             @forelse ($events as $event)
                                                                 <tr role="row">
-                                                                    <td class="sorting_1">{{ $count++ }}</td>
+                                                                    <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $event->title }}</td>
                                                                     <td>{{ $event->description }}</td>
                                                                     <td>{{ $event->mr->name }}</td>
                                                                     <td>{{ $event->location }}</td>
-                                                                    <td>{{ $event->start_datetime }}</td>
-                                                                    <td>{{ $event->end_datetime }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td style="color: {{ 
                                                                         $event->status == 'pending' ? 'orange' : 
                                                                         ($event->status == 'in_progress' ? 'blue' : 

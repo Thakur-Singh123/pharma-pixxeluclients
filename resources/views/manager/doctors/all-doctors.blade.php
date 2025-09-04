@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 @if (session('success'))
                 <div class="alert alert-success">
-                {{ session('success') }}
+                    {{ session('success') }}
                 </div>
                 @endif
                 <div class="row">
@@ -27,7 +27,7 @@
                                                             <th class="sorting_asc" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" aria-sort="ascending"
-                                                                style="width: 242.688px;">S No.
+                                                                style="width: 242.688px;">Sr No.
                                                             </th>
                                                             <th class="sorting_asc" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
@@ -77,6 +77,12 @@
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Attachment
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -100,6 +106,16 @@
                                                             <td>{{ $doctor->doctor_contact }}</td>
                                                             <td>{{ $doctor->location }}</td>
                                                             <td>{{ $doctor->remarks }}</td>
+                                                            <td>
+                                                            <!--check if image exists or not-->
+                                                            @if ($doctor->picture)
+                                                                <a href="{{ asset('public/uploads/doctors/' . $doctor->picture) }}"
+                                                                    target="_blank">View
+                                                                </a>
+                                                            @else
+                                                                -
+                                                            @endif
+                                                            </td>
                                                             <td
                                                                 style="color: {{ $doctor->status == 'pending' ? 'orange' : ($doctor->status == 'active' ? 'green' : 'red') }}">
                                                                 {{ ucfirst($doctor->status) }}

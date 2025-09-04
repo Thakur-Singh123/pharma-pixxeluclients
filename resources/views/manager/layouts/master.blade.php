@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Pd Management</title>
@@ -8,7 +7,7 @@
     <link rel="icon" href="{{ asset('public/admin/images/Final-Logo-BMS 2 (1) - Copy.png') }}" type="image/x-icon" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
     <!--css files-->
-    <!-- FullCalendar CSS -->
+    <!--FullCalendar CSS-->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/custom.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.css') }}" />
@@ -19,7 +18,6 @@
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/fonts.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/demo.css') }}" />
 </head>
-
 <body>
     <div class="wrapper">
         @include('manager.sidebar.sidebar')
@@ -78,7 +76,8 @@
                                                                     {{ $notification->data['message'] }}
                                                                 </span>
                                                                 <span
-                                                                    class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                                    class="time">{{ $notification->created_at->diffForHumans() }}
+                                                                </span>
                                                             </div>
                                                         </a>
                                                     @empty
@@ -93,7 +92,6 @@
                                             Mark all as read <i class="fa fa-check"></i>
                                         </a>
                                     </li>
-
                                 </ul>
                             </li>
                             <li class="nav-item topbar-user dropdown hidden-caret">
@@ -181,27 +179,26 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <!--core js files-->
     {{-- <script src="{{ asset('public/admin/assets/js/custom-ajax.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/custom-script.js') }}"></script> --}}
+    <script src="{{ asset('public/admin/assets/js/custom-script.js') }}"></script> --}}
     <script src="{{ asset('public/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/core/bootstrap.min.js') }}"></script>
-    {{-- <script src="{{ asset('public/admin/assets/select2/js/select2.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/select2/js/select2.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/chart.js/chart.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/chart-circle/circles.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/datatables/datatables.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/jsvectormap/jsvectormap.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/jsvectormap/world.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
-      <script src="{{ asset('public/admin/assets/js/kaiadmin.min.js') }}"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
-      <script src="{{ asset('public/admin/assets/js/setting-demo.js') }}"></script> --}}
-    {{-- <script src="{{ asset('public/admin/assets/js/demo.js') }}"></script> --}}
+    {{--<script src="{{ asset('public/admin/assets/select2/js/select2.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/chart.js/chart.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/chart-circle/circles.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/jsvectormap/jsvectormap.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/jsvectormap/world.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/kaiadmin.min.js') }}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+    <script src="{{ asset('public/admin/assets/js/setting-demo.js') }}"></script> --}}
+    {{--<script src="{{ asset('public/admin/assets/js/demo.js') }}"></script> --}}
     <script src="{{ asset('public/admin/assets/js/plugin/webfont/webfont.min.js') }}"></script>
 </body>
-
 </html>

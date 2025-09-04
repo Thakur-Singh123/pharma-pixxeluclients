@@ -21,7 +21,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label>Report Date</label>
-                                        <input type="date" name="report_date" class="form-control" value="{{ old('report_date',$report_detail->report_date) }}" placeholder="Enter report date">
+                                        <input type="date" name="report_date" class="form-control" value="{{ old('report_date',$report_detail->report_date ?? now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
                                         @error('report_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

@@ -27,7 +27,7 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.
+                                                                    style="width: 242.688px;">Sr No.
                                                                 </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -81,8 +81,8 @@
                                                                     <td>{{ $event->description }}</td>
                                                                     <td>{{ $event->mr->name }}</td>
                                                                     <td>{{ $event->location }}</td>
-                                                                    <td>{{ $event->start_datetime }}</td>
-                                                                    <td>{{ $event->end_datetime }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td style="color: {{ 
                                                                             $event->status == 'pending' ? 'orange' : 
                                                                             ($event->status == 'in_progress' ? 'blue' : 

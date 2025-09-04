@@ -45,7 +45,7 @@
                                     <span class="sub-item">Add MR</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('manager/mrs') ? 'active' : '' }}">
+                            <li class="{{ request()->is('manager/mrs') || request()->is('manager/mrs/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('manager.mrs.index') }}">
                                     <span class="sub-item">All MR</span>
                                 </a>
@@ -77,7 +77,7 @@
                                     <span class="sub-item">Add Task</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('manager/tasks') ? 'active' : '' }}">
+                            <li class="{{ request()->is('manager/tasks') || request()->is('manager/tasks/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.index') }}">
                                     <span class="sub-item">All Task</span>
                                 </a>
@@ -101,7 +101,7 @@
                                     <span class="sub-item">Add Doctor</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('manager/doctors') ? 'active' : '' }}">
+                            <li class="{{ request()->is('manager/doctors') || request()->is('manager/doctors/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('manager/doctors') }}">
                                     <span class="sub-item">All Doctors</span>
                                 </a>
@@ -149,7 +149,7 @@
                                     <span class="sub-item">Add Event</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('manager/events') ? 'active' : '' }}">
+                            <li class="{{ request()->is('manager/events') || request()->is('manager/events/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('manager.events.index') }}">
                                     <span class="sub-item">All Events</span>
                                 </a>
@@ -158,30 +158,24 @@
                     </div>
                 </li>
                 <!--visit plan section-->
-                <li class="nav-item {{ request()->is('manager/visit-plans*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/visit-plans*') || request()->is('manager/edit-visit-plan*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseVisitPlan"
-                        class="{{ request()->is('manager/visit-plans*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('manager/visit-plans*') ? 'true' : 'false' }}">
+                        class="{{ (request()->is('manager/visit-plans*') || request()->is('manager/edit-visit-plan*')) ? '' : 'collapsed' }}"
+                        aria-expanded="{{ (request()->is('manager/visit-plans*') || request()->is('manager/edit-visit-plan*')) ? 'true' : 'false' }}">
                         <i class="fas fa-tasks"></i>
                         <p>Visit Plans</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('manager/visit-plans*') ? 'show' : '' }}" id="collapseVisitPlan">
+                    <div class="collapse {{ (request()->is('manager/visit-plans*') || request()->is('manager/edit-visit-plan*')) ? 'show' : '' }}" id="collapseVisitPlan">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('manager/visit-plans/create') ? 'active' : '' }}">
-                                <a href="{{ route('manager.visit-plans.create') }}">
-                                    <span class="sub-item">Add Visit Plan</span>
-                                </a>
+                                <a href="{{ route('manager.visit-plans.create') }}"><span class="sub-item">Add Visit Plan</span></a>
                             </li>
-                            <li class="{{ request()->is('manager/visit-plans') ? 'active' : '' }}">
-                                <a href="{{ route('manager.visit-plans.index') }}">
-                                    <span class="sub-item">All Visit Plans</span>
-                                </a>
+                            <li class="{{ (request()->is('manager/visit-plans') || request()->is('manager/visit-plans/*/edit') || request()->is('manager/edit-visit-plan/*')) ? 'active' : '' }}">
+                                <a href="{{ route('manager.visit-plans.index') }}"><span class="sub-item">All Visit Plans</span></a>
                             </li>
                             <li class="{{ request()->is('manager/visit-plans/interested-mrs') ? 'active' : '' }}">
-                                <a href="{{ route('manager.visit.plans.interested.mrs') }}">
-                                    <span class="sub-item">Interested MRS</span>
-                                </a>
+                                <a href="{{ route('manager.visit.plans.interested.mrs') }}"><span class="sub-item">Interested MRS</span></a>
                             </li>
                         </ul>
                     </div>

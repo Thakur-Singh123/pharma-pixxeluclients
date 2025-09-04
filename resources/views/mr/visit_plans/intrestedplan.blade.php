@@ -4,7 +4,6 @@
         <div class="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    {{-- Success Message --}}
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -30,7 +29,7 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.</th>
+                                                                    style="width: 242.688px;">Sr No.</th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
@@ -64,6 +63,7 @@
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
+                                                            <!--Get interests-->
                                                             @forelse ($interests as $interest)
                                                             @php $visit_plan = $interest->visitPlan; @endphp
                                                                 <tr role="row">
@@ -72,8 +72,8 @@
                                                                     <td>{{ $visit_plan->plan_type }}</td>
                                                                     <td>{{ $visit_plan->visit_category }}</td>
                                                                     <td>{{ $visit_plan->description }}</td>
-                                                                    <td>{{ $visit_plan->start_date }}</td>
-                                                                    <td>{{ $visit_plan->end_date }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($visit_plan->start_date)->format('d M, Y') }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($visit_plan->end_date)->format('d M, Y') }}</td>
                                                                     <td>{{ $visit_plan->location }}</td>
                                                                     <td style="color: {{ 
                                                                             $visit_plan->status == 'assigned' ? 'orange' : 

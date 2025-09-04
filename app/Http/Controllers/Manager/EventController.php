@@ -12,7 +12,7 @@ class EventController extends Controller
     //Functions for show all events
     public function index() {
         //Get events
-        $events = Events::where('manager_id', auth()->id())->with('mr')->paginate(10);
+        $events = Events::OrderBy('ID', 'DESC')->where('manager_id', auth()->id())->with('mr')->paginate(10);
         return view('manager.events.index', compact('events'));
     }
 

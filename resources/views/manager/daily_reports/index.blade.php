@@ -48,7 +48,7 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">S No.
+                                                                    style="width: 242.688px;">Sr No.
                                                                 </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -92,7 +92,7 @@
                                                             @forelse ($reports as $report)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
-                                                                    <td>{{ $report->report_date }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($report->report_date)->format('d M, Y') }}</td>
                                                                     <td>{{ $report->mr->name ?? 'N/A' }}</td>
                                                                     <td>{{ $report->total_visits }}</td>
                                                                     <td>{{ $report->patients_referred }}</td>

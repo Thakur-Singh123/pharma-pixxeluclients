@@ -95,51 +95,51 @@
 @section('content')
     <div class="container attendance-container">
         <div class="page-inner">
-        <div class="attendance-title">Attendance Sheet ({{ \Carbon\Carbon::createFromDate($year, $month)->format('F Y') }})</div>
-        <div class="table-responsive">
-            <table class="attendance-table">
-                <thead>
-                    <tr>
-                        <th>Employee</th>
-                        @for($d=1; $d<=$daysInMonth; $d++)
-                            <th>{{ $d }}</th>
-                        @endfor
-                        <th class="tot-title">Full</th>
-                        <th class="tot-title">Half</th>
-                        <th class="tot-title">Leave</th>
-                        <th class="tot-title">Absent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($attendanceSummary as $item)
-                    <tr>
-                        <td class="employee">
-                            <img src="{{ $item['employee']->image ? asset('uploads/users/' . $item['employee']->image) : 'https://i.pravatar.cc/32?user=' . $item['employee']->id }}" alt="{{ $item['employee']->name }}">
-                            {{ $item['employee']->name }}
-                        </td>
-                        @for($d=1; $d<=$daysInMonth; $d++)
-                            @php $status = $item['days'][$d]; @endphp
-                            <td>
-                                @if($status == 'present')<span class="badge-att att-present">✔</span>
-                                @elseif($status == 'half')<span class="badge-att att-half">½</span>
-                                @elseif($status == 'leave')<span class="badge-att att-leave">L</span>
-                                @else <span class="badge-att att-absent">✖</span>
-                                @endif
+            <div class="attendance-title">Attendance Sheet ({{ \Carbon\Carbon::createFromDate($year, $month)->format('F Y') }})</div>
+            <div class="table-responsive">
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            @for($d=1; $d<=$daysInMonth; $d++)
+                                <th>{{ $d }}</th>
+                            @endfor
+                            <th class="tot-title">Full</th>
+                            <th class="tot-title">Half</th>
+                            <th class="tot-title">Leave</th>
+                            <th class="tot-title">Absent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($attendanceSummary as $item)
+                        <tr>
+                            <td class="employee">
+                                <img src="{{ $item['employee']->image ? asset('uploads/users/' . $item['employee']->image) : 'https://i.pravatar.cc/32?user=' . $item['employee']->id }}" alt="{{ $item['employee']->name }}">
+                                {{ $item['employee']->name }}
                             </td>
-                        @endfor
-                        <td><span class="badge-att att-present">{{ $item['present'] }}</span></td>
-                        <td><span class="badge-att att-half">{{ $item['half'] }}</span></td>
-                        <td><span class="badge-att att-leave">{{ $item['leave'] }}</span></td>
-                        <td><span class="badge-att att-absent">{{ $item['absent'] }}</span></td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="{{ $daysInMonth+5 }}">No data found.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                            @for($d=1; $d<=$daysInMonth; $d++)
+                                @php $status = $item['days'][$d]; @endphp
+                                <td>
+                                    @if($status == 'present')<span class="badge-att att-present">✔</span>
+                                    @elseif($status == 'half')<span class="badge-att att-half">½</span>
+                                    @elseif($status == 'leave')<span class="badge-att att-leave">L</span>
+                                    @else <span class="badge-att att-absent">✖</span>
+                                    @endif
+                                </td>
+                            @endfor
+                            <td><span class="badge-att att-present">{{ $item['present'] }}</span></td>
+                            <td><span class="badge-att att-half">{{ $item['half'] }}</span></td>
+                            <td><span class="badge-att att-leave">{{ $item['leave'] }}</span></td>
+                            <td><span class="badge-att att-absent">{{ $item['absent'] }}</span></td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="{{ $daysInMonth+5 }}">No data found.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection

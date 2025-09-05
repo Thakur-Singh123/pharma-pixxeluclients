@@ -4,8 +4,7 @@
         <!--header section-->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ url('admin/dashboard') }}" class="logo">
-                <img src="{{ asset('public/admin/images/pd_management_logo.svg') }}" alt="navbar brand"
-                    class="navbar-brand" height="20" />
+                <img src="{{ asset('public/admin/images/pd_management_logo.svg') }}" alt="navbar brand" class="navbar-brand" height="20" />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -30,12 +29,12 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                {{-- mr attendance --}}
+                <!--attendance section-->
                 <li class="nav-item {{ request()->is('mr/attendance*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseMR"
                         class="{{ request()->is('mr/attendance*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/attendance*') ? 'true' : 'false' }}">
-                        <i class="fas fa-calendar-check"></i>
+                        <i class="fas fa-user-check"></i>
                         <p>Attendance</p>
                         <span class="caret"></span>
                     </a>
@@ -54,12 +53,12 @@
                         </ul>
                     </div>
                 </li>
-                {{-- Daily Visit --}}
+                <!--daily visit section-->
                 <li class="nav-item {{ request()->is('mr/visits*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseVisit"
                         class="{{ request()->is('mr/visits*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/visits*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-walking"></i>
                         <p>Daily Visits</p>
                         <span class="caret"></span>
                     </a>
@@ -70,7 +69,7 @@
                                     <span class="sub-item">Add Visit</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/visits') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/visits') || request()->is('mr/visits/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('mr/visits') }}">
                                     <span class="sub-item">All Visits</span>
                                 </a>
@@ -78,14 +77,14 @@
                         </ul>
                     </div>
                 </li>
-                {{-- Daily tasks --}}
+                <!--tasks section-->
                 <li class="nav-item {{ request()->is('mr/tasks') ? 'active' : '' }}">
                     <a href="{{ url('mr/tasks') }}" class="nav-link {{ request()->is('mr/tasks') ? 'active' : '' }}">
-                        <i class="fas fa-check-square"></i>
+                        <i class="fas fa-clipboard-list"></i>
                         <p>Tasks</p>
                     </a>
                 </li>
-                {{-- Doctor list --}}
+                <!--doctor section-->
                 <li class="nav-item {{ request()->is('mr/doctors*') ? 'active' : '' }}">
                     <a href="{{ url('mr/doctors') }}"
                         class="nav-link {{ request()->is('mr/doctors') ? 'active' : '' }}">
@@ -93,12 +92,12 @@
                         <p>Doctors</p>
                     </a>
                 </li>
-                {{-- Patient list --}}
+                <!--patients section-->
                 <li class="nav-item {{ request()->is('mr/patients*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapsePateint"
                         class="{{ request()->is('mr/patients*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/patients*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-stethoscope"></i>
                         <p>Patient</p>
                         <span class="caret"></span>
                     </a>
@@ -109,7 +108,7 @@
                                     <span class="sub-item">Add Patient</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/patients') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/patients') || request()->is('mr/patients/*/edit') ? 'active' : '' }}">
                                 <a href="{{ url('mr/patients') }}">
                                     <span class="sub-item">All Patient</span>
                                 </a>
@@ -117,12 +116,12 @@
                         </ul>
                     </div>
                 </li>
-                {{-- TADA list --}}
+                <!--tada section-->
                 <li class="nav-item {{ request()->is('mr/tada*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTADA"
                         class="{{ request()->is('mr/tada*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/tada*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-suitcase-rolling"></i>
                         <p>TA/DA</p>
                         <span class="caret"></span>
                     </a>
@@ -133,7 +132,7 @@
                                     <span class="sub-item">Add TA/DA</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/tada') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/tada') || request()->is('mr/tada/*/edit') ? 'active' : '' }}">
                                 <a href="{{ url('mr/tada') }}">
                                     <span class="sub-item">All TA/DA</span>
                                 </a>
@@ -141,7 +140,7 @@
                         </ul>
                     </div>
                 </li>
-                {{-- Calendar --}}
+                <!--calander section-->
                 <li class="nav-item {{ request()->is('mr/calendar*') ? 'active' : '' }}">
                     <a href="{{ url('mr/calendar') }}"
                         class="nav-link {{ request()->is('mr/calendar') ? 'active' : '' }}">
@@ -149,20 +148,20 @@
                         <p>Calendar</p>
                     </a>
                 </li>
-                {{-- event --}}
+                <!--event section-->
                 <li class="nav-item {{ request()->is('mr/events*') ? 'active' : '' }}">
                     <a href="{{ url('mr/events') }}"
                         class="nav-link {{ request()->is('mr/events') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-alt"></i>
+                        <i class="fas fa-calendar-check"></i>
                         <p>Events</p>
                     </a>
                 </li>
-                {{-- visit plans --}}
+                <!--visit plan section-->
                  <li class="nav-item {{ request()->is('mr/visit-plans*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseVisitPlan"
                         class="{{ request()->is('mr/visit-plans*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/visit-plans*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-tasks"></i>
                         <p>Visit Plans</p>
                         <span class="caret"></span>
                     </a>
@@ -186,12 +185,12 @@
                         </ul>
                     </div>
                 </li>
-                {{-- daily reports --}}
+                <!--report section-->
                 <li class="nav-item {{ request()->is('mr/daily-reports*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseDailyReport"
                         class="{{ request()->is('mr/daily-reports*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/daily-reports*') ? 'true' : 'false' }}">
-                        <i class="fas fa-notes-medical"></i>
+                        <i class="fas fa-chart-bar"></i>
                         <p>Daily Reports</p>
                         <span class="caret"></span>
                     </a>
@@ -202,7 +201,7 @@
                                     <span class="sub-item">Add Report</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/daily-reports') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/daily-reports') || request()->is('mr/daily-reports/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('mr.daily-reports.index') }}">
                                     <span class="sub-item">All Reports</span>
                                 </a>

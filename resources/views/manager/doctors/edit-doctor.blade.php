@@ -23,7 +23,7 @@
                                         <label for="area_name">Area Name</label>
                                         <input type="text" class="form-control" id="area_name" name="area_name"
                                             value="{{ old('area_name', $doctor_detail->area_name) }}"
-                                            placeholder="Enter Area Name">
+                                            placeholder="Enter area name">
                                         @error('area_name')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -35,7 +35,7 @@
                                         <label for="area_block">Area Block</label>
                                         <input type="text" class="form-control" id="area_block" name="area_block"
                                             value="{{ old('area_block', $doctor_detail->area_block) }}"
-                                            placeholder="Enter Area Block">
+                                            placeholder="Enter area block">
                                         @error('area_block')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -47,7 +47,7 @@
                                         <label for="district">Distrcit</label>
                                         <input type="text" class="form-control" id="district" name="district"
                                             value="{{ old('area_block', $doctor_detail->area_block) }}"
-                                            placeholder="Enter District">
+                                            placeholder="Enter district">
                                         @error('district')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -58,7 +58,7 @@
                                     <div class="form-group">
                                         <label for="state">State</label>
                                         <input type="text" class="form-control" id="state" name="state"
-                                            value="{{ old('state', $doctor_detail->state) }}" placeholder="Enter State">
+                                            value="{{ old('state', $doctor_detail->state) }}" placeholder="Enter state">
                                         @error('state')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -68,9 +68,9 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="area_code">Area Code</label>
-                                        <input type="text" class="form-control" id="area_code" name="area_code"
+                                        <input type="number" class="form-control" id="area_code" name="area_code"
                                             value="{{ old('area_code', $doctor_detail->area_code) }}"
-                                            placeholder="Enter Area Code">
+                                            placeholder="Enter area code">
                                         @error('area_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -82,7 +82,7 @@
                                         <label for="doctor_name">Doctor Name</label>
                                         <input type="text" class="form-control" id="doctor_name" name="doctor_name"
                                             value="{{ old('doctor_name', $doctor_detail->doctor_name) }}"
-                                            placeholder="Enter Doctor Name">
+                                            placeholder="Enter doctor name">
                                         @error('doctor_name')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -95,7 +95,7 @@
                                         <input type="number" class="form-control" id="doctor_contact"
                                             name="doctor_contact"
                                             value="{{ old('doctor_contact', $doctor_detail->doctor_contact) }}"
-                                            placeholder="Enter Contact">
+                                            placeholder="Enter contact">
                                         @error('doctor_contact')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -107,7 +107,7 @@
                                         <label for="location">Location</label>
                                         <input type="text" class="form-control" id="location" name="location"
                                             value="{{ old('location', $doctor_detail->location) }}"
-                                            placeholder="Enter Location">
+                                            placeholder="Enter location">
                                         @error('location')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -117,7 +117,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="remarks">Remarks</label>
-                                        <textarea name="remarks" rows="3" class="form-control">{{ old('remarks', $doctor_detail->remarks) }}</textarea>
+                                        <textarea name="remarks" rows="3" class="form-control" placeholder="Enter remarks">{{ old('remarks', $doctor_detail->remarks) }}</textarea>
                                         @error('remarks')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -130,6 +130,7 @@
                                         <input type="file" name="image" class="form-control"
                                             id="exampleFormControlFile1" />
                                     </div>
+                                    <!--check if image exists or not-->
                                     @if ($doctor_detail->picture)
                                         <img src = "{{ asset('public/uploads/doctors/' . $doctor_detail->picture) }}">
                                     @else

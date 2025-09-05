@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
 <div class="container">
    <div class="page-inner">
@@ -14,7 +14,7 @@
                   <div class="card-title">Edit Profile</div>
                </div>
                <div class="card-body">
-                  <form action="{{ route('mr.update.profile', $user_profile->id) }}" method="POST" enctype="multipart/form-data">
+                  <form action="{{ route('manager.update.profile', $user_profile->id) }}" method="POST" enctype="multipart/form-data">
                      @csrf
                      <div class="avatar-upload">
                         <div class="avatar-edit">

@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <!--Territory-->
-                                {{-- <div class="col-md-6 col-lg-4">
+                                <!--<div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="territory">Territory</label>
                                         <input type="text" class="form-control" id="territory" name="territory" value="{{ old('territory') }}" placeholder="Enter territory">
@@ -76,7 +76,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div> --}}
+                                </div>-->
                                 <!--City-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -101,7 +101,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="joining_date">Joining Date</label>
-                                        <input type="date" class="form-control" id="joining_date" name="joining_date" value="{{ old('joining_date') }}">
+                                        <input type="date" class="form-control" id="joining_date" name="joining_date" value="{{ old('joining_date', now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
                                         @error('joining_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

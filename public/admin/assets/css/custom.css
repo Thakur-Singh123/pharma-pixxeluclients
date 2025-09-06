@@ -464,3 +464,39 @@ img.image-css {
     color: red;
     font-size: 16px;
 }
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    text-align: center;
+    min-width: 90px;
+  }
+
+  /* Different status styles */
+  .status-pending {
+      background-color: #fff7e6;
+      color: #ff9800;
+      border-color: #ff9800;
+  }
+
+  .status-suspend {
+      background-color: #e6f0ff;
+      color: #1e88e5;
+      border-color: #1e88e5;
+  }
+
+  .status-active {
+      background-color: #e6ffe6;
+      color: #43a047;
+      border-color: #43a047;
+  }
+
+  .status-approved {
+      background-color: #ffe6e6;
+      color: #e53935;
+      border-color: #e53935;
+  }

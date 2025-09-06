@@ -53,6 +53,35 @@
                         </ul>
                     </div>
                 </li>
+               <!--Users section-->
+                <li class="nav-item {{ request()->is('manager/pending-users') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseUser"
+                        class="{{ request()->is('manager/pending-users') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/pending-users') ? 'true' : 'false' }}">
+                        <i class="fas fa-users"></i>
+                        <p>Users</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('manager/active-users') || request()->is('manager/pending-users') || request()->is('manager/suspend-users') ? 'show' : '' }}" id="collapseUser">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('manager/active-users') || request()->is('manager/active-users/edit/*') ? 'active' : '' }}">
+                                <a href="{{ url('manager/active-users') }}">
+                                    <span class="sub-item">Active</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/pending-users') || request()->is('manager/pending-users/edit/*') ? 'active' : '' }}">
+                                <a href="{{ url('manager/pending-users') }}">
+                                    <span class="sub-item">Pending</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/suspend-users') || request()->is('manager/suspend-users/edit/*') ? 'active' : '' }}">
+                                <a href="{{ url('manager/suspend-users') }}">
+                                    <span class="sub-item">Suspend</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--daily visit section-->
                 <li class="nav-item {{ request()->is('manager/visits') ? 'active' : '' }}">
                     <a href="{{ url('manager/visits') }}"
@@ -61,7 +90,7 @@
                         <p>Daily Visits</p>
                     </a>
                 </li>
-                 <!--task section-->
+                <!--task section-->
                 <li class="nav-item {{ request()->is('manager/tasks*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTask"
                         class="{{ request()->is('manager/tasks*') ? '' : 'collapsed' }}"

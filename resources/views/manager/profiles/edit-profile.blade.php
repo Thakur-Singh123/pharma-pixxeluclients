@@ -79,8 +79,8 @@
                               <input type="email" class="form-control" value="{{ old('email', $user_profile->email) }}" placeholder="Enter email address" disabled="email">
                            </div>
                            <div class="form-group mb-3 ">
-                              <label for="territory">Territory</label>
-                              <input type="text" name="territory" class="form-control" value="{{ old('territory', $user_profile->territory) }}" placeholder="Enter territory">
+                              <label for="dob">DOB</label>
+                              <input type="date" name="dob" class="form-control" value="{{ old('dob', $user_profile->dob ?? now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
                            </div>
                            <div class="form-group mb-3">
                               <label for="state" class="@error('state') is-invalid @enderror">State</label>

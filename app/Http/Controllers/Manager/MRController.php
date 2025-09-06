@@ -39,13 +39,23 @@ class MRController extends Controller
             'joining_date' =>'nullable|date',
             'status' =>'required|in:Active,Pending',
         ]);
+        //Get last employee code
+        $lastEmployee = User::OrderBy('ID', 'DESC')->first();
+        //Check if employee code exist or not
+        if ($lastEmployee && $lastEmployee->employee_code) {
+            //Remove leading zeros and increment
+            $lastCode = intval($lastEmployee->employee_code);
+            $newCode = str_pad($lastCode + 1, 4, '0', STR_PAD_LEFT);
+        } else {
+            $newCode = '0001';
+        }
         //Create mr
         $is_create_mr = User::create([
+            'employee_code' => $newCode,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-            'employee_code' => $request->employee_code,
             'territory' => $request->territory,
             'city' => $request->city,
             'state' => $request->state,

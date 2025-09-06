@@ -35,6 +35,7 @@ class ProfileController extends Controller
             'phone' =>'required|string',
             'city' =>'required|string',
             'joining_date' =>'required|string',
+            'dob' =>'required|string',
             'state' =>'required|string', 
         ]);
         //Check if image is exit or not
@@ -58,7 +59,7 @@ class ProfileController extends Controller
                 'phone' =>$request->phone,
                 'city' =>$request->city,
                 'joining_date' =>$request->joining_date,
-                'territory' =>$request->territory,
+                'dob' =>$request->dob,
                 'state' =>$request->state,
                 'image' =>$filename,
             ]);
@@ -75,7 +76,7 @@ class ProfileController extends Controller
                 'phone' =>$request->phone,
                 'city' =>$request->city,
                 'joining_date' =>$request->joining_date,
-                'territory' =>$request->territory,
+                'dob' =>$request->dob,
                 'state' =>$request->state,
             ]);
             //Check if Profile updated or not

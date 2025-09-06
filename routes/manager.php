@@ -13,6 +13,13 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/dashboard', [App\Http\Controllers\Manager\DashboardController::class, 'dashboard']);
     //Mrs
     Route::resource('mrs', App\Http\Controllers\Manager\MRController::class);
+    //Pending uers
+    Route::get('/active-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_active_users']);
+    Route::get('/pending-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_pending_users']);
+    Route::get('/suspend-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_suspend_users']);
+    Route::post('/user/{id}/approve', [App\Http\Controllers\Manager\UserStatusController::class, 'approve_user'])->name('user.approve');
+    Route::post('/users/{id}/reject', [App\Http\Controllers\Manager\UserStatusController::class, 'reject_user'])->name('user.reject');
+    Route::post('/users/{id}/pending', [App\Http\Controllers\Manager\UserStatusController::class, 'pending_user'])->name('user.pending');
     //Daily visits
     Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
     //Task management

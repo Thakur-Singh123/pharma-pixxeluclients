@@ -58,7 +58,7 @@
                                     </div>
                                 </div>
                                 <!--Employee Code-->
-                                <div class="col-md-6 col-lg-4">
+                                <!-- <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="employee_code">Employee Code</label>
                                         <input type="number" class="form-control" id="employee_code" name="employee_code" value="{{ old('employee_code') }}" placeholder="Enter employee code">
@@ -66,7 +66,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--Territory-->
                                 <!--<div class="col-md-6 col-lg-4">
                                     <div class="form-group">

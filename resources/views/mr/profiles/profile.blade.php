@@ -54,7 +54,7 @@
    }
    .card-body strong {
       color: #242121;
-      font-size: 18px;
+      font-size: 16px;
    }
    .card-body .row {
       margin: 0px 0px 0px 100px;

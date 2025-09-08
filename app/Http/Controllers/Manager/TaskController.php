@@ -32,7 +32,7 @@ class TaskController extends Controller
         $request->validate([
             'mr_id' =>'required|exists:users,id',
             'title' =>'required|string|max:255',
-            'description' =>'nullable|string',
+            'description' =>'nullable|string', 
         ]);
         //Create task
         $task = Task::create([
@@ -40,6 +40,7 @@ class TaskController extends Controller
             'manager_id' => auth()->id(),
             'title' => $request->title,
             'description' => $request->description,
+            'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'status' => $request->status,
@@ -81,6 +82,7 @@ class TaskController extends Controller
             'manager_id' => auth()->id(),
             'title' => $request->title,
             'description' => $request->description,
+            'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'status' => $request->status,

@@ -77,15 +77,14 @@
                                                             <td>{{ $visit->state }}</td>
                                                             <td>{{ $visit->area_code }}</td>
                                                             <td>{{ $visit->mr['name'] }}</td>
-                                                            <td style="color: {{ 
-                                                                    $visit->status == 'Pending' ? 'orange' : 
-                                                                    ($visit->status == 'Suspended' ? 'blue' : 
-                                                                    ($visit->status == 'Active' ? 'green' : 
-                                                                    ($visit->status == 'Approved' ? 'red' : 'black'))) 
-                                                                }}">
-                                                                    {{ 
-                                                                        ucfirst($visit->status) 
-                                                                    }}
+                                                            <td>
+                                                                <span class="status-badge 
+                                                                    {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
+                                                                    {{ $visit->status == 'Suspend' ? 'status-suspend' : '' }}
+                                                                    {{ $visit->status == 'Active' ? 'status-active' : '' }}
+                                                                    {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($visit->status) }}
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                         @empty

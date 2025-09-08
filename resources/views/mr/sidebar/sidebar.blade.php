@@ -77,12 +77,29 @@
                         </ul>
                     </div>
                 </li>
-                <!--tasks section-->
-                <li class="nav-item {{ request()->is('mr/tasks') ? 'active' : '' }}">
-                    <a href="{{ url('mr/tasks') }}" class="nav-link {{ request()->is('mr/tasks') ? 'active' : '' }}">
+                <!--task section-->
+                <li class="nav-item {{ request()->is('mr/tasks*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseTask"
+                        class="{{ request()->is('mr/tasks*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/tasks*') ? 'true' : 'false' }}">
                         <i class="fas fa-clipboard-list"></i>
-                        <p>Tasks</p>
+                        <p>Task</p>
+                        <span class="caret"></span>
                     </a>
+                    <div class="collapse {{ request()->is('mr/tasks*') ? 'show' : '' }}" id="collapseTask">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('mr/tasks/create') ? 'active' : '' }}">
+                                <a href="{{ route('mr.tasks.create') }}">
+                                    <span class="sub-item">Add Task</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/tasks') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
+                                <a href="{{ route('mr.tasks.index') }}">
+                                    <span class="sub-item">All Task</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <!--doctor section-->
                 <li class="nav-item {{ request()->is('mr/doctors*') ? 'active' : '' }}">

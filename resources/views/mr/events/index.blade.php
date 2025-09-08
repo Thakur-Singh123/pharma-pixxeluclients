@@ -71,14 +71,13 @@
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
-                                                                    <td style="color: {{ 
-                                                                        $event->status == 'pending' ? 'orange' : 
-                                                                        ($event->status == 'in_progress' ? 'blue' : 
-                                                                        ($event->status == 'completed' ? 'green' : 'black')) 
-                                                                    }}">
-                                                                        {{ 
-                                                                            $event->status == 'in_progress' ? 'In Progress' : ucfirst($event->status) 
-                                                                        }}
+                                                                    <td>
+                                                                        <span class="status-badge 
+                                                                            {{ $event->status == 'pending' ? 'status-pending' : '' }}
+                                                                            {{ $event->status == 'in_progress' ? 'status-progress' : '' }}
+                                                                            {{ $event->status == 'completed' ? 'status-completed' : '' }}">
+                                                                                {{ $event->status == 'in_progress' ? 'In Progress' : ucfirst($event->status) }}
+                                                                        </span>
                                                                     </td>
                                                                 </tr>
                                                            @empty

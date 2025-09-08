@@ -41,7 +41,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_date">Start Date</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date', now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
+                                        <input type="date" class="form-control start-date" id="start_date" name="start_date" value="{{ old('start_date', now()->format('Y-m-d')) }}">
                                         @error('start_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -51,8 +51,32 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date', now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
+                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date', now()->format('Y-m-d')) }}">
                                         @error('end_date')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Location-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="location">Location</label>
+                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}" placeholder="Enter location">
+                                        @error('location')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Assign to MR-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mr_id">Assign to MR</label>
+                                        <select class="form-control" id="mr_id" name="mr_id" required>
+                                            @foreach ($mrs as $mr)
+                                                <option value="{{ $mr->id }}">{{ $mr->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('mr_id')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -68,20 +92,6 @@
                                         <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
                                         </select>
                                         @error('status')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <!--Assign to MR-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="mr_id">Assign to MR</label>
-                                        <select class="form-control" id="mr_id" name="mr_id" required>
-                                            @foreach ($mrs as $mr)
-                                                <option value="{{ $mr->id }}">{{ $mr->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('mr_id')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>

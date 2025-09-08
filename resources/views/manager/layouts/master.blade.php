@@ -177,6 +177,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script src="{{ asset('public/admin/assets/js/custom-script.js') }}"></script>
     <!--core js files-->
     {{-- <script src="{{ asset('public/admin/assets/js/custom-ajax.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/custom-script.js') }}"></script> --}}

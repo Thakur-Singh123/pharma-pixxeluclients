@@ -34,7 +34,7 @@
       }
       small.text-danger {
          color: red;
-         font-size: 12px;
+         font-size: 10px;
       }
       .alert.alert-danger {
          color: red;
@@ -69,14 +69,14 @@
                      <div class="input-boxes">
                         <div class="input-box">
                            <i class="fas fa-envelope"></i>
-                           <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                           <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter email address">
                            @error('email')
                               <small class="text-danger">{{ $message }}</small>
                            @enderror
                         </div>
                         <div class="input-box">
                            <i class="fas fa-lock"></i>
-                           <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
+                           <input id="password" type="password" class="form-control" name="password" placeholder="Enter password">
                               @error('password')
                               <small class="text-danger">{{ $message }}</small>
                            @enderror
@@ -117,14 +117,14 @@
                      <div class="form-row">
                         <div class="input-box">
                            <i class="fas fa-lock"></i>
-                           <input id="password" type="password" name="password" value="{{ old('password') }}" placeholder="Enter password" required>
+                           <input id="password" type="password" name="password" value="{{ old('password') }}" placeholder="Enter password">
+                           @error('password', 'register')
+                              <small class="text-danger">{{ $message }}</small>
+                           @enderror                       
                         </div>
                         <div class="input-box">
                            <i class="fas fa-lock"></i>
                            <input id="password-confirm" type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" placeholder="Confirm password">
-                           @error('password', 'register')
-                              <small class="text-danger">{{ $message }}</small>
-                           @enderror
                         </div>
                      </div>
                      <div class="form-row">

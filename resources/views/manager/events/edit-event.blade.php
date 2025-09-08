@@ -52,7 +52,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_datetime">Start Date & Time</label>
-                                        <input type="datetime-local" class="form-control" id="start_datetime" name="start_datetime" value="{{ old('start_datetime',$event_detail->start_datetime ?? now()->format('Y-m-d\TH:i')) }}" min="{{ now()->format('Y-m-d\TH:i') }}">
+                                        <input type="datetime-local" class="form-control" id="start_datetime" name="start_datetime" value="{{ old('start_datetime',$event_detail->start_datetime) }}">
                                         @error('start_datetime')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -61,7 +61,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_datetime">End Date & Time</label>
-                                        <input type="datetime-local" class="form-control" id="end_datetime" name="end_datetime" value="{{ old('end_datetime',$event_detail->end_datetime ?? now()->format('Y-m-d\TH:i')) }}" min="{{ now()->format('Y-m-d\TH:i') }}">
+                                        <input type="datetime-local" class="form-control" id="end_datetime" name="end_datetime" value="{{ old('end_datetime',$event_detail->end_datetime) }}">
                                         @error('end_datetime')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

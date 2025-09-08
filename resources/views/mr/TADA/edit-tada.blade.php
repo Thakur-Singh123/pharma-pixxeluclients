@@ -22,7 +22,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label class="form-label">Date of Travel</label>
-                                        <input type="date" name="travel_date" class="form-control" value="{{ old('travel_date',$tada_detail->travel_date ?? now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
+                                        <input type="date" name="travel_date" class="form-control start-date" value="{{ old('travel_date',$tada_detail->travel_date) }}">
                                         @error('travel_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

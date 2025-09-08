@@ -90,7 +90,15 @@
                                                             <td>{{ $mr->city }}</td>
                                                             <td>{{ $mr->state }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($mr->joining_date)->format('d M, Y') }}</td>
-                                                            <td>{{ $mr->status }}</td>
+                                                            <td>
+                                                                <span class="status-badge 
+                                                                    {{ $mr->status == 'Pending' ? 'status-pending' : '' }}
+                                                                    {{ $mr->status == 'Suspend' ? 'status-suspend' : '' }}
+                                                                    {{ $mr->status == 'Active' ? 'status-active' : '' }}
+                                                                    {{ $mr->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($mr->status) }}
+                                                                </span>
+                                                            </td>
                                                             <td>
                                                                 <div class="form-button-action">
                                                                     <a href="{{ route('manager.mrs.edit', $mr->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

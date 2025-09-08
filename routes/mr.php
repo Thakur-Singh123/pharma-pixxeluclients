@@ -37,7 +37,12 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/calendar/tasks', [App\Http\Controllers\MR\CalendarController::class, 'getTasks'])->name('calendar.tasks');
     Route::get('/calendar/events', [App\Http\Controllers\MR\CalendarController::class, 'getEvents'])->name('calendar.events');
     //Events
-    Route::get('events', [App\Http\Controllers\MR\EventController::class,'index']);
+    Route::get('events', [App\Http\Controllers\MR\EventController::class,'index'])->name('events.index');
+    Route::get('events/create', [App\Http\Controllers\MR\EventController::class,'create'])->name('events.create');
+    Route::post('events/store', [App\Http\Controllers\MR\EventController::class,'store'])->name('events.store');
+    Route::get('events/edit/{id}', [App\Http\Controllers\MR\EventController::class,'edit'])->name('events.edit');
+    Route::put('events/update/{id}', [App\Http\Controllers\MR\EventController::class,'update'])->name('events.update');
+    Route::DELETE('events/delete/{id}', [App\Http\Controllers\MR\EventController::class,'destroy'])->name('events.destroy');
     //Visit plans
     Route::get('visit-plans', [App\Http\Controllers\MR\VisitPlanController::class,'index'])->name('visit-plans.index');
     Route::post('visit-plans/{id}/interested', [App\Http\Controllers\MR\VisitPlanController::class,'expressInterest'])->name('visit-plan.interested');

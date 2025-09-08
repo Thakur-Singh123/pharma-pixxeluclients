@@ -59,6 +59,10 @@
                                                                     colspan="1"
                                                                     style="width: 156.312px;">End Date & Time
                                                                 </th>
+                                                                 <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">QR Code</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -83,6 +87,7 @@
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
+                                                                    <td><img src="{{ asset('public/qr_codes/' .$event->qr_code_path) }}" alt="qr code" width="100" height="100"></td>
                                                                     <td>
                                                                         <span class="status-badge 
                                                                             {{ $event->status == 'pending' ? 'status-pending' : '' }}

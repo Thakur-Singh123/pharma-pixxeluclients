@@ -81,9 +81,8 @@
                                         <label for="status">Visit Type</label>
                                         <select name="visit_type" id="visit_type" class="form-control">
                                             <option value="doctor">Doctor Visit</option>
-                                            <option value="other">Other Visit (NGOs, Asha workers, religious places,
-                                                etc.)
-                                            </option>
+                                            <option value="religious_places">Religious Places</option>
+                                            <option value="other">Other Visit (NGOs, Asha workers etc.)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -97,9 +96,17 @@
                                             </option>
                                             @endforeach
                                         </select>
-                                        @error('doctor_id')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Religious Sub-type-->
+                                <div class="col-md-6 col-lg-4" id="religious_subtype_div" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="religious_type">Religious Type</label>
+                                        <select name="religious_type" id="religious_type" class="form-control">
+                                            <option value="" selected disabled>Select Place</option>
+                                            <option value="temple">Temple</option>
+                                            <option value="gurudwara">Gurudwara</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <!--Status-->
@@ -185,6 +192,15 @@
         } else {
             document.getElementById('doctor_fields').style.display = 'none';
             document.getElementById('other_fields').style.display = 'block';
+        }
+    });
+</script>
+<script>
+    document.getElementById('visit_type').addEventListener('change', function () {
+        let visitType = this.value;
+        document.getElementById('religious_subtype_div').style.display = 'none';
+        if (visitType === 'religious_places') {
+            document.getElementById('religious_subtype_div').style.display = 'block';
         }
     });
 </script>

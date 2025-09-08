@@ -25,7 +25,6 @@ class VisitController extends Controller
             'state' => 'required|string',
             'area_code' => 'required|string',
             'status' => 'required|string',
-            'doctor_id' => 'required|string',
         ]);
         //Create visit
         $is_create_visit = Visit::create([
@@ -38,6 +37,7 @@ class VisitController extends Controller
             'mr_id' => auth()->user()->id,
             'doctor_id' => $request->doctor_id ?? NULL,
             'visit_type' => $request->visit_type,
+            'religious_type' => $request->religious_type ?? NULL,
         ]);
         //Check if visit created or not
         if ($is_create_visit) {
@@ -74,7 +74,6 @@ class VisitController extends Controller
             'state' => 'required|string',
             'area_code' => 'required|string',
             'status' => 'required|string',
-            'doctor_id' => 'required|string',
         ]);
         //Update visit
         $is_update_visit = Visit::where('id', $id)->update([
@@ -86,6 +85,7 @@ class VisitController extends Controller
             'status' => $request->status,
             'mr_id' => auth()->user()->id,
             'doctor_id' => $request->doctor_id ?? NULL,
+            'religious_type' => $request->religious_type ?? NULL,
             'visit_type' => $request->visit_type,
         ]);
         //Check if visit updated or not

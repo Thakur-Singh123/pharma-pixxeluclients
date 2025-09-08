@@ -1,4 +1,4 @@
-@extends('manager.layouts.master')
+@extends('mr.layouts.master')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -58,8 +58,7 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                aria-label="Salary: activate to sort column ascending"
-                                                                style="width: 156.312px;">Mr Name
+                                                                style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -74,7 +73,7 @@
                                                             <td>{{ $patient->address }}</td>
                                                             <td>{{ $patient->disease }}</td>
                                                             <td>{{ $patient->referred_to }}</td>
-                                                             <td>
+                                                            <td>
                                                                 <span class="status-badge 
                                                                 {{ $patient->status == 'Pending' ? 'status-pending' : '' }}
                                                                 {{ $patient->status == 'Suspend' ? 'status-suspend' : '' }}
@@ -82,7 +81,20 @@
                                                                     {{ ucfirst($patient->status) }}
                                                                 </span>
                                                             </td>
-                                                            <td>{{ $patient->mr['name'] }}</td>
+                                                            <td>
+                                                                <div class="form-button-action">
+                                                                    <a href="{{ route('mr.patients.edit', $patient->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </a>
+                                                                    <form action="{{ route('mr.patients.destroy', $patient->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </a>
+                                                                    </form>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         @empty
                                                         <tr>

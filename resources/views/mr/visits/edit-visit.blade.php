@@ -76,9 +76,9 @@
                            <div class="form-group">
                               <label for="status">Visit Type</label>
                               <select name="visit_type" id="visit_type" class="form-control">
-                                 <option value="doctor">Doctor Visit</option>
-                                 <option value="other" @if($visit_detail->visit_type == 'other') selected @endif>Other Visit (NGOs, Asha workers, religious places,
-                                 etc.)</option>
+                                 <option value="doctor" @if($visit_detail->visit_type == 'doctor') selected @endif>Doctor Visit</option>
+                                 <option value="religious_places" @if($visit_detail->visit_type == 'religious_places') selected @endif>Religious Places</option>
+                                 <option value="other" @if($visit_detail->visit_type == 'other') selected @endif>Other Visit (NGOs, Asha workers etc.)</option>
                               </select>
                            </div>
                         </div>
@@ -97,6 +97,16 @@
                               @error('doctor_id')
                                  <small class="text-danger">{{ $message }}</small>
                               @enderror
+                           </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4" id="religious_subtype_div" style="display: none;">
+                           <div class="form-group">
+                              <label for="religious_type">Religious Type</label>
+                              <select name="religious_type" id="religious_type" class="form-control">
+                                 <option value="" selected disabled>Select Place</option>
+                                 <option value="temple" @if($visit_detail->religious_type == 'temple') selected @endif>Temple</option>
+                                 <option value="gurudwara" @if($visit_detail->religious_type == 'gurudwara') selected @endif>Gurudwara</option>
+                              </select>
                            </div>
                         </div>
                         <!--Status-->
@@ -128,15 +138,25 @@
    </div>
 </div>
 <script>
-   function toggleDoctorFields() {
+   function toggleFields() {
       let visitType = document.getElementById('visit_type').value;
+
+      //Doctor fields
       if (visitType === 'doctor') {
          document.getElementById('doctor_fields').style.display = 'block';
       } else {
          document.getElementById('doctor_fields').style.display = 'none';
       }
+
+      //Religious fields
+      if (visitType === 'religious_places') {
+         document.getElementById('religious_subtype_div').style.display = 'block';
+      } else {
+         document.getElementById('religious_subtype_div').style.display = 'none';
+      }
    }
-   document.getElementById('visit_type').addEventListener('change', toggleDoctorFields);
-   toggleDoctorFields();
+   document.getElementById('visit_type').addEventListener('change', toggleFields);
+   window.addEventListener('load', toggleFields);
 </script>
+
 @endsection

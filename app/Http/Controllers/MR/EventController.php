@@ -6,6 +6,7 @@ use App\Models\Events;
 use App\Models\MangerMR;
 use App\Models\User;
 use App\Notifications\EventAssignedNotification;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -126,9 +127,32 @@ class EventController extends Controller
     }
 
     //function for show join form
-    public function showForm($id)
+    public function showJoinForm($id)
     {
         $event = Events::findOrFail($id);
-        return view('mr.events.join', compact('event'));
+        return view('join-event', compact('event'));
+    }
+
+    //function for submit 
+    public function submitJoinForm(Request $request, $id)
+    {
+        $event = Events::findOrFail($id);
+
+        // Validate input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+        ]);
+
+        // Save to pivot table or separate table
+        DB::table('event_users')->insert([
+            'event_id' => $event->id,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'You have successfully joined the event!');
     }
 }

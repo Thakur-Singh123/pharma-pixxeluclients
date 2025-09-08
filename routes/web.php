@@ -17,4 +17,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/notifications/read/{id}', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
 Route::get('/notifications/read-all', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
 
-Route::get('/join-event/{id}', [App\Http\Controllers\MR\EventController::class, 'index'])->name('home');
+Route::get('/join-event/{id}', [App\Http\Controllers\MR\EventController::class, 'showJoinForm']);
+Route::post('/join-event/{id}', [App\Http\Controllers\MR\EventController::class, 'submitJoinForm']);

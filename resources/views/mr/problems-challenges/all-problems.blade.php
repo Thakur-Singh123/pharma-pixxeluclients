@@ -1,4 +1,4 @@
-@extends('manager.layouts.master')
+@extends('mr.layouts.master')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -6,14 +6,14 @@
             <div class="col-md-12">
                 @if (session('success'))
                 <div class="alert alert-success">
-                    {{ session('success') }}
+                {{ session('success') }}
                 </div>
                 @endif
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All Patients</h4>
+                                <h4 class="card-title">All Problems & Challenges</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -32,66 +32,60 @@
                                                             <th class="sorting_asc" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" aria-sort="ascending"
-                                                                style="width: 242.688px;">Name
-                                                            </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1" style="width: 366.578px;">Contact Number
-                                                            </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1" style="width: 187.688px;">Address
-                                                            </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1" style="width: 84.5px;">Disease</th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1" style="width: 184.234px;">Referred To
+                                                                style="width: 242.688px;">Title
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                aria-label="Salary: activate to sort column ascending"
-                                                                style="width: 156.312px;">Status
+                                                                style="width: 366.578px;">Visit Area 
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                aria-label="Salary: activate to sort column ascending"
-                                                                style="width: 156.312px;">Mr Name
+                                                                style="width: 187.688px;">Description
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @php $count = 1 @endphp
-                                                        <!--Get patients-->
-                                                        @forelse ($all_patients as $patient)
+                                                        <!--Get problems-->
+                                                        @forelse ($all_problems as $problem)
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
-                                                            <td>{{ $patient->patient_name }}</td>
-                                                            <td>{{ $patient->contact_no }}</td>
-                                                            <td>{{ $patient->address }}</td>
-                                                            <td>{{ $patient->disease }}</td>
-                                                            <td>{{ $patient->referred_to }}</td>
-                                                             <td>
-                                                                <span class="status-badge 
-                                                                {{ $patient->status == 'Pending' ? 'status-pending' : '' }}
-                                                                {{ $patient->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                {{ $patient->status == 'Active' ? 'status-approved' : '' }}">
-                                                                    {{ ucfirst($patient->status) }}
-                                                                </span>
+                                                            <td>{{ $problem->title }}</td>
+                                                            <td>
+                                                                {{ $problem->visit_details->area_name ?? 'N/A' }},
+                                                                {{ $problem->visit_details->district ?? 'N/A' }},
+                                                                {{ $problem->visit_details->state ?? 'N/A' }},
+                                                                {{ $problem->visit_details->area_code ?? 'N/A' }}
                                                             </td>
-                                                            <td>{{ $patient->mr['name'] }}</td>
+                                                            <td>{{ $problem->description }}</td>
+                                                            <td>
+                                                                <div class="form-button-action"> 
+                                                                    <a href="{{ route('mr.problems.edit', $problem->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
+                                                                   <form action="{{ route('mr.problems.destroy', $problem->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         @empty
                                                         <tr>
-                                                            <td colspan="10" class="text-center">No record found</td>
+                                                            <td colspan="8" class="text-center">No problems found.</td>
                                                         </tr>
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $all_patients->links('pagination::bootstrap-5') }}
+                                                {{ $all_problems->links('pagination::bootstrap-5') }}
                                             </div>
                                         </div>
                                     </div>

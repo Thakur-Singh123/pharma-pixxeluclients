@@ -25,11 +25,13 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);
     //Task
     Route::resource('/tasks', App\Http\Controllers\MR\TaskController::class);
+    //Problems & Challenges
+    Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);
     //Doctors
     Route::get('/doctors', [App\Http\Controllers\MR\DoctorController::class, 'index'])->name('doctors.index');
     Route::post('/doctors/submit', [App\Http\Controllers\MR\DoctorController::class, 'submit_doctor'])->name('doctors.submit');
     //Patients
-    Route::resource('/patients', App\Http\Controllers\MR\PatientController::class);
+    Route::resource('/patients', App\Http\Controllers\MR\ReferredPatientController::class);
     //TADA
     Route::resource('/tada', App\Http\Controllers\MR\TADAController::class);
     //Calnedar

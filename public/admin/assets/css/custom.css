@@ -464,3 +464,126 @@ img.image-css {
     color: red;
     font-size: 16px;
 }
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    text-align: center;
+    min-width: 90px;
+  }
+
+  /* Different status styles */
+  .status-pending {
+      background-color: #fff7e6;
+      color: #ff9800;
+      border-color: #ff9800;
+  }
+
+  .status-suspend {
+      background-color: #e6f0ff;
+      color: #1e88e5;
+      border-color: #1e88e5;
+  }
+
+  .status-active {
+      background-color: #e6ffe6;
+      color: #43a047;
+      border-color: #43a047;
+  }
+
+  .status-approved {
+      background-color: #ffe6e6;
+      color: #e53935;
+      border-color: #e53935;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 20px;
+    text-transform: capitalize;
+    border: 1px solid transparent;
+}
+
+.status-pending {
+    color: #ff9800;
+    background: #fff3e0;
+    border-color: #ffb74d;
+}
+
+.status-progress {
+    color: #2196f3;
+    background: #e3f2fd;
+    border-color: #64b5f6;
+}
+
+.status-completed {
+    color: #4caf50;
+    background: #e8f5e9;
+    border-color: #81c784;
+}
+
+
+.status-active {
+    color: #4caf50;
+    background: #e8f5e9;
+    border-color: #81c784;
+}
+
+.status-suspend {
+    color: #1e88e5;
+    background: #e8f5e9;
+    border-color: #1e88e5;
+}
+
+.status-approved {
+    color: #4caf50;
+    background: #e8f5e9;
+    border-color: #81c784;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 15px;
+    text-transform: capitalize;
+    min-width: 90px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Assigned */
+.status-assigned {
+    background-color: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffb74d;
+}
+
+/* Interested */
+.status-interested {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #64b5f6;
+}
+
+/* Completed */
+.status-completed {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #81c784;
+}
+
+/* Open */
+.status-open {
+    background-color: #ffebee;
+    color: #b71c1c;
+    border: 1px solid #ef9a9a;
+}

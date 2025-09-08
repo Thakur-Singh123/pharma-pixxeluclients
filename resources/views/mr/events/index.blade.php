@@ -57,7 +57,15 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
+                                                                    style="width: 156.312px;">QR Code</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
                                                                     style="width: 156.312px;">Status</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -71,14 +79,28 @@
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
-                                                                    <td style="color: {{ 
-                                                                        $event->status == 'pending' ? 'orange' : 
-                                                                        ($event->status == 'in_progress' ? 'blue' : 
-                                                                        ($event->status == 'completed' ? 'green' : 'black')) 
-                                                                    }}">
-                                                                        {{ 
-                                                                            $event->status == 'in_progress' ? 'In Progress' : ucfirst($event->status) 
-                                                                        }}
+                                                                    <td><img src="{{ asset('public/qr_codes/' .$event->qr_code_path) }}" alt="qr code" width="100" height="100"></td>
+                                                                    <td>
+                                                                        <span class="status-badge 
+                                                                            {{ $event->status == 'pending' ? 'status-pending' : '' }}
+                                                                            {{ $event->status == 'in_progress' ? 'status-progress' : '' }}
+                                                                            {{ $event->status == 'completed' ? 'status-completed' : '' }}">
+                                                                                {{ $event->status == 'in_progress' ? 'In Progress' : ucfirst($event->status) }}
+                                                                        </span>
+                                                                    </td>
+                                                                      <td>
+                                                                        <div class="form-button-action">
+                                                                            <a href="{{ route('mr.events.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                                <i class="fa fa-edit"></i>
+                                                                            </a>
+                                                                            <form action="{{ route('mr.events.destroy', $event->id) }}" method="POST" style="display:inline;">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                                    <i class="fa fa-trash"></i>
+                                                                                </a>
+                                                                            </form>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                            @empty

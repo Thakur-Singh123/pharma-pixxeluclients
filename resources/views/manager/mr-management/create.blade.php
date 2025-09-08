@@ -58,7 +58,7 @@
                                     </div>
                                 </div>
                                 <!--Employee Code-->
-                                <div class="col-md-6 col-lg-4">
+                                <!-- <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="employee_code">Employee Code</label>
                                         <input type="number" class="form-control" id="employee_code" name="employee_code" value="{{ old('employee_code') }}" placeholder="Enter employee code">
@@ -66,7 +66,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--Territory-->
                                 <!--<div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -101,7 +101,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="joining_date">Joining Date</label>
-                                        <input type="date" class="form-control" id="joining_date" name="joining_date" value="{{ old('joining_date', now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
+                                        <input type="date" class="form-control start-date" id="joining_date" name="joining_date" value="{{ old('joining_date', now()->format('Y-m-d')) }}">
                                         @error('joining_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

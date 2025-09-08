@@ -42,6 +42,11 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                style="width: 366.578px;">Location
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
                                                                 style="width: 366.578px;">Assigned To
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -74,17 +79,17 @@
                                                             <td class="sorting_1">{{ $count++ }}.</td>
                                                             <td>{{ $task->title }}</td>
                                                             <td>{{ $task->description }}</td>
+                                                            <td>{{ $task->location }}</td>
                                                             <td>{{ $task->mr->name }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
-                                                            <td style="color: {{ 
-                                                                    $task->status == 'pending' ? 'orange' : 
-                                                                    ($task->status == 'in_progress' ? 'blue' : 
-                                                                    ($task->status == 'completed' ? 'green' : 'black')) 
-                                                                }}">
-                                                                    {{ 
-                                                                        $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) 
-                                                                    }}
+                                                            <td>
+                                                                <span class="status-badge 
+                                                                    {{ $task->status == 'pending' ? 'status-pending' : '' }}
+                                                                    {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
+                                                                    {{ $task->status == 'completed' ? 'status-completed' : '' }}">
+                                                                        {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
+                                                                </span>
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">

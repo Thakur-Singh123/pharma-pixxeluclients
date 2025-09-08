@@ -54,10 +54,10 @@
    }
    .card-body strong {
       color: #242121;
-      font-size: 18px;
+      font-size: 16px;
    }
    .card-body .row {
-      margin: 0px 0px 0px 150px;
+      margin: 0px 0px 0px 100px;
    }
    .text-center img {
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
@@ -123,7 +123,7 @@
                      </div>
                      <div class="col-md-6">
                         <p><strong>Email Address:-</strong> {{ $user_profile->email }}</p>
-                        <p><strong>Territory:-</strong> {{ $user_profile->territory }}</p>
+                        <p><strong>DOB:-</strong> {{ \Carbon\Carbon::parse($user_profile->dob)->format('d M, Y') }}</p>
                         <p><strong>State:-</strong> {{ $user_profile->state }}</p>
                      </div>
                   </div>

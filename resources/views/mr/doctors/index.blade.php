@@ -98,11 +98,13 @@
                                                                     <td>{{ $doctor->doctor_contact }}</td>
                                                                     <td>{{ $doctor->location }}</td>
                                                                     <td>{{ $doctor->remarks }}</td>
-                                                                    <td
-                                                                        style="color: {{ $doctor->status == 'pending' ? 'orange' : ($doctor->status == 'active' ? 'green' : 'red') }}">
-                                                                        {{ ucfirst($doctor->status) }}
+                                                                    <td>
+                                                                        <span class="status-badge 
+                                                                            {{ $doctor->status == 'pending' ? 'status-pending' : '' }}
+                                                                            {{ $doctor->status == 'active' ? 'status-active' : '' }}">
+                                                                            {{ ucfirst($doctor->status) }}
+                                                                        </span>
                                                                     </td>
-
                                                                 </tr>
                                                             @empty
                                                                 <tr>

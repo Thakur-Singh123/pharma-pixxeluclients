@@ -50,15 +50,14 @@
                                                         <td>{{ \Carbon\Carbon::parse($visit_plan->start_date)->format('d M, Y') }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($visit_plan->end_date)->format('d M, Y') }}</td>
                                                         <td>{{ $visit_plan->location }}</td>
-                                                        <td style="color: {{ 
-                                                                $visit_plan->status == 'assigned' ? 'orange' : 
-                                                                ($visit_plan->status == 'interested' ? 'blue' : 
-                                                                ($visit_plan->status == 'completed' ? 'green' : 
-                                                                ($visit_plan->status == 'open' ? 'red' : 'black'))) 
-                                                            }}">
-                                                                {{ 
-                                                                    ucfirst($visit_plan->status) 
-                                                                }}
+                                                         <td>
+                                                            <span class="status-badge 
+                                                                {{ $visit_plan->status == 'assigned' ? 'status-assigned' : '' }}
+                                                                {{ $visit_plan->status == 'interested' ? 'status-interested' : '' }}
+                                                                {{ $visit_plan->status == 'completed' ? 'status-completed' : '' }}
+                                                                {{ $visit_plan->status == 'open' ? 'status-open' : '' }}">
+                                                                    {{ ucfirst($visit_plan->status) }}
+                                                            </span>
                                                         </td>
                                                         <td>
                                                             @forelse ($visit_plan->comments as $comment)

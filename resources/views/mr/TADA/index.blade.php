@@ -102,15 +102,12 @@
                                                 @endif
                                              </td>
                                              <td>
-                                                @if ($tada_record->status == 'pending')
-                                                <span style="color: orange;">Pending</span>
-                                                @elseif($tada_record->status == 'approved')
-                                                <span style="color: green;">Approved</span>
-                                                @elseif($tada_record->status == 'rejected')
-                                                <span style="color: red;">Rejected</span>
-                                                @else
-                                                <span style="color: gray;">Unknown</span>
-                                                @endif
+                                                <span class="status-badge 
+                                                   {{ $tada_record->status == 'pending' ? 'status-pending' : '' }}
+                                                   {{ $tada_record->status == 'rejected' ? 'status-suspend' : '' }}
+                                                   {{ $tada_record->status == 'approved' ? 'status-approved' : '' }}">
+                                                      {{ ucfirst($tada_record->status) }}
+                                                </span>
                                              </td>
                                              <td>
                                                 <div class="form-button-action">

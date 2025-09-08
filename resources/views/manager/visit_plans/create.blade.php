@@ -72,7 +72,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_date">Start Date</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date', now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
+                                        <input type="date" class="form-control start-date" id="start_date" name="start_date" value="{{ old('start_date', now()->format('Y-m-d')) }}">
                                         @error('start_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -82,7 +82,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date', now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
+                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date', now()->format('Y-m-d')) }}">
                                         @error('end_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

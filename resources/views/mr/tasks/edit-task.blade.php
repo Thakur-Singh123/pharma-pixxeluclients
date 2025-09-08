@@ -1,4 +1,4 @@
-@extends('manager.layouts.master')
+@extends('mr.layouts.master')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -14,7 +14,7 @@
                         <div class="card-title">Edit Task</div>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('manager.tasks.update',$task_detail->id) }}" method="POST" autocomplete="off">
+                        <form action="{{ route('mr.tasks.update', $task_detail->id) }}" method="POST" autocomplete="off">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -22,7 +22,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title',$task_detail->title) }}" placeholder="Enter Task Title">
+                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $task_detail->title) }}" placeholder="Enter task title">
                                         @error('title')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -32,7 +32,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description',$task_detail->description) }}</textarea>
+                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description', $task_detail->description) }}</textarea>
                                         @error('description')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -42,7 +42,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_date">Start Date</label>
-                                        <input type="date" class="form-control start-date" id="start_date" name="start_date" value="{{ old('start_date',$task_detail->start_date) }}">
+                                        <input type="date" class="form-control start-date" id="start_date" name="start_date" value="{{ old('start_date', $task_detail->start_date) }}">
                                         @error('start_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -52,32 +52,17 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date',$task_detail) }}">
+                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date', $task_detail->end_date) }}">
                                         @error('end_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-                                 <!--Location-->
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="location">Location</label>
-                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}" placeholder="Enter location">
+                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $task_detail->location) }}" placeholder="Enter location">
                                         @error('location')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <!--Assign to MR-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="mr_id">Assign to MR</label>
-                                        <select class="form-control" id="mr_id" name="mr_id" required>
-                                            @foreach ($mrs as $mr)
-                                                <option value="{{ $mr->id }}" {{ $task_detail->mr_id == $mr->id ? 'selected' : '' }}>{{ $mr->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('mr_id')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -88,9 +73,9 @@
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status">
                                         <option value="" disabled>Select Status</option>
-                                        <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="in_progress" {{ old('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                        <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                                            <option value="pending" {{ old('status', $task_detail->status) == 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="in_progress" {{ old('status', $task_detail->status) == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                            <option value="completed" {{ old('status', $task_detail->status) == 'completed' ? 'selected' : '' }}>Completed</option>
                                         </select>
                                         @error('status')
                                             <small class="text-danger">{{ $message }}</small>
@@ -100,7 +85,7 @@
                             </div>
                             <div class="card-action">
                                 <button type="submit" class="btn btn-success">Update</button>
-                                <a href="{{ route('manager.tasks.index') }}" class="btn btn-danger">Cancel</a>
+                                <a href="{{ route('mr.tasks.index') }}" class="btn btn-danger">Cancel</a>
                             </div>
                         </form>
                     </div>
@@ -109,22 +94,4 @@
         </div>
     </div>
 </div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    let today = new Date().toISOString().split("T")[0];
-
-    let start = document.getElementById("start_date");
-    let end = document.getElementById("end_date");
-
-    // Agar value DB se aayi hai, min current date se kam na ho
-    if(!start.value) start.min = today;
-    if(!end.value) end.min = today;
-
-    // End date should always be >= start date
-    start.addEventListener("change", function() {
-        end.min = this.value;
-    });
-});
-</script>
-
 @endsection

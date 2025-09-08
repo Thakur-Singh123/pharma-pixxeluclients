@@ -1,4 +1,4 @@
-@extends('manager.layouts.master')
+@extends('mr.layouts.master')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -14,7 +14,7 @@
                         <div class="card-title">Edit Event</div>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('manager.events.update',$event_detail->id) }}" method="POST" autocomplete="off">
+                        <form action="{{ route('mr.events.update',$event_detail->id) }}" method="POST" autocomplete="off">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -82,26 +82,10 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <!--Assign to MR-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="mr_id">Assign to MR</label>
-                                        <select class="form-control" id="mr_id" name="mr_id" required>
-                                            <option value="" disabled>Select Status</option>
-                                            <!--Get mrs-->
-                                            @foreach ($mrs as $mr)
-                                                <option value="{{ $mr->id }}" @if($event_detail->mr_id == $mr->id) selected @endif>{{ $mr->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('mr_id')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
                             </div>
                             <div class="card-action">
                                 <button type="submit" class="btn btn-success">Update</button>
-                                <a href="{{ route('manager.events.index') }}" class="btn btn-danger">Cancel</a>
+                                <a href="{{ route('mr.events.index') }}" class="btn btn-danger">Cancel</a>
                             </div>
                         </form>
                     </div>

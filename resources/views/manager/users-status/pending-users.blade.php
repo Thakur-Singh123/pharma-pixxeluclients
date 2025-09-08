@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All MRs</h4>
+                                <h4 class="card-title">Pending users</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -29,90 +29,99 @@
                                                                 colspan="1" aria-sort="ascending"
                                                                 style="width: 242.688px;">Sr No.
                                                             </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 84.5px;">Employee Code
-                                                            </th>
                                                             <th class="sorting_asc" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" aria-sort="ascending"
-                                                                style="width: 242.688px;">Name
+                                                                style="width: 242.688px;">Employee Code
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 366.578px;">Email
+                                                                colspan="1" style="width: 366.578px;">Name
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 187.688px;">Phone
+                                                                colspan="1" style="width: 187.688px;">Email
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 84.5px;">Phone</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 184.234px;">City
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
-                                                                style="width: 156.312px;">City
-                                                            </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
                                                                 style="width: 156.312px;">State
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Joining Date
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Status
                                                             </th>
-                                                               <th class="sorting" tabindex="0"
+                                                            <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @php $count = 1 @endphp
-                                                        <!--Get mrs-->
-                                                        @forelse ($mrs as $mr)
+                                                        <!--Get users-->
+                                                        @forelse ($pending_users as $pending)
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
-                                                            <td>{{ $mr->employee_code }}</td>
-                                                            <td>{{ $mr->name }}</td>
-                                                            <td>{{ $mr->email }}</td>
-                                                            <td>{{ $mr->phone }}</td>
-                                                            <td>{{ $mr->city }}</td>
-                                                            <td>{{ $mr->state }}</td>
-                                                            <td>{{ \Carbon\Carbon::parse($mr->joining_date)->format('d M, Y') }}</td>
+                                                            <td>{{ $pending->employee_code }}</td>
+                                                            <td>{{ $pending->name }}</td>
+                                                            <td>{{ $pending->email }}</td>
+                                                            <td>{{ $pending->phone }}</td>
+                                                            <td>{{ $pending->city }}</td>
+                                                            <td>{{ $pending->state }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($pending->joining_date)->format('d M, Y') }}</td>
                                                             <td>
                                                                 <span class="status-badge 
-                                                                    {{ $mr->status == 'Pending' ? 'status-pending' : '' }}
-                                                                    {{ $mr->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                    {{ $mr->status == 'Active' ? 'status-active' : '' }}
-                                                                    {{ $mr->status == 'Approved' ? 'status-approved' : '' }}">
-                                                                    {{ ucfirst($mr->status) }}
+                                                                    {{ $pending->status == 'Pending' ? 'status-pending' : '' }} 
+                                                                    {{ $pending->status == 'Suspend' ? 'status-suspend' : '' }} 
+                                                                    {{ $pending->status == 'Active' ? 'status-active' : '' }} 
+                                                                    {{ $pending->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($pending->status) }}
                                                                 </span>
                                                             </td>
-                                                            <td>
-                                                                <div class="form-button-action">
-                                                                    <a href="{{ route('manager.mrs.edit', $mr->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                        <i class="fa fa-edit"></i>
-                                                                    </a>
-                                                                    <form action="{{ route('manager.mrs.destroy', $mr->id) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
-                                                                            <i class="fa fa-trash"></i>
-                                                                        </a>
-                                                                    </form>
-                                                                </div>
-                                                            </td>
+                                                            <td style="display: flex; gap: 5px;">
+                                                            @if ($pending->status == 'Pending')
+                                                                <form method="POST" action="{{ route('manager.user.approve', $pending->id) }}">
+                                                                    @csrf
+                                                                    <button class="btn btn-success btn-sm">Approved</button>
+                                                                </form>
+                                                                <form method="POST" action="{{ route('manager.user.reject', $pending->id) }}">
+                                                                    @csrf
+                                                                    <button class="btn btn-danger btn-sm">Suspend</button>
+                                                                </form>
+
+                                                            @elseif($pending->status == 'Approved')
+                                                                <form method="POST" action="{{ route('manager.user.reject', $pending->id) }}">
+                                                                    @csrf
+                                                                    <button class="btn btn-danger btn-sm">Suspend</button>
+                                                                </form>
+
+                                                            @elseif($pending->status == 'Suspend')
+                                                                <form method="POST" action="{{ route('manager.user.approve', $pending->id) }}">
+                                                                    @csrf
+                                                                    <button class="btn btn-success btn-sm">Active</button>
+                                                                </form>
+                                                            @endif
+                                                        </td>
+
                                                         </tr>
                                                         @empty
                                                         <tr>
@@ -121,7 +130,7 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $mrs->links('pagination::bootstrap-5') }}
+                                                {{ $pending_users->links('pagination::bootstrap-5') }}
                                             </div>
                                         </div>
                                     </div>

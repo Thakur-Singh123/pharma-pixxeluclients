@@ -116,9 +116,12 @@
                                                                 -
                                                             @endif
                                                             </td>
-                                                            <td
-                                                                style="color: {{ $doctor->status == 'pending' ? 'orange' : ($doctor->status == 'active' ? 'green' : 'red') }}">
-                                                                {{ ucfirst($doctor->status) }}
+                                                            <td>
+                                                                <span class="status-badge 
+                                                                    {{ $doctor->status == 'pending' ? 'status-pending' : '' }}
+                                                                    {{ $doctor->status == 'active' ? 'status-active' : '' }}">
+                                                                    {{ ucfirst($doctor->status) }}
+                                                                </span>
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">

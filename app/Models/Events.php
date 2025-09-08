@@ -17,7 +17,8 @@ class Events extends Model
         'location',
         'start_datetime',
         'end_datetime',
-        'status'
+        'status',
+        'qr_code_path'
     ];
 
     public function mr()

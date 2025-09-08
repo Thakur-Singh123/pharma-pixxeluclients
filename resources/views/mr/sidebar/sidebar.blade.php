@@ -102,15 +102,15 @@
                     </div>
                 </li>
                 <!--doctor section-->
-                <li class="nav-item {{ request()->is('mr/doctors*') ? 'active' : '' }}">
+                <!-- <li class="nav-item {{ request()->is('mr/doctors*') ? 'active' : '' }}">
                     <a href="{{ url('mr/doctors') }}"
                         class="nav-link {{ request()->is('mr/doctors') ? 'active' : '' }}">
                         <i class="fas fa-user-md"></i>
                         <p>Doctors</p>
                     </a>
-                </li>
+                </li> -->
                 <!--patients section-->
-                <li class="nav-item {{ request()->is('mr/patients*') ? 'active' : '' }}">
+                <!-- <li class="nav-item {{ request()->is('mr/patients*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapsePateint"
                         class="{{ request()->is('mr/patients*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/patients*') ? 'true' : 'false' }}">
@@ -132,7 +132,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> -->
                 <!--tada section-->
                 <li class="nav-item {{ request()->is('mr/tada*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTADA"
@@ -172,6 +172,54 @@
                         <i class="fas fa-calendar-check"></i>
                         <p>Events</p>
                     </a>
+                </li>
+                <!--referred patient section-->
+                <li class="nav-item {{ request()->is('mr/patients*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseReferredPatient"
+                        class="{{ request()->is('mr/patients*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/patients*') ? 'true' : 'false' }}">
+                        <i class="fas fa-user-plus"></i>
+                        <p>Referred Patient</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('mr/patients*') ? 'show' : '' }}" id="collapseReferredPatient">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('mr/patients/create') ? 'active' : '' }}">
+                                <a href="{{ route('mr.patients.create') }}">
+                                    <span class="sub-item">Add Patient</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/patients') || request()->is('mr/patients/*/edit') ? 'active' : '' }}">
+                                <a href="{{ url('mr/patients') }}">
+                                    <span class="sub-item">All Patients</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!--problems & challenges faced section-->
+                <li class="nav-item {{ request()->is('mr/problems*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseProblem"
+                        class="{{ request()->is('mr/problems*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/problems*') ? 'true' : 'false' }}">
+                       <i class="fas fa-exclamation-triangle"></i>
+                        <p>Problem & Challenges</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('mr/problems*') ? 'show' : '' }}" id="collapseProblem">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('mr/problems/create') ? 'active' : '' }}">
+                                <a href="{{ route('mr.problems.create') }}">
+                                    <span class="sub-item">Add Problem</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/problems') || request()->is('mr/problems/*/edit') ? 'active' : '' }}">
+                                <a href="{{ url('mr/problems') }}">
+                                    <span class="sub-item">All Problems</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <!--visit plan section-->
                  <li class="nav-item {{ request()->is('mr/visit-plans*') ? 'active' : '' }}">

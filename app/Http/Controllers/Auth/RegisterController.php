@@ -89,6 +89,7 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'state' => $data['state'],
             'joining_date' => $data['joining_date'],
+            'status' => 'Pending',
         ]);
     }
 
@@ -98,7 +99,7 @@ class RegisterController extends Controller
         $this->guard()->logout();
         //Redirect back with success message
         return redirect()->route('login')
-            ->with('success', '✅ Your account has been created successfully. Please wait for manager approval before login.')
+            ->with('success', 'Your account has been created successfully. Please wait for manager approval before login.')
             ->with('openSignup', true);
     }
 

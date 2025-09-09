@@ -186,13 +186,29 @@
    <script>
       const phoneInputField = document.querySelector("#phone");
       const phoneInput = window.intlTelInput(phoneInputField, {
-        initialCountry: "in",
-        preferredCountries: ["in", "us", "gb"],
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+         initialCountry: "in",
+         preferredCountries: ["in", "us", "gb"],
+         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
       });
+
       phoneInputField.addEventListener("input", function () {
-        this.value = this.value.replace(/[^0-9]/g, "");
+         let dialCode = "+" + phoneInput.getSelectedCountryData().dialCode + " - ";
+         if (!this.value.startsWith(dialCode)) {
+            this.value = dialCode + this.value.replace(/[^0-9]/g, "");
+         } else {
+            let afterCode = this.value.slice(dialCode.length).replace(/[^0-9]/g, "");
+            this.value = dialCode + afterCode;
+         }
       });
+
+      phoneInputField.addEventListener("countrychange", function () {
+         const countryData = phoneInput.getSelectedCountryData();
+         const dialCode = "+" + countryData.dialCode + " - ";
+         this.value = dialCode;
+      });
+
+      const defaultCountry = phoneInput.getSelectedCountryData();
+      phoneInputField.value = "+" + defaultCountry.dialCode + " - ";
    </script>
    <script>
       document.getElementById("signupForm").addEventListener("submit", function(e){

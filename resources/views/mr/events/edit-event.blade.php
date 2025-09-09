@@ -28,6 +28,21 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <!--Doctors-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="doctor_id">Doctor Name</label>
+                                        <select class="form-control" id="doctor_id" name="doctor_id">
+                                            <option value="" disabled selected>Select Doctor</option>
+                                            <!--Get doctors-->
+                                           @foreach($all_doctors as $doctor)
+                                                <option value="{{ $doctor->id }}" {{ $event_detail->doctor_id == $doctor->id ? 'selected' : '' }}>
+                                                    {{ $doctor->doctor_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <!--Location-->
                                 <div class="col-md-6">
                                     <div class="form-group">

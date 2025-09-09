@@ -143,7 +143,7 @@
                     <a href="{{ url('manager/patients') }}"
                         class="nav-link {{ request()->is('manager/patients') ? 'active' : '' }}">
                         <i class="fas fa-stethoscope"></i>
-                        <p>Patients</p>
+                        <p>Referred Patients</p>
                     </a>
                 </li>
                 <!--tada section-->
@@ -181,6 +181,11 @@
                             <li class="{{ request()->is('manager/events') || request()->is('manager/events/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('manager.events.index') }}">
                                     <span class="sub-item">All Events</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/active-participations*') ? 'active' : '' }}">
+                                <a href="{{ url('manager/active-participations') }}">
+                                    <span class="sub-item">Active Participations</span>
                                 </a>
                             </li>
                         </ul>

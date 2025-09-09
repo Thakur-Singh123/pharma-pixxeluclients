@@ -45,6 +45,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('events/edit/{id}', [App\Http\Controllers\MR\EventController::class,'edit'])->name('events.edit');
     Route::put('events/update/{id}', [App\Http\Controllers\MR\EventController::class,'update'])->name('events.update');
     Route::DELETE('events/delete/{id}', [App\Http\Controllers\MR\EventController::class,'destroy'])->name('events.destroy');
+    //Event users
+    Route::get('active-participations', [App\Http\Controllers\MR\EventController::class,'participations']);
     //Visit plans
     Route::get('visit-plans', [App\Http\Controllers\MR\VisitPlanController::class,'index'])->name('visit-plans.index');
     Route::post('visit-plans/{id}/interested', [App\Http\Controllers\MR\VisitPlanController::class,'expressInterest'])->name('visit-plan.interested');

@@ -12,6 +12,7 @@ class Events extends Model
     protected $fillable = [
         'mr_id',
         'manager_id',
+        'doctor_id',
         'title',
         'description',
         'location',
@@ -24,5 +25,10 @@ class Events extends Model
     public function mr()
     {
         return $this->belongsTo(User::class, 'mr_id');
+    }
+
+    //Function for get doctors
+        public function doctor_detail() {
+        return $this->belongsTo(Doctor::class, 'doctor_id', 'id');
     }
 }

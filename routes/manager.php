@@ -26,6 +26,8 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::resource('tasks', App\Http\Controllers\Manager\TaskController::class);
     //Event management
     Route::resource('events', App\Http\Controllers\Manager\EventController::class);
+    //Event users
+    Route::get('active-participations', [App\Http\Controllers\Manager\EventController::class,'participations']);
     //Patient
     Route::resource('patients', App\Http\Controllers\Manager\PatientController::class);
     //Doctor

@@ -166,24 +166,29 @@
                     </a>
                 </li>
                 <!--event section-->
-                <li class="nav-item {{ request()->is('mr/events*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('mr/events*') || request()->is('mr/active-participations*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseEvent"
-                        class="{{ request()->is('mr/events*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('mr/events*') ? 'true' : 'false' }}">
+                        class="{{ request()->is('mr/events*') || request()->is('mr/active-participations*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/events*') || request()->is('mr/active-participations*') ? 'true' : 'false' }}">
                         <i class="fas fa-calendar-check"></i>
                         <p>Events</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/events*') ? 'show' : '' }}" id="collapseEvent">
+                    <div class="collapse {{ request()->is('mr/events*') || request()->is('mr/active-participations*') ? 'show' : '' }}" id="collapseEvent">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/events/create') ? 'active' : '' }}">
                                 <a href="{{ route('mr.events.create') }}">
                                     <span class="sub-item">Add Events</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/events') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/events') || request()->is('mr/events/edit/*') ? 'active' : '' }}">
                                 <a href="{{ route('mr.events.index') }}">
                                     <span class="sub-item">All Events</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/active-participations*') ? 'active' : '' }}">
+                                <a href="{{ url('mr/active-participations') }}">
+                                    <span class="sub-item">Active Participations</span>
                                 </a>
                             </li>
                         </ul>

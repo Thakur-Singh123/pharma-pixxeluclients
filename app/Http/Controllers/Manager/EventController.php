@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Events;
+use App\Models\EventUser;
 use App\Models\User;
 use App\Notifications\EventAssignedNotification;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 class EventController extends Controller
 {
     //Functions for show all events
@@ -46,6 +49,23 @@ class EventController extends Controller
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime = $request->end_datetime;
         $event->status = $request->status;
+        $event->save();
+
+         $joinUrl     = url('/join-event/' . $event->id);
+        $qrCodeImage = QrCode::format('png')->size(300)->generate($joinUrl);
+
+        //Save QR code image to storage
+        $filename = 'event_' . $event->id . '.png';
+        $folder   = public_path('qr_codes');
+        // Make sure the folder exists
+        if (! file_exists($folder)) {
+            mkdir($folder, 0775, true);
+        }
+        //Save the QR code image directly to public folder
+        file_put_contents($folder . '/' . $filename, $qrCodeImage);
+
+        //Update event with QR code path
+        $event->qr_code_path = $filename;
         $event->save();
         //Create mr
         $user = User::find($request->mr_id);
@@ -113,5 +133,13 @@ class EventController extends Controller
         } else {
             return back()->with('unsuccess', 'Opps something went wrong!');
         }
+    }
+
+    //Function for active participations
+    public function participations() {
+        //Get participations
+        $all_participations = EventUser::with(['event_detail.mr'])->OrderBy('ID', 'DESC')->paginate(5);
+        // echo "<pre>"; print_r($all_participations->toArray());exit;
+        return view('manager.event-users.active-participations', compact('all_participations'));
     }
 }

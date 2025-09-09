@@ -2,39 +2,45 @@
 namespace App\Http\Controllers\MR;
 
 use App\Http\Controllers\Controller;
-use App\Models\Events;
+use App\Models\Events; 
+use App\Models\EventUser;
 use App\Models\MangerMR;
 use App\Models\User;
+use App\Models\Doctor;
 use App\Notifications\EventAssignedNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
-    //functions for event management can be added here
-    public function index()
-    {
-        $events = Events::where('mr_id', auth()->id())->with('mr')->paginate(10);
+    //Functions for event management can be added here
+    public function index() {
+        //Get events
+        $events = Events::where('mr_id', auth()->id())->with('doctor_detail')->paginate(5);
         return view('mr.events.index', compact('events'));
     }
-    //function for add events
-    public function create()
-    {
-        return view('mr.events.create');
+
+    //Function for add events
+    public function create() {
+        //Get auth login
+        $mr = Auth::user();
+        //Get doctors
+        $all_doctors = $mr->doctors()->orderBy('ID', 'DESC')->get();
+        return view('mr.events.create', compact('all_doctors'));
     }
 
-    //function for add events
-    public function store(Request $request)
-    {
+    //Function for add events
+    public function store(Request $request) {
         //Validation input fields
         $request->validate([
-            'title'          => 'required|string|max:255',
-            'description'    => 'nullable|string',
-            'location'       => 'nullable|string|max:255',
+            'title'  => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'location' => 'nullable|string|max:255',
             'start_datetime' => 'required|date',
-            'end_datetime'   => 'required|date|after_or_equal:start_datetime',
-            'status'         => 'required|in:pending,in_progress,completed',
+            'end_datetime' => 'required|date|after_or_equal:start_datetime',
+            'status' => 'required|in:pending,in_progress,completed',
         ]);
 
         //manager id
@@ -43,6 +49,7 @@ class EventController extends Controller
         $event                 = new Events();
         $event->mr_id          = auth()->id();
         $event->manager_id     = $manager_id;
+        $event->doctor_id      = $request->doctor_id;
         $event->title          = $request->title;
         $event->description    = $request->description;
         $event->location       = $request->location;
@@ -54,17 +61,17 @@ class EventController extends Controller
         $joinUrl     = url('/join-event/' . $event->id);
         $qrCodeImage = QrCode::format('png')->size(300)->generate($joinUrl);
 
-        // Save QR code image to storage
+        //Save QR code image to storage
         $filename = 'event_' . $event->id . '.png';
         $folder   = public_path('qr_codes');
         // Make sure the folder exists
         if (! file_exists($folder)) {
             mkdir($folder, 0775, true);
         }
-        // Save the QR code image directly to public folder
+        //Save the QR code image directly to public folder
         file_put_contents($folder . '/' . $filename, $qrCodeImage);
 
-        // Update event with QR code path
+        //Update event with QR code path
         $event->qr_code_path = $filename;
         $event->save();
         $user = User::find(auth()->id());
@@ -76,9 +83,13 @@ class EventController extends Controller
     }
 
     public function edit($id) {
+        //Get auth login
+        $mr = Auth::user();
+        //Get doctors
+        $all_doctors = $mr->doctors()->orderBy('ID', 'DESC')->get();
         //Get event 
         $event_detail = Events::find($id);
-        return view('mr.events.edit-event', compact('event_detail'));
+        return view('mr.events.edit-event', compact('event_detail','all_doctors'));
     }
 
     //Function for update event
@@ -99,6 +110,7 @@ class EventController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'location' => $request->location,
+            'doctor_id' => $request->doctor_id,
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
             'status' => $request->status,
@@ -129,7 +141,8 @@ class EventController extends Controller
     //function for show join form
     public function showJoinForm($id)
     {
-        $event = Events::findOrFail($id);
+        $event = Events::with('doctor_detail')->findOrFail($id);
+        // echo "<pre>"; print_r($event->toArray());exit;
         return view('join-event', compact('event'));
     }
 
@@ -154,5 +167,13 @@ class EventController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'You have successfully joined the event!');
+    }
+
+    //Function for active participations
+    public function participations() {
+        //Get participations
+        $all_participations = EventUser::with(['event_detail.mr'])->OrderBy('ID', 'DESC')->paginate(5);
+        // echo "<pre>"; print_r($all_participations->toArray());exit;
+        return view('mr.event-users.active-participations', compact('all_participations'));
     }
 }

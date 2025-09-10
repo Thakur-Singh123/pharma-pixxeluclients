@@ -12,8 +12,10 @@ class ReferredPatientController extends Controller
 {
     //Function for show all patients
     public function index() {
+        //Get login MR id
+        $mr_id = auth()->id();
         //Get patients
-        $all_patients = ReferredPatient::with('doctor_detail')->OrderBy('ID', 'DESC')->paginate(5);
+        $all_patients = ReferredPatient::with('doctor_detail')->where('mr_id', $mr_id)->OrderBy('ID', 'DESC')->paginate(5);
         return view('mr.referred-patients.all-patients', compact('all_patients'));
     }
 

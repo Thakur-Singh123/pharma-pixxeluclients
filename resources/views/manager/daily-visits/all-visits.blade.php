@@ -58,11 +58,22 @@
                                                                 colspan="1"
                                                                 style="width: 184.234px;">Mr Name
                                                             </th>
+                                                            <!-- <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Visit Type
+                                                            </th> -->
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Status
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -77,6 +88,19 @@
                                                             <td>{{ $visit->state }}</td>
                                                             <td>{{ $visit->area_code }}</td>
                                                             <td>{{ $visit->mr['name'] }}</td>
+                                                            <!-- <td>
+                                                                @if($visit->visit_type == 'other')
+                                                                    Other Visit -
+                                                                    ({{ $visit->other_visit ?? 'N/A' }})
+                                                                @elseif($visit->visit_type == 'doctor')
+                                                                    Doctor Visit - 
+                                                                    ({{ $visit->doctor->doctor_name ?? 'N/A' }} -
+                                                                    {{ $visit->doctor->specialist ?? 'N/A' }})
+                                                                @elseif($visit->visit_type == 'religious_places')
+                                                                    Religious Places -
+                                                                    ({{ $visit->religious_place ?? 'N/A' }})
+                                                                @endif
+                                                            </td> -->
                                                             <td>
                                                                 <span class="status-badge 
                                                                     {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
@@ -85,6 +109,20 @@
                                                                     {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
                                                                     {{ ucfirst($visit->status) }}
                                                                 </span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-button-action">
+                                                                    <a href="{{ route('manager.visits.edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </a>
+                                                                    <form action="{{ route('manager.visits.destroy', $visit->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </a>
+                                                                    </form>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                         @empty

@@ -166,10 +166,14 @@
                     </a>
                 </li>
                 <!--event section-->
-                <li class="nav-item {{ request()->is('mr/events*') || request()->is('mr/active-participations*') ? 'active' : '' }}">
+                @php
+                    $isEventActive = request()->is('mr/events*') || request()->is('mr/active-participations*');
+                @endphp
+
+                  <li class="nav-item {{ $isEventActive ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseEvent"
-                        class="{{ request()->is('mr/events*') || request()->is('mr/active-participations*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('mr/events*') || request()->is('mr/active-participations*') ? 'true' : 'false' }}">
+                        class="{{ $isEventActive ? '' : 'collapsed' }}"
+                        aria-expanded="{{ $isEventActive ? 'true' : 'false' }}">
                         <i class="fas fa-calendar-check"></i>
                         <p>Events</p>
                         <span class="caret"></span>
@@ -184,6 +188,11 @@
                             <li class="{{ request()->is('mr/events') || request()->is('mr/events/edit/*') ? 'active' : '' }}">
                                 <a href="{{ route('mr.events.index') }}">
                                     <span class="sub-item">All Events</span>
+                                </a>
+                            </li>
+                             <li class="{{ request()->is('mr/events/pending-for-approval') ? 'active' : '' }}">
+                                <a href="{{ route('mr.events.pending-for-approval') }}">
+                                    <span class="sub-item">Pending For Approval</span>
                                 </a>
                             </li>
                             <li class="{{ request()->is('mr/active-participations*') ? 'active' : '' }}">

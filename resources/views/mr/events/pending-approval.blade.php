@@ -13,14 +13,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">All Events</h4>
-                                    <form method="GET" action="{{ route('mr.events.index') }}">
-                                    <select name="created_by" class="form-control" onchange="this.form.submit()">
-                                        <option value="">📋 All Events</option>
-                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>👤 Created by Me (MR)</option>
-                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>🧑‍💼 Created by Manager</option>
-                                    </select>
-                                    </form>
+                                    <h4 class="card-title">Pending Events</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">

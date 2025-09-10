@@ -15,10 +15,55 @@ class EventController extends Controller
     //Functions for show all events
     public function index() {
         //Get events
-        $events = Events::OrderBy('ID', 'DESC')->where('manager_id', auth()->id())->with('mr')->paginate(10);
+        $query = Events::where('manager_id', auth()->id());
+         if(request()->filled('created_by')) {
+             $query = $query->where('created_by', request('created_by'));
+         }
+        $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 1)->paginate(10);
         return view('manager.events.index', compact('events'));
     }
 
+    //public function for show waiting for approval events
+    public function waitingForApproval() {
+        //Get events
+        $query = Events::where('manager_id', auth()->id());
+         if(request()->filled('created_by')) {
+             $query = $query->where('created_by', request('created_by'));
+         }
+        $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(10);
+        return view('manager.events.waiting-for-approval', compact('events'));
+    }
+
+    //function for approved or rejected events
+    public function approvedevents(Request $request, $id) {
+        $event = Events::find($id);
+        $event->is_active = 1;
+        $event->save();
+
+        $joinUrl     = url('/join-event/' . $event->id);
+        $qrCodeImage = QrCode::format('png')->size(300)->generate($joinUrl);
+        //Save QR code image to storage
+        $filename = 'event_' . $event->id . '.png';
+        $folder   = public_path('qr_codes');
+        // Make sure the folder exists
+        if (! file_exists($folder)) {
+            mkdir($folder, 0775, true);
+        }
+        //Save the QR code image directly to public folder
+        file_put_contents($folder . '/' . $filename, $qrCodeImage);
+        //Update event with QR code path
+        $event->qr_code_path = $filename;
+        $event->save();
+        return redirect()->back();
+    }
+
+    //function for rejected events
+    public function rejectedevents(Request $request, $id) {
+        $event = Events::find($id);
+        $event->is_active = 0;
+        $event->save();
+        return redirect()->back();
+    }
     //Functions for create event
     public function create() {
         //Get mrs
@@ -49,9 +94,11 @@ class EventController extends Controller
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime = $request->end_datetime;
         $event->status = $request->status;
+        $event->created_by     = 'manager';
+        $event->is_active = 1;
         $event->save();
 
-         $joinUrl     = url('/join-event/' . $event->id);
+        $joinUrl     = url('/join-event/' . $event->id);
         $qrCodeImage = QrCode::format('png')->size(300)->generate($joinUrl);
 
         //Save QR code image to storage

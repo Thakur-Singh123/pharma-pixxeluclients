@@ -54,7 +54,7 @@ class EventController extends Controller
         //Update event with QR code path
         $event->qr_code_path = $filename;
         $event->save();
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Event approved successfully.');
     }
 
     //function for rejected events
@@ -62,7 +62,7 @@ class EventController extends Controller
         $event = Events::find($id);
         $event->is_active = 0;
         $event->save();
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Event rejected successfully.');
     }
     //Functions for create event
     public function create() {

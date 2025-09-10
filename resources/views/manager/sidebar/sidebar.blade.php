@@ -91,15 +91,15 @@
                     </a>
                 </li>
                 <!--task section-->
-                <li class="nav-item {{ request()->is('manager/tasks*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTask"
-                        class="{{ request()->is('manager/tasks*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('manager/tasks*') ? 'true' : 'false' }}">
+                        class="{{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? 'true' : 'false' }}">
                         <i class="fas fa-clipboard-list"></i>
                         <p>Task</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('manager/tasks*') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('manager/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.create') }}">
@@ -109,6 +109,11 @@
                             <li class="{{ request()->is('manager/tasks') || request()->is('manager/tasks/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.index') }}">
                                     <span class="sub-item">All Task</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/tasks-waiting-for-approval') ? 'active' : '' }}">
+                                <a href="{{ route('manager.tasks.waiting.for.approval') }}">
+                                    <span class="sub-item">Waiting For Approval</span>
                                 </a>
                             </li>
                         </ul>

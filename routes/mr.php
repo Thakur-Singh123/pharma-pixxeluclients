@@ -27,6 +27,7 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::resource('/tasks', App\Http\Controllers\MR\TaskController::class);
     Route::get('/assigin-manger', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
     Route::get('/himself', [App\Http\Controllers\MR\TaskController::class,'himself']);
+    Route::get('/pending-approval', [App\Http\Controllers\MR\TaskController::class,'pending_approval']);
     //Problems & Challenges
     Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);
     //Doctors
@@ -48,6 +49,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::put('events/update/{id}', [App\Http\Controllers\MR\EventController::class,'update'])->name('events.update');
     Route::DELETE('events/delete/{id}', [App\Http\Controllers\MR\EventController::class,'destroy'])->name('events.destroy');
     Route::get('events/pending-for-approval', [App\Http\Controllers\MR\EventController::class,'pendingForApproval'])->name('events.pending-for-approval');
+    Route::get('events-assigne-by-manager', [App\Http\Controllers\MR\EventController::class,'assign_manger'])->name('events.assign-manger');
+    Route::get('events-himself', [App\Http\Controllers\MR\EventController::class,'himself'])->name('events.himself');
     //Event users
     Route::get('active-participations', [App\Http\Controllers\MR\EventController::class,'participations']);
     //Visit plans

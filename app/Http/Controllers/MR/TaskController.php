@@ -10,9 +10,13 @@ use App\Models\MangerMR;
 class TaskController extends Controller
 {
     //Function for all tasks
-    public function index() {
+    public function index(Request $request) {
         //Get tasks
-        $all_tasks = Task::orderBy('ID','DESC')->paginate(5);
+        $query = Task::orderBy('ID','DESC');
+        if($request->filled('created_by')) {
+             $query->where('created_by', $request->created_by);
+        }
+        $all_tasks = $query->orderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
         return view('mr.tasks.all-tasks', compact('all_tasks'));
     }
 
@@ -40,8 +44,9 @@ class TaskController extends Controller
             'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'created_by' => 'MR',
+            'created_by' => 'mr',
             'status' => $request->status,
+            'is_active' => 0,
         ]);
         //Check if task created or not
         if ($is_create_task) {
@@ -103,7 +108,7 @@ class TaskController extends Controller
     //Function for manager assgin tasks
     public function assign_manger() {
         //Get manager tasks
-        $manager_tasks = Task::where('created_by', 'manager')->paginate(5);
+        $manager_tasks = Task::where('created_by', 'Manager')->paginate(5);
         return view('mr.tasks.all-tasks-manager', compact('manager_tasks'));
     }
 
@@ -112,5 +117,12 @@ class TaskController extends Controller
         //Get himself tasks
         $himself_tasks = Task::where('created_by', 'mr')->paginate(5);
         return view('mr.tasks.all-tasks-mr', compact('himself_tasks'));
+    }
+
+    //function for pending approval
+    public function pending_approval() {
+        //Get pending tasks
+        $pending_tasks = Task::where('created_by', 'mr')->where('is_active', 0)->paginate(5);
+        return view('mr.tasks.pending-approval', compact('pending_tasks'));
     }
 }

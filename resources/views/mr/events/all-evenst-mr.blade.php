@@ -1,4 +1,4 @@
-@extends('manager.layouts.master')
+@extends('mr.layouts.master')
 @section('content')
     <div class="container">
         <div class="page-inner">
@@ -13,14 +13,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                  <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">All Events</h4>
-                                    <form method="GET" action="{{ route('manager.events.index') }}">
-                                    <select name="created_by" class="form-control" onchange="this.form.submit()">
-                                        <option value="">📋 All Events</option>
-                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>👤 Created by Me (Manager)</option>
-                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>🧑‍💼 Created by MR</option>
-                                    </select>
-                                    </form>
+                                    <h4 class="card-title">Events Created By Himself</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -46,7 +39,6 @@
                                                                     colspan="1"
                                                                     style="width: 366.578px;">Description
                                                                 </th>
-                                                      
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1" colspan="1"
                                                                     style="width: 366.578px;">
@@ -86,13 +78,13 @@
                                                         <tbody>
                                                             @php $count = 1 @endphp
                                                             <!--Get events-->
-                                                            @forelse ($events as $event)
+                                                            @forelse ($himself_event as $event)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $event->title }}</td>
                                                                     <td>{{ $event->description }}</td>
                                                                     <td>
-                                                                    {{ optional($event->mr)->name }} 
+                                                                    <td>{{ $event->doctor_detail->doctor_name ?? 'N/A' }}</td>
                                                                     </td>
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
@@ -133,7 +125,7 @@
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{ $events->links('pagination::bootstrap-5') }}
+                                                    {{ $himself_event->links('pagination::bootstrap-5') }}
                                                 </div>
                                             </div>
                                         </div>

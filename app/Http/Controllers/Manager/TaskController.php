@@ -13,12 +13,40 @@ use App\Notifications\TaskAssignedNotification;
 class TaskController extends Controller
 {
     //Function for show all tasks
-    public function index() {
+    public function index(Request $request) {
         //Get tasks
-        $tasks = Task::OrderBy('ID','DESC')->where('manager_id', auth()->id())->with('mr')->paginate(10);
+        $query = Task::orderBy('ID','DESC');
+        if($request->filled('created_by')) {
+             $query->where('created_by', $request->created_by);
+        }
+        $tasks = $query->orderBy('ID','DESC')->where('manager_id', auth()->id())->paginate(5);
         return view('manager.tasks.index', compact('tasks'));
     }
 
+    //function for waiting for approval
+    public function waitingForApproval() {
+        //Get tasks
+        $tasks = Task::OrderBy('ID','DESC')->where('manager_id', auth()->id())->where('is_active', 0)->with('mr')->paginate(10);
+        return view('manager.tasks.waiting-for-approval', compact('tasks'));
+    }
+    
+    //function for approved tasks
+    public function approvedtasks($id) {
+        //Get tasks
+        $task = Task::find($id);
+        $task->is_active = 1;
+        $task->save();
+        return redirect()->back()->with('success', 'Task approved successfully.');
+    }
+
+    //function for rejected tasks
+    public function rejectedtasks($id) {
+        //Get tasks
+        $task = Task::find($id);
+        $task->is_active = 0;
+        $task->save();
+        return redirect()->back()->with('success', 'Task rejected successfully.');
+    }
     //Function for create task
     public function create() {
         //Get mrs
@@ -45,6 +73,7 @@ class TaskController extends Controller
             'end_date' => $request->end_date,
             'created_by' => 'Manager',
             'status' => $request->status,
+            'is_active' => 1,
         ]);
         //Get mr
         $user = User::find($request->mr_id);

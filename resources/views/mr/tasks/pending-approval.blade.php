@@ -1,4 +1,4 @@
-@extends('manager.layouts.master')
+@extends('mr.layouts.master')
 @section('content')
     <div class="container">
         <div class="page-inner">
@@ -12,15 +12,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">All Events</h4>
-                                    <form method="GET" action="{{ route('manager.events.index') }}">
-                                    <select name="created_by" class="form-control" onchange="this.form.submit()">
-                                        <option value="">📋 All Events</option>
-                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>👤 Created by Me (Manager)</option>
-                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>🧑‍💼 Created by MR</option>
-                                    </select>
-                                    </form>
+                                <div class="card-header">
+                                    <h4 class="card-title">Pending Tasks</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -28,7 +21,9 @@
                                             class="dataTables_wrapper container-fluid dt-bootstrap4">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <table id="basic-datatables" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="basic-datatables_info">
+                                                    <table id="basic-datatables"
+                                                        class="display table table-striped table-hover dataTable"
+                                                        role="grid" aria-describedby="basic-datatables_info">
                                                         <thead>
                                                             <tr role="row">
                                                                 <th class="sorting_asc" tabindex="0"
@@ -43,80 +38,52 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    style="width: 366.578px;">Description
-                                                                </th>
-                                                      
-                                                                <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1" colspan="1"
-                                                                    style="width: 366.578px;">
-                                                                    Assigned To 
+                                                                    colspan="1" style="width: 366.578px;">Description
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Location
+                                                                    style="width: 156.312px;">Start Date
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Start Date & Time
+                                                                    style="width: 156.312px;">End date
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    style="width: 156.312px;">End Date & Time
-                                                                </th>
-                                                                 <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    style="width: 156.312px;">QR Code</th>
-                                                                <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    style="width: 156.312px;">Status
+                                                                    colspan="1" style="width: 187.688px;">Status
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    style="width: 156.312px;">Action
+                                                                    colspan="1" style="width: 187.688px;">Action
                                                                 </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @php $count = 1 @endphp
-                                                            <!--Get events-->
-                                                            @forelse ($events as $event)
+                                                            <!--Get tasks-->
+                                                            @forelse ($pending_tasks as $task)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
-                                                                    <td>{{ $event->title }}</td>
-                                                                    <td>{{ $event->description }}</td>
-                                                                    <td>
-                                                                    {{ optional($event->mr)->name }} 
-                                                                    </td>
-                                                                    <td>{{ $event->location }}</td>
-                                                                    <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
-                                                                    <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
-                                                                    <td>
-                                                                        {!! $event->qr_code_path 
-                                                                            ? '<img src="' . asset('public/qr_codes/' . $event->qr_code_path) . '" alt="qr code" width="100" height="100">' 
-                                                                            : 'N/A' 
-                                                                        !!}
-                                                                    </td>
+                                                                    <td>{{ $task->title }}</td>
+                                                                    <td>{{ $task->description }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                                     <td>
                                                                         <span class="status-badge 
-                                                                            {{ $event->status == 'pending' ? 'status-pending' : '' }}
-                                                                            {{ $event->status == 'in_progress' ? 'status-progress' : '' }}
-                                                                            {{ $event->status == 'completed' ? 'status-completed' : '' }}">
-                                                                                {{ $event->status == 'in_progress' ? 'In Progress' : ucfirst($event->status) }}
+                                                                            {{ $task->status == 'pending' ? 'status-pending' : '' }}
+                                                                            {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
+                                                                            {{ $task->status == 'completed' ? 'status-completed' : '' }}">
+                                                                                {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-button-action">
-                                                                            <a href="{{ route('manager.events.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                            <a href="{{ route('mr.tasks.edit', $task->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
                                                                                 <i class="fa fa-edit"></i>
                                                                             </a>
-                                                                            <form action="{{ route('manager.events.destroy', $event->id) }}" method="POST" style="display:inline;">
+                                                                            <form action="{{ route('mr.tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
@@ -126,14 +93,15 @@
                                                                         </div>
                                                                     </td>
                                                                 </tr>
-                                                           @empty
+                                                            @empty
                                                                 <tr>
-                                                                    <td colspan="10" class="text-center">No record found</td>
+                                                                    <td colspan="10" class="text-center">No record found
+                                                                    </td>
                                                                 </tr>
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{ $events->links('pagination::bootstrap-5') }}
+                                                    {{ $pending_tasks->links('pagination::bootstrap-5') }}
                                                 </div>
                                             </div>
                                         </div>

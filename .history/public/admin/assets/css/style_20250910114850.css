@@ -253,3 +253,12 @@ body {
 }
 
 
+/* Design Dashboard */
+table#basic-datatables {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+div#basic-datatables_wrapper {
+    padding: 0;
+}

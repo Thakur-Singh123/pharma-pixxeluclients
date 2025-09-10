@@ -468,7 +468,7 @@ img.image-css {
 .status-badge {
     display: inline-block;
     padding: 6px 12px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     border-radius: 20px;
     border: 1px solid transparent;
@@ -595,46 +595,11 @@ img.image-css {
 
 
 /* Design Dashboard */
-    table#basic-datatables {
-        border: 1px solid #dfdfdf;
-        border-radius: 10px;
-    }
-
-    div#basic-datatables_wrapper {
-        padding: 0;
-    }
-    table#basic-datatables {
-    border-collapse: collapse !important;
-}
-body .table-responsive tr th  {
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 12px 24px !important;
-    font-weight: 600;
-    background: #1a2035;
-    color: #fff;
-    font-size: 11px !important;
-    white-space: nowrap;
-    border: 1px solid #dfdfdf;
-}
-
-table#basic-datatables td {
-    border: 1px solid #dfdfdf !important;
-}
-
-body .table>tbody>tr>td, .table>tbody>tr>th {
-    padding: 8px 19px !important;
-    white-space: nowrap;
-}
-
-.form-group input {
-    height: 47px !important;
+table#basic-datatables {
     border: 1px solid #ddd;
-    border-color: #ddd !important;
-    width: 100% !important;
+    border-radius: 10px;
 }
 
-
-.card-body form .row {
-    padding: 10px 30px;
+div#basic-datatables_wrapper {
+    padding: 0;
 }

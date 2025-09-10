@@ -2764,7 +2764,7 @@ body[data-background-color=dark] .border-top {
 	padding: 20px;
 	background-color: transparent;
 	line-height: 30px;
-	border-top: 0px solid #ebecec !important;
+	border-top: 1px solid #ebecec !important;
 	font-size: 1rem
 }
 
@@ -4487,7 +4487,7 @@ label {
 .form-check,
 .form-group {
 	margin-bottom: 0;
-	padding-top: 12px
+	padding: 10px
 }
 
 .form-check label,
@@ -10734,4 +10734,3 @@ body[data-background-color=dark] .jvm-zoom-btn {
 		font-size: 18px !important
 	}
 }
-

@@ -633,8 +633,3 @@ body .table>tbody>tr>td, .table>tbody>tr>th {
     border-color: #ddd !important;
     width: 100% !important;
 }
-
-
-.card-body form .row {
-    padding: 10px 30px;
-}

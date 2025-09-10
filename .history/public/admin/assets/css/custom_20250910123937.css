@@ -638,3 +638,14 @@ body .table>tbody>tr>td, .table>tbody>tr>th {
 .card-body form .row {
     padding: 10px 30px;
 }
+
+.sidebar-content ul.nav.nav-secondary li:last-child {
+    position: absolute;
+    bottom: 0 !important;
+    width: 100%;
+    background: #fff;
+}
+
+.sidebar-content ul.nav.nav-secondary li:last-child a.nav-link p {
+    color: #1a2035 !important;
+}

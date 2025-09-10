@@ -4487,7 +4487,7 @@ label {
 .form-check,
 .form-group {
 	margin-bottom: 0;
-	padding-top: 12px
+	padding: 10px
 }
 
 .form-check label,
@@ -10734,4 +10734,3 @@ body[data-background-color=dark] .jvm-zoom-btn {
 		font-size: 18px !important
 	}
 }
-

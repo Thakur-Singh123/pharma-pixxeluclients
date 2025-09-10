@@ -626,15 +626,3 @@ body .table>tbody>tr>td, .table>tbody>tr>th {
     padding: 8px 19px !important;
     white-space: nowrap;
 }
-
-.form-group input {
-    height: 47px !important;
-    border: 1px solid #ddd;
-    border-color: #ddd !important;
-    width: 100% !important;
-}
-
-
-.card-body form .row {
-    padding: 10px 30px;
-}

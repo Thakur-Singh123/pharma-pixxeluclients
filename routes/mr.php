@@ -25,6 +25,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);
     //Task
     Route::resource('/tasks', App\Http\Controllers\MR\TaskController::class);
+    Route::get('/assigin-manger', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
+    Route::get('/himself', [App\Http\Controllers\MR\TaskController::class,'himself']);
     //Problems & Challenges
     Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);
     //Doctors

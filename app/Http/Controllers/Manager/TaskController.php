@@ -43,6 +43,7 @@ class TaskController extends Controller
             'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'created_by' => 'Manager',
             'status' => $request->status,
         ]);
         //Get mr
@@ -85,6 +86,7 @@ class TaskController extends Controller
             'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'created_by' => 'Manager',
             'status' => $request->status,
         ]);
         //If MR changed, notify the new MR

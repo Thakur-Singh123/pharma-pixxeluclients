@@ -77,16 +77,16 @@
                         </ul>
                     </div>
                 </li>
-                <!--task section-->
+                <!--Task section-->
                 <li class="nav-item {{ request()->is('mr/tasks*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTask"
-                        class="{{ request()->is('mr/tasks*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('mr/tasks*') ? 'true' : 'false' }}">
+                    class="{{ request()->is('mr/tasks*') ? '' : 'collapsed' }}"
+                    aria-expanded="{{ request()->is('mr/tasks*') ? 'true' : 'false' }}">
                         <i class="fas fa-clipboard-list"></i>
                         <p>Task</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/tasks*') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.create') }}">
@@ -95,7 +95,17 @@
                             </li>
                             <li class="{{ request()->is('mr/tasks') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.index') }}">
-                                    <span class="sub-item">All Task</span>
+                                    <span class="sub-item">All Tasks</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/assigin-manger') ? 'active' : '' }}">
+                                <a href="{{ url('mr/assigin-manger') }}">
+                                    <span class="sub-item">Assigned By Manager</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/himself') ? 'active' : '' }}">
+                                <a href="{{ url('mr/himself') }}">
+                                    <span class="sub-item">Created By Himself</span>
                                 </a>
                             </li>
                         </ul>

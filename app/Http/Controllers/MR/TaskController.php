@@ -40,6 +40,7 @@ class TaskController extends Controller
             'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'created_by' => 'MR',
             'status' => $request->status,
         ]);
         //Check if task created or not
@@ -76,6 +77,7 @@ class TaskController extends Controller
             'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'created_by' => 'mr',
             'status' => $request->status,
         ]);
         //Check if task updated or not
@@ -96,5 +98,19 @@ class TaskController extends Controller
         } else {
             return back()->with('error', 'Opps something went wrong!');
         }
+    }
+
+    //Function for manager assgin tasks
+    public function assign_manger() {
+        //Get manager tasks
+        $manager_tasks = Task::where('created_by', 'manager')->paginate(5);
+        return view('mr.tasks.all-tasks-manager', compact('manager_tasks'));
+    }
+
+    //Function for himself tasks
+    public function himself() {
+        //Get himself tasks
+        $himself_tasks = Task::where('created_by', 'mr')->paginate(5);
+        return view('mr.tasks.all-tasks-mr', compact('himself_tasks'));
     }
 }

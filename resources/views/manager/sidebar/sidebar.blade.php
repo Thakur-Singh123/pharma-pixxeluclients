@@ -83,9 +83,9 @@
                     </div>
                 </li>
                 <!--daily visit section-->
-                <li class="nav-item {{ request()->is('manager/visits') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/visits') || request()->is('manager/visits/*/edit') ? 'active' : '' }}">
                     <a href="{{ url('manager/visits') }}"
-                        class="nav-link {{ request()->is('manager/visits') ? 'active' : '' }}">
+                        class="nav-link {{ request()->is('manager/visits') || request()->is('manager/visits/*/edit') ? 'active' : '' }}">
                         <i class="fas fa-walking"></i>
                         <p>Daily Visits</p>
                     </a>
@@ -152,9 +152,9 @@
                     </a>
                 </li>
                 <!--tada section-->
-                <li class="nav-item {{ request()->is('manager/tada-records') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/tada-records') || request()->is('manager/edit-tada/*') ? 'active' : '' }}">
                     <a href="{{ url('manager/tada-records') }}"
-                        class="nav-link {{ request()->is('manager/tada-records') ? 'active' : '' }}">
+                        class="nav-link {{ request()->is('manager/tada-records') || request()->is('manager/edit-tada/*') ? 'active' : '' }}">
                         <i class="fas fa-suitcase-rolling"></i>
                         <p>TA/DA</p>
                     </a>

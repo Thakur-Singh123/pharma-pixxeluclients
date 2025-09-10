@@ -72,7 +72,7 @@
                                         <input type="number" class="form-control" id="area_code" name="area_code"
                                             value="{{ old('area_code') }}" placeholder="Enter Area Code">
                                         @error('area_code')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -80,10 +80,13 @@
                                     <div class="form-group">
                                         <label for="status">Visit Type</label>
                                         <select name="visit_type" id="visit_type" class="form-control">
-                                            <option value="doctor">Doctor Visit</option>
-                                            <option value="religious_places">Religious Places</option>
-                                            <option value="other">Other Visit (NGOs, Asha workers etc.)</option>
+                                            <option value="doctor" {{ old('visit_type') == 'doctor' ? 'selected' : '' }}>Doctor Visit</option>
+                                            <option value="religious_places" {{ old('visit_type') == 'religious_places' ? 'selected' : '' }}>Religious Places</option>
+                                            <option value="other" {{ old('visit_type') == 'other' ? 'selected' : '' }}>Other Visit (NGOs, Asha workers etc.)</option>
                                         </select>
+                                        @error('visit_type')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-4" id="doctor_fields" style="display: block;">
@@ -96,19 +99,31 @@
                                             </option>
                                             @endforeach
                                         </select>
+                                        @error('doctor_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
-                                <!--Religious Sub-type-->
-                                <!-- <div class="col-md-6 col-lg-4" id="religious_subtype_div" style="display: none;">
+                                <!--Religious Places input -->
+                                <div class="col-md-6 col-lg-4 visit-extra visit-religious" style="display:none;">
                                     <div class="form-group">
-                                        <label for="religious_type">Religious Type</label>
-                                        <select name="religious_type" id="religious_type" class="form-control">
-                                            <option value="" selected disabled>Select Place</option>
-                                            <option value="temple">Temple</option>
-                                            <option value="gurudwara">Gurudwara</option>
-                                        </select>
+                                        <label>Religious Place Name</label>
+                                        <input type="text" name="religious_place_name" id="religious_place_name" value="{{ old('religious_place_name') }}" class="form-control" placeholder="Enter place name">
+                                        @error('religious_place_name')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
-                                </div> -->
+                                </div>
+                                <!--Other Visit input-->
+                                <div class="col-md-6 col-lg-4 visit-extra visit-other" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Other Visit Details</label>
+                                        <input type="text" name="other_visit_details" id="other_visit_details" class="form-control" value="{{ old('other_visit_details') }}" placeholder="Enter details">
+                                        @error('other_visit_details')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <!--Status-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -185,23 +200,25 @@
     </div>
 </div>
 <script>
-    document.getElementById('visit_type').addEventListener('change', function() {
-        if (this.value === 'doctor') {
-            document.getElementById('doctor_fields').style.display = 'block';
-            document.getElementById('other_fields').style.display = 'none';
-        } else {
-            document.getElementById('doctor_fields').style.display = 'none';
-            document.getElementById('other_fields').style.display = 'block';
+document.addEventListener("DOMContentLoaded", function() {
+    const visitType = document.getElementById("visit_type");
+    const doctorFields = document.getElementById("doctor_fields");
+    const religiousFields = document.querySelector(".visit-religious");
+    const otherFields = document.querySelector(".visit-other");
+    function toggleFields() {
+        doctorFields.style.display = "none";
+        religiousFields.style.display = "none";
+        otherFields.style.display = "none";
+        if (visitType.value === "doctor") {
+            doctorFields.style.display = "block";
+        } else if (visitType.value === "religious_places") {
+            religiousFields.style.display = "block";
+        } else if (visitType.value === "other") {
+            otherFields.style.display = "block";
         }
-    });
-</script>
-<script>
-    document.getElementById('visit_type').addEventListener('change', function () {
-        let visitType = this.value;
-        document.getElementById('religious_subtype_div').style.display = 'none';
-        if (visitType === 'religious_places') {
-            document.getElementById('religious_subtype_div').style.display = 'block';
-        }
-    });
+    }
+    visitType.addEventListener("change", toggleFields);
+    toggleFields();
+});
 </script>
 @endsection

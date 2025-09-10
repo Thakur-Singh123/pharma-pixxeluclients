@@ -45,6 +45,7 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('events/edit/{id}', [App\Http\Controllers\MR\EventController::class,'edit'])->name('events.edit');
     Route::put('events/update/{id}', [App\Http\Controllers\MR\EventController::class,'update'])->name('events.update');
     Route::DELETE('events/delete/{id}', [App\Http\Controllers\MR\EventController::class,'destroy'])->name('events.destroy');
+    Route::get('events/pending-for-approval', [App\Http\Controllers\MR\EventController::class,'pendingForApproval'])->name('events.pending-for-approval');
     //Event users
     Route::get('active-participations', [App\Http\Controllers\MR\EventController::class,'participations']);
     //Visit plans

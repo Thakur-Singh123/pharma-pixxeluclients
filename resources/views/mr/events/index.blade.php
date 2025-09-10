@@ -12,8 +12,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Events</h4>
+                                    <form method="GET" action="{{ route('mr.events.index') }}">
+                                    <select name="created_by" class="form-control" onchange="this.form.submit()">
+                                        <option value="">📋 All Events</option>
+                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>👤 Created by Me (MR)</option>
+                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>🧑‍💼 Created by Manager</option>
+                                    </select>
+                                    </form>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -79,7 +86,12 @@
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
-                                                                    <td><img src="{{ asset('public/qr_codes/' .$event->qr_code_path) }}" alt="qr code" width="100" height="100"></td>
+                                                                    <td>
+                                                                        {!! $event->qr_code_path 
+                                                                            ? '<img src="' . asset('public/qr_codes/' . $event->qr_code_path) . '" alt="qr code" width="100" height="100">' 
+                                                                            : 'N/A' 
+                                                                        !!}
+                                                                    </td>
                                                                     <td>
                                                                         <span class="status-badge 
                                                                             {{ $event->status == 'pending' ? 'status-pending' : '' }}

@@ -12,8 +12,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
+                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Events</h4>
+                                    <form method="GET" action="{{ route('manager.events.index') }}">
+                                    <select name="created_by" class="form-control" onchange="this.form.submit()">
+                                        <option value="">📋 All Events</option>
+                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>👤 Created by Me (Manager)</option>
+                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>🧑‍💼 Created by MR</option>
+                                    </select>
+                                    </form>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -39,10 +46,20 @@
                                                                     colspan="1"
                                                                     style="width: 366.578px;">Description
                                                                 </th>
+                                                                @php
+                                                                    $createdBy = request('created_by');
+                                                                @endphp
+
                                                                 <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    style="width: 366.578px;">Assigned To
+                                                                    aria-controls="basic-datatables" rowspan="1" colspan="1"
+                                                                    style="width: 366.578px;">
+                                                                    @if($createdBy === 'manager')
+                                                                        Assigned To
+                                                                    @elseif($createdBy === 'mr')
+                                                                        Created By
+                                                                    @else
+                                                                        Assigned To / Created By
+                                                                    @endif
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -83,11 +100,31 @@
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $event->title }}</td>
                                                                     <td>{{ $event->description }}</td>
-                                                                    <td>{{ $event->mr->name }}</td>
+                                                                    @php
+                                                                        $createdBy = request('created_by');
+                                                                    @endphp
+                                                                    <td>
+                                                                        @php
+                                                                            $createdBy = request('created_by');
+                                                                        @endphp
+
+                                                                        @if($createdBy === 'manager')
+                                                                            {{ optional($event->mr)->name ?? 'N/A' }}
+                                                                        @elseif($createdBy === 'mr')
+                                                                            {{ auth()->user()->name ?? 'N/A' }}
+                                                                        @else
+                                                                            {{ optional($event->mr)->name }} / {{  auth()->user()->name ?? 'N/A' }}
+                                                                        @endif
+                                                                    </td>
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
-                                                                    <td><img src="{{ asset('public/qr_codes/' .$event->qr_code_path) }}" alt="qr code" width="100" height="100"></td>
+                                                                    <td>
+                                                                        {!! $event->qr_code_path 
+                                                                            ? '<img src="' . asset('public/qr_codes/' . $event->qr_code_path) . '" alt="qr code" width="100" height="100">' 
+                                                                            : 'N/A' 
+                                                                        !!}
+                                                                    </td>
                                                                     <td>
                                                                         <span class="status-badge 
                                                                             {{ $event->status == 'pending' ? 'status-pending' : '' }}

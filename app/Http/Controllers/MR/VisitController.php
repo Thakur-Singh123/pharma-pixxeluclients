@@ -50,7 +50,7 @@ class VisitController extends Controller
     //Function for all visits
     public function all_visits() {
         //Get visits
-        $all_visits = Visit::OrderBy('ID','DESC')->paginate(10);
+        $all_visits = Visit::with('doctor')->OrderBy('ID','DESC')->paginate(5);
         return view('mr.visits.all-visits', compact('all_visits'));
     }
 
@@ -60,7 +60,6 @@ class VisitController extends Controller
         $visit_detail = Visit::with('mr','doctor')->find($id);
         $mr = auth()->user();
         $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
-       //echo "<pre>";print_r($assignedDoctors->toArray());exit;
         return view('mr.visits.edit-visit', compact('visit_detail','assignedDoctors'));
     }
 

@@ -12,7 +12,7 @@ class PatientController extends Controller
     public function index() {
         //Get patients
         $mrs = auth()->user()->mrs->pluck('id');
-        $all_patients = ReferredPatient::whereIn('mr_id',$mrs)->with('mr')->OrderBy('ID','DESC')->paginate(5);
+        $all_patients = ReferredPatient::whereIn('mr_id',$mrs)->with('doctor_detail')->OrderBy('ID','DESC')->paginate(5);
         return view('manager.patients.all-patients', compact('all_patients'));
     }
 }

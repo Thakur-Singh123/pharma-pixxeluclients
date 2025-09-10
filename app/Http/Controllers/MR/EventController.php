@@ -16,12 +16,26 @@ use Illuminate\Support\Facades\Auth;
 class EventController extends Controller
 {
     //Functions for event management can be added here
-    public function index() {
+    public function index(Request $request) {
         //Get events
-        $events = Events::where('mr_id', auth()->id())->with('doctor_detail')->paginate(5);
+        $query = Events::where('mr_id', auth()->id());
+         if(request()->filled('created_by')) {
+             $query = $query->where('created_by', request('created_by'));
+         }
+        $events = $query->with('doctor_detail')->where('is_active',1)->orderBy('created_at', 'desc')->paginate(10);
         return view('mr.events.index', compact('events'));
     }
 
+    //function for pending approval
+    public function pendingForApproval() {
+        //Get events
+        $query = Events::where('mr_id', auth()->id());
+         if(request()->filled('created_by')) {
+             $query = $query->where('created_by', request('created_by'));
+         }
+        $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(10);
+        return view('mr.events.pending-approval', compact('events'));
+    }
     //Function for add events
     public function create() {
         //Get auth login
@@ -56,24 +70,9 @@ class EventController extends Controller
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime   = $request->end_datetime;
         $event->status         = $request->status;
+        $event->created_by     = 'mr';
         $event->save();
-        //Generate QR code for event join link
-        $joinUrl     = url('/join-event/' . $event->id);
-        $qrCodeImage = QrCode::format('png')->size(300)->generate($joinUrl);
 
-        //Save QR code image to storage
-        $filename = 'event_' . $event->id . '.png';
-        $folder   = public_path('qr_codes');
-        // Make sure the folder exists
-        if (! file_exists($folder)) {
-            mkdir($folder, 0775, true);
-        }
-        //Save the QR code image directly to public folder
-        file_put_contents($folder . '/' . $filename, $qrCodeImage);
-
-        //Update event with QR code path
-        $event->qr_code_path = $filename;
-        $event->save();
         $user = User::find(auth()->id());
         //Notification
         if ($user) {

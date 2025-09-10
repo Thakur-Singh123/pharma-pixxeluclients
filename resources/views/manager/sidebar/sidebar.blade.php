@@ -64,11 +64,6 @@
                     </a>
                     <div class="collapse {{ request()->is('manager/active-users') || request()->is('manager/pending-users') || request()->is('manager/suspend-users') ? 'show' : '' }}" id="collapseUser">
                         <ul class="nav nav-collapse">
-                            <li class="{{ request()->is('manager/active-users') || request()->is('manager/active-users/edit/*') ? 'active' : '' }}">
-                                <a href="{{ url('manager/active-users') }}">
-                                    <span class="sub-item">Active</span>
-                                </a>
-                            </li>
                             <li class="{{ request()->is('manager/pending-users') || request()->is('manager/pending-users/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('manager/pending-users') }}">
                                     <span class="sub-item">Pending</span>
@@ -77,6 +72,11 @@
                             <li class="{{ request()->is('manager/suspend-users') || request()->is('manager/suspend-users/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('manager/suspend-users') }}">
                                     <span class="sub-item">Suspend</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/active-users') || request()->is('manager/active-users/edit/*') ? 'active' : '' }}">
+                                <a href="{{ url('manager/active-users') }}">
+                                    <span class="sub-item">Active</span>
                                 </a>
                             </li>
                         </ul>
@@ -163,15 +163,20 @@
                     </a>
                 </li>
                 <!--event section-->
-                <li class="nav-item {{ request()->is('manager/events*') ? 'active' : '' }}">
+                @php
+                    $isEventActive = request()->is('manager/events*') || request()->is('manager/waiting-for-approval') || request()->is('manager/active-participations*');
+                @endphp
+
+                <li class="nav-item {{ $isEventActive ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseEvent"
-                        class="{{ request()->is('manager/events*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('manager/events*') ? 'true' : 'false' }}">
+                        class="{{ $isEventActive ? '' : 'collapsed' }}"
+                        aria-expanded="{{ $isEventActive ? 'true' : 'false' }}">
                         <i class="fas fa-calendar-check"></i>
                         <p>Events</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('manager/events*') ? 'show' : '' }}" id="collapseEvent">
+
+                    <div class="collapse {{ $isEventActive ? 'show' : '' }}" id="collapseEvent">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('manager/events/create') ? 'active' : '' }}">
                                 <a href="{{ route('manager.events.create') }}">
@@ -183,6 +188,11 @@
                                     <span class="sub-item">All Events</span>
                                 </a>
                             </li>
+                            <li class="{{ request()->is('manager/waiting-for-approval') ? 'active' : '' }}">
+                                <a href="{{ route('manager.waiting.for.approval') }}">
+                                    <span class="sub-item">Waiting For Approval</span>
+                                </a>
+                            </li>
                             <li class="{{ request()->is('manager/active-participations*') ? 'active' : '' }}">
                                 <a href="{{ url('manager/active-participations') }}">
                                     <span class="sub-item">Active Participations</span>
@@ -191,6 +201,7 @@
                         </ul>
                     </div>
                 </li>
+
                 <!--visit plan section-->
                 <li class="nav-item {{ request()->is('manager/visit-plans*') || request()->is('manager/edit-visit-plan*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseVisitPlan"

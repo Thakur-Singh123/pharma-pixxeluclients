@@ -47,7 +47,13 @@
                                                                 colspan="1" style="width: 84.5px;">Disease</th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1" style="width: 184.234px;">Referred To
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Doctor
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 184.234px;">Referred By
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
@@ -72,6 +78,10 @@
                                                             <td>{{ $patient->contact_no }}</td>
                                                             <td>{{ $patient->address }}</td>
                                                             <td>{{ $patient->disease }}</td>
+                                                            <td>
+                                                                {{ $patient->doctor_detail->doctor_name ?? 'N/A' }}
+                                                                ({{ $patient->doctor_detail->specialist ?? 'N/A' }})
+                                                            </td>
                                                             <td>{{ $patient->referred_to }}</td>
                                                             <td>
                                                                 <span class="status-badge 

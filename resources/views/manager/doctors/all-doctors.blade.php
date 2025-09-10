@@ -59,6 +59,12 @@
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Speciality
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Doctor Contact
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -103,6 +109,7 @@
                                                             <td>{{ $doctor->state }}</td>
                                                             <td>{{ $doctor->area_code }}</td>
                                                             <td>{{ $doctor->doctor_name }}</td>
+                                                            <td>{{ $doctor->specialist }}</td>
                                                             <td>{{ $doctor->doctor_contact }}</td>
                                                             <td>{{ $doctor->location }}</td>
                                                             <td>{{ $doctor->remarks }}</td>

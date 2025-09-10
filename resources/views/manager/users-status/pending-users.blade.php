@@ -65,6 +65,12 @@
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Attachment
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -88,6 +94,16 @@
                                                             <td>{{ $pending->city }}</td>
                                                             <td>{{ $pending->state }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($pending->joining_date)->format('d M, Y') }}</td>
+                                                            <td>
+                                                                <!--Check if attachment exists or not-->
+                                                                @if ($pending->file_attachement)
+                                                                    <a href="{{ asset('public/uploads/attachments/' . $pending->file_attachement) }}"
+                                                                        target="_blank">View
+                                                                    </a>
+                                                                @else
+                                                                    -
+                                                                @endif
+                                                            </td>
                                                             <td>
                                                                 <span class="status-badge 
                                                                     {{ $pending->status == 'Pending' ? 'status-pending' : '' }} 

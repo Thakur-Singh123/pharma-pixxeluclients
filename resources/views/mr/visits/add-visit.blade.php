@@ -92,14 +92,14 @@
                                         <select name="doctor_id" class="form-control">
                                             <option value="">Please select</option>
                                             @foreach ($assignedDoctors as $doctor)
-                                            <option value="{{ $doctor->id }}">{{ $doctor->doctor_name }}
+                                            <option value="{{ $doctor->id }}">{{ $doctor->doctor_name }} ({{ $doctor->specialist }})
                                             </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <!--Religious Sub-type-->
-                                <div class="col-md-6 col-lg-4" id="religious_subtype_div" style="display: none;">
+                                <!-- <div class="col-md-6 col-lg-4" id="religious_subtype_div" style="display: none;">
                                     <div class="form-group">
                                         <label for="religious_type">Religious Type</label>
                                         <select name="religious_type" id="religious_type" class="form-control">
@@ -108,7 +108,7 @@
                                             <option value="gurudwara">Gurudwara</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--Status-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">

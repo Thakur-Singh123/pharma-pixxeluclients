@@ -58,6 +58,7 @@ class RegisterController extends Controller
             'city' => 'required|string',
             'state' => 'required|string',
             'joining_date' => 'required|string',
+            'document_file' => 'required',
         ]);
     }
 
@@ -69,6 +70,14 @@ class RegisterController extends Controller
      */
     //Function for submit user
     protected function create(array $data) {
+        //File handle
+        $filename = "";
+        if (request()->hasFile('document_file')) {
+            $file = request()->file('document_file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move(public_path('uploads/attachments'), $filename);
+        }
         //Get last employee code
         $lastEmployee = User::OrderBy('ID', 'DESC')->first();
         //Check if employee code exist or not
@@ -89,6 +98,8 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'state' => $data['state'],
             'joining_date' => $data['joining_date'],
+            'status' => 'Pending',
+            'file_attachement' => $filename,
         ]);
     }
 
@@ -98,7 +109,7 @@ class RegisterController extends Controller
         $this->guard()->logout();
         //Redirect back with success message
         return redirect()->route('login')
-            ->with('success', '✅ Your account has been created successfully. Please wait for manager approval before login.')
+            ->with('success', 'Your account has been created successfully. Please wait for manager approval before login.')
             ->with('openSignup', true);
     }
 

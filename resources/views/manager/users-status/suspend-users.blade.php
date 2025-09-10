@@ -65,6 +65,12 @@
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Attachment
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -77,50 +83,60 @@
                                                     </thead>
                                                     <tbody>
                                                         @php $count = 1 @endphp
-                                                        <!--Get users-->
-                                                        @forelse ($all_users as $user)
+                                                        <!--Get suspend users-->
+                                                        @forelse ($all_users as $suspend)
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
-                                                            <td>{{ $user->employee_code }}</td>
-                                                            <td>{{ $user->name }}</td>
-                                                            <td>{{ $user->email }}</td>
-                                                            <td>{{ $user->phone }}</td>
-                                                            <td>{{ $user->city }}</td>
-                                                            <td>{{ $user->state }}</td>
-                                                            <td>{{ \Carbon\Carbon::parse($user->joining_date)->format('d M, Y') }}</td>
+                                                            <td>{{ $suspend->employee_code }}</td>
+                                                            <td>{{ $suspend->name }}</td>
+                                                            <td>{{ $suspend->email }}</td>
+                                                            <td>{{ $suspend->phone }}</td>
+                                                            <td>{{ $suspend->city }}</td>
+                                                            <td>{{ $suspend->state }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($suspend->joining_date)->format('d M, Y') }}</td>
+                                                            <td>
+                                                                <!--Check if attachment exists or not-->
+                                                                @if ($suspend->file_attachement)
+                                                                    <a href="{{ asset('public/uploads/attachments/' . $suspend->file_attachement) }}"
+                                                                        target="_blank">View
+                                                                    </a>
+                                                                @else
+                                                                    -
+                                                                @endif
+                                                            </td>
                                                             <td>
                                                                 <span class="status-badge 
-                                                                    {{ $user->status == 'Pending' ? 'status-pending' : '' }} 
-                                                                    {{ $user->status == 'Suspend' ? 'status-suspend' : '' }} 
-                                                                    {{ $user->status == 'Active' ? 'status-active' : '' }} 
-                                                                    {{ $user->status == 'Approved' ? 'status-approved' : '' }}">
-                                                                    {{ ucfirst($user->status) }}
+                                                                    {{ $suspend->status == 'Pending' ? 'status-pending' : '' }} 
+                                                                    {{ $suspend->status == 'Suspend' ? 'status-suspend' : '' }} 
+                                                                    {{ $suspend->status == 'Active' ? 'status-active' : '' }} 
+                                                                    {{ $suspend->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($suspend->status) }}
                                                                 </span>
                                                             </td>
                                                             <td style="display: flex; gap: 5px;">
-                                                                @if ($user->status == 'Pending')
+                                                                @if ($suspend->status == 'Pending')
                                                                     <form method="POST"
-                                                                        action="{{ route('manager.user.approve', $user->id) }}">
+                                                                        action="{{ route('manager.user.approve', $suspend->id) }}">
                                                                         @csrf
                                                                         <button
                                                                             class="btn btn-success btn-sm">Approve</button>
                                                                     </form>
                                                                     <form method="POST"
-                                                                        action="{{ route('manager.user.reject', $user->id) }}">
+                                                                        action="{{ route('manager.user.reject', $suspend->id) }}">
                                                                         @csrf
                                                                         <button
                                                                             class="btn btn-danger btn-sm">Suspend</button>
                                                                     </form>
-                                                                @elseif($user->status == 'Approved')
+                                                                @elseif($suspend->status == 'Approved')
                                                                     <form method="POST"
-                                                                        action="{{ route('manager.user.reject', $user->id) }}">
+                                                                        action="{{ route('manager.user.reject', $suspend->id) }}">
                                                                         @csrf
                                                                         <button
                                                                             class="btn btn-danger btn-sm">Suspend</button>
                                                                     </form>
-                                                                @elseif($user->status == 'Suspend')
+                                                                @elseif($suspend->status == 'Suspend')
                                                                     <form method="POST"
-                                                                        action="{{ route('manager.user.approve', $user->id) }}">
+                                                                        action="{{ route('manager.user.approve', $suspend->id) }}">
                                                                         @csrf
                                                                         <button
                                                                             class="btn btn-success btn-sm">Approve</button>

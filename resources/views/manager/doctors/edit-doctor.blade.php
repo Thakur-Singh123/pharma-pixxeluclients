@@ -113,6 +113,17 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <!--Speciality-->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="speciality">Speciality</label>
+                                        <input type="text" class="form-control" id="speciality" name="speciality"
+                                            value="{{ old('speciality', $doctor_detail->specialist) }}" placeholder="Enter speciality">
+                                        @error('speciality')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <!--Remarks-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">

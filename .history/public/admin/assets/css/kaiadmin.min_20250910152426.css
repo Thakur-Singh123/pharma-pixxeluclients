@@ -5156,7 +5156,7 @@ label.error {
 	padding: 0 8px;
 	height: 44px;
 	border-radius: 3px;
-	color: #fff
+	color: #000
 }
 
 .navbar .navbar-nav .topbar-user .profile-pic:focus,

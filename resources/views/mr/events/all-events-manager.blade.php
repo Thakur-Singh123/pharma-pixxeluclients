@@ -39,11 +39,10 @@
                                                                     colspan="1"
                                                                     style="width: 366.578px;">Description
                                                                 </th> 
-                                                                <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1" colspan="1"
-                                                                    style="width: 366.578px;">
-                                                                    Assigned To 
-                                                                </th>
+                                                                  <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 366.578px;">Doctor Name</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -83,9 +82,7 @@
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $event->title }}</td>
                                                                     <td>{{ $event->description }}</td>
-                                                                    <td>
-                                                                      <td>{{ $event->doctor_detail->doctor_name ?? 'N/A' }}</td>
-                                                                    </td>
+                                                                    <td>{{ $event->doctor_detail->doctor_name ?? 'N/A' }}</td>
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>

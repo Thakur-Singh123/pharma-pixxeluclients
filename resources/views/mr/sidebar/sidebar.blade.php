@@ -78,7 +78,7 @@
                     </div>
                 </li>
                 <!--Task section-->
-                <li class="nav-item {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTask"
                     class="{{ request()->is('mr/tasks*') ? '' : 'collapsed' }}"
                     aria-expanded="{{ request()->is('mr/tasks*') ? 'true' : 'false' }}">
@@ -86,7 +86,7 @@
                         <p>Task</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval*') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.create') }}">

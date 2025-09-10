@@ -59,7 +59,7 @@
                         class="{{ request()->is('manager/pending-users') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('manager/pending-users') ? 'true' : 'false' }}">
                         <i class="fas fa-users"></i>
-                        <p>Users</p>
+                        <p>MRS Users</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse {{ request()->is('manager/active-users') || request()->is('manager/pending-users') || request()->is('manager/suspend-users') ? 'show' : '' }}" id="collapseUser">

@@ -457,15 +457,15 @@ img.image-css {
 .no-image {
 	color: #dd0000;
 	font-style: italic;
-	font-size: 14px;
+	font-size: 16px;
 }
 .alert.alert-success {
     color: #2c9930;
-    font-size: 14px;
+    font-size: 16px;
 }
 .alert.alert-danger {
     color: red;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .status-badge {
@@ -676,53 +676,8 @@ table#basic-datatables th {
     min-width: fit-content !important;
     width: fit-content !important;
 }
-
-.status-progress {
-    background: rgb(139, 1, 139);
-    color: #ffffff;
-    font-size: 10px;
-    border: none;
-    padding: 6px 8px;
-    min-width: fit-content !important;
-    width: fit-content !important;
-}
-
-.status-completed {
-    background: rgb(4, 230, 4);
-    color: #fff;
-    font-size: 10px;
-    border: none;
-    padding: 6px 13px;
-    min-width: fit-content !important;
-    width: fit-content !important;
-}
-
-
 .table-striped>tbody>tr:nth-of-type(odd)>* {
     --bs-table-color-type: var(--bs-table-striped-color);
     --bs-table-bg-type: rgb(0 0 0 / 0%) !important;
 }
 
-
-ul.pagination {
-    gap: 3px;
-}
-
-ul.pagination li span {
-    width: 32px !important;
-    height: 32px !important;
-    padding: 0;
-    text-align: center;
-    line-height: 32px;
-    font-size: 15px;
-}
-
-ul.pagination li span, ul.pagination li a {
-    width: 32px !important;
-    height: 32px !important;
-}
-
-li.page-item.active span.page-link {
-    background: #1a2035;
-    border: none;
-}

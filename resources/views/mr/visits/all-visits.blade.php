@@ -58,7 +58,7 @@
                                                         <th class="sorting" tabindex="0"
                                                             aria-controls="basic-datatables" rowspan="1"
                                                             colspan="1"
-                                                            style="width: 184.234px;">Doctor Name
+                                                            style="width: 184.234px;">Visit Type
                                                         </th>
                                                         <th class="sorting" tabindex="0"
                                                             aria-controls="basic-datatables" rowspan="1"
@@ -85,8 +85,18 @@
                                                         <td>{{ $visit->state }}</td>
                                                         <td>{{ $visit->area_code }}</td>
                                                         <td>
-                                                            {{ $visit->doctor->doctor_name ?? 'N/A' }}
-                                                            ({{ $visit->doctor->specialist ?? 'N/A' }})
+                                                            <!--Check if visit type exits or not-->
+                                                            @if($visit->visit_type == 'other')
+                                                                Other Visit -
+                                                                ({{ $visit->other_visit ?? 'N/A' }})
+                                                            @elseif($visit->visit_type == 'doctor')
+                                                                Doctor Visit - 
+                                                                ({{ $visit->doctor->doctor_name ?? 'N/A' }} -
+                                                                {{ $visit->doctor->specialist ?? 'N/A' }})
+                                                            @elseif($visit->visit_type == 'religious_places')
+                                                                Religious Places -
+                                                                ({{ $visit->religious_place ?? 'N/A' }})
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             <span class="status-badge 

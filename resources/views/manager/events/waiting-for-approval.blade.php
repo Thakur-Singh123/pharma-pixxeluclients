@@ -39,20 +39,14 @@
                                                                     colspan="1"
                                                                     style="width: 366.578px;">Description
                                                                 </th>
-                                                                 @php
+                                                                @php
                                                                     $createdBy = request('created_by');
                                                                 @endphp
 
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1" colspan="1"
                                                                     style="width: 366.578px;">
-                                                                    @if($createdBy === 'manager')
-                                                                        Assigned To
-                                                                    @elseif($createdBy === 'mr')
-                                                                        Created By
-                                                                    @else
-                                                                        Assigned To / Created By
-                                                                    @endif
+                                                                    Assigned To
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -93,18 +87,8 @@
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $event->title }}</td>
                                                                     <td>{{ $event->description }}</td>
-                                                                    <td>
-                                                                        @php
-                                                                            $createdBy = request('created_by');
-                                                                        @endphp
-
-                                                                        @if($createdBy === 'manager')
-                                                                            {{ optional($event->mr)->name ?? 'N/A' }}
-                                                                        @elseif($createdBy === 'mr')
-                                                                            {{ auth()->user()->name ?? 'N/A' }}
-                                                                        @else
-                                                                            {{ optional($event->mr)->name }} / {{  auth()->user()->name ?? 'N/A' }}
-                                                                        @endif
+                                                                    <td>  
+                                                                    {{ optional($event->mr)->name }} 
                                                                     </td>
                                                                     <td>{{ $event->location }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
@@ -127,7 +111,7 @@
                                                                     @if ($event->is_active == false)
                                                                         <form method="POST" action="{{ route('manager.approved.events', $event->id) }}">
                                                                             @csrf
-                                                                            <button class="btn btn-success btn-sm">Approved</button>
+                                                                            <button class="btn btn-success btn-sm">Approve</button>
                                                                         </form>
                                                                     @elseif($event->is_active == true)
                                                                         <form method="POST" action="{{ route('manager.rejected.events', $event->id) }}">

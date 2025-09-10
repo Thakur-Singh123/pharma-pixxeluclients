@@ -81,6 +81,10 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 156.312px;">Status
+                                                                </th>
+                                                                 <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 156.312px;">Action
                                                                 </th>
                                                             </tr>
@@ -135,6 +139,17 @@
                                                                                     class="btn btn-success btn-sm">Approve</button>
                                                                             </form>
                                                                         @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-button-action">
+                                                                            <a href="{{ url('manager/edit-tada', $tada_record->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                                <i class="fa fa-edit"></i>
+                                                                            </a>
+                                                                            <a href="{{ url('manager/delete-tada', $tada_record->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </a>
+                                                                            </form>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             @empty

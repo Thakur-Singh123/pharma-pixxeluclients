@@ -24,6 +24,9 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
     //Task management
     Route::resource('tasks', App\Http\Controllers\Manager\TaskController::class);
+    Route::get('tasks-waiting-for-approval', [App\Http\Controllers\Manager\TaskController::class,'waitingForApproval'])->name('tasks.waiting.for.approval');
+    Route::post('approved-tasks/{id}', [App\Http\Controllers\Manager\TaskController::class,'approvedtasks'])->name('approved.tasks');
+    Route::post('rejected-tasks/{id}', [App\Http\Controllers\Manager\TaskController::class,'rejectedtasks'])->name('rejected.tasks');
     //Event management
     Route::resource('events', App\Http\Controllers\Manager\EventController::class);
     Route::get('waiting-for-approval', [App\Http\Controllers\Manager\EventController::class,'waitingForApproval'])->name('waiting.for.approval');
@@ -44,6 +47,9 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/tada-records', [App\Http\Controllers\Manager\TADAController::class, 'index'])->name('tada.index');
     Route::post('/ta-da/{id}/approve', [App\Http\Controllers\Manager\TADAController::class, 'approve'])->name('ta_da.approve');
     Route::post('/ta-da/{id}/reject', [App\Http\Controllers\Manager\TADAController::class, 'reject'])->name('ta_da.reject');
+    Route::get('/edit-tada/{id}', [App\Http\Controllers\Manager\TADAController::class, 'edit_tada']);
+    Route::post('/update-tada/{id}', [App\Http\Controllers\Manager\TADAController::class, 'update_tada'])->name('update.tada');
+    Route::get('/delete-tada/{id}', [App\Http\Controllers\Manager\TADAController::class, 'delete_tada']);
     //Calendar
     Route::get('/calendar', [App\Http\Controllers\Manager\CalendarController::class, 'index'])->name('calendar.index');
     Route::get('/calendar/tasks', [App\Http\Controllers\Manager\CalendarController::class, 'getTasks'])->name('calendar.tasks');

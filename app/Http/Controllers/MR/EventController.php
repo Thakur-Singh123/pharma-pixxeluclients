@@ -22,7 +22,7 @@ class EventController extends Controller
          if(request()->filled('created_by')) {
              $query = $query->where('created_by', request('created_by'));
          }
-        $events = $query->with('doctor_detail')->where('is_active',1)->orderBy('created_at', 'desc')->paginate(10);
+        $events = $query->with('doctor_detail')->orderBy('created_at', 'desc')->paginate(10);
         return view('mr.events.index', compact('events'));
     }
 
@@ -35,6 +35,20 @@ class EventController extends Controller
          }
         $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(10);
         return view('mr.events.pending-approval', compact('events'));
+    }
+
+      //Function for manager assgin events
+    public function assign_manger() {
+        //Get manager tasks
+        $manager_event = Events::where('created_by', 'manager')->with('doctor_detail')->paginate(5);
+        return view('mr.events.all-events-manager', compact('manager_event'));
+    }
+
+    //Function for himself events
+    public function himself() {
+        //Get himself tasks
+        $himself_event = Events::where('created_by', 'mr')->with('doctor_detail')->paginate(5);
+        return view('mr.events.all-evenst-mr', compact('himself_event'));
     }
     //Function for add events
     public function create() {

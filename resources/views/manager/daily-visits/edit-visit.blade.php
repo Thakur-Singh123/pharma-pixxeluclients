@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
 <div class="container">
    <div class="page-inner">
@@ -14,8 +14,9 @@
                   <div class="card-title">Edit Visit</div>
                </div>
                <div class="card-body">
-                  <form action="{{ route('mr.update.visit', $visit_detail->id) }}" method="POST" autocomplete="off">
-                     @csrf
+                  <form action="{{ route('manager.visits.update', $visit_detail->id) }}" method="POST" autocomplete="off">
+                    @csrf
+                    @method('PUT')
                      <div class="row">
                         <!--Area Name-->
                         <div class="col-md-6 col-lg-4">
@@ -72,7 +73,7 @@
                               @enderror
                            </div>
                         </div>
-                        <div class="col-md-6 col-lg-4">
+                        <!-- <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="status">Visit Type</label>
                               <select name="visit_type" id="visit_type" class="form-control">
@@ -81,13 +82,13 @@
                                  <option value="other" {{ old('visit_type', $visit_detail->visit_type) == 'other' ? 'selected' : '' }}>Other Visit (NGOs, Asha workers etc.)</option>
                               </select>
                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4" id="doctor_fields" style="display: block;">
+                        </div> -->
+                        <!-- <div class="col-md-6 col-lg-4" id="doctor_fields" style="display: block;">
                            <div class="form-group">
                               <label for="status">Doctor</label>
                               <select name="doctor_id" class="form-control">
                                  <option value="">Please select</option>
-                                 <!--Get doctors-->
+                               
                                  @foreach ($assignedDoctors as $doctor)
                                  <option value="{{ $doctor->id }}" {{ $visit_detail->doctor?->id == $doctor->id ? 'selected' : '' }}>
                                     {{ $doctor->doctor_name }} ({{ $doctor->specialist }})
@@ -98,9 +99,9 @@
                                  <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
-                        </div>
+                        </div> -->
                         <!--Religious Places input -->
-                        <div class="col-md-6 col-lg-4 visit-extra visit-religious" style="display:none;">
+                        <!-- <div class="col-md-6 col-lg-4 visit-extra visit-religious" style="display:none;">
                            <div class="form-group">
                                  <label>Religious Place Name</label>
                                  <input type="text" name="religious_place_name" id="religious_place_name" value="{{ old('religious_place_name', $visit_detail->religious_place) }}" class="form-control" placeholder="Enter place name">
@@ -108,9 +109,9 @@
                                     <small class="text-danger">{{ $message }}</small>
                                  @enderror
                            </div>
-                        </div>
+                        </div> -->
                         <!--Other Visit input-->
-                        <div class="col-md-6 col-lg-4 visit-extra visit-other" style="display:none;">
+                        <!-- <div class="col-md-6 col-lg-4 visit-extra visit-other" style="display:none;">
                            <div class="form-group">
                                  <label>Other Visit Details</label>
                                  <input type="text" name="other_visit_details" id="other_visit_details" class="form-control" value="{{ old('other_visit_details', $visit_detail->other_visit) }}" placeholder="Enter details">
@@ -118,7 +119,7 @@
                                     <small class="text-danger">{{ $message }}</small>
                                  @enderror
                            </div>
-                        </div>
+                        </div> -->
                         <!--Status-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">

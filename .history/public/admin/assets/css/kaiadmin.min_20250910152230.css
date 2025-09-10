@@ -459,7 +459,7 @@ body {
 }
 
 .main-header {
-	background: #181a22;
+	background: #fff;
 	min-height: 60px;
 	width: calc(100% - 250px);
 	position: fixed;
@@ -2137,7 +2137,7 @@ body[data-background-color=dark] .border-top {
 }
 
 .logo-header[data-background-color=dark] {
-	background: #181a22 !important
+	background: #1a2035 !important
 }
 
 .logo-header[data-background-color=dark2] {
@@ -5156,7 +5156,7 @@ label.error {
 	padding: 0 8px;
 	height: 44px;
 	border-radius: 3px;
-	color: #fff
+	color: #000
 }
 
 .navbar .navbar-nav .topbar-user .profile-pic:focus,

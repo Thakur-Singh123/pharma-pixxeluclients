@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All Visits</h4>
+                                <h4 class="card-title">All Tasks</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -32,107 +32,87 @@
                                                             <th class="sorting_asc" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" aria-sort="ascending"
-                                                                style="width: 242.688px;">Area Name
+                                                                style="width: 242.688px;">Title
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 366.578px;">Area Block
+                                                                style="width: 366.578px;">Description
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 187.688px;">District
+                                                                style="width: 366.578px;">Location
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 84.5px;">State</th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 184.234px;">Area Code
+                                                                style="width: 366.578px;">Assigned To
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 184.234px;">Mr Name
+                                                                style="width: 156.312px;">Start Date
                                                             </th>
-                                                            <!-- <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 184.234px;">Visit Type
-                                                            </th> -->
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">End date
+                                                            </th>
+                                                             <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @php $count = 1 @endphp
-                                                        @forelse ($all_visits as $visit)
+                                                        <!--Get tasks-->
+                                                        @forelse ($tasks as $task)
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
-                                                            <td>{{ $visit->area_name }}</td>
-                                                            <td>{{ $visit->area_block }}</td>
-                                                            <td>{{ $visit->district }}</td>
-                                                            <td>{{ $visit->state }}</td>
-                                                            <td>{{ $visit->area_code }}</td>
-                                                            <td>{{ $visit->mr['name'] }}</td>
-                                                            <!-- <td>
-                                                                @if($visit->visit_type == 'other')
-                                                                    Other Visit -
-                                                                    ({{ $visit->other_visit ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'doctor')
-                                                                    Doctor Visit - 
-                                                                    ({{ $visit->doctor->doctor_name ?? 'N/A' }} -
-                                                                    {{ $visit->doctor->specialist ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'religious_places')
-                                                                    Religious Places -
-                                                                    ({{ $visit->religious_place ?? 'N/A' }})
-                                                                @endif
-                                                            </td> -->
+                                                            <td>{{ $task->title }}</td>
+                                                            <td>{{ $task->description }}</td>
+                                                            <td>{{ $task->location }}</td>
+                                                            <td>{{ $task->mr->name }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                             <td>
                                                                 <span class="status-badge 
-                                                                    {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
-                                                                    {{ $visit->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                    {{ $visit->status == 'Active' ? 'status-active' : '' }}
-                                                                    {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
-                                                                    {{ ucfirst($visit->status) }}
+                                                                    {{ $task->status == 'pending' ? 'status-pending' : '' }}
+                                                                    {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
+                                                                    {{ $task->status == 'completed' ? 'status-completed' : '' }}">
+                                                                        {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
                                                                 </span>
                                                             </td>
-                                                            <td>
-                                                                <div class="form-button-action">
-                                                                    <a href="{{ route('manager.visits.edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                        <i class="fa fa-edit"></i>
-                                                                    </a>
-                                                                    <form action="{{ route('manager.visits.destroy', $visit->id) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
-                                                                            <i class="fa fa-trash"></i>
-                                                                        </a>
-                                                                    </form>
-                                                                </div>
-                                                            </td>
+                                                             <td>
+                                                                    @if ($task->is_active == false)
+                                                                        <form method="POST" action="{{ route('manager.approved.tasks', $task->id) }}">
+                                                                            @csrf
+                                                                            <button class="btn btn-success btn-sm">Approve</button>
+                                                                        </form>
+                                                                    @elseif($task->is_active == true)
+                                                                        <form method="POST" action="{{ route('manager.rejected.tasks', $task->id) }}">
+                                                                            @csrf
+                                                                            <button class="btn btn-danger btn-sm">Reject</button>
+                                                                        </form>    
+                                                                    @endif
+                                                                </td>
                                                         </tr>
                                                         @empty
                                                         <tr>
-                                                            <td colspan="8" class="text-center">No visits found.</td>
+                                                            <td colspan="10" class="text-center">No record found</td>
                                                         </tr>
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $all_visits->links('pagination::bootstrap-5') }}
+                                                {{ $tasks->links('pagination::bootstrap-5') }}
                                             </div>
                                         </div>
                                     </div>
@@ -143,6 +123,6 @@
                 </div>
             </div>
         </div>
-    </div>
+   </div>
 </div>
 @endsection

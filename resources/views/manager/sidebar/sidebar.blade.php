@@ -59,7 +59,7 @@
                         class="{{ request()->is('manager/pending-users') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('manager/pending-users') ? 'true' : 'false' }}">
                         <i class="fas fa-users"></i>
-                        <p>Users</p>
+                        <p>MRS Users</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse {{ request()->is('manager/active-users') || request()->is('manager/pending-users') || request()->is('manager/suspend-users') ? 'show' : '' }}" id="collapseUser">
@@ -83,23 +83,23 @@
                     </div>
                 </li>
                 <!--daily visit section-->
-                <li class="nav-item {{ request()->is('manager/visits') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/visits') || request()->is('manager/visits/*/edit') ? 'active' : '' }}">
                     <a href="{{ url('manager/visits') }}"
-                        class="nav-link {{ request()->is('manager/visits') ? 'active' : '' }}">
+                        class="nav-link {{ request()->is('manager/visits') || request()->is('manager/visits/*/edit') ? 'active' : '' }}">
                         <i class="fas fa-walking"></i>
                         <p>Daily Visits</p>
                     </a>
                 </li>
                 <!--task section-->
-                <li class="nav-item {{ request()->is('manager/tasks*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTask"
-                        class="{{ request()->is('manager/tasks*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('manager/tasks*') ? 'true' : 'false' }}">
+                        class="{{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? 'true' : 'false' }}">
                         <i class="fas fa-clipboard-list"></i>
                         <p>Task</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('manager/tasks*') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('manager/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.create') }}">
@@ -109,6 +109,11 @@
                             <li class="{{ request()->is('manager/tasks') || request()->is('manager/tasks/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.index') }}">
                                     <span class="sub-item">All Task</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/tasks-waiting-for-approval') ? 'active' : '' }}">
+                                <a href="{{ route('manager.tasks.waiting.for.approval') }}">
+                                    <span class="sub-item">Waiting For Approval</span>
                                 </a>
                             </li>
                         </ul>
@@ -147,9 +152,9 @@
                     </a>
                 </li>
                 <!--tada section-->
-                <li class="nav-item {{ request()->is('manager/tada-records') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/tada-records') || request()->is('manager/edit-tada/*') ? 'active' : '' }}">
                     <a href="{{ url('manager/tada-records') }}"
-                        class="nav-link {{ request()->is('manager/tada-records') ? 'active' : '' }}">
+                        class="nav-link {{ request()->is('manager/tada-records') || request()->is('manager/edit-tada/*') ? 'active' : '' }}">
                         <i class="fas fa-suitcase-rolling"></i>
                         <p>TA/DA</p>
                     </a>

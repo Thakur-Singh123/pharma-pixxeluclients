@@ -705,7 +705,7 @@ table#basic-datatables th {
 
 
 ul.pagination {
-    gap: 3px;
+    gap: 5px;
 }
 
 ul.pagination li span {

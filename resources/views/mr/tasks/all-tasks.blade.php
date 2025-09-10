@@ -12,8 +12,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">All Tasks</h4>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title">All Events</h4>
+                                    <form method="GET" action="{{ route('mr.tasks.index') }}">
+                                    <select name="created_by" class="form-control" onchange="this.form.submit()">
+                                        <option value="">📋 All Tasks</option>
+                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>👤 Created by Me (MR)</option>
+                                        <option value="Manager" {{ request('created_by') == 'Manager' ? 'selected' : '' }}>🧑‍💼 Created by Manager</option>
+                                    </select>
+                                    </form>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">

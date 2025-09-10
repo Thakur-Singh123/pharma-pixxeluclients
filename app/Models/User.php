@@ -27,6 +27,7 @@ class User extends Authenticatable
         'mobile',
         'address',
         'image',
+        'file_attachement',
         'status',
         'user_type',
         'phone',

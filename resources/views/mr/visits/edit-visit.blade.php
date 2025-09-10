@@ -90,7 +90,7 @@
                                  <!--Get doctors-->
                                  @foreach ($assignedDoctors as $doctor)
                                  <option value="{{ $doctor->id }}" {{ $visit_detail->doctor?->id == $doctor->id ? 'selected' : '' }}>
-                                    {{ $doctor->doctor_name }}
+                                    {{ $doctor->doctor_name }} ({{ $doctor->specialist }})
                                  </option>
                                  @endforeach
                               </select>
@@ -99,7 +99,7 @@
                               @enderror
                            </div>
                         </div>
-                        <div class="col-md-6 col-lg-4" id="religious_subtype_div" style="display: none;">
+                        <!-- <div class="col-md-6 col-lg-4" id="religious_subtype_div" style="display: none;">
                            <div class="form-group">
                               <label for="religious_type">Religious Type</label>
                               <select name="religious_type" id="religious_type" class="form-control">
@@ -108,7 +108,7 @@
                                  <option value="gurudwara" @if($visit_detail->religious_type == 'gurudwara') selected @endif>Gurudwara</option>
                               </select>
                            </div>
-                        </div>
+                        </div> -->
                         <!--Status-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">

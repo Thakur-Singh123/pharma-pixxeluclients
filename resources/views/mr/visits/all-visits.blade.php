@@ -58,6 +58,11 @@
                                                         <th class="sorting" tabindex="0"
                                                             aria-controls="basic-datatables" rowspan="1"
                                                             colspan="1"
+                                                            style="width: 184.234px;">Doctor Name
+                                                        </th>
+                                                        <th class="sorting" tabindex="0"
+                                                            aria-controls="basic-datatables" rowspan="1"
+                                                            colspan="1"
                                                             aria-label="Salary: activate to sort column ascending"
                                                             style="width: 156.312px;">Status
                                                         </th>
@@ -79,7 +84,11 @@
                                                         <td>{{ $visit->district }}</td>
                                                         <td>{{ $visit->state }}</td>
                                                         <td>{{ $visit->area_code }}</td>
-                                                       <td>
+                                                        <td>
+                                                            {{ $visit->doctor->doctor_name ?? 'N/A' }}
+                                                            ({{ $visit->doctor->specialist ?? 'N/A' }})
+                                                        </td>
+                                                        <td>
                                                             <span class="status-badge 
                                                                 {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
                                                                 {{ $visit->status == 'Suspend' ? 'status-suspend' : '' }}

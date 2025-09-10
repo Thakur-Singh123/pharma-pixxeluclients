@@ -96,7 +96,7 @@
                </div>
                <div class="signup-form">
                   <div class="title">Signup</div>
-                  <form id="signupForm" method="POST" action="{{ route('register') }}">
+                  <form id="signupForm" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                      @csrf
                      <div class="form-row">
                         <div class="input-box">
@@ -159,6 +159,15 @@
                            @enderror
                         </div>
                      </div>
+                     <div class="form-row">
+                        <div class="input-box">
+                           <i class="fas fa-file"></i>
+                           <input id="document_file" type="file" name="document_file" accept=".jpg,.jpeg,.png,.pdf">
+                           @error('document_file', 'register')
+                              <small class="text-danger">{{ $message }}</small>
+                           @enderror
+                        </div>
+                     </div>
                      <div class="loaderss com_ajax_loader" style="display:none;">
                         <img src="{{ asset('public/admin/images/200w.gif') }}">
                      </div>
@@ -192,7 +201,7 @@
       });
 
       phoneInputField.addEventListener("input", function () {
-         let dialCode = "+" + phoneInput.getSelectedCountryData().dialCode + " - ";
+         let dialCode = "+" + phoneInput.getSelectedCountryData().dialCode + "  ";
          if (!this.value.startsWith(dialCode)) {
             this.value = dialCode + this.value.replace(/[^0-9]/g, "");
          } else {
@@ -203,12 +212,12 @@
 
       phoneInputField.addEventListener("countrychange", function () {
          const countryData = phoneInput.getSelectedCountryData();
-         const dialCode = "+" + countryData.dialCode + " - ";
+         const dialCode = "+" + countryData.dialCode + "  ";
          this.value = dialCode;
       });
 
       const defaultCountry = phoneInput.getSelectedCountryData();
-      phoneInputField.value = "+" + defaultCountry.dialCode + " - ";
+      phoneInputField.value = "+" + defaultCountry.dialCode + "  ";
    </script>
    <script>
       document.getElementById("signupForm").addEventListener("submit", function(e){

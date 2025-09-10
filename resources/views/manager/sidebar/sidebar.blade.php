@@ -64,11 +64,6 @@
                     </a>
                     <div class="collapse {{ request()->is('manager/active-users') || request()->is('manager/pending-users') || request()->is('manager/suspend-users') ? 'show' : '' }}" id="collapseUser">
                         <ul class="nav nav-collapse">
-                            <li class="{{ request()->is('manager/active-users') || request()->is('manager/active-users/edit/*') ? 'active' : '' }}">
-                                <a href="{{ url('manager/active-users') }}">
-                                    <span class="sub-item">Active</span>
-                                </a>
-                            </li>
                             <li class="{{ request()->is('manager/pending-users') || request()->is('manager/pending-users/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('manager/pending-users') }}">
                                     <span class="sub-item">Pending</span>
@@ -77,6 +72,11 @@
                             <li class="{{ request()->is('manager/suspend-users') || request()->is('manager/suspend-users/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('manager/suspend-users') }}">
                                     <span class="sub-item">Suspend</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/active-users') || request()->is('manager/active-users/edit/*') ? 'active' : '' }}">
+                                <a href="{{ url('manager/active-users') }}">
+                                    <span class="sub-item">Active</span>
                                 </a>
                             </li>
                         </ul>

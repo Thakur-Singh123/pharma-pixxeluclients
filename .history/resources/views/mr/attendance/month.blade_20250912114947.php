@@ -59,7 +59,7 @@
         .att-table th, .att-table td{font-size:0.93em;}
     }
 </style>
-<div class="container">
+<div class="container month_att">
     <div class="page-inner">
     <div class="mb-4 text-center heading_attendance">
         <h2 class="fw-bold text-primary">My Attendance ({{ now()->format('F Y') }})</h2>

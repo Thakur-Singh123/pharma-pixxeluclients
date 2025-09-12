@@ -29,7 +29,7 @@
 }
 
 .attendance-hero {
-    background: #23283c;
+    background: linear-gradient(92deg,#4270fa 0,#48c3fc 100%);
     border-radius: 14px 14px 0 0;
     min-height: 70px;
     padding: 10px 20px;
@@ -49,32 +49,9 @@
         letter-spacing: 0.025em;
         display:inline-block;
     }
-    .stat-absent {
-        background: #fff;
-        color: red;
-        border: 0px solid #fff;
-        font-size: 12px;
-        margin: 0;
-    }
-    .stat-half {
-        background: #fff;
-        color: blue;
-        border: 0px solid #ffe6a6;
-         font-size: 12px;
-         margin: 0;
-    }
-.container.month_att {
-    display: flex;
-    align-items: center;
-}
-    .stat-absent {
-        background: #fff;
-        color: green;
-        border: 0px solid #ffbeb1;
-         font-size: 12px;
-        margin: 0;
-    }
-
+    .stat-present { background: #e8fbe7; color: #25a04c; border: 1px solid #aae6b7; }
+    .stat-half { background: #fff9e6; color: #d8b400; border: 1px solid #ffe6a6; }
+    .stat-absent { background: #ffeeed; color: #e04a34; border: 1px solid #ffbeb1; }
     .card-shadow {
         box-shadow: 0 4px 24px rgba(44,62,80,0.09), 0 1.5px 5px rgba(44,62,80,.025);
         border-radius: 16px;
@@ -85,7 +62,7 @@
         .status-big {font-size:1.1rem;padding:6px 17px;}
     }
 </style>
-<div class="container  month_att" style="max-width: 540px;">
+<div class="container" style="max-width: 540px;">
     <div class="page-inner">
     <div class="row g-0 overflow-hidden card-shadow mb-4">
         <div class="attendance-hero">
@@ -93,7 +70,7 @@
                 <i class="fa-solid fa-user"></i>
             </div> -->
             <div class=" fs-5 fw-bold">{{ auth()->user()->name }}</div>
-            <div class="attendance_single">
+            <div class="my-3">
                 @if($attendance)
                     @if($attendance->status === 'present')
                         <span class="status-big stat-present">
@@ -139,7 +116,7 @@
             </div>
 
 
-            <div class="free_del">
+            <div class="pt-4">
                 <form action="{{ route('mr.attendance.checkin') }}" method="POST" class="d-inline">
                     @csrf
                     <button class="btn btn-success shadow-sm me-2"
@@ -155,7 +132,7 @@
                     </button>
                 </form>
             </div>
-            <div class="text-muted mt-4" style="font-size:14px">
+            <div class="text-muted mt-2" style="font-size:12px">
                 <i class="bi bi-info-circle me-1"></i>
                 Please check-in at start of day, and check-out at end for full attendance.
             </div>

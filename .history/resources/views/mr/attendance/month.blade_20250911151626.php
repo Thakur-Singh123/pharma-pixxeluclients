@@ -12,7 +12,7 @@
 @endphp
 <style>
     .att-table {width: 100%;border-collapse: separate;border-spacing: 0;background: #fff;border-radius: 14px;box-shadow: 0 3px 20px rgba(66,112,250,0.06);overflow: hidden;}
-    .att-table th, .att-table td {padding: 6px 7px;text-align: center;font-size: 1rem;vertical-align: middle;border: none;}
+    .att-table th, .att-table td {padding: 10px 7px;text-align: center;font-size: 1rem;vertical-align: middle;border: none;}
     .att-table th {background: #f4f8fd;color: #4270fa;letter-spacing: 0.06em;font-weight: 700;}
     .row-summary td {background: #f4f8fd;font-weight:700;font-size:1.09em;}
     .summ-badge {padding:4px 17px;font-size:1.05em;font-weight:700;border-radius:18px;letter-spacing:0.02em;}
@@ -38,14 +38,7 @@
         padding: 10px 27px;
         font-size: 13px;
     }
-.heading_attendance h2 {
-    color: #000 !important;
-    background: #ffff;
-    border: 1px solid#ddd;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 18px;
-}
+
     .summ-absent {background:#fff1ec;color:#df493b;border: 1px solid #ffcab9;padding: 10px 27px;
         font-size: 13px;}
     .summ-leave {background:#ebf2fa;color:#3877b5;border: 1px solid #b3dafe;padding: 10px 27px;

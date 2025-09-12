@@ -80,49 +80,10 @@
         padding: 2px 4px;
         line-height: 1.1;
     }
-    .att-present {
-        background: #e4fbe6;
-        color: #0db81f;
-        border-radius: 50%;
-        height: 30px;
-        line-height: 26px;
-        font-size: 13px;
-        min-width: 30px;
-    }
-    table.attendance-table td {
-        border: 1px solid #ebebeb;
-        border-radius: 0 !important;
-    }
-    .att-half {
-        background: #fffdea;
-        color: #bca200;
-        border-radius: 50%;
-        height: 30px;
-        line-height: 26px;
-        font-size: 13px;
-        min-width: 30px;
-    }
-    .att-leave {
-        background: #e6f3fc;
-        color: #2471c1;
-        border-radius: 50%;
-        height: 30px;
-        line-height: 26px;
-        font-size: 13px;
-        min-width: 30px;
-    }
-
-
-    .att-absent {
-    background: #fff2ee;
-    color: #e04a34;
-    border-radius: 50%;
-    height: 30px;
-    line-height: 26px;
-    font-size: 13px;
-    min-width: 30px;
-}
-
+    .att-present { background: #e4fbe6; color: #0db81f; }
+    .att-half { background: #fffdea; color: #bca200; }
+    .att-leave { background: #e6f3fc; color: #2471c1; }
+    .att-absent { background: #fff2ee; color: #e04a34; }
     .tot-title {background: #f2f7fa; color: #7e8fa9; font-size: 0.85em;}
     @media (max-width: 700px) {
         .attendance-container {padding: 12px 4px 6px 4px;}

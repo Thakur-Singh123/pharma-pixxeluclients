@@ -83,15 +83,6 @@
     .att-present {
         background: #e4fbe6;
         color: #0db81f;
-        border-radius: 50%;
-        height: 30px;
-        line-height: 26px;
-        font-size: 13px;
-        min-width: 30px;
-    }
-    table.attendance-table td {
-        border: 1px solid #ebebeb;
-        border-radius: 0 !important;
     }
     .att-half {
         background: #fffdea;

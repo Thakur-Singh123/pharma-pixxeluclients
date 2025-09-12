@@ -63,10 +63,7 @@
          font-size: 12px;
          margin: 0;
     }
-.container.month_att {
-    display: flex;
-    align-items: center;
-}
+
     .stat-absent {
         background: #fff;
         color: green;

@@ -63,10 +63,7 @@
          font-size: 12px;
          margin: 0;
     }
-.container.month_att {
-    display: flex;
-    align-items: center;
-}
+
     .stat-absent {
         background: #fff;
         color: green;
@@ -85,7 +82,7 @@
         .status-big {font-size:1.1rem;padding:6px 17px;}
     }
 </style>
-<div class="container  month_att" style="max-width: 540px;">
+<div class="container" style="max-width: 540px;">
     <div class="page-inner">
     <div class="row g-0 overflow-hidden card-shadow mb-4">
         <div class="attendance-hero">

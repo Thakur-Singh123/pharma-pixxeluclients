@@ -7,14 +7,24 @@ use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\User;
+use App\Models\MangerMR;
 use DB;
 
 class SalesController extends Controller
 {
     //function for view sales
-    public function index() {
-        $sales = Sale::orderBy('created_at', 'desc')->with('user','items')->paginate(10);
-        return view('manager.sales.index', compact('sales'));
+    public function index(Request $request) {
+        $mrs_id = MangerMR::where('manager_id', auth()->user()->id)->pluck('mr_id')->toArray();
+        $mrs = User::where('can_sale', 1)->where('status','Active')->whereIn('id', $mrs_id)->get();
+
+
+        $query = Sale::orderBy('created_at', 'desc');
+        if($request->filled('created_by')){
+            $query->where('user_id', $request->created_by);
+        }
+
+        $sales = $query->with('user','items')->paginate(10);
+        return view('manager.sales.index', compact('sales','mrs'));
     }
 
     //function for edit
@@ -88,5 +98,20 @@ class SalesController extends Controller
         });
 
         return redirect()->route('manager.sales.index')->with('success', 'Sale updated successfully!');
+    }
+
+    //function for destroy
+    public function destroy($id) {
+        $sale = Sale::findOrFail($id);
+        if($sale && $sale->prescription_file){
+            unlink(public_path('prescriptions/'.$sale->prescription_file));
+        }
+        if($sale->items){
+            foreach($sale->items as $item){
+                $item->delete();
+            }
+        }
+        $sale->delete();
+        return redirect()->route('manager.sales.index')->with('success', 'Sale deleted successfully!');
     }
 }

@@ -14,7 +14,15 @@
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Sales Data</h4>
-                                    
+                                      <form method="GET" action="{{ route('manager.sales.index') }}">
+                                        <select name="created_by" class="form-control" onchange="this.form.submit()">
+                                            <option value="">All Sales</option>
+                                            @foreach($mrs as $mr){
+                                                <option value="{{ $mr->id }}"{{ request('created_by') == $mr->id ? 'selected' : '' }}>{{ $mr->name }}</option>
+                                            }
+                                            @endforeach
+                                        </select>
+                                    </form>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -102,6 +110,18 @@
                                                                             <a href="{{ route('manager.sales.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
                                                                                 <i class="fa fa-edit"></i>
                                                                             </a>
+                                                                            <form
+                                                                                action="{{ route('manager.sales.destroy', $event->id) }}"
+                                                                                method="POST" style="display:inline;">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <a href="#"
+                                                                                    class="icon-button delete-btn custom-tooltip"
+                                                                                    data-tooltip="Delete"
+                                                                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                                    <i class="fa fa-trash"></i>
+                                                                                </a>
+                                                                            </form>
                                                                         </div>
                                                                     </td>
                                                                 </tr>

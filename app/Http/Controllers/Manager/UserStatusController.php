@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\MangerMR;
+use DB;
+use Auth;
 
 class UserStatusController extends Controller
 {
@@ -29,12 +32,37 @@ class UserStatusController extends Controller
         return view('manager.users-status.suspend-users', compact('all_users'));
     }
 
-   //Function for approve user
+    //Function for approve user
     public function approve_user($id) {
-        $user_record = User::findOrFail($id);
-        $user_record->status = 'Active';
-        $user_record->save();
-        return redirect()->back()->with('success', 'User approved successfully.');
+        try {
+            $user = User::findOrFail($id);
+
+            // Check if already approved
+            if ($user->status === 'Active') {
+                return redirect()->back()->with('error', 'User is already approved.');
+            }
+
+            // Approve user
+            $user->status = 'Active';
+            $user->save();
+
+            // Check if relation already exists to avoid duplicate entries
+            $exists = MangerMR::where('manager_id', Auth::id())
+                            ->where('mr_id', $id)
+                            ->exists();
+
+            if (!$exists) {
+                MangerMR::create([
+                    'manager_id' => Auth::id(),
+                    'mr_id'      => $id,
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'User approved successfully.');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
     }
 
     //Function for suspend user
@@ -42,6 +70,7 @@ class UserStatusController extends Controller
         $user_record = User::findOrFail($id);
         $user_record->status = 'Suspend';
         $user_record->save();
+        DB::table('sessions')->where('user_id', $user_record->id)->delete();
         return redirect()->back()->with('success', 'User suspend successfully.');
     }
 
@@ -50,6 +79,7 @@ class UserStatusController extends Controller
         $user_record = User::findOrFail($id);
         $user_record->status = 'Pending';
         $user_record->save();
+        DB::table('sessions')->where('user_id', $user_record->id)->delete();
         return redirect()->back()->with('success', 'User pending successfully.');
     }
  }

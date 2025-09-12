@@ -40,6 +40,19 @@
          color: red;
          font-size: 14px;
       }
+      input[type="file"], select {
+   width: 100%;
+   font-size: 14px;
+   color: #333;
+   background-color: #fff;
+}
+
+.input-box label {
+   font-weight: 500;
+   margin-bottom: 5px;
+   color: #444;
+}
+
    </style>
    <body>
       <div class="container">
@@ -96,7 +109,7 @@
                </div>
                <div class="signup-form">
                   <div class="title">Signup</div>
-                  <form id="signupForm" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                  <form id="signupForm" method="POST" action="{{ route('register') }}" enctype="multipart/form-data" autocomplete="off">
                      @csrf
                      <div class="form-row">
                         <div class="input-box">
@@ -108,7 +121,7 @@
                         </div>
                         <div class="input-box">
                            <i class="fas fa-envelope"></i>
-                           <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Enter email">
+                           <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Enter email" autocomplete="new-email">
                            @error('email', 'register')
                               <small class="text-danger">{{ $message }}</small>
                            @enderror
@@ -117,7 +130,7 @@
                      <div class="form-row">
                         <div class="input-box">
                            <i class="fas fa-lock"></i>
-                           <input id="password" type="password" name="password" value="{{ old('password') }}" placeholder="Enter password">
+                           <input id="password" type="password" name="password" value="{{ old('password') }}" placeholder="Enter password" autocomplete="new-password">
                            @error('password', 'register')
                               <small class="text-danger">{{ $message }}</small>
                            @enderror                       
@@ -159,15 +172,30 @@
                            @enderror
                         </div>
                      </div>
-                     <div class="form-row">
-                        <div class="input-box">
-                           <i class="fas fa-file"></i>
-                           <input id="document_file" type="file" name="document_file" accept=".jpg,.jpeg,.png,.pdf">
+                   <div class="form-row">
+                     <!-- File Upload -->
+                     <div class="input-box">
+                        
+                           <input type="file" id="document_file" name="document_file" accept=".jpg,.jpeg,.png,.pdf" style="padding: 10px; border-radius: 5px;">
                            @error('document_file', 'register')
                               <small class="text-danger">{{ $message }}</small>
                            @enderror
                         </div>
+
+                        <!-- Role Selection -->
+                        <div class="input-box">
+                        
+                           <select id="can_sale" name="can_sale" style="height: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                              <option value="" disabled selected>Choose Role</option>
+                              <option value="0" {{ old('can_sale') == '0' ? 'selected' : '' }}>Visit</option>
+                              <option value="1" {{ old('can_sale') == '1' ? 'selected' : '' }}>Sales</option>
+                           </select>
+                           @error('can_sale', 'register')
+                              <small class="text-danger">{{ $message }}</small>
+                           @enderror
+                        </div>
                      </div>
+
                      <div class="loaderss com_ajax_loader" style="display:none;">
                         <img src="{{ asset('public/admin/images/200w.gif') }}">
                      </div>

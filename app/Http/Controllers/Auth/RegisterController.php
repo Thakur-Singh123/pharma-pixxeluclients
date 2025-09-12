@@ -100,6 +100,8 @@ class RegisterController extends Controller
             'joining_date' => $data['joining_date'],
             'status' => 'Pending',
             'file_attachement' => $filename,
+            'user_type' => 'MR',
+            'can_sale' => $data['can_sale'] ?? 0,
         ]);
     }
 

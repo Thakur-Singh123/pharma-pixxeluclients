@@ -262,6 +262,25 @@
                         </ul>
                     </div>
                 </li>
+                <!--sales-->
+                <li class="nav-item {{ request()->is('manager/sales*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseSales"
+                        class="{{ request()->is('manager/sales*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/sales*') ? 'true' : 'false' }}">
+                        <i class="fas fa-handshake"></i>
+                        <p>Sales</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('manager/sales*') ? 'show' : '' }}" id="collapseSales">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('manager/sales') || request()->is('manager/sales/*/edit') ? 'active' : '' }}">
+                                <a href="{{ route('manager.sales.index') }}">
+                                    <span class="sub-item">All Sales</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

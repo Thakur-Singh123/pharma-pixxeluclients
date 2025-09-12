@@ -121,6 +121,20 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <!--Role-->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="status">Role</label>
+                                        <select class="form-control" id="status" name="can_sale">
+                                        <option value="" disabled>Select Status</option>
+                                        <option value="1" {{ old('can_sale') == '1' ? 'selected' : '' }}>Sales</option>
+                                        <option value="0" {{ old('can_sale') == '0' ? 'selected' : '' }}>Visit</option>
+                                        </select>
+                                        @error('can_sale')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-action">
                                 <button type="submit" class="btn btn-success">Submit</button>

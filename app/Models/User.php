@@ -36,6 +36,7 @@ class User extends Authenticatable
         'state',
         'joining_date',
         'employee_code',
+        'can_sale',
     ];
 
     /**

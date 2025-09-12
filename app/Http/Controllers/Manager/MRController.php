@@ -62,6 +62,7 @@ class MRController extends Controller
             'joining_date' => $request->joining_date,
             'status' => $request->status,
             'user_type' => 'MR',
+            'can_sale' => $request->can_sale,
         ]);
         //Check if mr created or not
         if (!$is_create_mr) {
@@ -110,6 +111,7 @@ class MRController extends Controller
             'joining_date' => $request->joining_date,
             'status' => $request->status,
             'user_type' => 'MR',
+            'can_sale' => $request->can_sale,
         ]);
         //Check if mr updated or not
         if (!$is_update_mr) {

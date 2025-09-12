@@ -60,8 +60,11 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('visit-plans/my-assigned-plans', [App\Http\Controllers\MR\VisitPlanController::class,'myAssignedPlans'])->name('visit-plans.my-assigned');
     //Daily reports
     Route::resource('daily-reports', App\Http\Controllers\MR\MRDailyReportController::class);
+});
 
-    //sales
+
+//sales
+Route::prefix('mr')->name('mr.')->middleware(['web','auth','can_sales'])->group(function () {
     Route::resource('/sales', App\Http\Controllers\MR\SalesController::class);
 });
 

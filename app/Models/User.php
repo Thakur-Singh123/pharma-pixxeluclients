@@ -36,6 +36,7 @@ class User extends Authenticatable
         'state',
         'joining_date',
         'employee_code',
+        'can_sale',
     ];
 
     /**
@@ -63,24 +64,23 @@ class User extends Authenticatable
 
     public function mrs()
     {
-        return $this->belongsToMany(User::class, 'manager_mr', 'manager_id', 'mr_id');
+        return $this->belongsToMany(User::class, 'manager_mr', 'manager_id', 'mr_id')->where('status', 'Active')->where('can_sale', 0);
     }
 
     public function managers()
     {
-        return $this->belongsToMany(User::class, 'manager_mr', 'mr_id', 'manager_id');
+        return $this->belongsToMany(User::class, 'manager_mr', 'mr_id', 'manager_id')->where('status', 'Active');
     }
 
 
     public function doctors()
     {
-        return $this->belongsToMany(Doctor::class, 'doctor_mr_assignments', 'mr_id', 'doctor_id'              
-        );
+        return $this->belongsToMany(Doctor::class, 'doctor_mr_assignments', 'mr_id', 'doctor_id')->where('status', 'active');
     }
 
     public function patients()
     {
-        return $this->hasMany(Patient::class, 'mr_id');
+        return $this->hasMany(Patient::class, 'mr_id')->where('status', 'Active');
     }
     
     public function interest(){

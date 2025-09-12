@@ -14,14 +14,15 @@ class MR
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response {
-        //Get auth detail
-        $user_detail = Auth::user();
-        //Check if user type mr exists or not
-        if ($user_detail->user_type == 'MR') {
+    public function handle(Request $request, Closure $next)
+    {
+        $user = Auth::user();
+
+        if ($user && $user->user_type === 'MR' && !$user->can_sale) {
             return $next($request);
-        } else {
-            return redirect('login');
         }
+
+        return redirect()->route('login')->with('error', 'You must be an MR to access this page.');
     }
+
 }

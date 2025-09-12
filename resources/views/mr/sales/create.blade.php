@@ -30,7 +30,7 @@
                                         <h4>Customer Details</h4>
 
                                         <div class="col-md-4">
-                                            <label>Name <span class="text-danger">*</span></label>
+                                            <label>Company Name<span class="text-danger">*</span></label>
                                             <input type="text" name="name" class="form-control"
                                                 value="{{ old('name') }}">
                                             @error('name')

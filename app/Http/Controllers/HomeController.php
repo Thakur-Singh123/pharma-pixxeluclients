@@ -33,8 +33,10 @@ class HomeController extends Controller
         } elseif ($user_detail->user_type == 'Manager') {
             return redirect('manager/dashboard');
         //Check if user type mr or not
-        } elseif ($user_detail->user_type == 'MR') {
+        } elseif ($user_detail->user_type == 'MR' && $user_detail->can_sale == 0) {
             return redirect('mr/dashboard');
+        } elseif ($user_detail->user_type == 'MR' && $user_detail->can_sale == 1) {
+            return redirect('mr/sales');
         } else {
             return view('home');
         }

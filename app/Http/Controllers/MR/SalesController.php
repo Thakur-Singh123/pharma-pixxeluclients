@@ -63,6 +63,7 @@ class SalesController extends Controller
                 'discount' => $request->discount ?? 0,
                 'net_amount' => $request->net_amount,
                 'payment_mode' => $request->payment_mode,
+                'user_id' => auth()->id(),
             ]);
 
             // Save Sale Items

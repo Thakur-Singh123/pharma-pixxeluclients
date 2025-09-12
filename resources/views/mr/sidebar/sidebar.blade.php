@@ -21,6 +21,7 @@
     </div>
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
+            @if(auth()->user()->user_type == 'MR' && !auth()->user()->can_sale)
             <ul class="nav nav-secondary">
                 <!--dashboard section-->
                 <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
@@ -329,6 +330,30 @@
                         </ul>
                     </div>
                 </li>
+                <!--logout section-->
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="nav-link"
+                        onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>
+                            Logout
+                        </p>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
+            @else
+            <ul class="nav nav-secondary">
+                {{-- <!--dashboard section-->
+                <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                    <a href="{{ url('admin/dashboard') }}">
+                        <i class="fas fa-home"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li> --}}
                 <!---sales section-->
                 <li class="nav-item {{ request()->is('mr/sales*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseSales"
@@ -368,6 +393,7 @@
                     </form>
                 </li>
             </ul>
+            @endif
         </div>
     </div>
 </div>

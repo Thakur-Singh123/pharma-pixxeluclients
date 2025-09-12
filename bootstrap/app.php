@@ -7,6 +7,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\Manager;
 use App\Http\Middleware\MR;
+use App\Http\Middleware\CanSaleMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => Admin::class,
             'manager' => Manager::class,
             'mr' => MR::class,
+            'can_sales' => CanSaleMiddleware::class,
         ]); 
     })
     ->withExceptions(function (Exceptions $exceptions): void {

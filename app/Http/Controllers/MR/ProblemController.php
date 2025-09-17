@@ -30,14 +30,22 @@ class ProblemController extends Controller
         //Validate input fields
         $request->validate([ 
             'title' =>'required|string|max:255',
-            'visit_id' =>'required',
+            'camp_type' =>'required',
+            'visit_name' =>'required',
+            'doctor_name' =>'required',
             'description' =>'required',
+            'start_date' =>'required|date',
+            'end_date' =>'required|date|after_or_equal:start_date',
         ]);
         //Create problem
         $is_create_problem = Problem::create([
             'mr_id' => Auth::id(),
-            'visit_id' => $request->visit_id,
             'title' => $request->title,
+            'camp_type' => $request->camp_type,
+            'visit_name' => $request->visit_name,
+            'doctor_name' => $request->doctor_name,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
             'description' => $request->description,
         ]);
         //Check if problem created or not
@@ -62,14 +70,22 @@ class ProblemController extends Controller
         //Validate input fields
         $request->validate([ 
             'title' =>'required|string|max:255',
-            'visit_id' =>'required',
+            'camp_type' =>'required',
+            'visit_name' =>'required', 
+            'doctor_name' =>'required',
             'description' =>'required',
+            'start_date' =>'required|date',
+            'end_date' =>'required|date|after_or_equal:start_date',
         ]);
         //Update problem
         $is_update_problem = Problem::where('id', $id)->update([
             'mr_id' => Auth::id(),
-            'visit_id' => $request->visit_id,
             'title' => $request->title,
+            'camp_type' => $request->camp_type,
+            'visit_name' => $request->visit_name,
+            'doctor_name' => $request->doctor_name,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
             'description' => $request->description,
         ]);
         //Check if problem updated or not

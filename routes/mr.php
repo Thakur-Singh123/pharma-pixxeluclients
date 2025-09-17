@@ -28,6 +28,9 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/assigin-manger', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
     Route::get('/himself', [App\Http\Controllers\MR\TaskController::class,'himself']);
     Route::get('/pending-approval', [App\Http\Controllers\MR\TaskController::class,'pending_approval']);
+
+    Route::post('/tasks/send-monthly', [App\Http\Controllers\MR\TaskController::class,'sendMonthlyTasksToManager'])->name('tasks.sendMonthly');
+
     //Problems & Challenges
     Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);
     //Doctors

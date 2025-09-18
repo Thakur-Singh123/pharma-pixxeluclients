@@ -4899,7 +4899,7 @@ body .fc {
 
 .fc .fc-button-group>* {
 	float: left;
-	margin: 0 0 0 -1px
+	margin: 0 5px 0 -1px
 }
 
 .fc .fc-button-group>:first-child {

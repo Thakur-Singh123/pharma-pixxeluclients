@@ -16,44 +16,46 @@
                 @endif
                 <!--Approve/Reject button-->
                 <div class="card">
-                    <div class="d-flex justify-content-end mb-3">
-                        <h4 class="tasks-heading">All Mr Tasks</h4>
-                        <!--Approved all-->
-                        <form action="{{ route('manager.tasks.approveAll') }}" method="POST" class="me-2">
-                            @csrf
-                            <button type="submit" class="btn btn-success-appoval">
-                                Approve All
-                            </button>
-                        </form>
-                        <!--Rejected all-->
-                        <form action="{{ route('manager.tasks.rejectAll') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">
-                                Reject All
-                            </button>
-                        </form>
-                    </div>
-                    <!--Calendar-->
-                    <div id="calendar"></div>
-                    <!--Task Detail Modal-->
-                    <div class="modal fade" id="taskModal" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Task Details</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p><strong>Title:</strong> <span id="taskTitle"></span></p>
-                                    <p><strong>Description:</strong> <span id="taskDescription"></span></p>
-                                    <p><strong>Location:</strong> <span id="taskLocation"></span></p>
-                                    <p><strong>Start:</strong> <span id="taskStart"></span></p>
-                                    <p><strong>End:</strong> <span id="taskEnd"></span></p>
+                    <div class="card-flexd">
+                        <div class="d-flex justify-content-end mb-3">
+                            <h4 class="tasks-heading">All Mr Tasks</h4>
+                            <!--Approved all-->
+                            <form action="{{ route('manager.tasks.approveAll') }}" method="POST" class="me-2">
+                                @csrf
+                                <button type="submit" class="btn btn-success-appoval">
+                                    Approve All
+                                </button>
+                            </form>
+                            <!--Rejected all-->
+                            <form action="{{ route('manager.tasks.rejectAll') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">
+                                    Reject All
+                                </button>
+                            </form>
+                        </div>
+                        <!--Calendar-->
+                        <div id="calendar"></div>
+                        <!--Task Detail Modal-->
+                        <div class="modal fade" id="taskModal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Task Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Title:</strong> <span id="taskTitle"></span></p>
+                                        <p><strong>Description:</strong> <span id="taskDescription"></span></p>
+                                        <p><strong>Location:</strong> <span id="taskLocation"></span></p>
+                                        <p><strong>Start:</strong> <span id="taskStart"></span></p>
+                                        <p><strong>End:</strong> <span id="taskEnd"></span></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+               </div>
             </div>
         </div>
     </div>

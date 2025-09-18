@@ -20,6 +20,7 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/visits/create', [App\Http\Controllers\MR\VisitController::class, 'add_visit']);
     Route::post('/submit-visit', [App\Http\Controllers\MR\VisitController::class, 'submit_visit'])->name('submit.visit');
     Route::get('/visits', [App\Http\Controllers\MR\VisitController::class, 'all_visits']);
+    Route::get('/visit-filter', [App\Http\Controllers\MR\VisitController::class, 'visitFilter']);
     Route::get('/visits/edit/{id}', [App\Http\Controllers\MR\VisitController::class, 'edit_visit']);
     Route::post('/update-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'update_visit'])->name('update.visit');
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);

@@ -55,22 +55,22 @@
                     </div>
                 </li>
                 <!--daily visit section-->
-                <li class="nav-item {{ request()->is('mr/visits*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('mr/visits*') || request()->is('mr/visit-filter*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseVisit"
-                        class="{{ request()->is('mr/visits*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('mr/visits*') ? 'true' : 'false' }}">
+                        class="{{ request()->is('mr/visits*') || request()->is('mr/visit-filter*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/visits*') || request()->is('mr/visit-filter*') ? 'true' : 'false' }}">
                         <i class="fas fa-walking"></i>
                         <p>Daily Visits</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/visits*') ? 'show' : '' }}" id="collapseVisit">
+                    <div class="collapse {{ request()->is('mr/visits*') || request()->is('mr/visit-filter*') ? 'show' : '' }}" id="collapseVisit">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/visits/create') ? 'active' : '' }}">
                                 <a href="{{ url('mr/visits/create') }}">
                                     <span class="sub-item">Add Visit</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/visits') || request()->is('mr/visits/edit/*') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/visits') || request()->is('mr/visit-filter*') || request()->is('mr/visits/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('mr/visits') }}">
                                     <span class="sub-item">All Visits</span>
                                 </a>

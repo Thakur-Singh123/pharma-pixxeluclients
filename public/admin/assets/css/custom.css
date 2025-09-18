@@ -294,14 +294,19 @@ img#existingImage {
 	border-width: 2px;
 	background: #9bb7cf1f;
 }
+
 .filter-row {
-	display: flex;
-	gap: 05px;
-	flex-wrap: wrap;
-	align-items: flex-end;
-	margin-bottom: 0px;
-	width: -14px;
+   display: flex;
+   align-items: center;
+   gap: 5px; 
 }
+
+.filter-row .form-control,
+.filter-row .form-cate-status-fliter {
+   width: auto;       
+   min-width: 180px; 
+}
+
 .form-cate-status-fliter {
 	min-width: 200px;
 	padding: 9px 10px;
@@ -746,4 +751,13 @@ li.page-item.active span.page-link {
 	font-size: 18px;
 	font-weight: 600;
 	margin: 6px 680px 2px 2px;
+}
+
+.card .card-flexd {
+	padding: 10px 7px;
+}
+
+.fc .fc-toolbar-title {
+	font-size: 18px;
+	margin: 0px;
 }

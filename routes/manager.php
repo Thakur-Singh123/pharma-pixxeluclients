@@ -22,6 +22,7 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/users/{id}/pending', [App\Http\Controllers\Manager\UserStatusController::class, 'pending_user'])->name('user.pending');
     //Daily visits
     Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
+    Route::get('/visit-filter', [App\Http\Controllers\Manager\VisitController::class, 'visitFilter']);
     //Task management
     Route::resource('tasks', App\Http\Controllers\Manager\TaskController::class);
     Route::get('tasks-waiting-for-approval', [App\Http\Controllers\Manager\TaskController::class,'waitingForApproval'])->name('tasks.waiting.for.approval');

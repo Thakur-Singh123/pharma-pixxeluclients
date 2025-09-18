@@ -9,88 +9,190 @@
                     {{ session('success') }}
                 </div>
                 @endif
+                @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Add Task</div>
+                        <div class="card-title">
+                            Tasks Calendar
+                            <form action="{{ route('mr.tasks.sendMonthly') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="send-approval-btn float-end">
+                                Send to Manager Approval
+                                </button>
+                            </form>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('mr.tasks.store') }}" method="POST" autocomplete="off">
-                            @csrf
-                            <div class="row">
-                                <!--Title-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter task title">
-                                        @error('title')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
+                        <!--Calendar-->
+                        <div id="calendar"></div>
+                        <div class="modal fade" id="taskModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <form id="taskForm" method="POST" action="">
+                                @csrf
+                                @method('PUT')
+                                    <input type="hidden" name="_method" id="formMethod" value="POST">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="taskModalTitle">Add Task</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" id="task_id" name="task_id">
+                                            <div class="row">
+                                                <!--Title-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label>Title</label>
+                                                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter task title" required>
+                                                </div>
+                                                <!--Description-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label>Description</label>
+                                                    <textarea class="form-control" id="description" name="description" placeholder="Enter description" required></textarea>
+                                                </div>
+                                                <!--Start Date-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="start_date">Start Date</label>
+                                                    <input type="date" class="form-control start-date" id="start_date" name="start_date" required>
+                                                </div>
+                                                <!--End Date-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="end_date">End Date</label>
+                                                    <input type="date" class="form-control end-date" id="end_date" name="end_date" required>
+                                                </div>
+                                                <!--Location-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="location">Location</label>
+                                                    <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
+                                                </div>
+                                                <!--Status-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label>Status</label>
+                                                    <select name="status" id="status" class="form-control">
+                                                        <option value="pending">Pending</option>
+                                                        <option value="in_progress">In Progress</option>
+                                                        <option value="completed">Completed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" id="saveTaskBtn" class="btn btn-success">Save</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <!--Description-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description') }}</textarea>
-                                        @error('description')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <!--Start Date-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="start_date">Start Date</label>
-                                        <input type="date" class="form-control start-date" id="start_date" name="start_date" value="{{ old('start_date', now()->format('Y-m-d')) }}">
-                                        @error('start_date')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <!--End Date-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date', now()->format('Y-m-d')) }}">
-                                        @error('end_date')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="location">Location</label>
-                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}" placeholder="Enter location">
-                                        @error('location')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <!--Status-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" id="status" name="status">
-                                        <option value="" disabled>Select Status</option>
-                                        <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="in_progress" {{ old('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                        <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
-                                        </select>
-                                        @error('status')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
+                                </form>
                             </div>
-                            <div class="card-action">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                                <a href="{{ route('mr.tasks.index') }}" class="btn btn-danger">Cancel</a>
-                            </div>
-                        </form>
+                        </div>
+                        <!--End Task Modal-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            selectable: true,
+            events: @json($events),
+    
+            dayCellDidMount: function(info) {
+                var today = new Date();
+                today.setHours(0,0,0,0);
+                var cellDate = new Date(info.date);
+    
+                //Disable past dates
+                if (cellDate < today) {
+                    info.el.style.backgroundColor = "#f0f0f0";
+                    info.el.style.color = "#999";
+                }
+    
+                //Disable months beyond next month
+                var currentMonth = today.getMonth();
+                var nextMonth = currentMonth + 1;
+                if (cellDate.getMonth() > nextMonth) {
+                    info.el.style.backgroundColor = "#f0f0f0";
+                    info.el.style.color = "#999";
+                }
+                info.el.style.cursor = "pointer";
+            },
+    
+            dateClick: function(info) {
+                var today = new Date();
+                today.setHours(0,0,0,0);
+                var clickedDate = new Date(info.dateStr);
+    
+                var currentMonth = today.getMonth();
+                var nextMonth = currentMonth + 1;
+    
+                if (clickedDate < today || clickedDate.getMonth() > nextMonth) return;
+    
+                openAddTaskModal();
+                document.getElementById('start_date').value = info.dateStr;
+                document.getElementById('end_date').value = info.dateStr;
+    
+                var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
+                myModal.show();
+            },
+    
+            eventClick: function(info) {
+                var event = info.event;
+    
+                var task = {
+                    id: event.id,
+                    title: event.title || '',
+                    description: event.extendedProps.description || '',
+                    start_date: event.startStr,
+                    end_date: event.endStr || event.startStr,
+                    location: event.extendedProps.location || '',
+                    status: event.extendedProps.status || 'pending'
+                };
+    
+                openEditTaskModal(task);
+            }
+        });
+    
+        calendar.render();
+    });
+    
+    //Add Task Modal
+    function openAddTaskModal() {
+        document.getElementById('taskForm').reset();
+        document.getElementById('task_id').value = '';
+        document.getElementById('formMethod').value = 'POST';
+        document.getElementById('taskForm').action = "{{ route('mr.tasks.store') }}";
+    
+        document.getElementById('taskModalTitle').innerText = "Add Task";
+        document.getElementById('saveTaskBtn').innerText = "Save";
+    }
+    
+    // Edit Task Modal
+    function openEditTaskModal(task) {
+        document.getElementById('task_id').value = task.id;
+        document.getElementById('title').value = task.title;
+        document.getElementById('description').value = task.description;
+        document.getElementById('start_date').value = task.start_date;
+        document.getElementById('end_date').value = task.end_date;
+        document.getElementById('location').value = task.location;
+        document.getElementById('status').value = task.status;
+    
+        let updateUrl = "{{ route('mr.tasks.update', ':id') }}";
+        updateUrl = updateUrl.replace(':id', task.id);
+    
+        document.getElementById('taskForm').action = updateUrl;
+        document.getElementById('formMethod').value = 'PUT';
+    
+        document.getElementById('taskModalTitle').innerText = "Update Task";
+        document.getElementById('saveTaskBtn').innerText = "Update";
+    
+        var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
+        myModal.show();
+    }
+</script>
 @endsection

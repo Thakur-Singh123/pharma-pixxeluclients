@@ -5,24 +5,39 @@ namespace App\Http\Controllers\MR;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\MonthlyTask;
 use App\Models\MangerMR;
 
 class TaskController extends Controller
 {
     //Function for all tasks
     public function index(Request $request) {
-        //Get tasks
-        $query = Task::orderBy('ID','DESC');
-        if($request->filled('created_by')) {
-             $query->where('created_by', $request->created_by);
-        }
-        $all_tasks = $query->orderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
+        $all_tasks = Task::orderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
+        
         return view('mr.tasks.all-tasks', compact('all_tasks'));
     }
 
     //Function for create task
     public function create() {
-        return view('mr.tasks.create');
+        //Get tasks
+        $all_tasks = Task::where('mr_id', auth()->id())->orderBy('id','DESC')->get();
+        //Get tasks events
+        $events = [];
+        foreach ($all_tasks as $task) {
+            $events[] = [
+                'id'    => $task->id,
+                'title' => $task->title,
+                'description' => $task->description,
+                'location' => $task->location,
+                'status' => $task->status,
+                'start' => $task->start_date,
+                'end'   => $task->end_date,
+                'color' => $task->status == 'completed' ? '#28a745' : 
+                        ($task->status == 'in_progress' ? '#ffc107' : '#dc3545')
+            ];
+        }
+
+        return view('mr.tasks.create', compact('events'));
     }
 
     //Function for submnit task
@@ -50,7 +65,7 @@ class TaskController extends Controller
         ]);
         //Check if task created or not
         if ($is_create_task) {
-            return redirect()->route('mr.tasks.index')->with('success', 'Task created successfully.');
+            return back()->with('success', 'Task created successfully.');
         } else {
             return back()->with('error', 'Opps something went wrong!');
         }
@@ -87,7 +102,7 @@ class TaskController extends Controller
         ]);
         //Check if task updated or not
         if ($is_update_task) {
-            return redirect()->route('mr.tasks.index')->with('success', 'Task updated successfully.');
+            return back()->with('success', 'Task updated successfully.');
         } else {
             return back()->with('error', 'Opps something went wrong!');
         }
@@ -124,5 +139,90 @@ class TaskController extends Controller
         //Get pending tasks
         $pending_tasks = Task::where('created_by', 'mr')->where('is_active', 0)->paginate(5);
         return view('mr.tasks.pending-approval', compact('pending_tasks'));
+    }
+
+
+    //Function for send monthy tasks to manager
+    public function sendMonthlyTasksToManager(Request $request) {
+        //Get auth detail
+        $mrId = auth()->id();
+        //Get current month and year
+        $currentMonth = now()->month;
+        $currentYear = now()->year;
+        //Get tasks
+        $tasks = Task::where('mr_id', $mrId)
+            ->whereYear('start_date', $currentYear)
+            ->whereMonth('start_date', $currentMonth)
+            ->get();
+        //Check if tasks exist or not
+        if($tasks->isEmpty()){
+            return back()->with('error', 'No tasks found for this month!');
+        }
+        //Get tasks
+        foreach ($tasks as $task) {
+            //Create Mmonthlytask
+            MonthlyTask::updateOrCreate(
+                ['task_id' => $task->id, 'mr_id' => $mrId],
+                [
+                    'manager_id' => $task->manager_id,
+                    'is_approval' => 0
+                ]
+            );
+        }
+        return back()->with('success', 'Monthly tasks sent to the manager for approval successfully.');
+    }
+
+    //Function for approved tasks by manager
+    public function approved_tasks() {
+        //Get tasks
+        $tasks = MonthlyTask::with('task_detail')->where('mr_id', auth()->id())->where('is_approval', '1')->get();
+        //Get events task
+        $events = [];
+        foreach ($tasks as $task) {
+            $status = $task->is_approval; 
+            $color = match ($status) {
+                1 => '#28a745', 
+                0 => '#dc3545', 
+                default => '#ffc107', 
+            };
+            //Events
+            $events[] = [
+                'id' => $task->id,
+                'title' => $task->task_detail->title ?? 'N/A',
+                'start' => $task->task_detail->start_date ?? null, 
+                'end' => $task->task_detail->end_date ?? null,   
+                'description' => $task->task_detail->description ?? 'N/A',
+                'location' => $task->task_detail->location ?? 'N/A',
+                'color'=> $color,
+            ];
+        }
+        return view('mr.tasks.approved-by-manager', compact('events'));
+    }
+
+    //Function for reject tasks by manager
+    public function rajected_tasks() {
+        //Get tasks
+        $tasks = MonthlyTask::with('task_detail')->where('mr_id', auth()->id())->where('is_approval', '0')->get();
+        //Get events task
+        $events = [];
+        foreach ($tasks as $task) {
+            $status = $task->is_approval; 
+            $color = match ($status) {
+                1 => '#28a745', 
+                0 => '#dc3545', 
+                default => '#ffc107', 
+            };
+            //Events
+            $events[] = [
+                'id' => $task->id,
+                'title' => $task->task_detail->title ?? 'N/A',
+                'start' => $task->task_detail->start_date ?? null, 
+                'end' => $task->task_detail->end_date ?? null,   
+                'description' => $task->task_detail->description ?? 'N/A',
+                'location' => $task->task_detail->location ?? 'N/A',
+                'color'=> $color,
+            ];
+        }
+        return view('mr.tasks.rejected-by-manager', compact('events'));
     }
 }

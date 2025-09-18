@@ -4899,7 +4899,7 @@ body .fc {
 
 .fc .fc-button-group>* {
 	float: left;
-	margin: 0 0 0 -1px
+	margin: 0 5px 0 -1px
 }
 
 .fc .fc-button-group>:first-child {
@@ -5696,7 +5696,7 @@ a.fc-more:hover {
 }
 
 .fc-toolbar .fc-button {
-	background: #f4f5f8;
+	background: #15151696;
 	border: 0;
 	text-shadow: none !important;
 	padding: 8px 12px;
@@ -5705,7 +5705,7 @@ a.fc-more:hover {
 }
 
 .fc-toolbar .fc-button:hover {
-	background: #eee
+	background: #15151696
 }
 
 .fc-toolbar h2 {

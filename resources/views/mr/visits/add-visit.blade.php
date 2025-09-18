@@ -26,7 +26,7 @@
                                     <div class="form-group">
                                         <label for="area_name">Area Name</label>
                                         <input type="text" class="form-control" id="area_name" name="area_name"
-                                            value="{{ old('area_name') }}" placeholder="Enter Area Name">
+                                            value="{{ old('area_name') }}" placeholder="Enter area name">
                                         @error('area_name')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <label for="area_block">Area Block</label>
                                         <input type="text" class="form-control" id="area_block" name="area_block"
-                                            value="{{ old('area_block') }}" placeholder="Enter Area Block">
+                                            value="{{ old('area_block') }}" placeholder="Enter area block">
                                         @error('area_block')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -46,9 +46,9 @@
                                 <!--District-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
-                                        <label for="district">Distrcit</label>
+                                        <label for="district">District</label>
                                         <input type="text" class="form-control" id="district" name="district"
-                                            placeholder="Enter District">
+                                            placeholder="Enter district">
                                         @error('district')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -59,19 +59,29 @@
                                     <div class="form-group">
                                         <label for="state">State</label>
                                         <input type="text" class="form-control" id="state" name="state"
-                                            value="{{ old('state') }}" placeholder="Enter State">
+                                            value="{{ old('state') }}" placeholder="Enter state">
                                         @error('state')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-                                <!--Employee Code-->
+                                <!--Area Pin Code-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
-                                        <label for="area_code">Area Code</label>
-                                        <input type="number" class="form-control" id="area_code" name="area_code"
-                                            value="{{ old('area_code') }}" placeholder="Enter Area Code">
-                                        @error('area_code')
+                                        <label for="pin_code">Area Pin Code</label>
+                                        <input type="number" class="form-control" id="pin_code" name="pin_code"
+                                            value="{{ old('pin_code') }}" placeholder="Enter area pin code">
+                                        @error('pin_code')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="visit_date">Visit Date</label>
+                                        <input type="date" class="form-control start-date" id="visit_date" name="visit_date"
+                                            value="{{ old('visit_date', date('Y-m-d')) }}" placeholder="Enter visit date">
+                                        @error('visit_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -141,6 +151,16 @@
                                         </select>
                                         @error('status')
                                         <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Comments</label>
+                                        <textarea name="comments" class="form-control" rows="4"
+                                            placeholder="Enter comments">{{ old('comments') }}</textarea>
+                                        @error('comments')
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>

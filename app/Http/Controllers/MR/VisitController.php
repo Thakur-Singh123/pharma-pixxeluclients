@@ -23,7 +23,9 @@ class VisitController extends Controller
             'area_block' => 'required|string',
             'district' => 'required|string',
             'state' => 'required|string',
-            'area_code' => 'required|string',
+            'pin_code' => 'required|string',
+            'visit_date' => 'required|string',
+            'comments' => 'required|string',
             'status' => 'required|string',
             'visit_type' => 'required|in:doctor,religious_places,other',
             'doctor_id' => 'required_if:visit_type,doctor',
@@ -40,7 +42,9 @@ class VisitController extends Controller
             'area_block' => $request->area_block,
             'district' => $request->district,
             'state' => $request->state,
-            'area_code' => $request->area_code,
+            'pin_code' => $request->pin_code,
+            'visit_date' => $request->visit_date,
+            'comments' => $request->comments,
             'status' => 'Pending',
             'mr_id' => auth()->user()->id,
             'doctor_id' => $request->doctor_id ?? NULL,
@@ -63,6 +67,23 @@ class VisitController extends Controller
         return view('mr.visits.all-visits', compact('all_visits'));
     }
 
+    //Function for filter visits
+    public function visitFilter(Request $request) {
+        //Get visit
+        $query = Visit::where('mr_id', auth()->id())->with('doctor');
+        //Filter by area_name
+        if ($request->filled('area_name')) {
+            $query->where('area_name', 'LIKE', '%' . $request->area_name . '%');
+        }
+        //Filter by status
+        if ($request->filled('status') && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+        $all_visits = $query->orderBy('id', 'DESC')->paginate(5);
+        
+        return view('mr.visits.filter-visits', compact('all_visits'));
+    }
+
     //Function for edit visit
     public function edit_visit($id) {
         //Get visit detail
@@ -80,7 +101,9 @@ class VisitController extends Controller
             'area_block' => 'required|string',
             'district' => 'required|string',
             'state' => 'required|string',
-            'area_code' => 'required|string',
+            'pin_code' => 'required|string',
+            'visit_date' => 'required|string',
+            'comments' => 'required|string',
             'status' => 'required|string',
            'visit_type' => 'required|in:doctor,religious_places,other',
             'doctor_id' => 'required_if:visit_type,doctor',
@@ -97,7 +120,9 @@ class VisitController extends Controller
             'area_block' => $request->area_block,
             'district' => $request->district,
             'state' => $request->state,
-            'area_code' => $request->area_code,
+            'pin_code' => $request->pin_code,
+            'visit_date' => $request->visit_date,
+            'comments' => $request->comments,
             'status' => $request->status,
             'mr_id' => auth()->user()->id,
             'visit_type' => $request->visit_type,

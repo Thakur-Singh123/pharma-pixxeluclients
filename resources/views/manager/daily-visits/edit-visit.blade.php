@@ -62,18 +62,28 @@
                               @enderror
                            </div>
                         </div>
-                        <!--Employee Code-->
+                        <!--Area Pin Code-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="area_code">Area Code</label>
-                              <input type="number" class="form-control" id="area_code" name="area_code"
-                                 value="{{ old('area_code', $visit_detail->area_code) }}" placeholder="Enter Area Code">
-                              @error('area_code')
-                                 <small class="text-danger">{{ $message }}</small>
-                              @enderror
+                                 <label for="pin_code">Area Pin Code</label>
+                                 <input type="number" class="form-control" id="pin_code" name="pin_code"
+                                    value="{{ old('pin_code', $visit_detail->pin_code) }}" placeholder="Enter area pin code">
+                                 @error('pin_code')
+                                    <small class="text-danger">{{ $message }}</small>
+                                 @enderror
                            </div>
                         </div>
-                        <!-- <div class="col-md-6 col-lg-4">
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                                 <label for="visit_date">Visit Date</label>
+                                 <input type="date" class="form-control start-date" id="visit_date" name="visit_date"
+                                    value="{{ old('visit_date', $visit_detail->visit_date) }}" placeholder="Enter visit date">
+                                 @error('visit_date')
+                                    <small class="text-danger">{{ $message }}</small>
+                                 @enderror
+                           </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="status">Visit Type</label>
                               <select name="visit_type" id="visit_type" class="form-control">
@@ -82,13 +92,13 @@
                                  <option value="other" {{ old('visit_type', $visit_detail->visit_type) == 'other' ? 'selected' : '' }}>Other Visit (NGOs, Asha workers etc.)</option>
                               </select>
                            </div>
-                        </div> -->
-                        <!-- <div class="col-md-6 col-lg-4" id="doctor_fields" style="display: block;">
+                        </div>
+                        <div class="col-md-6 col-lg-4" id="doctor_fields" style="display: block;">
                            <div class="form-group">
                               <label for="status">Doctor</label>
                               <select name="doctor_id" class="form-control">
                                  <option value="">Please select</option>
-                               
+                                 <!--Get doctors-->
                                  @foreach ($assignedDoctors as $doctor)
                                  <option value="{{ $doctor->id }}" {{ $visit_detail->doctor?->id == $doctor->id ? 'selected' : '' }}>
                                     {{ $doctor->doctor_name }} ({{ $doctor->specialist }})
@@ -99,9 +109,9 @@
                                  <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
-                        </div> -->
+                        </div>
                         <!--Religious Places input -->
-                        <!-- <div class="col-md-6 col-lg-4 visit-extra visit-religious" style="display:none;">
+                        <div class="col-md-6 col-lg-4 visit-extra visit-religious" style="display:none;">
                            <div class="form-group">
                                  <label>Religious Place Name</label>
                                  <input type="text" name="religious_place_name" id="religious_place_name" value="{{ old('religious_place_name', $visit_detail->religious_place) }}" class="form-control" placeholder="Enter place name">
@@ -109,9 +119,9 @@
                                     <small class="text-danger">{{ $message }}</small>
                                  @enderror
                            </div>
-                        </div> -->
+                        </div>
                         <!--Other Visit input-->
-                        <!-- <div class="col-md-6 col-lg-4 visit-extra visit-other" style="display:none;">
+                        <div class="col-md-6 col-lg-4 visit-extra visit-other" style="display:none;">
                            <div class="form-group">
                                  <label>Other Visit Details</label>
                                  <input type="text" name="other_visit_details" id="other_visit_details" class="form-control" value="{{ old('other_visit_details', $visit_detail->other_visit) }}" placeholder="Enter details">
@@ -119,7 +129,7 @@
                                     <small class="text-danger">{{ $message }}</small>
                                  @enderror
                            </div>
-                        </div> -->
+                        </div>
                         <!--Status-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
@@ -134,6 +144,16 @@
                               @error('status')
                                  <small class="text-danger">{{ $message }}</small>
                               @enderror
+                           </div>
+                        </div>
+                        <div class="col-md-8">
+                           <div class="form-group">
+                                 <label>Comments</label>
+                                 <textarea name="comments" class="form-control" rows="4"
+                                    placeholder="Enter comments">{{ old('comments', $visit_detail->comments) }}</textarea>
+                                 @error('comments')
+                                    <small class="text-danger">{{ $message }}</small>
+                                 @enderror
                            </div>
                         </div>
                      </div>

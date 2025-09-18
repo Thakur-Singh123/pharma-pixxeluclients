@@ -17,6 +17,24 @@ class VisitController extends Controller
         return view('manager.daily-visits.all-visits', compact('all_visits'));
     }
 
+    //Function for filter visits
+    public function visitFilter(Request $request) {
+        //Get visits
+        $mrs = auth()->user()->mrs->pluck('id');
+        $query = Visit::whereIn('mr_id',$mrs)->with('mr')->with('doctor');
+        //Filter by area_name
+        if ($request->filled('area_name')) {
+            $query->where('area_name', 'LIKE', '%' . $request->area_name . '%');
+        }
+        //Filter by status
+        if ($request->filled('status') && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+        $all_visits = $query->orderBy('id', 'DESC')->paginate(5);
+        
+        return view('manager.daily-visits.filter-visits', compact('all_visits'));
+    }
+
     //Function for edit visit
     public function edit($id) {
         //Get visit detail

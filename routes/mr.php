@@ -20,6 +20,7 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/visits/create', [App\Http\Controllers\MR\VisitController::class, 'add_visit']);
     Route::post('/submit-visit', [App\Http\Controllers\MR\VisitController::class, 'submit_visit'])->name('submit.visit');
     Route::get('/visits', [App\Http\Controllers\MR\VisitController::class, 'all_visits']);
+    Route::get('/visit-filter', [App\Http\Controllers\MR\VisitController::class, 'visitFilter']);
     Route::get('/visits/edit/{id}', [App\Http\Controllers\MR\VisitController::class, 'edit_visit']);
     Route::post('/update-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'update_visit'])->name('update.visit');
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);
@@ -28,6 +29,11 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/assigin-manger', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
     Route::get('/himself', [App\Http\Controllers\MR\TaskController::class,'himself']);
     Route::get('/pending-approval', [App\Http\Controllers\MR\TaskController::class,'pending_approval']);
+
+    Route::post('/tasks/send-monthly', [App\Http\Controllers\MR\TaskController::class,'sendMonthlyTasksToManager'])->name('tasks.sendMonthly');
+    Route::get('/approved-by-manager', [App\Http\Controllers\MR\TaskController::class,'approved_tasks']);
+    Route::get('/rajected-by-manager', [App\Http\Controllers\MR\TaskController::class,'rajected_tasks']);
+
     //Problems & Challenges
     Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);
     //Doctors

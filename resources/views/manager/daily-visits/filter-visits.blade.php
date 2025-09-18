@@ -16,14 +16,14 @@
                                 <h4 class="card-title">All Visits</h4>
                                 <form method="GET" action="{{ url('manager/visit-filter') }}" class="p-3">
                                     <div class="filter-row">
-                                        <input type="text" name="area_name" class="form-control" placeholder="Enter area name" required>
+                                        <input type="text" name="area_name" class="form-control" value="{{ request('area_name') }}" placeholder="Enter area name">
                                         <select name="status" id="status" class="form-cate-status-fliter">
-                                            <option value="" selected disabled>Select Status</option>
-                                            <option value="all">All Status</option>
-                                            <option value="Active">Active</option>
-                                            <option value="Pending">Pending</option>
-                                            <option value="Suspend">Suspend</option>
-                                            <option value="Approved">Approved</option>
+                                            <option value="" disabled selected>Select Status</option>
+                                            <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>All Status</option>
+                                            <option value="Active" {{ request('status') == 'Active' ? 'selected' : '' }}>Active</option>
+                                            <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="Suspend" {{ request('status') == 'Suspend' ? 'selected' : '' }}>Suspend</option>
+                                            <option value="Approved" {{ request('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
                                         </select>
                                         <button type="submit" class="btn btn-success">
                                             <span style="margin-right: 0px; font-weight: bold;">|||</span> Filter
@@ -83,11 +83,6 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 184.234px;">Visit Type
-                                                            </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
                                                                 style="width: 184.234px;">Mr Name
                                                             </th>
                                                             <!-- <th class="sorting" tabindex="0"
@@ -121,20 +116,6 @@
                                                             <td>{{ $visit->pin_code }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($visit->visit_date)->format('d M, Y') }}</td>
                                                             <td>{{ $visit->comments }}</td>
-                                                            <td>
-                                                                <!--Check if visit type exits or not-->
-                                                                @if($visit->visit_type == 'other')
-                                                                Other Visit -
-                                                                ({{ $visit->other_visit ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'doctor')
-                                                                Doctor Visit - 
-                                                                ({{ $visit->doctor->doctor_name ?? 'N/A' }} -
-                                                                {{ $visit->doctor->specialist ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'religious_places')
-                                                                Religious Places -
-                                                                ({{ $visit->religious_place ?? 'N/A' }})
-                                                                @endif
-                                                            </td>
                                                             <td>{{ $visit->mr['name'] }}</td>
                                                             <!-- <td>
                                                                 @if($visit->visit_type == 'other')

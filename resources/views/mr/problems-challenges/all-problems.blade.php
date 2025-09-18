@@ -42,6 +42,26 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                style="width: 366.578px;">Camp Type 
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 366.578px;">Doctor Name 
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 366.578px;">Start Date 
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 366.578px;">End Date 
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
                                                                 style="width: 187.688px;">Description
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -58,12 +78,11 @@
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
                                                             <td>{{ $problem->title }}</td>
-                                                            <td>
-                                                                {{ $problem->visit_details->area_name ?? 'N/A' }},
-                                                                {{ $problem->visit_details->district ?? 'N/A' }},
-                                                                {{ $problem->visit_details->state ?? 'N/A' }},
-                                                                {{ $problem->visit_details->area_code ?? 'N/A' }}
-                                                            </td>
+                                                            <td>{{ $problem->visit_name }}</td>
+                                                            <td>{{ $problem->camp_type }}</td>
+                                                            <td>{{ $problem->doctor_name }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($problem->start_date)->format('d M, Y') }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($problem->end_date)->format('d M, Y') }}</td>
                                                             <td>{{ $problem->description }}</td>
                                                             <td>
                                                                 <div class="form-button-action"> 

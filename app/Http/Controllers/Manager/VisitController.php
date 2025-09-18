@@ -46,23 +46,24 @@ class VisitController extends Controller
 
     //Function for update visit
     public function update(Request $request, $id) {
-        //echo "yes"; exit;
         //Validate input fields
         $request->validate([
             'area_name' => 'required|string',
             'area_block' => 'required|string',
             'district' => 'required|string',
             'state' => 'required|string',
-            'area_code' => 'required|string',
+            'pin_code' => 'required|string',
+            'visit_date' => 'required|string',
+            'comments' => 'required|string',
             'status' => 'required|string',
-        //     'visit_type' => 'required|in:doctor,religious_places,other',
-        //     'doctor_id' => 'required_if:visit_type,doctor',
-        //     'religious_place_name' => 'required_if:visit_type,religious_places',
-        //     'other_visit_details' => 'required_if:visit_type,other',
-        // ], [
-        //     'doctor_id.required_if' => 'The doctor name field is required.',
-        //     'religious_place_name.required_if' => 'The religious place name field is required.',
-        //     'other_visit_details.required_if'  => 'The other visit details field is required.',
+            'visit_type' => 'required|in:doctor,religious_places,other',
+            'doctor_id' => 'required_if:visit_type,doctor',
+            'religious_place_name' => 'required_if:visit_type,religious_places',
+            'other_visit_details' => 'required_if:visit_type,other',
+        ], [
+            'doctor_id.required_if' => 'The doctor name field is required.',
+            'religious_place_name.required_if' => 'The religious place name field is required.',
+            'other_visit_details.required_if'  => 'The other visit details field is required.',
         ]);
         //Update visit
         $is_update_visit = Visit::where('id', $id)->update([
@@ -70,12 +71,13 @@ class VisitController extends Controller
             'area_block' => $request->area_block,
             'district' => $request->district,
             'state' => $request->state,
-            'area_code' => $request->area_code,
+            'pin_code' => $request->pin_code,
+            'visit_date' => $request->visit_date,
+            'comments' => $request->comments,
             'status' => $request->status,
-            // 'visit_type' => $request->visit_type,
-            // 'doctor_id' => $request->visit_type == 'doctor' ? $request->doctor_id : NULL,
-            // 'religious_place' => $request->visit_type == 'religious_places' ? $request->religious_place_name : NULL,
-            // 'other_visit' => $request->visit_type == 'other' ? $request->other_visit_details : NULL,
+            'visit_type' => $request->visit_type,
+            'religious_place' => $request->religious_place_name ?? NULL,
+            'other_visit' => $request->other_visit_details ?? NULL,
         ]);
         //Check if visit updated or not
         if ($is_update_visit) {

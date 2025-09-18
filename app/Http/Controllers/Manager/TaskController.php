@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Task;
+use App\Models\MonthlyTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\TaskAssignedNotification;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -138,5 +140,74 @@ class TaskController extends Controller
         } else {
             return back()->with('error', 'Opps something went wrong!');
         }
+    }
+     
+    //Function for all mr tasks
+    public function all_tasks() {
+        //Get tasks
+        $tasks = MonthlyTask::with('task_detail')->where('manager_id', auth()->id())->get();
+        //Get events task
+        $events = [];
+        foreach ($tasks as $task) {
+            $status = $task->is_approval; 
+            $color = match ($status) {
+                1 => '#28a745', 
+                0 => '#dc3545', 
+                default => '#ffc107', 
+            };
+            //Events
+            $events[] = [
+                'id' => $task->id,
+                'title' => $task->task_detail->title ?? 'N/A',
+                'start' => $task->task_detail->start_date ?? null, 
+                'end' => $task->task_detail->end_date ?? null,   
+                'description' => $task->task_detail->description ?? 'N/A',
+                'location' => $task->task_detail->location ?? 'N/A',
+                'color'=> $color,
+            ];
+        }
+        return view('manager.tasks.task-approval', compact('events'));
+    }
+    
+    //Function for approvad tasks
+    public function approveAll() {
+        //Get month 
+        $start = Carbon::now()->startOfMonth()->addMonth(); 
+        $end = Carbon::now()->startOfMonth()->addMonths(2)->subSecond();
+        //Get tasks
+        $tasks = MonthlyTask::whereBetween('created_at', [$start, $end])->get();
+        //Check if tasks exists or not
+        if ($tasks->isEmpty()) {
+            return back()->with('error', 'No tasks found this month!');
+        }
+        //Update task
+        $tasks->each(function($task) {
+            $task->update([
+                'is_approval' => 1,
+                'updated_at' => now(),
+            ]);
+        });
+        return back()->with('success', 'Tasks approved successfully.');
+    }
+
+    //Function for rajected tasks
+    public function rejectAll() {
+        //Get month
+        $start = Carbon::now()->startOfMonth()->addMonth();
+        $end = Carbon::now()->startOfMonth()->addMonths(2)->subSecond(); 
+        //Get tasks
+        $tasks = MonthlyTask::whereBetween('created_at', [$start, $end])->get();
+        //Check if tasks exists or not
+        if ($tasks->isEmpty()) {
+            return back()->with('error', 'No tasks found this month!');
+        }
+        //Update task
+        $tasks->each(function($task) {
+            $task->update([
+                'is_approval' => 0,
+                'updated_at' => now(),
+            ]);
+        });
+        return back()->with('error', 'Tasks rejected successfully.');
     }
 }

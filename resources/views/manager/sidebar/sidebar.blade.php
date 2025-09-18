@@ -99,7 +99,7 @@
                         <p>Task</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('manager/tasks*') || request()->is('manager/all-mr-tasks') || request()->is('manager/tasks-waiting-for-approval') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('manager/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.create') }}">
@@ -114,6 +114,11 @@
                             <li class="{{ request()->is('manager/tasks-waiting-for-approval') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.waiting.for.approval') }}">
                                     <span class="sub-item">Waiting For Approval</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/all-mr-tasks') ? 'active' : '' }}">
+                                <a href="{{ url('manager/all-mr-tasks') }}">
+                                    <span class="sub-item">All Mr Tasks</span>
                                 </a>
                             </li>
                         </ul>

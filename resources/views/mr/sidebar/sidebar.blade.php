@@ -87,7 +87,7 @@
                         <p>Task</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval') || request()->is('mr/approved-by-manager') || request()->is('mr/rajected-by-manager') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.create') }}">
@@ -112,6 +112,16 @@
                             <li class="{{ request()->is('mr/pending-approval') ? 'active' : '' }}">
                                 <a href="{{ url('mr/pending-approval') }}">
                                     <span class="sub-item">Pending Approval</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/rajected-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/rajected-by-manager') }}">
+                                    <span class="sub-item">Rajected Calander</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/approved-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/approved-by-manager') }}">
+                                    <span class="sub-item">Approved Calander</span>
                                 </a>
                             </li>
                         </ul>

@@ -6349,12 +6349,30 @@ label.error {
 	border-color: #31ce36 !important;
 	height: 38px;
     border-radius: 6px;
-    width: 100px;
+    width: 90px;
 }
 .btn-success:disabled, .btn-success:focus, .btn-success:hover {
     color: #fff !important;
-    background: #1a2035 !important;
-    border-color: #1a2035 !important;
+    background: #31ce36 !important;
+    border-color: #31ce36 !important;
+    opacity: 1 !important;
+}
+
+.btn-success-appoval {
+    background: #31ce36 !important;
+    border-color: #31ce36 !important;
+    height: 38px;
+    border-radius: 6px;
+    width: 115px;
+    color: #fff !important; 
+}
+
+.btn-success-appoval:hover,
+.btn-success-appoval:focus,
+.btn-success-appoval:active {
+    background: #31ce36 !important; 
+    border-color: #31ce36 !important; 
+    color: #fff !important;
     opacity: 1 !important;
 }
 

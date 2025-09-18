@@ -30,6 +30,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/pending-approval', [App\Http\Controllers\MR\TaskController::class,'pending_approval']);
 
     Route::post('/tasks/send-monthly', [App\Http\Controllers\MR\TaskController::class,'sendMonthlyTasksToManager'])->name('tasks.sendMonthly');
+    Route::get('/approved-by-manager', [App\Http\Controllers\MR\TaskController::class,'approved_tasks']);
+    Route::get('/rajected-by-manager', [App\Http\Controllers\MR\TaskController::class,'rajected_tasks']);
 
     //Problems & Challenges
     Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);

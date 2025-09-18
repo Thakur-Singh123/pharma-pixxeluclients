@@ -730,3 +730,20 @@ li.page-item.active span.page-link {
 .table-responsive tr th, .table-responsive tr td {
     border: 1px solid #f1f1f1 !important;
 }
+
+.send-approval-btn {
+    background: #31ce36;
+    font-size: 13px;
+    margin: -30px -10px 0 0;
+    border-color: #31ce36 !important;
+    border-radius: 6px;
+    color: #fff !important;
+    height: 35px;
+    transition: none;
+}
+
+.tasks-heading {
+	font-size: 18px;
+	font-weight: 600;
+	margin: 6px 680px 2px 2px;
+}

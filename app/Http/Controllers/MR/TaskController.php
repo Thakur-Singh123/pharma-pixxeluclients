@@ -142,43 +142,87 @@ class TaskController extends Controller
     }
 
 
-    //Send current month tasks to manager
-    public function sendMonthlyTasksToManager(Request $request)
-{
-
-  
-  
-    $mrId = auth()->id();
-    $currentMonth = now()->month;
-    $currentYear = now()->year;
-
-    $tasks = Task::where('mr_id', $mrId)
-                 ->whereYear('start_date', $currentYear)
-                 ->whereMonth('start_date', $currentMonth)
-                 ->get();
-
-
-
-    if($tasks->isEmpty()){
-        return back()->with('error', 'No tasks found for current month!');
-    
-    }
-    
-
-
-    foreach ($tasks as $task) {
-        //MonthlyTask
-        MonthlyTask::updateOrCreate(
-            ['task_id' => $task->id, 'mr_id' => $mrId],
-            [
-                'manager_id' => $task->manager_id,
-                'is_approval' => 0
-            ]
-        );
+    //Function for send monthy tasks to manager
+    public function sendMonthlyTasksToManager(Request $request) {
+        //Get auth detail
+        $mrId = auth()->id();
+        //Get current month and year
+        $currentMonth = now()->month;
+        $currentYear = now()->year;
+        //Get tasks
+        $tasks = Task::where('mr_id', $mrId)
+            ->whereYear('start_date', $currentYear)
+            ->whereMonth('start_date', $currentMonth)
+            ->get();
+        //Check if tasks exist or not
+        if($tasks->isEmpty()){
+            return back()->with('error', 'No tasks found for this month!');
+        }
+        //Get tasks
+        foreach ($tasks as $task) {
+            //Create Mmonthlytask
+            MonthlyTask::updateOrCreate(
+                ['task_id' => $task->id, 'mr_id' => $mrId],
+                [
+                    'manager_id' => $task->manager_id,
+                    'is_approval' => 0
+                ]
+            );
+        }
+        return back()->with('success', 'Monthly tasks sent to the manager for approval successfully.');
     }
 
-    return back()->with('error', 'All monthly tasks sent to manager for approval');
+    //Function for approved tasks by manager
+    public function approved_tasks() {
+        //Get tasks
+        $tasks = MonthlyTask::with('task_detail')->where('mr_id', auth()->id())->where('is_approval', '1')->get();
+        //Get events task
+        $events = [];
+        foreach ($tasks as $task) {
+            $status = $task->is_approval; 
+            $color = match ($status) {
+                1 => '#28a745', 
+                0 => '#dc3545', 
+                default => '#ffc107', 
+            };
+            //Events
+            $events[] = [
+                'id' => $task->id,
+                'title' => $task->task_detail->title ?? 'N/A',
+                'start' => $task->task_detail->start_date ?? null, 
+                'end' => $task->task_detail->end_date ?? null,   
+                'description' => $task->task_detail->description ?? 'N/A',
+                'location' => $task->task_detail->location ?? 'N/A',
+                'color'=> $color,
+            ];
+        }
+        return view('mr.tasks.approved-by-manager', compact('events'));
+    }
 
-}
-
+    //Function for reject tasks by manager
+    public function rajected_tasks() {
+        //Get tasks
+        $tasks = MonthlyTask::with('task_detail')->where('mr_id', auth()->id())->where('is_approval', '0')->get();
+        //Get events task
+        $events = [];
+        foreach ($tasks as $task) {
+            $status = $task->is_approval; 
+            $color = match ($status) {
+                1 => '#28a745', 
+                0 => '#dc3545', 
+                default => '#ffc107', 
+            };
+            //Events
+            $events[] = [
+                'id' => $task->id,
+                'title' => $task->task_detail->title ?? 'N/A',
+                'start' => $task->task_detail->start_date ?? null, 
+                'end' => $task->task_detail->end_date ?? null,   
+                'description' => $task->task_detail->description ?? 'N/A',
+                'location' => $task->task_detail->location ?? 'N/A',
+                'color'=> $color,
+            ];
+        }
+        return view('mr.tasks.rejected-by-manager', compact('events'));
+    }
 }

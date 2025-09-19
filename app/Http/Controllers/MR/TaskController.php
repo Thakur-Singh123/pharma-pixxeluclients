@@ -13,12 +13,14 @@ class TaskController extends Controller
     //Function for all tasks
     public function index(Request $request) {
         $all_tasks = Task::orderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
-        
         return view('mr.tasks.all-tasks', compact('all_tasks'));
     }
 
     //Function for create task
     public function create() {
+        //Get mrs doctors
+        $mr = auth()->user();
+        $all_doctors = $mr->doctors()->where('status', 'active')->get();
         //Get tasks
         $all_tasks = Task::where('mr_id', auth()->id())->orderBy('id','DESC')->get();
         //Get tasks events
@@ -27,17 +29,21 @@ class TaskController extends Controller
             $events[] = [
                 'id'    => $task->id,
                 'title' => $task->title,
-                'description' => $task->description,
-                'location' => $task->location,
-                'status' => $task->status,
                 'start' => $task->start_date,
                 'end'   => $task->end_date,
                 'color' => $task->status == 'completed' ? '#28a745' : 
-                        ($task->status == 'in_progress' ? '#ffc107' : '#dc3545')
+                        ($task->status == 'in_progress' ? '#ffc107' : '#dc3545'),
+                'extendedProps' => [
+                    'doctor_id'   => $task->doctor_id,
+                    'pin_code'    => $task->pin_code,
+                    'description' => $task->description,
+                    'location'    => $task->location,
+                    'status'      => $task->status,
+                ]
             ];
         }
 
-        return view('mr.tasks.create', compact('events'));
+        return view('mr.tasks.create', compact('events','all_doctors'));
     }
 
     //Function for submnit task
@@ -54,6 +60,8 @@ class TaskController extends Controller
         $is_create_task = Task::create([
             'mr_id' => $mrId,
             'manager_id' => $managerId,
+            'doctor_id' => $request->doctor_id,
+            'pin_code' => $request->pin_code,
             'title' => $request->title,
             'description' => $request->description,
             'location' => $request->location,
@@ -92,6 +100,8 @@ class TaskController extends Controller
         $is_update_task = Task::where('id', $id)->update([
             'mr_id' => $mrId,
             'manager_id' => $managerId,
+            'doctor_id' => $request->doctor_id,
+            'pin_code' => $request->pin_code,
             'title' => $request->title,
             'description' => $request->description,
             'location' => $request->location,
@@ -175,7 +185,7 @@ class TaskController extends Controller
     //Function for approved tasks by manager
     public function approved_tasks() {
         //Get tasks
-        $tasks = MonthlyTask::with('task_detail')->where('mr_id', auth()->id())->where('is_approval', '1')->get();
+        $tasks = MonthlyTask::with('task_detail','doctor_detail')->where('mr_id', auth()->id())->where('is_approval', '1')->get();
         //Get events task
         $events = [];
         foreach ($tasks as $task) {
@@ -190,39 +200,52 @@ class TaskController extends Controller
                 'id' => $task->id,
                 'title' => $task->task_detail->title ?? 'N/A',
                 'start' => $task->task_detail->start_date ?? null, 
-                'end' => $task->task_detail->end_date ?? null,   
+                'end' => $task->task_detail->end_date ?? null,  
+                'doctor' => $task->doctor_detail->doctor_name ?? 'N/A', 
                 'description' => $task->task_detail->description ?? 'N/A',
                 'location' => $task->task_detail->location ?? 'N/A',
+                'pin' => $task->task_detail->pin_code ?? 'N/A',
                 'color'=> $color,
             ];
         }
         return view('mr.tasks.approved-by-manager', compact('events'));
     }
 
-    //Function for reject tasks by manager
+    // Function for rejected tasks by manager
     public function rajected_tasks() {
-        //Get tasks
-        $tasks = MonthlyTask::with('task_detail')->where('mr_id', auth()->id())->where('is_approval', '0')->get();
-        //Get events task
+        $mr = auth()->user();
+        $all_doctors = $mr->doctors()->where('status', 'active')->get();
+
+        //Monthly tasks 
+        $all_tasks = MonthlyTask::with(['task_detail', 'doctor_detail'])
+            ->where('mr_id', auth()->id())
+            ->where('is_approval', '0')
+            ->get();
+        //Events
         $events = [];
-        foreach ($tasks as $task) {
-            $status = $task->is_approval; 
-            $color = match ($status) {
-                1 => '#28a745', 
-                0 => '#dc3545', 
-                default => '#ffc107', 
-            };
-            //Events
-            $events[] = [
-                'id' => $task->id,
-                'title' => $task->task_detail->title ?? 'N/A',
-                'start' => $task->task_detail->start_date ?? null, 
-                'end' => $task->task_detail->end_date ?? null,   
-                'description' => $task->task_detail->description ?? 'N/A',
-                'location' => $task->task_detail->location ?? 'N/A',
-                'color'=> $color,
-            ];
+        foreach ($all_tasks as $task) {
+            $taskDetail = $task->task_detail; 
+
+            if ($taskDetail) {
+                $events[] = [
+                    'id'    => $task->id,
+                    'title' => $taskDetail->title ?? 'N/A',
+                    'start' => $taskDetail->start_date ?? null,
+                    'end'   => $taskDetail->end_date ?? null,
+                    'color' => $taskDetail->status == 'completed' ? '#28a745' :
+                            ($taskDetail->status == 'in_progress' ? '#ffc107' : '#dc3545'),
+                    'extendedProps' => [
+                        'doctor_id'   => $taskDetail->doctor_id ?? null,
+                        'pin_code'    => $taskDetail->pin_code ?? null,
+                        'description' => $taskDetail->description ?? null,
+                        'location'    => $taskDetail->location ?? null,
+                        'status'      => $taskDetail->status ?? 'pending',
+                    ]
+                ];
+            }
         }
-        return view('mr.tasks.rejected-by-manager', compact('events'));
+
+        return view('mr.tasks.rejected-by-manager', compact('events','all_doctors'));
     }
+
 }

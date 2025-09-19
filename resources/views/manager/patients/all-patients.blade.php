@@ -44,14 +44,26 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1" style="width: 84.5px;">Disease
+                                                                colspan="1" style="width: 187.688px;">Gender
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 84.5px;">Referred By Contact
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
-                                                                style="width: 156.312px;">Doctor
+                                                                style="width: 156.312px;">Preferred Doctor
                                                             </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 184.234px;">Place Of Referred
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 184.234px;">Bill Amount
+                                                            </th> 
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" style="width: 184.234px;">Referred By (MR Name)
@@ -73,11 +85,11 @@
                                                             <td>{{ $patient->patient_name }}</td>
                                                             <td>{{ $patient->contact_no }}</td>
                                                             <td>{{ $patient->address }}</td>
-                                                            <td>{{ $patient->disease }}</td>
-                                                            <td>
-                                                                {{ $patient->doctor_detail->doctor_name ?? 'N/A' }}
-                                                                ({{ $patient->doctor_detail->specialist ?? 'N/A' }})
-                                                            </td>
+                                                            <td>{{ $patient->gender }}</td>
+                                                            <td>{{ $patient->referred_contact }}</td>
+                                                            <td>{{ $patient->preferred_doctor }}</td>
+                                                            <td>{{ $patient->place_referred }}</td>
+                                                            <td>{{ $patient->bill_amount }}</td>
                                                             <td>{{ $patient->referred_to }}</td>
                                                              <td>
                                                                 <span class="status-badge 

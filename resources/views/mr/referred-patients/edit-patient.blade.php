@@ -48,26 +48,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!--Disease-->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Disease</label>
-                                    <input type="text" name="disease" class="form-control" value="{{ old('disease', $patient_detail->disease) }}" placeholder="Enter disease">
-                                    @error('disease')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!--Date of Birth-->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Date of Birth</label>
-                                    <input type="date" name="dob" class="form-control start-date" value="{{ old('dob', $patient_detail->dob) }}">
-                                    @error('dob')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
                             <!--Gender-->
                             <div class="col-md-6 col-lg-4">
                                 <div class="form-group">
@@ -93,52 +73,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!--Blood Group-->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Blood Group</label>
-                                    <select name="blood_group" class="form-control">
-                                        <option value="" disabled selected>Select</option>
-                                        <option value="A+" @if($patient_detail->blood_group == 'A+') selected @endif>A+</option>
-                                        <option value="A-" @if($patient_detail->blood_group == 'A-') selected @endif>A-</option>
-                                        <option value="B+" @if($patient_detail->blood_group == 'B+') selected @endif>B+</option>
-                                        <option value="B-" @if($patient_detail->blood_group == 'B-') selected @endif>B-</option>
-                                        <option value="O+" @if($patient_detail->blood_group == 'O+') selected @endif>O+</option>
-                                        <option value="O-" @if($patient_detail->blood_group == 'O-') selected @endif>O-</option>
-                                        <option value="AB+" @if($patient_detail->blood_group == 'AB+') selected @endif>AB+</option>
-                                        <option value="AB-" @if($patient_detail->blood_group == 'AB-') selected @endif>AB-</option>
-                                    </select>
-                                    @error('blood_group')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!-- Referred By -->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Referred By</label>
-                                    <input type="text" class="form-control" value="{{ Auth::user()->name }}" disabled>
-                                    <input type="hidden" name="referred_to" value="{{ Auth::user()->name }}">
-                                    @error('referred_to')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!--Assigned Doctor-->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Assigned Doctor</label>
-                                    <select name="doctor_id" class="form-control">
-                                        <option value="" disabled selected>Select Doctor</option>
-                                        @foreach($all_doctors as $doctor)
-                                        <option value="{{ $doctor->id }}" @if($patient_detail->doctor_id == $doctor->id) selected @endif>{{ $doctor->doctor_name }} ({{ $doctor->specialist ?? 'N/A' }})</option>
-                                        @endforeach
-                                    </select>
-                                    @error('doctor_id')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
                             <!--Status-->
                             <div class="col-md-6 col-lg-4">
                                 <div class="form-group">
@@ -159,6 +93,40 @@
                                     @error('medical_history')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <!--Referred Details Section-->
+                        <div class="col-12 mt-3">
+                            <h5 class="refer-heading">Referred Details</h5>
+                            <div class="row">
+                                <!--Referred By Contact Number-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Referred By Contact</label>
+                                        <input type="number" name="referred_contact" class="form-control" value="{{ old('referred_contact', $patient_detail->referred_contact) }}" placeholder="Enter contact number">
+                                    </div>
+                                </div>
+                                <!--Preferred Doctor Name-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Preferred Doctor</label>
+                                        <input type="text" name="preferred_doctor" class="form-control" value="{{ old('preferred_doctor', $patient_detail->preferred_doctor) }}" placeholder="Enter doctor name">
+                                    </div>
+                                </div>
+                                <!--Place Referred-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Place Referred</label>
+                                        <input type="text" name="place_referred" class="form-control" value="{{ old('place_referred', $patient_detail->place_referred) }}" placeholder="Enter place referred">
+                                    </div>
+                                </div>
+                                <!--Bill Amount-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Bill Amount</label>
+                                        <input type="number" name="bill_amount" class="form-control" value="{{ old('bill_amount', $patient_detail->bill_amount) }}" placeholder="Enter bill amount">
+                                    </div>
                                 </div>
                             </div>
                         </div>

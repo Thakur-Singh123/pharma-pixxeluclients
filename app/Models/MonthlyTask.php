@@ -15,4 +15,15 @@ class MonthlyTask extends Model
         return $this->belongsTo(Task::class, 'task_id');
     }
 
+    // Doctor through Task
+    public function doctor_detail() {
+        return $this->hasOneThrough(
+            Doctor::class,  
+            Task::class,    
+            'id',           
+            'id',           
+            'task_id',      
+            'doctor_id'    
+        );
+    }
 }

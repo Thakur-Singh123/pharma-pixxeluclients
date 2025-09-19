@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Doctor;
 use App\Models\Task;
 use App\Models\MonthlyTask;
 use Illuminate\Http\Request;
@@ -112,11 +113,13 @@ class TaskController extends Controller
         $task->update([
             'mr_id' => $request->mr_id,
             'manager_id' => auth()->id(),
+            'doctor_id'  => $request->doctor_id,
             'title' => $request->title,
             'description' => $request->description,
             'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'pin_code'   => $request->pin_code,
             'created_by' => 'Manager',
             'status' => $request->status,
         ]);
@@ -142,31 +145,48 @@ class TaskController extends Controller
         }
     }
      
-    //Function for all mr tasks
-    public function all_tasks() {
-        //Get tasks
-        $tasks = MonthlyTask::with('task_detail')->where('manager_id', auth()->id())->get();
-        //Get events task
+      public function all_tasks()
+    {
+     
+
+     //Get
+    $doctors = Doctor::OrderBy('ID', 'DESC')->get();
+
+        // Get all tasks with task details
+        $tasks = MonthlyTask::with('task_detail','doctor_detail')
+            ->where('manager_id', auth()->id())
+            ->get();
+
+
+        // Format tasks for calendar
         $events = [];
         foreach ($tasks as $task) {
-            $status = $task->is_approval; 
+            $taskDetail = $task->task_detail;
+            $status = $task->is_approval;
+
             $color = match ($status) {
-                1 => '#28a745', 
-                0 => '#dc3545', 
-                default => '#ffc107', 
+                1 => '#28a745', // approved
+                0 => '#dc3545', // rejected
+                default => '#ffc107', // pending
             };
-            //Events
+
             $events[] = [
-                'id' => $task->id,
-                'title' => $task->task_detail->title ?? 'N/A',
-                'start' => $task->task_detail->start_date ?? null, 
-                'end' => $task->task_detail->end_date ?? null,   
-                'description' => $task->task_detail->description ?? 'N/A',
-                'location' => $task->task_detail->location ?? 'N/A',
-                'color'=> $color,
+                'id'    => $task->id,
+                'title' => $taskDetail->title ?? 'N/A',
+                'start' => $taskDetail->start_date ?? null,
+                'end'   => $taskDetail->end_date ?? null,
+                'color' => $color,
+                'extendedProps' => [
+                    'doctor_id'   => $taskDetail->doctor_id ?? null,
+                    'pin_code'    => $taskDetail->pin_code ?? null,
+                    'description' => $taskDetail->description ?? null,
+                    'location'    => $taskDetail->location ?? null,
+                    'status'      => $taskDetail->status ?? 'pending',
+                ],
             ];
         }
-        return view('manager.tasks.task-approval', compact('events'));
+
+        return view('manager.tasks.task-approval', compact('events', 'doctors'));
     }
     
     //Function for approvad tasks

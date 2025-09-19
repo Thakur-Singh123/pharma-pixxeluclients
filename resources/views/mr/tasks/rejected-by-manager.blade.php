@@ -5,65 +5,188 @@
         <div class="row">
             <div class="col-md-12">
                 @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
                 @endif
                 @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Tasks Calendar Rajected by Manager</div>
+                        <div class="card-title">
+                            Tasks Calendar
+                            <form action="{{ route('mr.tasks.sendMonthly') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="send-approval-btn float-end">
+                                    Send to Manager Approval
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <!--Calendar-->
-                    <div id="calendar"></div>
-                    <!--Task Detail Modal-->
-                    <div class="modal fade" id="taskModal" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Task Details</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p><strong>Title:</strong> <span id="taskTitle"></span></p>
-                                    <p><strong>Description:</strong> <span id="taskDescription"></span></p>
-                                    <p><strong>Location:</strong> <span id="taskLocation"></span></p>
-                                    <p><strong>Start:</strong> <span id="taskStart"></span></p>
-                                    <p><strong>End:</strong> <span id="taskEnd"></span></p>
-                                </div>
+                    <div class="card-body">
+                        <!--Calendar-->
+                        <div id="calendar"></div>
+                        <div class="modal fade" id="taskModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <form id="taskForm" method="POST" action="">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="_method" id="formMethod" value="PUT">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="taskModalTitle">Update Task</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" id="task_id" name="task_id">
+                                            <div class="row">
+                                                <!--Title-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label>Title</label>
+                                                    <input type="text" class="form-control" id="title" name="title" required>
+                                                </div>
+                                                <!--Description-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label>Description</label>
+                                                    <textarea class="form-control" id="description" name="description" required></textarea>
+                                                </div>
+                                                <!--Doctor-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label>Assign Doctor</label>
+                                                    <select name="doctor_id" id="doctor_id" class="form-control">
+                                                        <option value="" disabled>Select</option>
+                                                        @foreach($all_doctors as $doctor)
+                                                            <option value="{{ $doctor->id }}">
+                                                                {{ $doctor->doctor_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <!--Pin Code-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="pin_code">Area Pin Code</label>
+                                                    <input type="number" class="form-control" id="pin_code" name="pin_code" required>
+                                                </div>
+                                                <!--Start Date-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="start_date">Start Date</label>
+                                                    <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                                </div>
+                                                <!--End Date-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="end_date">End Date</label>
+                                                    <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                                </div>
+                                                <!--Location-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="location">Location</label>
+                                                    <input type="text" class="form-control" id="location" name="location" required>
+                                                </div>
+                                                <!--Status-->
+                                                <div class="col-md-6 mb-3">
+                                                    <label>Status</label>
+                                                    <select name="status" id="status" class="form-control">
+                                                        <option value="pending">Pending</option>
+                                                        <option value="in_progress">In Progress</option>
+                                                        <option value="completed">Completed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" id="saveTaskBtn" class="btn btn-success">Update</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
+                        <!--End Task Modal-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
+            selectable: false, // ❌ disable add
             events: @json($events),
-            eventDisplay: 'block',
+
+            dayCellDidMount: function(info) {
+                var today = new Date();
+                today.setHours(0,0,0,0);
+                var cellDate = new Date(info.date);
+
+                //Disable past dates
+                if (cellDate < today) {
+                    info.el.style.backgroundColor = "#f0f0f0";
+                    info.el.style.color = "#999";
+                }
+
+                //Disable months beyond next month
+                var currentMonth = today.getMonth();
+                var nextMonth = currentMonth + 1;
+                if (cellDate.getMonth() > nextMonth) {
+                    info.el.style.backgroundColor = "#f0f0f0";
+                    info.el.style.color = "#999";
+                }
+                info.el.style.cursor = "pointer";
+            },
+
+            // ✅ Only allow update (eventClick)
             eventClick: function(info) {
-                let task = info.event.extendedProps;
-                document.getElementById('taskTitle').innerText = info.event.title;
-                document.getElementById('taskDescription').innerText = task.description ?? 'N/A';
-                document.getElementById('taskLocation').innerText = task.location ?? 'N/A';
-                const options = { day: '2-digit', month: 'short', year: 'numeric' };
-                document.getElementById('taskStart').innerText = info.event.start.toLocaleDateString('en-US', options);
-                document.getElementById('taskEnd').innerText = info.event.end ? info.event.end.toLocaleDateString('en-US', options) : 'N/A';
-    
-                var modal = new bootstrap.Modal(document.getElementById('taskModal'));
-                modal.show();
+                var event = info.event;
+
+                var task = {
+                    id: event.id,
+                    title: event.title || '',
+                    description: event.extendedProps.description || '',
+                    start_date: event.startStr,
+                    end_date: event.endStr || event.startStr,
+                    location: event.extendedProps.location || '',
+                    status: event.extendedProps.status || 'pending',
+                    doctor_id: event.extendedProps.doctor_id || '',
+                    pin_code: event.extendedProps.pin_code || ''
+                };
+
+                openEditTaskModal(task);
             }
         });
+
         calendar.render();
     });
+
+    // ✅ Edit Task Modal
+    function openEditTaskModal(task) {
+        document.getElementById('task_id').value = task.id;
+        document.getElementById('title').value = task.title;
+        document.getElementById('description').value = task.description;
+        document.getElementById('start_date').value = task.start_date;
+        document.getElementById('end_date').value = task.end_date;
+        document.getElementById('location').value = task.location;
+        document.getElementById('status').value = task.status;
+        document.getElementById('doctor_id').value = task.doctor_id;
+        document.getElementById('pin_code').value = task.pin_code;
+
+        let updateUrl = "{{ route('mr.tasks.update', ':id') }}";
+        updateUrl = updateUrl.replace(':id', task.id);
+
+        document.getElementById('taskForm').action = updateUrl;
+        document.getElementById('formMethod').value = 'PUT';
+
+        document.getElementById('taskModalTitle').innerText = "Update Task";
+        document.getElementById('saveTaskBtn').innerText = "Update";
+
+        var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
+        myModal.show();
+    }
 </script>
 @endsection

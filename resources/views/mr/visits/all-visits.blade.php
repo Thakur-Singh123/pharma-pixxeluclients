@@ -14,22 +14,14 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Visits</h4>
-                                <form method="GET" action="{{ url('mr/visit-filter') }}" class="p-3">
-                                <div class="filter-row">
-                                    <input type="text" name="area_name" class="form-control" placeholder="Enter area name">
-                                    <select name="status" id="status" class="form-cate-status-fliter">
-                                        <option value="" selected disabled>Select Status</option>
-                                        <option value="all">All Status</option>
-                                        <option value="Active">Active</option>
-                                        <option value="Pending">Pending</option>
-                                        <option value="Suspend">Suspend</option>
-                                        <option value="Approved">Approved</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-success">
-                                        <span style="margin-right: 0px; font-weight: bold;">|||</span> Filter
-                                    </button>
-                                    <button type="reset" class="btn btn-danger">Cancel</button>
-                                </div>
+                                <form method="GET" action="{{ url('mr/visits') }}" class="p-3">
+                                    <input type="text" 
+                                        name="search" 
+                                        class="form-control"
+                                        value="{{ request('search') }}"
+                                        placeholder="Search By area name"
+                                        oninput="this.form.submit()"
+                                    >
                                 </form>
                             </div>
                             <div class="card-body">

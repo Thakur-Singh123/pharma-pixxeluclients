@@ -53,6 +53,22 @@
                                                     <label>Description</label>
                                                     <textarea class="form-control" id="description" name="description" placeholder="Enter description" required></textarea>
                                                 </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label>Assign Doctor</label>
+                                                    <select name="doctor_id" id="doctor_id" class="form-control">
+                                                        <option value="" disabled selected>Select</option>
+                                                        <!--Get doctors-->
+                                                        @foreach($all_doctors as $doctor)
+                                                            <option value="{{ $doctor->id }}">
+                                                                {{ $doctor->doctor_name }} 
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="pin_code">Area Pin Code</label>
+                                                    <input type="number" class="form-control" id="pin_code" name="pin_code" placeholder="Enter area pin code" required>
+                                                </div>
                                                 <!--Start Date-->
                                                 <div class="col-md-6 mb-3">
                                                     <label for="start_date">Start Date</label>
@@ -143,7 +159,7 @@
     
             eventClick: function(info) {
                 var event = info.event;
-    
+
                 var task = {
                     id: event.id,
                     title: event.title || '',
@@ -151,11 +167,14 @@
                     start_date: event.startStr,
                     end_date: event.endStr || event.startStr,
                     location: event.extendedProps.location || '',
-                    status: event.extendedProps.status || 'pending'
+                    status: event.extendedProps.status || 'pending',
+                    doctor_id: event.extendedProps.doctor_id || '',
+                    pin_code: event.extendedProps.pin_code || ''
                 };
-    
+
                 openEditTaskModal(task);
             }
+
         });
     
         calendar.render();
@@ -181,6 +200,8 @@
         document.getElementById('end_date').value = task.end_date;
         document.getElementById('location').value = task.location;
         document.getElementById('status').value = task.status;
+        document.getElementById('doctor_id').value = task.doctor_id;
+        document.getElementById('pin_code').value = task.pin_code;
     
         let updateUrl = "{{ route('mr.tasks.update', ':id') }}";
         updateUrl = updateUrl.replace(':id', task.id);

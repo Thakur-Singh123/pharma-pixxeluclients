@@ -748,9 +748,9 @@ li.page-item.active span.page-link {
 }
 
 .tasks-heading {
-	font-size: 18px;
-	font-weight: 600;
-	margin: 6px 680px 2px 2px;
+	font-size: 13px;
+	font-weight: 597;
+	margin: 3px 640px 2px 2px;
 }
 
 .card .card-flexd {
@@ -760,4 +760,10 @@ li.page-item.active span.page-link {
 .fc .fc-toolbar-title {
 	font-size: 18px;
 	margin: 0px;
+}
+
+h5.refer-heading {
+    margin: 0px 0px -5px 30px;
+    color: #100f0f;
+    font-weight: 500;
 }

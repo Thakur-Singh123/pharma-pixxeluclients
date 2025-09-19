@@ -31,9 +31,11 @@
                                 <div class="modal-body">
                                     <p><strong>Title:</strong> <span id="taskTitle"></span></p>
                                     <p><strong>Description:</strong> <span id="taskDescription"></span></p>
+                                    <p><strong>Doctor Name:</strong> <span id="taskDoctor"></span></p>
                                     <p><strong>Location:</strong> <span id="taskLocation"></span></p>
-                                    <p><strong>Start:</strong> <span id="taskStart"></span></p>
-                                    <p><strong>End:</strong> <span id="taskEnd"></span></p>
+                                    <p><strong>Area Pin Code:</strong> <span id="taskPinCode"></span></p>
+                                    <p><strong>Start Date:</strong> <span id="taskStart"></span></p>
+                                    <p><strong>End Date:</strong> <span id="taskEnd"></span></p>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +56,9 @@
                 let task = info.event.extendedProps;
                 document.getElementById('taskTitle').innerText = info.event.title;
                 document.getElementById('taskDescription').innerText = task.description ?? 'N/A';
+                document.getElementById('taskDoctor').innerText = task.doctor ?? 'N/A';
                 document.getElementById('taskLocation').innerText = task.location ?? 'N/A';
+                document.getElementById('taskPinCode').innerText = task.pin ?? 'N/A';
                 const options = { day: '2-digit', month: 'short', year: 'numeric' };
                 document.getElementById('taskStart').innerText = info.event.start.toLocaleDateString('en-US', options);
                 document.getElementById('taskEnd').innerText = info.event.end ? info.event.end.toLocaleDateString('en-US', options) : 'N/A';

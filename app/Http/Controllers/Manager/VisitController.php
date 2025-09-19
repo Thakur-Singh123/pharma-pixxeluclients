@@ -9,11 +9,23 @@ use App\Models\Visit;
 class VisitController extends Controller
 {
     //Function for show all daily visits
-    public function index() {
-        //Get visits
+    public function index(Request $request) {
+        //Get MR IDs
         $mrs = auth()->user()->mrs->pluck('id');
-        //Get visits
-        $all_visits = Visit::whereIn('mr_id',$mrs)->with('mr')->OrderBy('ID','DESC')->paginate(5);
+        $query = Visit::whereIn('mr_id', $mrs)->with('mr', 'doctor')->orderBy('id', 'DESC');
+        //Get search request for inputs
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('area_name', 'LIKE', "%$search%")
+                ->orWhere('status', 'LIKE', "%$search%")
+                ->orWhereHas('doctor', function($q2) use ($search) {
+                    $q2->where('doctor_name', 'LIKE', "%$search%");
+                });
+            });
+        }
+        $all_visits = $query->paginate(5);
+
         return view('manager.daily-visits.all-visits', compact('all_visits'));
     }
 

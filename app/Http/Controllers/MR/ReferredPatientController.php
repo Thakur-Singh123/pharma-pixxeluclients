@@ -34,7 +34,6 @@ class ReferredPatientController extends Controller
         $request->validate([
             'patient_name' => 'required',
             'contact_no' => 'required',
-            'doctor_id' => 'required',
         ]);
         //Get current MR ID
         $mrId = auth()->id();
@@ -44,17 +43,17 @@ class ReferredPatientController extends Controller
         $is_create_patient = ReferredPatient::create([
             'mr_id' => $mrId,
             'manager_id' => $managerId,
-            'doctor_id' => $request->doctor_id,
             'patient_name' => $request->patient_name,
             'contact_no' => $request->contact_no,
             'address' => $request->address,
-            'disease' => $request->disease,
-            'referred_to' => $request->referred_to,
-            'dob' => $request->dob,
+            'referred_to' => 'mr',
             'gender' => $request->gender,
             'emergency_contact' => $request->emergency_contact,
-            'blood_group' => $request->blood_group,
             'medical_history' => $request->medical_history,
+            'referred_contact' => $request->referred_contact,
+            'preferred_doctor' => $request->preferred_doctor,
+            'place_referred' => $request->place_referred,
+            'bill_amount' => $request->bill_amount,
             'status' => $request->status,
         ]);
         //Check if patient created or not
@@ -82,7 +81,6 @@ class ReferredPatientController extends Controller
         $request->validate([
             'patient_name' => 'required',
             'contact_no' => 'required',
-            'doctor_id' => 'required',
         ]);
         //Get current MR ID
         $mrId = auth()->id();
@@ -96,13 +94,14 @@ class ReferredPatientController extends Controller
             'patient_name' => $request->patient_name,
             'contact_no' => $request->contact_no,
             'address' => $request->address,
-            'disease' => $request->disease,
-            'referred_to' => $request->referred_to,
-            'dob' => $request->dob,
+            'referred_to' => 'mr',
             'gender' => $request->gender,
             'emergency_contact' => $request->emergency_contact,
-            'blood_group' => $request->blood_group,
             'medical_history' => $request->medical_history,
+            'referred_contact' => $request->referred_contact,
+            'preferred_doctor' => $request->preferred_doctor,
+            'place_referred' => $request->place_referred,
+            'bill_amount' => $request->bill_amount,
             'status' => $request->status,
         ]);
         //Check if patient updated or not

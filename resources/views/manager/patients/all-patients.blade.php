@@ -54,7 +54,7 @@
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
-                                                                style="width: 156.312px;">Preferred Doctor
+                                                                style="width: 156.312px;">Referred Doctor
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
@@ -63,11 +63,15 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" style="width: 184.234px;">Bill Amount
-                                                            </th> 
+                                                            </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" style="width: 184.234px;">Referred By (MR Name)
                                                             </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 156.312px;">Attachment
+                                                            </th> 
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
@@ -90,7 +94,17 @@
                                                             <td>{{ $patient->preferred_doctor }}</td>
                                                             <td>{{ $patient->place_referred }}</td>
                                                             <td>{{ $patient->bill_amount }}</td>
-                                                            <td>{{ $patient->referred_to }}</td>
+                                                            <td>{{ $patient->mr_detail['name'] }}</td>
+                                                            <td>
+                                                                <!--Check if image exists or not-->
+                                                                @if($patient->attachment)
+                                                                    <a href="{{ asset('public/uploads/referred-patients/' . $patient->attachment) }}" target="_blank">
+                                                                        View
+                                                                    </a>
+                                                                @else
+                                                                    -
+                                                                @endif
+                                                            </td>
                                                              <td>
                                                                 <span class="status-badge 
                                                                 {{ $patient->status == 'Pending' ? 'status-pending' : '' }}

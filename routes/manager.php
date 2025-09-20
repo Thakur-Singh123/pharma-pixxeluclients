@@ -28,7 +28,7 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('tasks-waiting-for-approval', [App\Http\Controllers\Manager\TaskController::class,'waitingForApproval'])->name('tasks.waiting.for.approval');
     Route::post('approved-tasks/{id}', [App\Http\Controllers\Manager\TaskController::class,'approvedtasks'])->name('approved.tasks');
     Route::post('rejected-tasks/{id}', [App\Http\Controllers\Manager\TaskController::class,'rejectedtasks'])->name('rejected.tasks');
-    Route::get('/calander-for-approval', [App\Http\Controllers\Manager\TaskController::class, 'all_tasks']);
+    Route::get('/calendar-for-approval', [App\Http\Controllers\Manager\TaskController::class, 'all_tasks']);
     Route::post('/tasks/approve-all', [App\Http\Controllers\Manager\TaskController::class, 'approveAll'])->name('tasks.approveAll');
     Route::post('/tasks/reject-all', [App\Http\Controllers\Manager\TaskController::class, 'rejectAll'])->name('tasks.rejectAll');
 

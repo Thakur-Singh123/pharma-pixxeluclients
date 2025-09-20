@@ -15,8 +15,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">All Events</h4>
+                                <h4 class="card-title">All Events</h4>
+                                <!-- <div class="card-header d-flex justify-content-between align-items-center">
                                     <form method="GET" action="{{ route('manager.tasks.index') }}">
                                         <select name="created_by" class="form-control" onchange="this.form.submit()">
                                             <option value="">📋 All Tasks</option>
@@ -27,7 +27,7 @@
                                                 🧑‍💼 Created by MR</option>
                                         </select>
                                     </form>
-                                </div>
+                                </div> -->
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <div id="basic-datatables_wrapper"
@@ -59,6 +59,14 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Pin Code
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Doctor Name
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 366.578px;">
                                                                    Assigned To 
                                                                 </th>
@@ -69,6 +77,10 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 156.312px;">End date
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 156.312px;">Created By
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -89,6 +101,8 @@
                                                                     <td>{{ $task->title }}</td>
                                                                     <td>{{ $task->description }}</td>
                                                                     <td>{{ $task->location }}</td>
+                                                                    <td>{{ $task->pin_code }}</td>
+                                                                    <td>{{ $task->doctor['doctor_name'] ?? 'N/A'}}</td>
                                                                     <td> 
                                                                         {{ optional($task->mr)->name ?? 'N/A'}}
                                                                     </td>
@@ -96,6 +110,7 @@
                                                                     </td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}
                                                                     </td>
+                                                                    <td>{{ $task->created_by }}</td>
                                                                     <td>
                                                                         <span
                                                                             class="status-badge 

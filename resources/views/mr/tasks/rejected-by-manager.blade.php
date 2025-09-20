@@ -43,17 +43,14 @@
                                         <div class="modal-body">
                                             <input type="hidden" id="task_id" name="task_id">
                                             <div class="row">
-                                                <!--Title-->
                                                 <div class="col-md-6 mb-3">
                                                     <label>Title</label>
                                                     <input type="text" class="form-control" id="title" name="title" required>
                                                 </div>
-                                                <!--Description-->
                                                 <div class="col-md-6 mb-3">
                                                     <label>Description</label>
                                                     <textarea class="form-control" id="description" name="description" required></textarea>
                                                 </div>
-                                                <!--Doctor-->
                                                 <div class="col-md-6 mb-3">
                                                     <label>Assign Doctor</label>
                                                     <select name="doctor_id" id="doctor_id" class="form-control">
@@ -65,27 +62,22 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <!--Pin Code-->
                                                 <div class="col-md-6 mb-3">
                                                     <label for="pin_code">Area Pin Code</label>
                                                     <input type="number" class="form-control" id="pin_code" name="pin_code" required>
                                                 </div>
-                                                <!--Start Date-->
                                                 <div class="col-md-6 mb-3">
                                                     <label for="start_date">Start Date</label>
                                                     <input type="date" class="form-control" id="start_date" name="start_date" required>
                                                 </div>
-                                                <!--End Date-->
                                                 <div class="col-md-6 mb-3">
                                                     <label for="end_date">End Date</label>
                                                     <input type="date" class="form-control" id="end_date" name="end_date" required>
                                                 </div>
-                                                <!--Location-->
                                                 <div class="col-md-6 mb-3">
                                                     <label for="location">Location</label>
                                                     <input type="text" class="form-control" id="location" name="location" required>
                                                 </div>
-                                                <!--Status-->
                                                 <div class="col-md-6 mb-3">
                                                     <label>Status</label>
                                                     <select name="status" id="status" class="form-control">
@@ -104,89 +96,86 @@
                                 </form>
                             </div>
                         </div>
-                        <!--End Task Modal-->
+                        <!--End Task-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            selectable: false, // ❌ disable add
-            events: @json($events),
-
-            dayCellDidMount: function(info) {
-                var today = new Date();
-                today.setHours(0,0,0,0);
-                var cellDate = new Date(info.date);
-
-                //Disable past dates
-                if (cellDate < today) {
-                    info.el.style.backgroundColor = "#f0f0f0";
-                    info.el.style.color = "#999";
-                }
-
-                //Disable months beyond next month
-                var currentMonth = today.getMonth();
-                var nextMonth = currentMonth + 1;
-                if (cellDate.getMonth() > nextMonth) {
-                    info.el.style.backgroundColor = "#f0f0f0";
-                    info.el.style.color = "#999";
-                }
-                info.el.style.cursor = "pointer";
-            },
-
-            // ✅ Only allow update (eventClick)
-            eventClick: function(info) {
-                var event = info.event;
-
-                var task = {
-                    id: event.id,
-                    title: event.title || '',
-                    description: event.extendedProps.description || '',
-                    start_date: event.startStr,
-                    end_date: event.endStr || event.startStr,
-                    location: event.extendedProps.location || '',
-                    status: event.extendedProps.status || 'pending',
-                    doctor_id: event.extendedProps.doctor_id || '',
-                    pin_code: event.extendedProps.pin_code || ''
-                };
-
-                openEditTaskModal(task);
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: false,
+        events: @json($events),
+        dayCellDidMount: function(info) {
+            var today = new Date();
+            today.setHours(0,0,0,0);
+            var cellDate = new Date(info.date);
+            //Disable past dates
+            if (cellDate < today) {
+                info.el.style.backgroundColor = "#f0f0f0";
+                info.el.style.color = "#999";
             }
-        });
-
-        calendar.render();
+            info.el.style.cursor = "pointer";
+        },
+        eventClick: function(info) {
+            var event = info.event;
+            var task = {
+                id: event.id,
+                title: event.title || '',
+                description: event.extendedProps.description || '',
+                start_date: event.startStr,
+                end_date: event.endStr || event.startStr,
+                location: event.extendedProps.location || '',
+                status: event.extendedProps.status || 'pending',
+                doctor_id: event.extendedProps.doctor_id || '',
+                pin_code: event.extendedProps.pin_code || ''
+            };
+            openEditTaskModal(task);
+        }
     });
+    calendar.render();
+});
 
-    // ✅ Edit Task Modal
-    function openEditTaskModal(task) {
-        document.getElementById('task_id').value = task.id;
-        document.getElementById('title').value = task.title;
-        document.getElementById('description').value = task.description;
-        document.getElementById('start_date').value = task.start_date;
-        document.getElementById('end_date').value = task.end_date;
-        document.getElementById('location').value = task.location;
-        document.getElementById('status').value = task.status;
-        document.getElementById('doctor_id').value = task.doctor_id;
-        document.getElementById('pin_code').value = task.pin_code;
-
-        let updateUrl = "{{ route('mr.tasks.update', ':id') }}";
-        updateUrl = updateUrl.replace(':id', task.id);
-
-        document.getElementById('taskForm').action = updateUrl;
-        document.getElementById('formMethod').value = 'PUT';
-
-        document.getElementById('taskModalTitle').innerText = "Update Task";
-        document.getElementById('saveTaskBtn').innerText = "Update";
-
-        var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
-        myModal.show();
-    }
+//Edit Task
+function openEditTaskModal(task) {
+    document.getElementById('task_id').value = task.id;
+    document.getElementById('title').value = task.title;
+    document.getElementById('description').value = task.description;
+    document.getElementById('start_date').value = task.start_date;
+    document.getElementById('end_date').value = task.end_date;
+    document.getElementById('location').value = task.location;
+    document.getElementById('status').value = task.status;
+    document.getElementById('doctor_id').value = task.doctor_id;
+    document.getElementById('pin_code').value = task.pin_code;
+    let updateUrl = "{{ route('mr.tasks.update', ':id') }}".replace(':id', task.id);
+    document.getElementById('taskForm').action = updateUrl;
+    document.getElementById('formMethod').value = 'PUT';
+    document.getElementById('taskModalTitle').innerText = "Update Task";
+    document.getElementById('saveTaskBtn').innerText = "Update";
+    setDateValidation(task.start_date, true);
+    var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
+    myModal.show();
+}
+function setDateValidation(existingStart = '', isEdit = false) {
+    var startInput = document.getElementById('start_date');
+    var endInput = document.getElementById('end_date');
+    var today = new Date().toISOString().split('T')[0];
+    startInput.setAttribute('min', isEdit ? existingStart : today);
+    endInput.setAttribute('min', startInput.value);
+    startInput.onchange = function() {
+        endInput.setAttribute('min', this.value);
+    };
+    var form = document.getElementById('taskForm');
+    form.onsubmit = function(e) {
+        if (endInput.value < startInput.value) {
+            e.preventDefault();
+            alert('Error: End Date cannot be earlier than Start Date!');
+        }
+    };
+}
 </script>
 @endsection

@@ -151,35 +151,36 @@ class TaskController extends Controller
         return view('mr.tasks.pending-approval', compact('pending_tasks'));
     }
 
-
-    //Function for send monthy tasks to manager
+    //Function for send monthly tasks to manager
     public function sendMonthlyTasksToManager(Request $request) {
         //Get auth detail
         $mrId = auth()->id();
-        //Get current month and year
-        $currentMonth = now()->month;
-        $currentYear = now()->year;
-        //Get tasks
+
+        //Get next month and year
+        $nextMonth = now()->addMonth()->month;
+        $nextYear = now()->addMonth()->year;
+
         $tasks = Task::where('mr_id', $mrId)
-            ->whereYear('start_date', $currentYear)
-            ->whereMonth('start_date', $currentMonth)
+            ->whereYear('start_date', $nextYear)
+            ->whereMonth('start_date', $nextMonth)
             ->get();
-        //Check if tasks exist or not
-        if($tasks->isEmpty()){
-            return back()->with('error', 'No tasks found for this month!');
+
+        if ($tasks->isEmpty()) {
+            return back()->with('error', 'No tasks found for next month!');
         }
-        //Get tasks
+
         foreach ($tasks as $task) {
-            //Create Mmonthlytask
             MonthlyTask::updateOrCreate(
                 ['task_id' => $task->id, 'mr_id' => $mrId],
                 [
                     'manager_id' => $task->manager_id,
-                    'is_approval' => 0
+                    'is_approval' => 0,
+                    'task_month'  => \Carbon\Carbon::parse($task->start_date)->format('Y-m-d'),
                 ]
             );
         }
-        return back()->with('success', 'Monthly tasks sent to the manager for approval successfully.');
+
+        return back()->with('success', 'Tasks sent to the manager for approval successfully.');
     }
 
     //Function for approved tasks by manager
@@ -211,11 +212,10 @@ class TaskController extends Controller
         return view('mr.tasks.approved-by-manager', compact('events'));
     }
 
-    // Function for rejected tasks by manager
+    //Function for rejected tasks by manager
     public function rajected_tasks() {
         $mr = auth()->user();
         $all_doctors = $mr->doctors()->where('status', 'active')->get();
-
         //Monthly tasks 
         $all_tasks = MonthlyTask::with(['task_detail', 'doctor_detail'])
             ->where('mr_id', auth()->id())
@@ -225,7 +225,7 @@ class TaskController extends Controller
         $events = [];
         foreach ($all_tasks as $task) {
             $taskDetail = $task->task_detail; 
-
+            //Get task details
             if ($taskDetail) {
                 $events[] = [
                     'id'    => $task->id,
@@ -233,7 +233,7 @@ class TaskController extends Controller
                     'start' => $taskDetail->start_date ?? null,
                     'end'   => $taskDetail->end_date ?? null,
                     'color' => $taskDetail->status == 'completed' ? '#28a745' :
-                            ($taskDetail->status == 'in_progress' ? '#ffc107' : '#dc3545'),
+                        ($taskDetail->status == 'in_progress' ? '#ffc107' : '#dc3545'),
                     'extendedProps' => [
                         'doctor_id'   => $taskDetail->doctor_id ?? null,
                         'pin_code'    => $taskDetail->pin_code ?? null,
@@ -244,8 +244,6 @@ class TaskController extends Controller
                 ];
             }
         }
-
         return view('mr.tasks.rejected-by-manager', compact('events','all_doctors'));
     }
-
 }

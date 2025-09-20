@@ -14,7 +14,7 @@
                     <h4 class="card-title">Edit Patient</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('mr.patients.update', $patient_detail->id) }}" method="POST">
+                    <form action="{{ route('mr.patients.update', $patient_detail->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -73,6 +73,24 @@
                                     @enderror
                                 </div>
                             </div>
+                            <!--Attachment-->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-label">Upload Attachment</label>
+                                    <input type="file" name="attachment" class="form-control">
+                                    @error('attachment')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!--Check if attachment exists or not-->                          
+                            <div class="referred-patients">
+                                @if($patient_detail->attachment)
+                                    <img src="{{ asset('public/uploads/referred-patients/' . $patient_detail->attachment) }}" style="width:290px; height:100px; margin:0px 1px 0px 0px; border-radius:4px;" alt="referred-patients Attachment">
+                                @else
+                                    -
+                                @endif
+                            </div>
                             <!--Status-->
                             <div class="col-md-6 col-lg-4">
                                 <div class="form-group">
@@ -107,17 +125,17 @@
                                         <input type="number" name="referred_contact" class="form-control" value="{{ old('referred_contact', $patient_detail->referred_contact) }}" placeholder="Enter contact number">
                                     </div>
                                 </div>
-                                <!--Preferred Doctor Name-->
+                                <!--Referred Doctor Name-->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Preferred Doctor</label>
+                                        <label>Referred Doctor</label>
                                         <input type="text" name="preferred_doctor" class="form-control" value="{{ old('preferred_doctor', $patient_detail->preferred_doctor) }}" placeholder="Enter doctor name">
                                     </div>
                                 </div>
                                 <!--Place Referred-->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Place Referred</label>
+                                        <label>Place Of Referred</label>
                                         <input type="text" name="place_referred" class="form-control" value="{{ old('place_referred', $patient_detail->place_referred) }}" placeholder="Enter place referred">
                                     </div>
                                 </div>

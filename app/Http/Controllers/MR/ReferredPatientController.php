@@ -34,7 +34,16 @@ class ReferredPatientController extends Controller
         $request->validate([
             'patient_name' => 'required',
             'contact_no' => 'required',
+            'attachment' => 'required',
         ]);
+        //Check if image is exit or not
+        $filename = "";
+        if($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move(public_path('uploads/referred-patients'), $filename);
+        }
         //Get current MR ID
         $mrId = auth()->id();
         //Get manager ID linked to this MR
@@ -46,7 +55,6 @@ class ReferredPatientController extends Controller
             'patient_name' => $request->patient_name,
             'contact_no' => $request->contact_no,
             'address' => $request->address,
-            'referred_to' => 'mr',
             'gender' => $request->gender,
             'emergency_contact' => $request->emergency_contact,
             'medical_history' => $request->medical_history,
@@ -55,6 +63,7 @@ class ReferredPatientController extends Controller
             'place_referred' => $request->place_referred,
             'bill_amount' => $request->bill_amount,
             'status' => $request->status,
+            'attachment' => $filename,
         ]);
         //Check if patient created or not
         if ($is_create_patient) {
@@ -81,34 +90,71 @@ class ReferredPatientController extends Controller
         $request->validate([
             'patient_name' => 'required',
             'contact_no' => 'required',
+            'attachment' => 'required',
         ]);
-        //Get current MR ID
-        $mrId = auth()->id();
-        //Get manager ID linked to this MR
-        $managerId = MangerMR::where('mr_id', $mrId)->value('manager_id');
-        //Update patient
-        $is_update_patient = ReferredPatient::where('id', $id)->update([
-            'mr_id' => $mrId,
-            'manager_id' => $managerId,
-            'doctor_id' => $request->doctor_id,
-            'patient_name' => $request->patient_name,
-            'contact_no' => $request->contact_no,
-            'address' => $request->address,
-            'referred_to' => 'mr',
-            'gender' => $request->gender,
-            'emergency_contact' => $request->emergency_contact,
-            'medical_history' => $request->medical_history,
-            'referred_contact' => $request->referred_contact,
-            'preferred_doctor' => $request->preferred_doctor,
-            'place_referred' => $request->place_referred,
-            'bill_amount' => $request->bill_amount,
-            'status' => $request->status,
-        ]);
-        //Check if patient updated or not
-        if ($is_update_patient) {
-            return redirect()->route('mr.patients.index')->with('success', 'Referred patient updated successfully.');
+        //Check if image is exit or not
+        $filename = "";
+        if($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move(public_path('uploads/referred-patients'), $filename);
+            //Get current MR ID
+            $mrId = auth()->id();
+            //Get manager ID linked to this MR
+            $managerId = MangerMR::where('mr_id', $mrId)->value('manager_id');
+            //Update patient with image
+            $is_update_patient = ReferredPatient::where('id', $id)->update([
+                'mr_id' => $mrId,
+                'manager_id' => $managerId,
+                'doctor_id' => $request->doctor_id,
+                'patient_name' => $request->patient_name,
+                'contact_no' => $request->contact_no,
+                'address' => $request->address,
+                'gender' => $request->gender,
+                'emergency_contact' => $request->emergency_contact,
+                'medical_history' => $request->medical_history,
+                'referred_contact' => $request->referred_contact,
+                'preferred_doctor' => $request->preferred_doctor,
+                'place_referred' => $request->place_referred,
+                'bill_amount' => $request->bill_amount,
+                'status' => $request->status,
+                'attachment' => $filename,
+            ]);
+            //Check if patient updated or not
+            if ($is_update_patient) {
+                return redirect()->route('mr.patients.index')->with('success', 'Referred patient updated successfully.');
+            } else {
+                return back()->with('error', 'Opps something went wrong!');
+            }
         } else {
-            return back()->with('error', 'Opps something went wrong!');
+           //Get current MR ID
+            $mrId = auth()->id();
+            //Get manager ID linked to this MR
+            $managerId = MangerMR::where('mr_id', $mrId)->value('manager_id');
+            //Update patient without image
+            $is_update_patient = ReferredPatient::where('id', $id)->update([
+                'mr_id' => $mrId,
+                'manager_id' => $managerId,
+                'doctor_id' => $request->doctor_id,
+                'patient_name' => $request->patient_name,
+                'contact_no' => $request->contact_no,
+                'address' => $request->address,
+                'gender' => $request->gender,
+                'emergency_contact' => $request->emergency_contact,
+                'medical_history' => $request->medical_history,
+                'referred_contact' => $request->referred_contact,
+                'preferred_doctor' => $request->preferred_doctor,
+                'place_referred' => $request->place_referred,
+                'bill_amount' => $request->bill_amount,
+                'status' => $request->status,
+            ]);
+            //Check if patient updated or not
+            if ($is_update_patient) {
+                return redirect()->route('mr.patients.index')->with('success', 'Referred patient updated successfully.');
+            } else {
+                return back()->with('error', 'Opps something went wrong!');
+            }
         }
     }
 

@@ -14,7 +14,7 @@
                     <h4 class="card-title">Add Patient</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('mr.patients.store') }}" method="POST">
+                    <form action="{{ route('mr.patients.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <!--Patient Name-->
@@ -99,6 +99,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <!--Attachment-->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-label">Upload Attachment</label>
+                                    <input type="file" name="attachment" class="form-control">
+                                    @error('attachment')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
                             <!--Medical History-->
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -124,14 +134,14 @@
                                 <!--Preferred Doctor Name-->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Preferred Doctor</label>
+                                        <label>Referred Doctor</label>
                                         <input type="text" name="preferred_doctor" class="form-control" value="{{ old('preferred_doctor') }}" placeholder="Enter doctor name">
                                     </div>
                                 </div>
                                 <!--Place Referred-->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Place Referred</label>
+                                        <label>Place Of Referred</label>
                                         <input type="text" name="place_referred" class="form-control" value="{{ old('place_referred') }}" placeholder="Enter place referred">
                                     </div>
                                 </div>

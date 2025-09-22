@@ -94,11 +94,11 @@
                                     <span class="sub-item">Add Task</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/tasks') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
+                            <!-- <li class="{{ request()->is('mr/tasks') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.index') }}">
                                     <span class="sub-item">All Tasks</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="{{ request()->is('mr/assigin-manger') ? 'active' : '' }}">
                                 <a href="{{ url('mr/assigin-manger') }}">
                                     <span class="sub-item">Assigned By Manager</span>
@@ -109,19 +109,19 @@
                                     <span class="sub-item">Created By Himself</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/pending-approval') ? 'active' : '' }}">
+                            <!-- <li class="{{ request()->is('mr/pending-approval') ? 'active' : '' }}">
                                 <a href="{{ url('mr/pending-approval') }}">
                                     <span class="sub-item">Pending Approval</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="{{ request()->is('mr/rajected-by-manager') ? 'active' : '' }}">
                                 <a href="{{ url('mr/rajected-by-manager') }}">
-                                    <span class="sub-item">Rajected Calander</span>
+                                    <span class="sub-item">Rajected Calendar</span>
                                 </a>
                             </li>
                             <li class="{{ request()->is('mr/approved-by-manager') ? 'active' : '' }}">
                                 <a href="{{ url('mr/approved-by-manager') }}">
-                                    <span class="sub-item">Approved Calander</span>
+                                    <span class="sub-item">Approved Calendar</span>
                                 </a>
                             </li>
                         </ul>

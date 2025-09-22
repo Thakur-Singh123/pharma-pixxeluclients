@@ -61,9 +61,21 @@ class VisitController extends Controller
     }
 
     //Function for all visits
-    public function all_visits() {
-        //Get visits
-        $all_visits = Visit::where('mr_id', auth()->id())->with('doctor')->OrderBy('ID','DESC')->paginate(5);
+    public function all_visits(Request $request) {
+        $query = Visit::where('mr_id', auth()->id())->with('doctor');
+        //Get search request for inputs
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('area_name', 'LIKE', "%$search%")
+                ->orWhere('status', 'LIKE', "%$search%")
+                ->orWhereHas('doctor', function($q2) use ($search) {
+                    $q2->where('doctor_name', 'LIKE', "%$search%");
+                });
+            });
+        }
+        $all_visits = $query->orderBy('id','DESC')->paginate(5);
+
         return view('mr.visits.all-visits', compact('all_visits'));
     }
 

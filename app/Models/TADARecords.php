@@ -18,6 +18,7 @@ class TADARecords extends Model
         'da_amount',
         'total_amount',
         'mode_of_travel',
+        'outstation_stay',
         'remarks',
         'status',
         'approved_by',

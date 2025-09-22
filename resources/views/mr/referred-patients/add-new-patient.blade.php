@@ -14,7 +14,7 @@
                     <h4 class="card-title">Add Patient</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('mr.patients.store') }}" method="POST">
+                    <form action="{{ route('mr.patients.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <!--Patient Name-->
@@ -47,26 +47,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!--Disease-->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Disease</label>
-                                    <input type="text" name="disease" class="form-control" value="{{ old('disease') }}" placeholder="Enter disease">
-                                    @error('disease')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!--Date of Birth-->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Date of Birth</label>
-                                    <input type="date" name="dob" class="form-control start-date" value="{{ old('dob', date('Y-m-d')) }}">
-                                    @error('dob')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
                             <!--Gender-->
                             <div class="col-md-6 col-lg-4">
                                 <div class="form-group">
@@ -92,39 +72,8 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!--Blood Group-->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Blood Group</label>
-                                    <select name="blood_group" class="form-control">
-                                        <option value="" disabled selected>Select</option>
-                                        <option value="A+">A+</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B-">B-</option>
-                                        <option value="O+">O+</option>
-                                        <option value="O-">O-</option>
-                                        <option value="AB+">AB+</option>
-                                        <option value="AB-">AB-</option>
-                                    </select>
-                                    @error('blood_group')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!-- Referred By -->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="form-group">
-                                    <label>Referred By</label>
-                                    <input type="text" class="form-control" value="{{ Auth::user()->name }}" disabled>
-                                    <input type="hidden" name="referred_to" value="{{ Auth::user()->name }}">
-                                    @error('referred_to')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
                             <!--Assigned Doctor-->
-                            <div class="col-md-6 col-lg-4">
+                            <!-- <div class="col-md-6 col-lg-4">
                                 <div class="form-group">
                                     <label>Assigned Doctor</label>
                                     <select name="doctor_id" class="form-control">
@@ -137,7 +86,7 @@
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> -->
                             <!--Status-->
                             <div class="col-md-6 col-lg-4">
                                 <div class="form-group">
@@ -150,6 +99,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <!--Attachment-->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-label">Upload Attachment</label>
+                                    <input type="file" name="attachment" class="form-control">
+                                    @error('attachment')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
                             <!--Medical History-->
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -158,6 +117,40 @@
                                     @error('medical_history')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <!--Referred Details Section-->
+                        <div class="col-12 mt-3">
+                            <h5 class="refer-heading">Referred Details</h5>
+                            <div class="row">
+                                <!--Referred By Contact Number-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Referred By Contact</label>
+                                        <input type="number" name="referred_contact" class="form-control" value="{{ old('referred_contact') }}" placeholder="Enter contact number">
+                                    </div>
+                                </div>
+                                <!--Preferred Doctor Name-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Referred Doctor</label>
+                                        <input type="text" name="preferred_doctor" class="form-control" value="{{ old('preferred_doctor') }}" placeholder="Enter doctor name">
+                                    </div>
+                                </div>
+                                <!--Place Referred-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Place Of Referred</label>
+                                        <input type="text" name="place_referred" class="form-control" value="{{ old('place_referred') }}" placeholder="Enter place referred">
+                                    </div>
+                                </div>
+                                <!--Bill Amount-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Bill Amount</label>
+                                        <input type="number" name="bill_amount" class="form-control" value="{{ old('bill_amount') }}" placeholder="Enter bill amount">
+                                    </div>
                                 </div>
                             </div>
                         </div>

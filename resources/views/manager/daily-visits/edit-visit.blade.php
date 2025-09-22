@@ -43,7 +43,7 @@
                         <!--District-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="district">Distrcit</label>
+                              <label for="district">District</label>
                               <input type="text" class="form-control" id="district" name="district"
                                  value="{{ old('district', $visit_detail->district) }}" placeholder="Enter District">
                               @error('district')

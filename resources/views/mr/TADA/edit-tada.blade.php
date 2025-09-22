@@ -105,6 +105,16 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <!--Outstation Stag-->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Outstation Stay</label>
+                                        <textarea name="outstation_stay" class="form-control" rows="2" placeholder="Enterut outstation stay">{{ old('outstation_stay', $tada_detail->outstation_stay) }}</textarea>
+                                        @error('outstation_stay')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <!--Attachment-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">

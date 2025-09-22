@@ -44,18 +44,34 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1" style="width: 84.5px;">Disease
+                                                                colspan="1" style="width: 187.688px;">Gender
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 84.5px;">Referred By Contact
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
-                                                                style="width: 156.312px;">Doctor
+                                                                style="width: 156.312px;">Referred Doctor
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 184.234px;">Place Of Referred
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 184.234px;">Bill Amount
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" style="width: 184.234px;">Referred By (MR Name)
                                                             </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 156.312px;">Attachment
+                                                            </th> 
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
@@ -73,12 +89,22 @@
                                                             <td>{{ $patient->patient_name }}</td>
                                                             <td>{{ $patient->contact_no }}</td>
                                                             <td>{{ $patient->address }}</td>
-                                                            <td>{{ $patient->disease }}</td>
+                                                            <td>{{ $patient->gender }}</td>
+                                                            <td>{{ $patient->referred_contact }}</td>
+                                                            <td>{{ $patient->preferred_doctor }}</td>
+                                                            <td>{{ $patient->place_referred }}</td>
+                                                            <td>{{ $patient->bill_amount }}</td>
+                                                            <td>{{ $patient->mr_detail['name'] }}</td>
                                                             <td>
-                                                                {{ $patient->doctor_detail->doctor_name ?? 'N/A' }}
-                                                                ({{ $patient->doctor_detail->specialist ?? 'N/A' }})
+                                                                <!--Check if image exists or not-->
+                                                                @if($patient->attachment)
+                                                                    <a href="{{ asset('public/uploads/referred-patients/' . $patient->attachment) }}" target="_blank">
+                                                                        View
+                                                                    </a>
+                                                                @else
+                                                                    -
+                                                                @endif
                                                             </td>
-                                                            <td>{{ $patient->referred_to }}</td>
                                                              <td>
                                                                 <span class="status-badge 
                                                                 {{ $patient->status == 'Pending' ? 'status-pending' : '' }}

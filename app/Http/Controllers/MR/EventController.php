@@ -81,6 +81,7 @@ class EventController extends Controller
         $event->title          = $request->title;
         $event->description    = $request->description;
         $event->location       = $request->location;
+        $event->pin_code       = $request->pin_code;
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime   = $request->end_datetime;
         $event->status         = $request->status;
@@ -112,6 +113,7 @@ class EventController extends Controller
             'title' =>'required|string|max:255',
             'description' =>'nullable|string',
             'location' =>'nullable|string|max:255',
+            'pin_code' =>'nullable|string|max:255',
             'start_datetime' =>'required|date',
             'end_datetime' =>'required|date|after_or_equal:start_datetime',
             'status' =>'required|in:pending,in_progress,completed'
@@ -123,6 +125,7 @@ class EventController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'location' => $request->location,
+            'pin_code' => $request->pin_code,
             'doctor_id' => $request->doctor_id,
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
@@ -170,11 +173,22 @@ class EventController extends Controller
             'phone' => 'required|string|max:20',
         ]);
 
+        //upi id
+        $uid = $request->pin_code . $request->phone;
+
         // Save to pivot table or separate table
         DB::table('event_users')->insert([
             'event_id' => $event->id,
             'name' => $request->name,
+            'email' => $request->email,
+            'kyc' => $request->kyc,
+            'age' => $request->age,
+            'sex' => $request->sex,
             'phone' => $request->phone,
+            'pin_code' => $request->pin_code,
+            'uid' => $uid,
+            'disease' => $request->disease,
+            'health_declare' => $request->health_declare,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

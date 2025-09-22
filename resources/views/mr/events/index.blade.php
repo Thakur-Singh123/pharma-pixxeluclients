@@ -56,6 +56,10 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
+                                                                    style="width: 156.312px;">Area Pin Code</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
                                                                     style="width: 156.312px;">Start Date & Time</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -84,6 +88,7 @@
                                                                     <td>{{ $event->description }}</td>
                                                                     <td>{{ $event->doctor_detail->doctor_name ?? 'N/A' }}</td>
                                                                     <td>{{ $event->location }}</td>
+                                                                    <td>{{ $event->pin_code }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>

@@ -77,6 +77,10 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 156.312px;">Outstation Stay
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 156.312px;">Attachment
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
@@ -102,6 +106,7 @@
                                                                     <td>{{ $tada_record->da_amount }}</td>
                                                                     <td>{{ $tada_record->total_amount }}</td>
                                                                     <td>{{ $tada_record->mode_of_travel }}</td>
+                                                                    <td>{{ $tada_record->outstation_stay }}</td>
                                                                     <td>
                                                                         @if ($tada_record->attachment)
                                                                             <a href="{{ asset('public/uploads/ta_da/' . $tada_record->attachment) }}"

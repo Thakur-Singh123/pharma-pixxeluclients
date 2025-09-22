@@ -8,11 +8,27 @@ class MonthlyTask extends Model
 {
     //Call migration
     protected $table = 'monthly_tasks';
-    protected $fillable = ['task_id','mr_id','manager_id','is_approval'];
+    protected $fillable = ['task_id','mr_id','manager_id','is_approval','task_month'];
 
     //Function for get taks
     public function task_detail() {
         return $this->belongsTo(Task::class, 'task_id');
     }
 
+    // Doctor through Task
+    public function doctor_detail() {
+        return $this->hasOneThrough(
+            Doctor::class,  
+            Task::class,    
+            'id',           
+            'id',           
+            'task_id',      
+            'doctor_id'    
+        );
+    }
+
+    //Function for get mr detail
+    public function mr_detail() {
+        return $this->belongsTo(User::class, 'mr_id', 'id');
+    }
 }

@@ -14,6 +14,11 @@ class SaleItem extends Model
         'sale_price',
         'quantity',
         'line_total',
+        'salt_name',
+        'brand_name',
+        'type',
+        'company',
+        'margin',
     ];
 
     public function sale()

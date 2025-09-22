@@ -53,12 +53,12 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <!--Description-->
+                                <!--Area Pin Code-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description',$event_detail->description) }}</textarea>
-                                        @error('description')
+                                        <label for="title">Area Pin Code</label>
+                                        <input type="number" class="form-control" id="pin_code" name="pin_code" value="{{ old('pin_code', $event_detail->pin_code) }}" placeholder="Enter area pin code">
+                                        @error('pin_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -78,6 +78,16 @@
                                         <label for="end_datetime">End Date & Time</label>
                                         <input type="datetime-local" class="form-control" id="end_datetime" name="end_datetime" value="{{ old('end_datetime',$event_detail->end_datetime) }}">
                                         @error('end_datetime')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Description-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description',$event_detail->description) }}</textarea>
+                                        @error('description')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>

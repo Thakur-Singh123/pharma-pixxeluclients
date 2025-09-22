@@ -55,18 +55,18 @@
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
                                                                     style="width: 156.312px;">Perscription File</th>
+                                                                <!-- <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">MRP (Base)</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Total Amount</th>
+                                                                    style="width: 156.312px;">Net Rate (After GST)</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Discount</th>
-                                                                <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    style="width: 156.312px;">Net Amount</th>
+                                                                    style="width: 156.312px;">Margin</th> -->
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -88,9 +88,9 @@
                                                                     <td>{{ $event->designation }}</td>
                                                                     <td>{{ $event->doctor_name }}</td>
                                                                     <td>{!! ($event->prescription_file) ? '<a href="' . asset('public/prescriptions/' . $event->prescription_file) . '" target="_blank">View</a>' : 'N/A' !!}</td>
-                                                                    <td>{{ $event->total_amount }}</td>
+                                                                    <!-- <td>{{ $event->total_amount }}</td>
                                                                     <td>{{ $event->discount }}</td>
-                                                                    <td>{{ $event->net_amount }}</td>
+                                                                    <td>{{ $event->net_amount }}</td> -->
                                                                     <td>{{ $event->payment_mode }}</td>
                                                                     <td>
                                                                         <div class="form-button-action">

@@ -16,6 +16,7 @@ class Events extends Model
         'title',
         'description',
         'location',
+        'pin_code',
         'start_datetime',
         'end_datetime',
         'status',

@@ -32,6 +32,16 @@
                                                             <th class="sorting_asc" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" aria-sort="ascending"
+                                                                style="width: 242.688px;">Hospital Name
+                                                            </th>
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                style="width: 242.688px;">Hospital Type
+                                                            </th>
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
                                                                 style="width: 242.688px;">Area Name
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -103,6 +113,8 @@
                                                         @forelse ($all_doctors as $doctor)
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
+                                                            <td>{{ $doctor->hospital_name }}</td>
+                                                            <td>{{ $doctor->hospital_type }}</td>
                                                             <td>{{ $doctor->area_name }}</td>
                                                             <td>{{ $doctor->area_block }}</td>
                                                             <td>{{ $doctor->district }}</td>

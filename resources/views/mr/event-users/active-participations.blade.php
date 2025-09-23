@@ -12,8 +12,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Active Participations</h4>
+                                    <div class="d-flex" style="gap: 20px;">
+                                       <a href="{{ url('mr/export-camp-report') }}">
+                                            <button type="button" class="btn btn-primary">Download Camp Report 📥</button>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -34,12 +39,52 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Registration UID
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Area Of Camp
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
                                                                     style="width: 242.688px;">Name
                                                                 </th>
-                                                                <th class="sorting" tabindex="0"
+                                                                <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1"
-                                                                    style="width: 366.578px;">Phone
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Email
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Age
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Sex
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Phone Number
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Pin Code
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Disease
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Health Declare
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -53,8 +98,16 @@
                                                             @forelse ($all_participations as $participation)
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
+                                                                    <td>{{ $participation->uid }}</td>
+                                                                    <td>{{ $participation->event_detail->location }}</td>
                                                                     <td>{{ $participation->name }}</td>
+                                                                    <td>{{ $participation->email }}</td>
+                                                                    <td>{{ $participation->age }}</td>
+                                                                    <td>{{ $participation->sex }}</td>
                                                                     <td>{{ $participation->phone }}</td>
+                                                                    <td>{{ $participation->pin_code }}</td>
+                                                                    <td>{{ $participation->disease }}</td>
+                                                                    <td>{{ $participation->health_declare == 1 ? 'Yes' : 'No' }}</td>
                                                                     <td>{{ $participation->event_detail->mr->name }}</td>
                                                                     <!--<td>
                                                                         <div class="form-button-action">

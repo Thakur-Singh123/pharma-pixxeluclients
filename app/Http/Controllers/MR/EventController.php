@@ -173,15 +173,19 @@ class EventController extends Controller
             'phone' => 'required|string|max:20',
         ]);
 
-        //upi id
-        $uid = $request->pin_code . $request->phone;
-
-        // Save to pivot table or separate table
+        //UID generate
+        $name = trim($request->name);  
+        $phone = preg_replace('/\D/', '', $request->phone); 
+        $firstFour = strtoupper(substr($name, 0, 4));
+        $lastFour = substr($phone, -4);
+        //Generate UID
+        $uid = $firstFour . $lastFour;
+        //Save to pivot table or separate table
         DB::table('event_users')->insert([
             'event_id' => $event->id,
             'name' => $request->name,
             'email' => $request->email,
-            'kyc' => $request->kyc,
+            'kyc' => '002',
             'age' => $request->age,
             'sex' => $request->sex,
             'phone' => $request->phone,
@@ -200,7 +204,6 @@ class EventController extends Controller
     public function participations() {
         //Get participations
         $all_participations = EventUser::with(['event_detail.mr'])->OrderBy('ID', 'DESC')->paginate(5);
-        // echo "<pre>"; print_r($all_participations->toArray());exit;
         return view('mr.event-users.active-participations', compact('all_participations'));
     }
 }

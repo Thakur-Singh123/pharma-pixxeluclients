@@ -38,7 +38,7 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Phone</th>
+                                                                    style="width: 366.578px;">Phone Number</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -55,6 +55,18 @@
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
                                                                     style="width: 156.312px;">Perscription File</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Salt Name</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Brand Name</th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Total Amount</th>
                                                                 <!-- <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -87,10 +99,19 @@
                                                                     <td>{{ $event->address }}</td>
                                                                     <td>{{ $event->designation }}</td>
                                                                     <td>{{ $event->doctor_name }}</td>
-                                                                    <td>{!! ($event->prescription_file) ? '<a href="' . asset('public/prescriptions/' . $event->prescription_file) . '" target="_blank">View</a>' : 'N/A' !!}</td>
-                                                                    <!-- <td>{{ $event->total_amount }}</td>
-                                                                    <td>{{ $event->discount }}</td>
-                                                                    <td>{{ $event->net_amount }}</td> -->
+                                                                    <td>
+                                                                    <!--Check if image exists or not-->
+                                                                        @if($event->prescription_file)
+                                                                            <a href="{{ asset('public/prescriptions/' . $event->prescription_file) }}" target="_blank">View</a>
+                                                                        @else
+                                                                            N/A
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>{{ $event['items']['0']['salt_name'] }}</td>
+                                                                    <td>{{ $event['items']['0']['brand_name'] }}</td>
+                                                                    <td>{{ $event->total_amount }}</td>
+                                                                    <!--<td>{{ $event->discount }}</td>
+                                                                    <td>{{ $event->net_amount }}</td>-->
                                                                     <td>{{ $event->payment_mode }}</td>
                                                                     <td>
                                                                         <div class="form-button-action">

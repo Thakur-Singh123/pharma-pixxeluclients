@@ -19,17 +19,15 @@ class SalesController extends Controller
     public function store(Request $request)
     {
        
-
         DB::transaction(function () use ($request) {
 
             // Handle file upload
-            $prescriptionPath = null;
+            $currentFile = null;
             if ($request->hasFile('prescription_file')) {
                 $prescription = $request->file('prescription_file');
-                $prescriptionPath = public_path('prescriptions/' . $prescription->getClientOriginalName());
                 $prescription->move(public_path('prescriptions'), $prescription->getClientOriginalName());
+                $currentFile = $prescription->getClientOriginalName();
             }
-
             // Save Sale
             $sale = Sale::create([
                 'name' => $request->name,
@@ -38,8 +36,8 @@ class SalesController extends Controller
                 'phone' => $request->phone,
                 'address' => $request->address,
                 'doctor_name' => $request->doctor_name,
-                'prescription_file' => $prescriptionPath,
-                'total_amount' => '0',
+                'prescription_file' => $currentFile,
+                'total_amount' => $request->total_amount,
                 'discount' => '0',
                 'net_amount' => '0',
                 'payment_mode' => $request->payment_mode,
@@ -52,9 +50,8 @@ class SalesController extends Controller
                     'medicine_name' => 'Thakur',
                     'salt_name' => $salt_name,
                     'brand_name' => $request->brand_name[$index],
-                    'type' => $request->type[$index],
                     'company' => $request->company[$index],
-                    'type' => $request->type[$index],
+                    'type' => '0',
                     'base_price' => $request->base_price[$index],
                     'sale_price' => $request->sale_price[$index],
                     'margin' => $request->margin[$index],
@@ -86,27 +83,27 @@ class SalesController extends Controller
     //function for update
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'designation' => 'required|string',
-            'phone' => 'required|string',
-            'address' => 'required|string',
-            'doctor_name' => 'required|string',
-            'prescription_file' => 'nullable',
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'email' => 'required|email',
+        //     'designation' => 'required|string',
+        //     'phone' => 'required|string',
+        //     'address' => 'required|string',
+        //     'doctor_name' => 'required|string',
+        //     'prescription_file' => 'nullable',
 
-            'medicine_name' => 'required|array',
-            'medicine_name.*' => 'required|string',
-            'base_price.*' => 'required|numeric',
-            'sale_price.*' => 'required|numeric',
-            'quantity.*' => 'required|integer',
-            'line_total.*' => 'required|numeric',
+        //     'medicine_name' => 'required|array',
+        //     'medicine_name.*' => 'required|string',
+        //     'base_price.*' => 'required|numeric',
+        //     'sale_price.*' => 'required|numeric',
+        //     'quantity.*' => 'required|integer',
+        //     'line_total.*' => 'required|numeric',
 
-            'total_amount' => 'required|numeric',
-            'discount' => 'nullable|numeric',
-            'net_amount' => 'required|numeric',
-            'payment_mode' => 'required|string',
-        ]);
+        //     'total_amount' => 'required|numeric',
+        //     'discount' => 'nullable|numeric',
+        //     'net_amount' => 'required|numeric',
+        //     'payment_mode' => 'required|string',
+        // ]);
 
         DB::transaction(function () use ($request, $id) {
             $sale = Sale::with('items')->findOrFail($id);
@@ -129,26 +126,32 @@ class SalesController extends Controller
                 'doctor_name' => $request->doctor_name,
                 'prescription_file' => $currentFile,
                 'total_amount' => $request->total_amount,
-                'discount' => $request->discount ?? 0,
-                'net_amount' => $request->net_amount,
+                'discount' => '0',
+                'net_amount' => '0',
                 'payment_mode' => $request->payment_mode,
             ]);
 
             // Replace Sale Items
             $sale->items()->delete();
-            foreach ($request->medicine_name as $index => $medicineName) {
+            foreach ($request->salt_name as $index => $salt_name) {
                 $sale->items()->create([
-                    'medicine_name' => $medicineName,
+                    'medicine_name' => 'Thakur',
+                    'salt_name' => $salt_name,
+                    'brand_name' => $request->brand_name[$index],
+                    'company' => $request->company[$index],
+                    'type' => '0',
                     'base_price' => $request->base_price[$index],
                     'sale_price' => $request->sale_price[$index],
-                    'quantity' => $request->quantity[$index],
-                    'line_total' => $request->line_total[$index],
+                    'margin' => $request->margin[$index],
+                    'total_amount' => $request->total_amount,
+                    'discount' => '0',
+                    'net_amount' => $request->total_amount,
+                    'quantity' => '0',
+                    'line_total' => '0',
                 ]);
             }
         });
 
         return redirect()->route('mr.sales.index')->with('success', 'Sale updated successfully!');
     }
-
-
 }

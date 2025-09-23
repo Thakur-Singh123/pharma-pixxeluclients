@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Events;
 use App\Models\EventUser;
 use App\Models\User;
+use App\Models\Doctor;
 use App\Notifications\EventAssignedNotification;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -16,10 +17,10 @@ class EventController extends Controller
     public function index() {
         //Get events
         $query = Events::where('manager_id', auth()->id());
-         if(request()->filled('created_by')) {
-             $query = $query->where('created_by', request('created_by'));
-         }
-        $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 1)->paginate(10);
+        if(request()->filled('created_by')) {
+            $query = $query->where('created_by', request('created_by'));
+        }
+        $events = $query->with('mr','doctor_detail')->orderBy('created_at', 'desc')->where('is_active', 1)->paginate(10);
         return view('manager.events.index', compact('events'));
     }
 
@@ -30,7 +31,7 @@ class EventController extends Controller
          if(request()->filled('created_by')) {
              $query = $query->where('created_by', request('created_by'));
          }
-        $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(10);
+        $events = $query->with('mr','doctor_detail')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(10);
         return view('manager.events.waiting-for-approval', compact('events'));
     }
 
@@ -69,7 +70,8 @@ class EventController extends Controller
         //Get mrs
         $manager = auth()->user();
         $mrs =  $manager->mrs;
-        return view('manager.events.create', compact('mrs'));
+        $all_doctors = Doctor::orderBy('ID', 'DESC')->get();
+        return view('manager.events.create', compact('mrs','all_doctors'));
     }
 
     //Functions for storing event
@@ -86,11 +88,13 @@ class EventController extends Controller
         ]);
         //Create event
         $event = new Events();
-        $event->mr_id = $request->mr_id;
+        $event->mr_id = $request->mr_id; 
         $event->manager_id = auth()->id();
+        $event->doctor_id = $request->doctor_id;
         $event->title = $request->title;
         $event->description = $request->description;
         $event->location = $request->location;
+        $event->pin_code = $request->pin_code;
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime = $request->end_datetime;
         $event->status = $request->status;
@@ -130,7 +134,8 @@ class EventController extends Controller
         //Get mrs
         $manager = auth()->user();
         $mrs =  $manager->mrs;
-        return view('manager.events.edit-event', compact('event_detail','mrs'));
+        $all_doctors = Doctor::orderBy('ID', 'DESC')->get();
+        return view('manager.events.edit-event', compact('event_detail','mrs','all_doctors'));
     }
 
     //Function for update event
@@ -141,6 +146,7 @@ class EventController extends Controller
             'title' =>'required|string|max:255',
             'description' =>'nullable|string',
             'location' =>'nullable|string|max:255',
+            'pin_code' =>'nullable|string|max:255',
             'start_datetime' =>'required|date',
             'end_datetime' =>'required|date|after_or_equal:start_datetime',
             'status' =>'required|in:pending,in_progress,completed'
@@ -152,10 +158,12 @@ class EventController extends Controller
         //Update task
         $event->update([
             'mr_id' => $request->mr_id,
-            'manager_id' => auth()->id(),
+            'manager_id' => auth()->id(), 
+            'doctor_id' => $request->doctor_id,
             'title' => $request->title,
             'description' => $request->description,
             'location' => $request->location,
+            'pin_code' => $request->pin_code,
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
             'status' => $request->status,
@@ -186,7 +194,6 @@ class EventController extends Controller
     public function participations() {
         //Get participations
         $all_participations = EventUser::with(['event_detail.mr'])->OrderBy('ID', 'DESC')->paginate(5);
-        // echo "<pre>"; print_r($all_participations->toArray());exit;
         return view('manager.event-users.active-participations', compact('all_participations'));
     }
 }

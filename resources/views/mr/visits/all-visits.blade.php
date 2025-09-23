@@ -105,16 +105,26 @@
                                                             <td>{{ $visit->comments }}</td>
                                                             <td>
                                                                 <!--Check if visit type exits or not-->
-                                                                @if($visit->visit_type == 'other')
-                                                                Other Visit -
-                                                                ({{ $visit->other_visit ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'doctor')
-                                                                Doctor Visit - 
-                                                                ({{ $visit->doctor->doctor_name ?? 'N/A' }} -
-                                                                {{ $visit->doctor->specialist ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'religious_places')
-                                                                Religious Places -
-                                                                ({{ $visit->religious_place ?? 'N/A' }})
+                                                                @if($visit->visit_type == 'other') Other Visit -
+                                                                    ({{ $visit->other_visit ?? 'N/A' }})
+                                                                @elseif($visit->visit_type == 'doctor') Doctor Visit - 
+                                                                    ({{ $visit->doctor->doctor_name ?? 'N/A' }}-{{ $visit->doctor->specialist ?? 'N/A' }}-{{ $visit->doctor->hospital_name ?? 'N/A' }}-{{ $visit->doctor->hospital_type ?? 'N/A' }})
+                                                                @elseif($visit->visit_type == 'religious_places')Religious Places -
+                                                                    {{ $visit->religious_place ?? 'N/A' }}
+                                                                @elseif($visit->visit_type == 'school')School -
+                                                                    ({{ $visit->school_type ?? 'N/A' }})
+                                                                @elseif($visit->visit_type == 'bams_rmp_dental')BAMS RMP Dental
+                                                                @elseif($visit->visit_type == 'asha_workers')Asha Workers
+                                                                @elseif($visit->visit_type == 'health_workers')Health Workers
+                                                                @elseif($visit->visit_type == 'anganwadi')Anganwadi / Balvatika
+                                                                @elseif($visit->visit_type == 'villages')Villages -
+                                                                    ({{ $visit->villages ?? 'N/A' }})
+                                                                @elseif($visit->visit_type == 'city')City -
+                                                                    ({{ $visit->city ?? 'N/A' }})
+                                                                @elseif($visit->visit_type == 'societies')Societies -
+                                                                    ({{ $visit->societies ?? 'N/A' }})
+                                                                @elseif($visit->visit_type == 'ngo')NGO -
+                                                                    ({{ $visit->ngo ?? 'N/A' }})
                                                                 @endif
                                                             </td>
                                                             <td>

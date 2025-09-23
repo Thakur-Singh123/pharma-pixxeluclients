@@ -165,7 +165,7 @@
                     </a>
                 </li>
                 <!--calander section-->
-                <li class="nav-item {{ request()->is('manager/calendar*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/calendar') ? 'active' : '' }}">
                     <a href="{{ url('manager/calendar') }}"
                         class="nav-link {{ request()->is('manager/calendar') ? 'active' : '' }}">
                         <i class="fas fa-calendar-alt"></i>

@@ -24,6 +24,8 @@ class DoctorController extends Controller
     public function submit_doctor(Request $request) {
         //Validate input fields
         $request->validate([
+            'hospital_name' =>'required|string',
+            'hospital_type' =>'required|string',
             'area_name' =>'required|string',
             'area_block' =>'required|string',
             'district' =>'required|string',
@@ -46,6 +48,8 @@ class DoctorController extends Controller
         //Create doctor
         $is_create_doctor = Doctor::create([
             'user_id' => auth()->id(),
+            'hospital_name' => $request->hospital_name,
+            'hospital_type' => $request->hospital_type,
             'area_name' => $request->area_name,
             'area_block' => $request->area_block,
             'district' => $request->district,
@@ -97,6 +101,8 @@ class DoctorController extends Controller
     public function update_doctor(Request $request, $id) {
         //Validate input fields
         $request->validate([
+            'hospital_name' =>'required|string',
+            'hospital_type' =>'required|string',
             'area_name' =>'required|string',
             'area_block' =>'required|string',
             'district' =>'required|string',
@@ -117,6 +123,8 @@ class DoctorController extends Controller
             $file->move(public_path('uploads/doctors'), $filename);
             //update doctor with image
             $is_updated_doctor = Doctor::where('id', $id)->update([
+                'hospital_name' => $request->hospital_name,
+                'hospital_type' => $request->hospital_type,
                 'area_name' => $request->area_name,
                 'area_block' => $request->area_block,
                 'district' => $request->district,
@@ -139,6 +147,8 @@ class DoctorController extends Controller
         } else {
             //update doctor without image
             $is_updated_doctor = Doctor::where('id', $id)->update([
+                'hospital_name' => $request->hospital_name,
+                'hospital_type' => $request->hospital_type,
                 'area_name' => $request->area_name,
                 'area_block' => $request->area_block,
                 'district' => $request->district,

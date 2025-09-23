@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
                 @if ($errors->any())
                 <div class="alert alert-danger">
@@ -27,8 +27,8 @@
                                     <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label>Email</label>
-                                    <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>Designation</label>
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label>Phone</label>
-                                    <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" required>
+                                    <input type="number" name="phone" class="form-control" value="{{ old('phone') }}" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>Company Address</label>
@@ -55,7 +55,7 @@
                                     <input type="file" name="prescription_file" class="form-control" required>
                                 </div>
                             </div>
-                            <!--Medicine List-->
+                            <!--Products List-->
                             <div class="row mt-3">
                                 <h4>Products</h4>
                                 <table class="table table-bordered" id="medicineTable">
@@ -63,7 +63,7 @@
                                         <tr>
                                             <th>Salt Name</th>
                                             <th>Brand Name</th>
-                                            <th>Branded/Generic</th>
+                                            <!--<th>Branded/Generic</th>-->
                                             <th>Company</th>
                                             <th>MRP (Base)</th>
                                             <th>Net Rate (After GST)</th>
@@ -77,12 +77,12 @@
                                         <tr>
                                             <td><input name="salt_name[]" class="form-control" required></td>
                                             <td><input name="brand_name[]" class="form-control" required></td>
-                                            <td>
+                                            <!--<td>
                                                 <select name="type[]" class="form-control" required>
                                                 <option value="Branded">Branded</option>
                                                 <option value="Generic">Generic</option>
                                                 </select>
-                                            </td>
+                                            </td>-->
                                             <td><input name="company[]" class="form-control" required></td>
                                             <td><input type="number" name="base_price[]" class="form-control base" oninput="calcTotal()" required></td>
                                             <td><input type="number" name="sale_price[]" class="form-control rate" oninput="calcTotal()" required></td>
@@ -92,24 +92,24 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!--Payment Info -->
+                            <!--Payment Info-->
                             <div class="row mt-3">
                                 <h4>Payment Summary</h4>
                                 <div class="col-md-4">
-                                <label>Total Amount</label>
-                                <input type="number" name="total_amount" id="totalAmount" class="form-control" readonly>
+                                    <label>Total Amount</label>
+                                    <input type="number" name="total_amount" id="totalAmount" class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                <label>Payment Mode</label>
-                                <select name="payment_mode" class="form-control" required>
-                                    <option value="">-- Select --</option>
-                                    <option value="Cash">Cash</option>
-                                    <option value="UPI">UPI</option>
-                                    <option value="Card">Card</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                    <label>Payment Mode</label>
+                                    <select name="payment_mode" class="form-control" required>
+                                        <option value="">-- Select --</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="UPI">UPI</option>
+                                        <option value="Card">Card</option>
+                                        <option value="Other">Other</option>
+                                    </select>
                                 </div>
                             </div>
                             <button class="btn btn-success w-100 mt-3">Submit</button>
@@ -120,49 +120,38 @@
         </div>
     </div>
 </div>
-<!-- JS -->
+<!--JS-->
 <script>
-   function addRow() {
-       let table = document.querySelector('#medicineTable tbody');
-       let row = document.createElement('tr');
-       row.innerHTML = `
-           <td><input name="salt_name[]" class="form-control"></td>
-           <td><input name="brand_name[]" class="form-control"></td>
-           <td>
-               <select name="type[]" class="form-control">
-                   <option value="Branded">Branded</option>
-                   <option value="Generic">Generic</option>
-               </select>
-           </td>
-           <td><input name="company[]" class="form-control"></td>
-           <td><input type="number" name="base_price[]" class="form-control base" oninput="calcTotal()"></td>
-           <td><input type="number" name="sale_price[]" class="form-control rate" oninput="calcTotal()"></td>
-           <td><input type="number" name="margin[]" class="form-control margin" readonly></td>
-           <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">×</button></td>
-       `;
-       table.appendChild(row);
-   }
-   
-   function removeRow(btn) {
-       btn.closest('tr').remove();
-       calcTotal();
-   }
-   
-   function calcTotal() {
-       let total = 0;
-       document.querySelectorAll('#medicineTable tbody tr').forEach(row => {
-           let base = parseFloat(row.querySelector('.base')?.value) || 0;
-           let rate = parseFloat(row.querySelector('.rate')?.value) || 0;
-   
-           let margin = (base - rate).toFixed(2);
-           row.querySelector('.margin').value = margin;
-   
-           total += rate;
-       });
-   
-       document.getElementById('totalAmount').value = total.toFixed(2);
-   
-   
-   }
+    function addRow() {
+        let table = document.querySelector('#medicineTable tbody');
+        let row = document.createElement('tr');
+        row.innerHTML = `
+            <td><input name="salt_name[]" class="form-control"></td>
+            <td><input name="brand_name[]" class="form-control"></td>
+            <td><input name="company[]" class="form-control"></td>
+            <td><input type="number" name="base_price[]" class="form-control base" oninput="calcTotal()"></td>
+            <td><input type="number" name="sale_price[]" class="form-control rate" oninput="calcTotal()"></td>
+            <td><input type="number" name="margin[]" class="form-control margin" readonly></td>
+            <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">×</button></td>
+        `;
+        table.appendChild(row);
+    }
+    function removeRow(btn) {
+        btn.closest('tr').remove();
+        calcTotal();
+    }
+    function calcTotal() {
+        let total = 0;
+        document.querySelectorAll('#medicineTable tbody tr').forEach(row => {
+            let base = parseFloat(row.querySelector('.base')?.value) || 0;
+            let rate = parseFloat(row.querySelector('.rate')?.value) || 0;
+    
+            let margin = (base - rate).toFixed(2);
+            row.querySelector('.margin').value = margin;
+    
+            total += rate;
+        });
+        document.getElementById('totalAmount').value = total.toFixed(2);
+    }
 </script>
 @endsection

@@ -17,6 +17,28 @@
                   <form action="{{ route('manager.submit.doctor') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                      @csrf
                      <div class="row">
+                        <!--Hospital Name-->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="hospital_name">Hospital Name</label>
+                              <input type="text" class="form-control" id="hospital_name" name="hospital_name"
+                                 value="{{ old('hospital_name') }}" placeholder="Enter hospital name">
+                              @error('hospital_name')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--Hospital Typ-->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="hospital_type">Hospital Type</label>
+                              <input type="text" class="form-control" id="hospital_type" name="hospital_type"
+                                 value="{{ old('hospital_type') }}" placeholder="Enter hospital type">
+                              @error('hospital_type')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
                         <!--Area Name-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
@@ -42,7 +64,7 @@
                         <!--District-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="district">Distrcit</label>
+                              <label for="district">District</label>
                               <input type="text" class="form-control" id="district" name="district"
                                  value="{{ old('district') }}"  placeholder="Enter district">
                               @error('district')

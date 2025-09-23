@@ -16,7 +16,7 @@ class CampReportExport implements FromCollection, ShouldAutoSize, WithEvents, Wi
     public function collection()
     {
         //Get all records
-        return EventUser::with('event_detail')->orderBy('id', 'DESC')->get();
+        return EventUser::with('event_detail.mr')->orderBy('id', 'DESC')->get();
     }
 
     //collection row 
@@ -36,9 +36,8 @@ class CampReportExport implements FromCollection, ShouldAutoSize, WithEvents, Wi
         $above40 = $age > 40 ? 1 : 0;
 
         return [
-            $row->event_detail->area_of_camp ?? 'N/A',
             $row->uid ?? 'N/A',
-            $row->kyc ?? 'N/A',
+            $row->event_detail->location ?? 'N/A',
             $row->name ?? 'N/A',
             $row->email ?? 'N/A',
             $row->age ?? 'N/A',
@@ -47,6 +46,7 @@ class CampReportExport implements FromCollection, ShouldAutoSize, WithEvents, Wi
             $row->pin_code ?? 'N/A',
             $row->disease ?? 'N/A',
             $row->health_declare ? 'Yes' : 'No',
+            $row->event_detail->mr->name  ?? 'N/A',
             $male,
             $female,
             $less18,
@@ -68,7 +68,7 @@ class CampReportExport implements FromCollection, ShouldAutoSize, WithEvents, Wi
                     'font' => ['bold' => true, 'size' => 14],
                 ]);
                 $headers = [
-                    'Area Of Camp','Registration UID','KYC','Name','Email','Age','Sex','Phone','Pin Code','Disease','Health Declare',
+                    'Registration UID','Area Of Camp','Name','Email','Age','Sex','Phone Number','Pin Code','Disease','Health Declare','Event Organizer (MR)',
                     'Male','Female','Less than 18','18 to 40','Above 40'
                 ];
                 $col = 'A';

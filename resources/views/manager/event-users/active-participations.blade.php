@@ -44,7 +44,7 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">KYC 
+                                                                    style="width: 242.688px;">Area Of Camp
                                                                 </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -81,6 +81,11 @@
                                                                     colspan="1" aria-sort="ascending"
                                                                     style="width: 242.688px;">Disease
                                                                 </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Health Declare
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -94,7 +99,7 @@
                                                                 <tr role="row">
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $participation->uid }}</td>
-                                                                    <td>{{ $participation->kyc }}</td>
+                                                                    <td>{{ $participation->event_detail->location }}</td>
                                                                     <td>{{ $participation->name }}</td>
                                                                     <td>{{ $participation->email }}</td>
                                                                     <td>{{ $participation->age }}</td>
@@ -102,6 +107,7 @@
                                                                     <td>{{ $participation->phone }}</td>
                                                                     <td>{{ $participation->pin_code }}</td>
                                                                     <td>{{ $participation->disease }}</td>
+                                                                    <td>{{ $participation->health_declare == 1 ? 'Yes' : 'No' }}</td>
                                                                     <td>{{ $participation->event_detail->mr->name }}</td>
                                                                     <!--<td>
                                                                         <div class="form-button-action">

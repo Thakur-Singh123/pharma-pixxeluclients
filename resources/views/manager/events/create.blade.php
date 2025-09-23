@@ -27,6 +27,21 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <!--Doctors-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="doctor_id">Doctor Name</label>
+                                        <select class="form-control" id="doctor_id" name="doctor_id">
+                                            <option value="" disabled selected>Select Doctor</option>
+                                            <!--Get doctors-->
+                                            @foreach($all_doctors as $doctor)
+                                                <option value="{{ $doctor->id }}">
+                                                    {{ $doctor->doctor_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <!--Location-->
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -37,12 +52,12 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <!--Description-->
+                                <!--Area Pin Code-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description') }}</textarea>
-                                        @error('description')
+                                        <label for="title">Area Pin Code</label>
+                                        <input type="number" class="form-control" id="pin_code" name="pin_code" value="{{ old('pin_code') }}" placeholder="Enter area pin code">
+                                        @error('pin_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -62,6 +77,16 @@
                                         <label for="end_datetime">End Date & Time</label>
                                         <input type="datetime-local" class="form-control" id="end_datetime" name="end_datetime" value="{{ old('end_datetime', now('Asia/Kolkata')->format('Y-m-d\TH:i')) }}">
                                         @error('end_datetime')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Description-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description') }}</textarea>
+                                        @error('description')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>

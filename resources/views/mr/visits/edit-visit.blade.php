@@ -112,7 +112,7 @@
                            <div class="form-group">
                               <label for="status">Visit Type</label>
                               <select name="visit_type" id="visit_type" class="form-control">
-                                 <option value="doctor" {{ old('visit_type', $visit_detail->visit_type) == 'doctor' ? 'selected' : '' }}>Doctor Visit</option>
+                                 <option value="doctor" {{ old('visit_type', $visit_detail->visit_type) == 'doctor' ? 'selected' : '' }}>MBBS, MD, MS, Diploma, (mention name of hospital whether  government or  pvt doctor)</option>
                                  <option value="bams_rmp_dental" {{ old('visit_type', $visit_detail->visit_type) == 'bams_rmp_dental' ? 'selected' : '' }}>BAMS RMP Dental</option>
                                  <option value="asha_workers" {{ old('visit_type', $visit_detail->visit_type) == 'asha_workers' ? 'selected' : '' }}>Asha Workers</option>
                                  <option value="health_workers" {{ old('visit_type', $visit_detail->visit_type) == 'health_workers' ? 'selected' : '' }}>Health Workers</option>

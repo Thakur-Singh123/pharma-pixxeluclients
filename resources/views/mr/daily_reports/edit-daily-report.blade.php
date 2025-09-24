@@ -34,7 +34,7 @@
                                         <select class="form-control" id="doctor_id" name="doctor_id">
                                             <option value="" disabled selected>Select Doctor</option>
                                             <!--Get doctors-->
-                                            @foreach($all_doctors as $doctor)
+                                            @foreach($assignedDoctors as $doctor)
                                             <option value="{{ $doctor->id }}" @if($report_detail->doctor_id == $doctor->id) selected @endif>
                                                 {{ $doctor->doctor_name }}
                                             </option>

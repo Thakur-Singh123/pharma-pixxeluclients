@@ -58,10 +58,8 @@ class MRDailyReportController extends Controller
     //edit daily report
     public function edit($id) {
         //Get report detail
-        $report_detail = MrDailyReport::find($id);
-        //Get doctors
-        $all_doctors = Doctor::OrderBy('ID', 'DESC')->get();
-        return view('manager.daily_reports.edit',compact('report_detail','all_doctors')); 
+        $report_detail = MrDailyReport::with('doctor_detail')->find($id);
+        return view('manager.daily_reports.edit',compact('report_detail')); 
     }
 
      //Function for update daily report

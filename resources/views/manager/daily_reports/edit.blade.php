@@ -27,22 +27,12 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <!--Doctors-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
-                                        <label for="doctor_id">Doctor Name</label>
-                                        <select class="form-control" id="doctor_id" name="doctor_id">
-                                            <option value="" disabled selected>Select Doctor</option>
-                                            <!--Get doctors-->
-                                            @foreach($all_doctors as $doctor)
-                                            <option value="{{ $doctor->id }}" @if($report_detail->doctor_id == $doctor->id) selected @endif>
-                                                {{ $doctor->doctor_name }}
-                                            </option>
-                                            @endforeach
-                                            @error('doctor_id')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </select>
+                                        <label for="doctor_name">Doctor Name</label>
+                                        <input type="text" class="form-control" id="doctor_name" 
+                                            value="{{ $report_detail->doctor_detail->doctor_name ?? '' }}" disabled>
+                                        <input type="hidden" name="doctor_id" value="{{ $report_detail->doctor_id }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-4">

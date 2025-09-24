@@ -4,7 +4,7 @@
         <div class="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    {{-- Success Message --}}
+                    {{--Success Message--}}
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -19,6 +19,7 @@
                                         <form method="GET" action="{{ route('manager.daily-reports.index') }}" class="m-0" id="filter-form">
                                             <select name="filter_by" onchange="this.form.submit()"
                                                 class="form-control">
+                                                <option value="">Select</option>
                                                 <option value="today" {{ request('filter_by') == 'today' ? 'selected' : '' }}>
                                                     Today</option>
                                                 <option value="week" {{ request('filter_by') == 'week' ? 'selected' : '' }}>

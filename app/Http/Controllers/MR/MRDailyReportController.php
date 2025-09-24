@@ -19,8 +19,9 @@ class MRDailyReportController extends Controller
     //Function for create daily report
     public function create() {
         //Get doctors
-        $all_doctors = Doctor::OrderBy('ID', 'DESC')->get();
-        return view('mr.daily_reports.create', compact('all_doctors'));
+        $mr = auth()->user();
+        $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
+        return view('mr.daily_reports.create', compact('assignedDoctors'));
     }
 
     //Function for store daily report
@@ -56,9 +57,10 @@ class MRDailyReportController extends Controller
     public function edit($id) {
         //Get report detail
         $report_detail = MrDailyReport::find($id);
-        //Get doctors
-        $all_doctors = Doctor::OrderBy('ID', 'DESC')->get();
-        return view('mr.daily_reports.edit-daily-report',compact('report_detail','all_doctors')); 
+       //Get doctors
+        $mr = auth()->user();
+        $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
+        return view('mr.daily_reports.edit-daily-report',compact('report_detail','assignedDoctors')); 
     }
 
     //Function for update daily report

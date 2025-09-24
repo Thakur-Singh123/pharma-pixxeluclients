@@ -26,6 +26,33 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <!--Doctors-->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="doctor_id">Doctor Name</label>
+                                        <select class="form-control" id="doctor_id" name="doctor_id">
+                                            <option value="" disabled selected>Select Doctor</option>
+                                            <!--Get doctors-->
+                                            @foreach($all_doctors as $doctor)
+                                            <option value="{{ $doctor->id }}">
+                                                {{ $doctor->doctor_name }}
+                                            </option>
+                                            @endforeach
+                                            @error('doctor_id')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Area Served</label>
+                                        <input type="area_name" name="area_name" class="form-control" value="{{ old('area_name') }}" placeholder="Enter area served">
+                                        @error('area_name')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label>Total Visit</label>

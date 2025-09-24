@@ -21,8 +21,35 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label>Report Date</label>
-                                        <input type="date" name="report_date" class="form-control" value="{{ old('report_date',$report_detail->report_date ?? now()->format('Y-m-d')) }}" min="{{ now()->format('Y-m-d') }}">
+                                        <input type="date" name="report_date" class="form-control start-date"  placeholder="Enter report date" value="{{ old('report_date',$report_detail->report_date) }}">
                                         @error('report_date')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Doctors-->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="doctor_id">Doctor Name</label>
+                                        <select class="form-control" id="doctor_id" name="doctor_id">
+                                            <option value="" disabled selected>Select Doctor</option>
+                                            <!--Get doctors-->
+                                            @foreach($all_doctors as $doctor)
+                                            <option value="{{ $doctor->id }}" @if($report_detail->doctor_id == $doctor->id) selected @endif>
+                                                {{ $doctor->doctor_name }}
+                                            </option>
+                                            @endforeach
+                                            @error('doctor_id')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Area Served</label>
+                                        <input type="area_name" name="area_name" class="form-control" value="{{ old('area_name', $report_detail->area_name) }}" placeholder="Enter area served">
+                                        @error('area_name')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -30,7 +57,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label>Total Visit</label>
-                                        <input type="number" name="total_visits" class="form-control" value="{{ old('total_visits',$report_detail->total_visits) }}" placeholder="Enter total visits">
+                                        <input type="number" name="total_visits" class="form-control" value="{{ old('total_visits', $report_detail->total_visits) }}" placeholder="Enter total visits">
                                         @error('total_visits')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -39,7 +66,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label>Patients Reffered</label>
-                                        <input type="number" name="patients_referred" class="form-control" value="{{ old('patients_referred',$report_detail->patients_referred) }}" placeholder="Enter patients reffered">
+                                        <input type="number" name="patients_referred" class="form-control" value="{{ old('patients_referred', $report_detail->patients_referred) }}" placeholder="Enter patients reffered">
                                         @error('patients_referred')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -48,7 +75,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Notes</label>
-                                        <textarea name="notes" class="form-control" rows="4" placeholder="Enter any notes" >{{ old('notes',$report_detail->notes) }}</textarea>
+                                        <textarea name="notes" class="form-control" rows="4" placeholder="Enter any notes" >{{ old('notes', $report_detail->notes) }}</textarea>
                                         @error('notes')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

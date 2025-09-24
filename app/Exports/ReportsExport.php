@@ -41,6 +41,8 @@ class ReportsExport implements FromCollection, WithHeadings
             $data[$key]['s_no'] = $key + 1;
             $data[$key]['report_date'] = $value->report_date;
             $data[$key]['mr_name'] = $value->mr->name ?? '';
+            $data[$key]['doctor_id'] = $value->doctor_detail->doctor_name ?? '';
+            $data[$key]['area_name'] = $value->area_name;
             $data[$key]['total_visits'] = $value->total_visits;
             $data[$key]['patients_referred'] = $value->patients_referred;
             $data[$key]['notes'] = $value->notes;
@@ -53,7 +55,7 @@ class ReportsExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'S No.', 'Report Date', 'MR Name', 'Total Visits', 'Patients Referred', 'Notes', 'Status'
+            'S No.', 'Report Date', 'MR Name', 'Doctor Name', 'Area Served', 'Total Visits', 'Patients Referred', 'Notes', 'Status'
         ];
     }
 }

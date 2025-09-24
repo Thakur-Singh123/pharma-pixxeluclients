@@ -8,7 +8,9 @@ class MrDailyReport extends Model
     protected $table    = 'mr_daily_reports';
     protected $fillable = [
         'mr_id',
+        'doctor_id',
         'report_date',
+        'area_name',
         'total_visits',
         'patients_referred',
         'notes',
@@ -20,5 +22,10 @@ class MrDailyReport extends Model
     public function mr()
     {
         return $this->belongsTo(User::class, 'mr_id', 'id');
+    }
+
+    //Function for doctor detail
+    public function doctor_detail() {
+        return $this->belongsTo(Doctor::class, 'doctor_id', 'id');
     }
 }

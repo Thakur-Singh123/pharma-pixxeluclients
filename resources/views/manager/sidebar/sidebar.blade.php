@@ -236,9 +236,8 @@
                     </div>
                 </li>
                 <!--daily mr report section-->
-                <li class="nav-item {{ request()->is('manager/daily-mr-reports*') ? 'active' : '' }}">
-                    <a href="{{ url('manager/daily-mr-reports') }}"
-                        class="nav-link {{ request()->is('manager/daily-mr-reports') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/daily-mr-reports*') || request()->is('manager/edit-report*') ? 'active' : '' }}">
+                    <a href="{{ url('manager/daily-mr-reports') }}" class="nav-link {{ request()->is('manager/daily-mr-reports*') || request()->is('manager/edit-report*') ? 'active' : '' }}">
                         <i class="fas fa-chart-bar"></i>
                         <p>Daily MR Reports</p>
                     </a>

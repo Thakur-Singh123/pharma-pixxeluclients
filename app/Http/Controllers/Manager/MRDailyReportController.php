@@ -6,6 +6,7 @@ use App\Models\MrDailyReport;
 use App\Exports\ReportsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use App\Models\Doctor;
 
 class MRDailyReportController extends Controller
 {
@@ -14,9 +15,9 @@ class MRDailyReportController extends Controller
     {
         $mrIds = auth()->user()->mrs->pluck('id')->toArray();
 
-        $query = MrDailyReport::with('mr')->whereIn('mr_id', $mrIds);
+        $query = MrDailyReport::with('mr','doctor_detail')->whereIn('mr_id', $mrIds);
         //Filter Logic
-        $filter = $request->get('filter_by') ?? 'today';
+        $filter = $request->get('filter_by') ?? 'all';
         if ($filter === 'today') {
             $query->whereDate('report_date', now());
         } elseif ($filter === 'week') {
@@ -57,22 +58,25 @@ class MRDailyReportController extends Controller
     //edit daily report
     public function edit($id) {
         //Get report detail
-        $report_detail = MrDailyReport::find($id);
+        $report_detail = MrDailyReport::with('doctor_detail')->find($id);
         return view('manager.daily_reports.edit',compact('report_detail')); 
     }
 
      //Function for update daily report
     public function update(Request $request, $id) {
-        //Validate input fields
-        $request->validate([
+         $request->validate([
+            'doctor_id' =>'required',
             'report_date' =>'required|date',
+            'area_name' =>'required',
             'total_visits' =>'required|integer|min:0',
             'patients_referred' =>'required|integer|min:0',
             'notes' =>'nullable|string',
         ]);
         //Update daily report
         $is_update_report = MrDailyReport::where('id', $id)->update([
-            'report_date' => $request->report_date, 
+            'doctor_id' => $request->doctor_id, 
+            'report_date' => $request->report_date,
+            'area_name' => $request->area_name,  
             'total_visits' => $request->total_visits,
             'patients_referred' => $request->patients_referred,
             'notes' => $request->notes,

@@ -75,11 +75,11 @@
                                     <span class="sub-item">All Visits</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/areas-served') || request()->is('mr/areas-served') || request()->is('mr/visits/edit/*') ? 'active' : '' }}">
+                            <!-- <li class="{{ request()->is('mr/areas-served') || request()->is('mr/areas-served') || request()->is('mr/visits/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('mr/areas-served') }}">
                                     <span class="sub-item">Areas Served</span>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </li>

@@ -1,4 +1,4 @@
-@extends('manager.layouts.master')
+@extends('mr.layouts.master')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -13,8 +13,8 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h4 class="card-title">All Visits</h4>
-                                <form method="GET" action="{{ url('manager/visits') }}" class="p-3">
+                                <h4 class="card-title">All Areas Served</h4>
+                                <form method="GET" action="{{ url('mr/visits') }}" class="p-3">
                                     <input type="text" 
                                         name="search" 
                                         class="form-control"
@@ -80,29 +80,19 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 184.234px;">Mr Name
-                                                            </th>
-                                                            <!-- <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 184.234px;">Visit Type
-                                                            </th> -->
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @php $count = 1 @endphp
+                                                        <!--Get visits-->
                                                         @forelse ($all_visits as $visit)
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
@@ -137,41 +127,19 @@
                                                                     ({{ $visit->ngo ?? 'N/A' }})
                                                                 @endif
                                                             </td>
-                                                            <td>{{ $visit->mr['name'] }}</td>
-                                                            <!-- <td>
-                                                                @if($visit->visit_type == 'other')
-                                                                    Other Visit -
-                                                                    ({{ $visit->other_visit ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'doctor')
-                                                                    Doctor Visit - 
-                                                                    ({{ $visit->doctor->doctor_name ?? 'N/A' }} -
-                                                                    {{ $visit->doctor->specialist ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'religious_places')
-                                                                    Religious Places -
-                                                                    ({{ $visit->religious_place ?? 'N/A' }})
-                                                                @endif
-                                                            </td> -->
                                                             <td>
                                                                 <span class="status-badge 
-                                                                    {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
-                                                                    {{ $visit->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                    {{ $visit->status == 'Active' ? 'status-active' : '' }}
-                                                                    {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
-                                                                    {{ ucfirst($visit->status) }}
+                                                                {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
+                                                                {{ $visit->status == 'Suspend' ? 'status-suspend' : '' }}
+                                                                {{ $visit->status == 'Active' ? 'status-active' : '' }}
+                                                                {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                {{ ucfirst($visit->status) }}
                                                                 </span>
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">
-                                                                    <a href="{{ route('manager.visits.edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                        <i class="fa fa-edit"></i>
-                                                                    </a>
-                                                                    <form action="{{ route('manager.visits.destroy', $visit->id) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
-                                                                            <i class="fa fa-trash"></i>
-                                                                        </a>
-                                                                    </form>
+                                                                <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
+                                                                <a href="{{ url('mr/delete-visit', $visit->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete"><i class="fa fa-trash"></i></a>
                                                                 </div>
                                                             </td>
                                                         </tr>

@@ -19,7 +19,7 @@
                                         name="search" 
                                         class="form-control"
                                         value="{{ request('search') }}"
-                                        placeholder="Search By area name"
+                                        placeholder="Search"
                                         oninput="this.form.submit()"
                                     >
                                 </form>

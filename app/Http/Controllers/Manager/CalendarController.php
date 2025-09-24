@@ -2,45 +2,78 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
-use App\Models\Events;
 use App\Models\Task;
+use App\Models\MonthlyTask;
+use App\Models\Events;
 
 class CalendarController extends Controller
 {
-    //function to show calendar view
-    public function index()
-    {
+    //Function for show calendar
+    public function index() {
         return view('manager.calendar.index');
     }
 
-    //function to show calendar view
-    public function getTasks()
-    {
-        $tasks = Task::where('manager_id', auth()->id())
-            ->get(['id', 'title', 'start_date as start', 'end_date as end', 'status']);
+    //Function to show task calendar
+    public function getTasks() {
+        //Get approved MonthlyTasks
+        $monthlyTasks = MonthlyTask::with('task_detail','doctor_detail','mr_detail')
+            ->where('manager_id', auth()->id())
+            ->where('is_approval', '1')
+            ->get();
+        //Get manager active Tasks
+        $tasks = Task::with('doctor','mr')->where('manager_id', auth()->id())
+            ->where('is_active', '1')
+            ->get();
 
+            // echo "<pre>"; print_r($tasks->toArray());exit;
+        //Format task
         $formattedTasks = [];
-        foreach ($tasks as $task) {
+        //Get MonthlyTasks
+        foreach ($monthlyTasks as $task) {
+            $detail = $task->task_detail;
+            //Task format
             $formattedTasks[] = [
-                'id'     => $task->id,
-                'title'  => $task->title,
-                'start'  => $task->start,
-                'end'    => $task->end,
-                'status' => $task->status,
-                'type'   => 'task',
+                'id'          => $detail->id,
+                'title'       => $detail->title,
+                'start'       => $detail->start_date,
+                'end'         => $detail->end_date,
+                'doctor'      => $task->doctor_detail->doctor_name ?? 'N/A',
+                'location'    => $detail->location ?? 'N/A',
+                'description' => $detail->description ?? 'N/A',
+                'mr_name'    => $task->mr_detail->name ?? 'N/A',
+                'pin'         => $detail->pin_code ?? 'N/A',
+                'status'      => $detail->status,
+                'type'        => 'monthly_task',
             ];
         }
-
+        //Get Tasks
+        foreach ($tasks as $task) {
+            $formattedTasks[] = [
+                'id'          => $task->id,
+                'title'       => $task->title,
+                'start'       => $task->start_date,
+                'end'         => $task->end_date,
+                'doctor'      => $task->doctor->doctor_name ?? 'N/A',
+                'location'    => $task->location ?? 'N/A',
+                'description' => $task->description ?? 'N/A',
+                'assigned_mr'    => $task->mr->name ?? 'N/A',
+                'pin'         => $task->pin_code ?? 'N/A',
+                'status'      => $task->status,
+                'type'        => 'task',
+            ];
+        }
         return response()->json($formattedTasks);
     }
 
-    public function getEvents()
-    {
-        $events = Events::where('manager_id', auth()->id())->select('id', 'title', 'start_datetime as start',
+    //Function to show evens calendar
+    public function getEvents() {
+        //Get approved events
+        $events = Events::where('manager_id', auth()->id())->where('is_active', '1')->select('id', 'title', 'start_datetime as start',
             'end_datetime as end', 'status', 'location')
             ->get();
-
+        //Format Events
         $formattedEvents = [];
+        //Get events
         foreach ($events as $event) {
             $formattedEvents[] = [
                 'id'       => $event->id,
@@ -52,8 +85,6 @@ class CalendarController extends Controller
                 'type'     => 'event',
             ];
         }
-
         return response()->json($formattedEvents);
     }
-
 }

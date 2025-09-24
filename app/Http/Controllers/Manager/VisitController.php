@@ -18,6 +18,11 @@ class VisitController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('area_name', 'LIKE', "%$search%")
+                ->orWhere('area_block', 'LIKE', "%$search%")
+                ->orWhere('district', 'LIKE', "%$search%")
+                ->orWhere('state', 'LIKE', "%$search%")
+                ->orWhere('pin_code', 'LIKE', "%$search%")
+                ->orWhere('visit_date', 'LIKE', "%$search%")
                 ->orWhere('status', 'LIKE', "%$search%")
                 ->orWhereHas('doctor', function($q2) use ($search) {
                     $q2->where('doctor_name', 'LIKE', "%$search%");

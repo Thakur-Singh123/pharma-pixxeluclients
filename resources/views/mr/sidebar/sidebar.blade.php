@@ -55,24 +55,29 @@
                     </div>
                 </li>
                 <!--daily visit section-->
-                <li class="nav-item {{ request()->is('mr/visits*') || request()->is('mr/visit-filter*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('mr/visits*') || request()->is('mr/areas-served') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseVisit"
-                        class="{{ request()->is('mr/visits*') || request()->is('mr/visit-filter*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('mr/visits*') || request()->is('mr/visit-filter*') ? 'true' : 'false' }}">
+                        class="{{ request()->is('mr/visits*') || request()->is('mr/areas-served') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/visits*') || request()->is('mr/areas-served') ? 'true' : 'false' }}">
                         <i class="fas fa-walking"></i>
                         <p>Daily Visits</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/visits*') || request()->is('mr/visit-filter*') ? 'show' : '' }}" id="collapseVisit">
+                    <div class="collapse {{ request()->is('mr/visits*') || request()->is('mr/areas-served') ? 'show' : '' }}" id="collapseVisit">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/visits/create') ? 'active' : '' }}">
                                 <a href="{{ url('mr/visits/create') }}">
                                     <span class="sub-item">Add Visit</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/visits') || request()->is('mr/visit-filter*') || request()->is('mr/visits/edit/*') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/visits') || request()->is('mr/visits/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('mr/visits') }}">
                                     <span class="sub-item">All Visits</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/areas-served') || request()->is('mr/areas-served') || request()->is('mr/visits/edit/*') ? 'active' : '' }}">
+                                <a href="{{ url('mr/areas-served') }}">
+                                    <span class="sub-item">Areas Served</span>
                                 </a>
                             </li>
                         </ul>
@@ -87,7 +92,7 @@
                         <p>Task</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval') || request()->is('mr/approved-by-manager') || request()->is('mr/rajected-by-manager') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval') || request()->is('mr/approved-by-manager') || request()->is('mr/rejected-by-manager') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.create') }}">
@@ -114,9 +119,9 @@
                                     <span class="sub-item">Pending Approval</span>
                                 </a>
                             </li> -->
-                            <li class="{{ request()->is('mr/rajected-by-manager') ? 'active' : '' }}">
-                                <a href="{{ url('mr/rajected-by-manager') }}">
-                                    <span class="sub-item">Rajected Calendar</span>
+                            <li class="{{ request()->is('mr/rejected-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/rejected-by-manager') }}">
+                                    <span class="sub-item">Rejected Calendar</span>
                                 </a>
                             </li>
                             <li class="{{ request()->is('mr/approved-by-manager') ? 'active' : '' }}">

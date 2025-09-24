@@ -16,10 +16,12 @@
                             <h4 class="tasks-heading">Calendar For Approval</h4>
                             <form action="{{ route('manager.tasks.approveAll') }}" method="POST" class="me-2">
                                 @csrf
+                                <input type="hidden" name="current_month" id="current_month">
                                 <button type="submit" class="btn btn-success-appoval">Approve All</button>
                             </form>
                             <form action="{{ route('manager.tasks.rejectAll') }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="current_month" id="reject_month">
                                 <button type="submit" class="btn btn-danger">Reject All</button>
                             </form>
                         </div>
@@ -101,9 +103,12 @@
     </div>
 </div>
 <script>
+    let calendar;  // Global calendar variable
+ 
     document.addEventListener('DOMContentLoaded', () => {
         const calendarEl = document.getElementById('calendar');
-        const calendar = new FullCalendar.Calendar(calendarEl, {
+ 
+        calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             events: @json($events),
             eventClick: ({ event }) => openEditTaskModal({
@@ -119,15 +124,52 @@
                 mr_id: event.extendedProps.mr_id || '',
                 mr_name: event.extendedProps.mr_name || '',
                 pin_code: event.extendedProps.pin_code || ''
-            })
+            }),
         });
+ 
         calendar.render();
+ 
+        // Function to update hidden input with current calendar month in YYYY-MM format
+        function updateCurrentMonthInput() {
+            const currentDate = calendar.getDate();  // returns Date object of current view
+            const year = currentDate.getFullYear();
+            const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);  // zero padded month
+            const currentMonthValue = `${year}-${month}`;
+ 
+            const hiddenInput = document.getElementById('current_month');
+            if (hiddenInput) {
+                hiddenInput.value = currentMonthValue;
+                // console.log('Updated current_month hidden input:', currentMonthValue);
+            }
+        }
+ 
+        // Initially set hidden input value when calendar loads
+        updateCurrentMonthInput();
+ 
+        // Update hidden input value on calendar month change
+        calendar.on('datesSet', () => {
+            updateCurrentMonthInput();
+        });
+ 
+        // Just for confirmation - optional
+        const approveForm = document.getElementById('approveAllForm');
+        if (approveForm) {
+            approveForm.addEventListener('submit', function(e) {
+                // Before submitting, hidden input already updated by datesSet event
+                // So no extra code needed here
+                // But if you want to log:
+                // console.log('Submitting form with current_month:', document.getElementById('current_month').value);
+            });
+        }
     });
-   function formatDate(dateString) {
-       if (!dateString) return '';
-       const d = new Date(dateString);
-       return `${d.getFullYear()}-${('0'+(d.getMonth()+1)).slice(-2)}-${('0'+d.getDate()).slice(-2)}`;
-   }
+ 
+    // Your existing openEditTaskModal and formatDate functions below (unchanged)
+    function formatDate(dateString) {
+        if (!dateString) return '';
+        const d = new Date(dateString);
+        return `${d.getFullYear()}-${('0'+(d.getMonth()+1)).slice(-2)}-${('0'+d.getDate()).slice(-2)}`;
+    }
+ 
     function openEditTaskModal(task) {
         const fields = ['task_id', 'title', 'description', 'location', 'status', 'pin_code'];
         fields.forEach(f => document.getElementById(f).value = task[f] || '');
@@ -135,15 +177,17 @@
         document.getElementById('doctor_id').value = task.doctor_id;
         document.getElementById('mr_name_display').value = task.mr_name;
         document.getElementById('mr_id').value = task.mr_id;
-        //Dates
+ 
         const startInput = document.getElementById('start_date');
         const endInput = document.getElementById('end_date');
         startInput.value = formatDate(task.start_date);
         endInput.value = formatDate(task.end_date);
+ 
         const minStart = task.start_date || new Date().toISOString().split('T')[0];
         startInput.setAttribute('min', minStart);
         endInput.setAttribute('min', startInput.value);
         startInput.addEventListener('change', () => endInput.setAttribute('min', startInput.value));
+ 
         const form = document.getElementById('taskForm');
         form.onsubmit = (e) => {
             if (endInput.value < startInput.value) {
@@ -151,6 +195,7 @@
                 alert('Error: End Date cannot be earlier than Start Date!');
             }
         };
+ 
         new bootstrap.Modal(document.getElementById('taskModal')).show();
         form.action = "{{ route('manager.tasks.update', ':id') }}".replace(':id', task.id);
     }

@@ -188,9 +188,18 @@ class TaskController extends Controller
     }
     
     //Function for approve all tasks
-    public function approveAll() {
+    public function approveAll(Request $request) {
+
+       $current_month = $request->current_month;
+
+       echo $current_month; exit;
+
+
         //Get all monthly tasks
-        $tasks = MonthlyTask::where('is_approval', 0)->get();
+    $tasks = MonthlyTask::where('task_month', $task_month)
+                        ->where('is_approval', 0)
+                        ->get();
+
         if($tasks->isEmpty()) {
             return back()->with('error', 'No tasks found to approval!');
         }

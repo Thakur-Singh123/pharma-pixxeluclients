@@ -1,8 +1,8 @@
-//Search visit mr 
+//Search visit manager 
 $(document).ready(function() {
     function fetchVisits(page = 1, search = '') {
         $.ajax({
-            url: base_url + '/mr/visits',
+            url: base_Url + '/manager/visits',
             type: 'GET',
             data: { page: page, search: search },
             success: function(data) {
@@ -15,7 +15,7 @@ $(document).ready(function() {
         let query = $(this).val().trim();
         if(query.length < 2) return;
         fetchVisits(1, query);
-        let newUrl = base_url + '/mr/visits?search=' + encodeURIComponent(query);
+        let newUrl = base_Url + '/manager/visits?search=' + encodeURIComponent(query);
         history.pushState(null, null, newUrl);
     });
     //Pagination links click
@@ -25,7 +25,7 @@ $(document).ready(function() {
         let page = url.split('page=')[1];
         let query = $('#visitSearch').val();
         fetchVisits(page, query);
-        let newUrl = base_url + '/mr/visits?page=' + page;
+        let newUrl = base_Url + '/manager/visits?page=' + page;
         if(query) newUrl += "&search=" + encodeURIComponent(query);
         history.pushState(null, null, newUrl);
     });

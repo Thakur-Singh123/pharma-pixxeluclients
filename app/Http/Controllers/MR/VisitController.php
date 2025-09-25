@@ -77,8 +77,9 @@ class VisitController extends Controller
 
     //Function for all visits
     public function all_visits(Request $request) {
+        //Get visit
         $query = Visit::where('mr_id', auth()->id())->with('doctor');
-        //Get search request for inputs
+        //searc visit
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -94,13 +95,15 @@ class VisitController extends Controller
                 });
             });
         }
-        $all_visits = $query->orderBy('id','DESC')->paginate(5);
-
+        $all_visits = $query->orderBy('id','DESC')->paginate(5)->withQueryString();
+        //Get ajax request
+        if ($request->ajax()) {
+            return view('mr.visits.all-visits', compact('all_visits'))->render();
+        }
         return view('mr.visits.all-visits', compact('all_visits'));
     }
 
-
-     //Function for areas served
+    //Function for areas served
     public function areas_served(Request $request) {
         $query = Visit::where('mr_id', auth()->id())->with('doctor');
         //Get search request for inputs

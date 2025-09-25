@@ -17,7 +17,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            Tasks Calendar
+                            Tasks Calendar Rejected by Manager
                             <form action="{{ route('mr.tasks.sendMonthly') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="send-approval-btn float-end">
@@ -106,16 +106,19 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
+    var today = new Date();
+    var nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
+        initialDate: nextMonth,
         selectable: false,
         events: @json($events),
         dayCellDidMount: function(info) {
-            var today = new Date();
-            today.setHours(0,0,0,0);
+            var todayZero = new Date();
+            todayZero.setHours(0,0,0,0);
             var cellDate = new Date(info.date);
             //Disable past dates
-            if (cellDate < today) {
+            if (cellDate < todayZero) {
                 info.el.style.backgroundColor = "#f0f0f0";
                 info.el.style.color = "#999";
             }
@@ -140,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 });
 
-//Edit Task
+//Edit Task Modal
 function openEditTaskModal(task) {
     document.getElementById('task_id').value = task.id;
     document.getElementById('title').value = task.title;
@@ -160,15 +163,18 @@ function openEditTaskModal(task) {
     var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
     myModal.show();
 }
+//Date Validation
 function setDateValidation(existingStart = '', isEdit = false) {
     var startInput = document.getElementById('start_date');
     var endInput = document.getElementById('end_date');
     var today = new Date().toISOString().split('T')[0];
     startInput.setAttribute('min', isEdit ? existingStart : today);
     endInput.setAttribute('min', startInput.value);
+
     startInput.onchange = function() {
         endInput.setAttribute('min', this.value);
     };
+
     var form = document.getElementById('taskForm');
     form.onsubmit = function(e) {
         if (endInput.value < startInput.value) {

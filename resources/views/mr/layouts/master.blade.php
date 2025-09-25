@@ -185,5 +185,4 @@
     <script src="{{ asset('public/admin/assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/core/bootstrap.min.js') }}"></script>
 </body>
-
 </html>

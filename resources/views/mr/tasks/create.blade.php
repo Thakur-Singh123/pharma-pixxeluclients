@@ -100,31 +100,43 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    var nextMonthStart = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    nextMonthStart.setHours(0,0,0,0);
+    var nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0); 
+    nextMonthEnd.setHours(23,59,59,999); 
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
+        initialDate: nextMonthStart,
         selectable: true,
         events: @json($events),
+
         dayCellDidMount: function(info) {
-            var today = new Date();
-            today.setHours(0,0,0,0);
             var cellDate = new Date(info.date);
-            if (cellDate < today) {
+            cellDate.setHours(12,0,0,0);
+            if (cellDate < nextMonthStart || cellDate > nextMonthEnd) {
                 info.el.style.backgroundColor = "#f0f0f0";
                 info.el.style.color = "#999";
+                info.el.style.pointerEvents = "none";
+            } else {
+                info.el.style.cursor = "pointer";
             }
-            info.el.style.cursor = "pointer";
         },
+
         dateClick: function(info) {
-            var today = new Date();
-            today.setHours(0,0,0,0);
             var clickedDate = new Date(info.dateStr);
-            if (clickedDate < today) return;
+            clickedDate.setHours(12,0,0,0);
+            if (clickedDate < nextMonthStart || clickedDate > nextMonthEnd) return;
+
             openAddTaskModal();
             document.getElementById('start_date').value = info.dateStr;
             document.getElementById('end_date').value = info.dateStr;
             var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
             myModal.show();
         },
+
         eventClick: function(info) {
             var event = info.event;
             var task = {
@@ -138,24 +150,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 doctor_id: event.extendedProps.doctor_id || '',
                 pin_code: event.extendedProps.pin_code || ''
             };
+
+            var startDate = new Date(task.start_date);
+            startDate.setHours(12,0,0,0);
+
+            if (startDate < nextMonthStart || startDate > nextMonthEnd) return;
+
             openEditTaskModal(task);
         }
     });
+
     calendar.render();
-});
-    //Add Task
-    function openAddTaskModal() {
-        var form = document.getElementById('taskForm');
-        form.reset();
-        document.getElementById('task_id').value = '';
-        document.getElementById('formMethod').value = 'POST';
-        form.action = "{{ route('mr.tasks.store') }}";
 
-        document.getElementById('taskModalTitle').innerText = "Add Task";
-        document.getElementById('saveTaskBtn').innerText = "Save";
-
-        setDateValidation('');
-    }
     function openAddTaskModal() {
         var form = document.getElementById('taskForm');
         form.reset();
@@ -164,9 +170,9 @@ document.addEventListener('DOMContentLoaded', function () {
         form.action = "{{ route('mr.tasks.store') }}";
         document.getElementById('taskModalTitle').innerText = "Add Task";
         document.getElementById('saveTaskBtn').innerText = "Save";
-        setDateValidation(); 
+        setDateValidation();
     }
-    //Edit Task
+
     function openEditTaskModal(task) {
         var form = document.getElementById('taskForm');
         document.getElementById('task_id').value = task.id;
@@ -190,19 +196,27 @@ document.addEventListener('DOMContentLoaded', function () {
     function setDateValidation(existingStart = '', isEdit = false) {
         var startInput = document.getElementById('start_date');
         var endInput = document.getElementById('end_date');
-        var today = new Date().toISOString().split('T')[0];
-        startInput.setAttribute('min', isEdit ? existingStart : today);
+
+        var nextMonthStartStr = nextMonthStart.toISOString().split('T')[0];
+        var nextMonthEndStr = nextMonthEnd.toISOString().split('T')[0];
+
+        startInput.setAttribute('min', nextMonthStartStr);
+        startInput.setAttribute('max', nextMonthEndStr);
         endInput.setAttribute('min', startInput.value);
+        endInput.setAttribute('max', nextMonthEndStr);
+
         startInput.addEventListener('change', function() {
             endInput.setAttribute('min', this.value);
         });
+
         var form = document.getElementById('taskForm');
         form.addEventListener('submit', function(e) {
-            if (endInput.value < startInput.value) {
+            if (endInput.value && startInput.value && endInput.value < startInput.value) {
                 e.preventDefault();
                 alert('Error: End Date cannot be earlier than Start Date!');
             }
         });
     }
+});
 </script>
 @endsection

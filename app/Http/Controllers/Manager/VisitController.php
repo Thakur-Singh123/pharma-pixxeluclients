@@ -29,8 +29,11 @@ class VisitController extends Controller
                 });
             });
         }
-        $all_visits = $query->paginate(5);
-
+        $all_visits = $query->orderBy('id','DESC')->paginate(5)->withQueryString();
+        //Get ajax request
+        if ($request->ajax()) {
+            return view('manager.daily-visits.all-visits', compact('all_visits'))->render();
+        }
         return view('manager.daily-visits.all-visits', compact('all_visits'));
     }
 

@@ -17,12 +17,12 @@
                             <form action="{{ route('manager.tasks.approveAll') }}" method="POST" class="me-2">
                                 @csrf
                                 <input type="hidden" name="current_month" id="current_month">
-                                <button type="submit" class="btn btn-success-appoval">Approve All</button>
+                                <button type="submit" id="approveBtn" class="btn btn-success-appoval">Approve All</button>
                             </form>
                             <form action="{{ route('manager.tasks.rejectAll') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="current_month" id="reject_month">
-                                <button type="submit" class="btn btn-danger rejected-all">Reject All</button>
+                                <button type="submit" id="rejectBtn" class="btn btn-danger">Reject All</button>
                             </form>
                         </div>
                         <div class="card-body">
@@ -103,142 +103,125 @@
     </div>
 </div>
 <script>
-    let calendar;
-    let approvedMonths = [];  // Track approved months
-    let rejectedMonths = [];  // Track rejected months
+let calendar;  // Global calendar variable
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const calendarEl = document.getElementById('calendar');
+document.addEventListener('DOMContentLoaded', () => {
+    const calendarEl = document.getElementById('calendar');
 
-        calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: @json($events),
-            eventClick: ({ event }) => openEditTaskModal({
-                id: event.id,
-                title: event.title || '',
-                description: event.extendedProps.description || '',
-                start_date: event.startStr,
-                end_date: event.endStr || event.startStr,
-                location: event.extendedProps.location || '',
-                status: event.extendedProps.status || 'pending',
-                doctor_id: event.extendedProps.doctor_id || '',
-                doctor_name: event.extendedProps.doctor_name || '',
-                mr_id: event.extendedProps.mr_id || '',
-                mr_name: event.extendedProps.mr_name || '',
-                pin_code: event.extendedProps.pin_code || ''
-            }),
-        });
+    // Determine next month for default view
+    const today = new Date();
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1); // first day of next month
 
-        calendar.render();
-
-        function updateCurrentMonthInput() {
-            const currentDate = calendar.getDate();
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth() + 1;
-
-            const currentMonthValue = `${year}-${('0' + month).slice(-2)}`;
-            const nextMonthValue = `${year}-${('0' + (month + 1)).slice(-2)}`;
-
-            document.getElementById('current_month').value = currentMonthValue;
-            document.getElementById('reject_month').value = currentMonthValue;
-
-            // Buttons access
-            const approveBtn = document.querySelector('.btn-success-appoval');
-            const rejectBtn = document.querySelector('.btn-danger');
-
-            // Check if already approved/rejected
-            if (approvedMonths.includes(currentMonthValue)) {
-                approveBtn.disabled = true;
-            } else {
-                approveBtn.disabled = false;
-            }
-
-            if (rejectedMonths.includes(currentMonthValue)) {
-                rejectBtn.disabled = true;
-            } else {
-                rejectBtn.disabled = false;
-            }
-
-            // Sirf current & next month me hi enable buttons
-            const today = new Date();
-            const thisMonth = today.getMonth() + 1;
-            const nextMonth = thisMonth + 1;
-
-            if (month === thisMonth || month === nextMonth) {
-                approveBtn.style.display = "inline-block";
-                rejectBtn.style.display = "inline-block";
-            } else {
-                approveBtn.style.display = "none";
-                rejectBtn.style.display = "none";
-            }
-        }
-
-        updateCurrentMonthInput();
-
-        calendar.on('datesSet', () => {
-            updateCurrentMonthInput();
-        });
-
-        // On Approve Submit
-        const approveForm = document.querySelector("form[action*='approveAll']");
-        approveForm.addEventListener("submit", function (e) {
-            const selectedMonth = document.getElementById("current_month").value;
-            if (approvedMonths.includes(selectedMonth)) {
-                e.preventDefault();
-                alert("This month is already approved!");
-            } else {
-                approvedMonths.push(selectedMonth);
-            }
-        });
-
-        // On Reject Submit
-        const rejectForm = document.querySelector("form[action*='rejectAll']");
-        rejectForm.addEventListener("submit", function (e) {
-            const selectedMonth = document.getElementById("reject_month").value;
-            if (rejectedMonths.includes(selectedMonth)) {
-                e.preventDefault();
-                alert("This month is already rejected!");
-            } else {
-                rejectedMonths.push(selectedMonth);
-            }
-        });
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        initialDate: nextMonth, // Default view: next month
+        events: @json($events),
+        eventClick: ({ event }) => openEditTaskModal({
+            id: event.id,
+            title: event.title || '',
+            description: event.extendedProps.description || '',
+            start_date: event.startStr,
+            end_date: event.endStr || event.startStr,
+            location: event.extendedProps.location || '',
+            status: event.extendedProps.status || 'pending',
+            doctor_id: event.extendedProps.doctor_id || '',
+            doctor_name: event.extendedProps.doctor_name || '',
+            mr_id: event.extendedProps.mr_id || '',
+            mr_name: event.extendedProps.mr_name || '',
+            pin_code: event.extendedProps.pin_code || ''
+        }),
     });
 
-    function formatDate(dateString) {
-        if (!dateString) return '';
-        const d = new Date(dateString);
-        return `${d.getFullYear()}-${('0'+(d.getMonth()+1)).slice(-2)}-${('0'+d.getDate()).slice(-2)}`;
+    calendar.render();
+
+    function updateCurrentMonthInput() {
+        const currentDate = calendar.getDate();  
+        const year = currentDate.getFullYear();
+        const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+        const currentMonthValue = `${year}-${month}`;
+
+        // Update hidden inputs for both forms
+        const approveHidden = document.getElementById('current_month');
+        const rejectHidden  = document.getElementById('reject_month');
+        if (approveHidden) approveHidden.value = currentMonthValue;
+        if (rejectHidden)  rejectHidden.value = currentMonthValue;
+
+        // Show/hide Approve & Reject buttons only for next month
+        const systemNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+        const systemNextMonthStr = `${systemNextMonth.getFullYear()}-${('0'+(systemNextMonth.getMonth()+1)).slice(-2)}`;
+
+        const approveBtn = document.getElementById('approveBtn');
+        const rejectBtn  = document.getElementById('rejectBtn');
+
+        if (currentMonthValue === systemNextMonthStr) {
+            approveBtn?.classList.remove('d-none');
+            rejectBtn?.classList.remove('d-none');
+        } else {
+            approveBtn?.classList.add('d-none');
+            rejectBtn?.classList.add('d-none');
+        }
     }
 
-    function openEditTaskModal(task) {
-        const fields = ['task_id', 'title', 'description', 'location', 'status', 'pin_code'];
-        fields.forEach(f => document.getElementById(f).value = task[f] || '');
-        document.getElementById('doctor_name_display').value = task.doctor_name;
-        document.getElementById('doctor_id').value = task.doctor_id;
-        document.getElementById('mr_name_display').value = task.mr_name;
-        document.getElementById('mr_id').value = task.mr_id;
+    // Initial update on page load
+    updateCurrentMonthInput();
 
-        const startInput = document.getElementById('start_date');
-        const endInput = document.getElementById('end_date');
-        startInput.value = formatDate(task.start_date);
-        endInput.value = formatDate(task.end_date);
+    // Update whenever calendar month changes
+    calendar.on('datesSet', () => {
+        updateCurrentMonthInput();
+    });
 
-        const minStart = task.start_date || new Date().toISOString().split('T')[0];
-        startInput.setAttribute('min', minStart);
-        endInput.setAttribute('min', startInput.value);
-        startInput.addEventListener('change', () => endInput.setAttribute('min', startInput.value));
-
-        const form = document.getElementById('taskForm');
-        form.onsubmit = (e) => {
-            if (endInput.value < startInput.value) {
-                e.preventDefault();
-                alert('Error: End Date cannot be earlier than Start Date!');
-            }
-        };
-
-        new bootstrap.Modal(document.getElementById('taskModal')).show();
-        form.action = "{{ route('manager.tasks.update', ':id') }}".replace(':id', task.id);
+    // Optional: handle form submit if needed
+    const approveForm = document.getElementById('approveAllForm');
+    if (approveForm) {
+        approveForm.addEventListener('submit', function(e) {
+            // hidden input already updated
+        });
     }
+    const rejectForm = document.getElementById('rejectAllForm');
+    if (rejectForm) {
+        rejectForm.addEventListener('submit', function(e) {
+            // hidden input already updated
+        });
+    }
+});
+
+// Format date for modal inputs
+function formatDate(dateString) {
+    if (!dateString) return '';
+    const d = new Date(dateString);
+    return `${d.getFullYear()}-${('0'+(d.getMonth()+1)).slice(-2)}-${('0'+d.getDate()).slice(-2)}`;
+}
+
+// Open Edit Task Modal
+function openEditTaskModal(task) {
+    const fields = ['task_id', 'title', 'description', 'location', 'status', 'pin_code'];
+    fields.forEach(f => document.getElementById(f).value = task[f] || '');
+    document.getElementById('doctor_name_display').value = task.doctor_name;
+    document.getElementById('doctor_id').value = task.doctor_id;
+    document.getElementById('mr_name_display').value = task.mr_name;
+    document.getElementById('mr_id').value = task.mr_id;
+
+    const startInput = document.getElementById('start_date');
+    const endInput = document.getElementById('end_date');
+    startInput.value = formatDate(task.start_date);
+    endInput.value = formatDate(task.end_date);
+
+    const minStart = task.start_date || new Date().toISOString().split('T')[0];
+    startInput.setAttribute('min', minStart);
+    endInput.setAttribute('min', startInput.value);
+    startInput.addEventListener('change', () => endInput.setAttribute('min', startInput.value));
+
+    const form = document.getElementById('taskForm');
+    form.onsubmit = (e) => {
+        if (endInput.value < startInput.value) {
+            e.preventDefault();
+            alert('Error: End Date cannot be earlier than Start Date!');
+        }
+    };
+
+    new bootstrap.Modal(document.getElementById('taskModal')).show();
+    form.action = "{{ route('manager.tasks.update', ':id') }}".replace(':id', task.id);
+}
 </script>
 
 @endsection

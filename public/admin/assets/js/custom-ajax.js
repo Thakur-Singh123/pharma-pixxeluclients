@@ -12,9 +12,9 @@ $(document).ready(function() {
     }
     //key up
     $('#visitSearch').on('keyup', function() {
-        let query = $(this).val();
+        let query = $(this).val().trim();
+        if(query.length < 2) return;
         fetchVisits(1, query);
-
         let newUrl = base_url + '/mr/visits?search=' + encodeURIComponent(query);
         history.pushState(null, null, newUrl);
     });

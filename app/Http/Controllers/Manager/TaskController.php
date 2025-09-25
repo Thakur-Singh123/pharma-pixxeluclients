@@ -187,32 +187,37 @@ class TaskController extends Controller
         return view('manager.tasks.task-approval', compact('events'));
     }
     
-    //Function for approve all tasks
-    public function approveAll(Request $request) {
+ public function approveAll(Request $request) 
+{
+    // Current month from calendar in format YYYY-MM (e.g., "2025-09")
+    $current_month_str = $request->current_month; 
+    
+    // Extract month as integer
+    $current_month = (int) \Carbon\Carbon::createFromFormat('Y-m', $current_month_str)->format('m');
 
-       $current_month = $request->current_month;
+    // Next month (if December then January)
+    $next_month = $current_month == 12 ? 1 : $current_month + 1;
 
-       echo $current_month; exit;
-
-
-        //Get all monthly tasks
-    $tasks = MonthlyTask::where('task_month', $task_month)
+    // Get tasks only for current month + next month
+    $tasks = MonthlyTask::whereIn('task_month', [$current_month, $next_month])
                         ->where('is_approval', 0)
                         ->get();
 
-        if($tasks->isEmpty()) {
-            return back()->with('error', 'No tasks found to approval!');
-        }
-        //Update all
-        $tasks->each(function($task) {
-            $task->update([
-                'is_approval' => 1,
-                'updated_at'  => now(),
-            ]);
-        });
-
-        return back()->with('success', 'All tasks approved successfully.');
+    if ($tasks->isEmpty()) {
+        return back()->with('error', 'No tasks found to approve!');
     }
+
+    // Approve all tasks
+    foreach ($tasks as $task) {
+        $task->update([
+            'is_approval' => 1,
+            'updated_at'  => now(),
+        ]);
+    }
+
+    return back()->with('success', 'Tasks for current and next month approved successfully.');
+}
+
 
     //Function for rejected tasks
     public function rejectAll() {

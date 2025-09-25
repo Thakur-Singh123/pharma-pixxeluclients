@@ -14,15 +14,11 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Visits</h4>
-                                <form method="GET" action="{{ url('manager/visits') }}" class="p-3">
-                                    <input type="text" 
-                                        name="search" 
-                                        class="form-control"
-                                        value="{{ request('search') }}"
-                                        placeholder="Search"
-                                        oninput="this.form.submit()"
-                                    >
-                                </form>
+                                <input type="text" 
+                                    id="visitSearch" 
+                                    class="custom-search-input"
+                                    placeholder="Search"
+                                >
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -30,6 +26,7 @@
                                         class="dataTables_wrapper container-fluid dt-bootstrap4">
                                         <div class="row">
                                             <div class="col-sm-12">
+                                                <div id="visitResults">
                                                 <table id="basic-datatables" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="basic-datatables_info">
                                                     <thead>
                                                         <tr role="row">

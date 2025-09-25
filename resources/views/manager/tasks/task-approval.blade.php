@@ -22,7 +22,7 @@
                             <form action="{{ route('manager.tasks.rejectAll') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="current_month" id="reject_month">
-                                <button type="submit" class="btn btn-danger">Reject All</button>
+                                <button type="submit" class="btn btn-danger rejected-all">Reject All</button>
                             </form>
                         </div>
                         <div class="card-body">
@@ -103,11 +103,13 @@
     </div>
 </div>
 <script>
-    let calendar;  // Global calendar variable
- 
+    let calendar;
+    let approvedMonths = [];  // Track approved months
+    let rejectedMonths = [];  // Track rejected months
+
     document.addEventListener('DOMContentLoaded', () => {
         const calendarEl = document.getElementById('calendar');
- 
+
         calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             events: @json($events),
@@ -126,50 +128,88 @@
                 pin_code: event.extendedProps.pin_code || ''
             }),
         });
- 
+
         calendar.render();
- 
-        // Function to update hidden input with current calendar month in YYYY-MM format
+
         function updateCurrentMonthInput() {
-            const currentDate = calendar.getDate();  // returns Date object of current view
+            const currentDate = calendar.getDate();
             const year = currentDate.getFullYear();
-            const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);  // zero padded month
-            const currentMonthValue = `${year}-${month}`;
- 
-            const hiddenInput = document.getElementById('current_month');
-            if (hiddenInput) {
-                hiddenInput.value = currentMonthValue;
-                // console.log('Updated current_month hidden input:', currentMonthValue);
+            const month = currentDate.getMonth() + 1;
+
+            const currentMonthValue = `${year}-${('0' + month).slice(-2)}`;
+            const nextMonthValue = `${year}-${('0' + (month + 1)).slice(-2)}`;
+
+            document.getElementById('current_month').value = currentMonthValue;
+            document.getElementById('reject_month').value = currentMonthValue;
+
+            // Buttons access
+            const approveBtn = document.querySelector('.btn-success-appoval');
+            const rejectBtn = document.querySelector('.btn-danger');
+
+            // Check if already approved/rejected
+            if (approvedMonths.includes(currentMonthValue)) {
+                approveBtn.disabled = true;
+            } else {
+                approveBtn.disabled = false;
+            }
+
+            if (rejectedMonths.includes(currentMonthValue)) {
+                rejectBtn.disabled = true;
+            } else {
+                rejectBtn.disabled = false;
+            }
+
+            // Sirf current & next month me hi enable buttons
+            const today = new Date();
+            const thisMonth = today.getMonth() + 1;
+            const nextMonth = thisMonth + 1;
+
+            if (month === thisMonth || month === nextMonth) {
+                approveBtn.style.display = "inline-block";
+                rejectBtn.style.display = "inline-block";
+            } else {
+                approveBtn.style.display = "none";
+                rejectBtn.style.display = "none";
             }
         }
- 
-        // Initially set hidden input value when calendar loads
+
         updateCurrentMonthInput();
- 
-        // Update hidden input value on calendar month change
+
         calendar.on('datesSet', () => {
             updateCurrentMonthInput();
         });
- 
-        // Just for confirmation - optional
-        const approveForm = document.getElementById('approveAllForm');
-        if (approveForm) {
-            approveForm.addEventListener('submit', function(e) {
-                // Before submitting, hidden input already updated by datesSet event
-                // So no extra code needed here
-                // But if you want to log:
-                // console.log('Submitting form with current_month:', document.getElementById('current_month').value);
-            });
-        }
+
+        // On Approve Submit
+        const approveForm = document.querySelector("form[action*='approveAll']");
+        approveForm.addEventListener("submit", function (e) {
+            const selectedMonth = document.getElementById("current_month").value;
+            if (approvedMonths.includes(selectedMonth)) {
+                e.preventDefault();
+                alert("This month is already approved!");
+            } else {
+                approvedMonths.push(selectedMonth);
+            }
+        });
+
+        // On Reject Submit
+        const rejectForm = document.querySelector("form[action*='rejectAll']");
+        rejectForm.addEventListener("submit", function (e) {
+            const selectedMonth = document.getElementById("reject_month").value;
+            if (rejectedMonths.includes(selectedMonth)) {
+                e.preventDefault();
+                alert("This month is already rejected!");
+            } else {
+                rejectedMonths.push(selectedMonth);
+            }
+        });
     });
- 
-    // Your existing openEditTaskModal and formatDate functions below (unchanged)
+
     function formatDate(dateString) {
         if (!dateString) return '';
         const d = new Date(dateString);
         return `${d.getFullYear()}-${('0'+(d.getMonth()+1)).slice(-2)}-${('0'+d.getDate()).slice(-2)}`;
     }
- 
+
     function openEditTaskModal(task) {
         const fields = ['task_id', 'title', 'description', 'location', 'status', 'pin_code'];
         fields.forEach(f => document.getElementById(f).value = task[f] || '');
@@ -177,17 +217,17 @@
         document.getElementById('doctor_id').value = task.doctor_id;
         document.getElementById('mr_name_display').value = task.mr_name;
         document.getElementById('mr_id').value = task.mr_id;
- 
+
         const startInput = document.getElementById('start_date');
         const endInput = document.getElementById('end_date');
         startInput.value = formatDate(task.start_date);
         endInput.value = formatDate(task.end_date);
- 
+
         const minStart = task.start_date || new Date().toISOString().split('T')[0];
         startInput.setAttribute('min', minStart);
         endInput.setAttribute('min', startInput.value);
         startInput.addEventListener('change', () => endInput.setAttribute('min', startInput.value));
- 
+
         const form = document.getElementById('taskForm');
         form.onsubmit = (e) => {
             if (endInput.value < startInput.value) {
@@ -195,9 +235,10 @@
                 alert('Error: End Date cannot be earlier than Start Date!');
             }
         };
- 
+
         new bootstrap.Modal(document.getElementById('taskModal')).show();
         form.action = "{{ route('manager.tasks.update', ':id') }}".replace(':id', task.id);
     }
 </script>
+
 @endsection

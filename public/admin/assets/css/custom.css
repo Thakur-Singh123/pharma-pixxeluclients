@@ -748,9 +748,9 @@ li.page-item.active span.page-link {
 }
 
 .tasks-heading {
-	font-size: 17px;
-	font-weight: 594;
-	margin: 4px 750px 2px 0px;
+    font-size: 17px;
+    font-weight: 594;
+    margin: 4px 590px 2px 0px;
 }
 
 .card .card-flexd {
@@ -772,4 +772,33 @@ h5.refer-heading {
     justify-content: end;
     display: flex;
     padding: 5px 0px;
+}
+
+.rejected-all {
+    padding: .65rem 1.4rem;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 1;
+    border-radius: 6px;
+    height: 38px;
+    width: 100px;
+}
+.custom-search-input {
+    width: 150px;
+    padding: 6px 20px;
+    font-size: 15px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+
+}
+.custom-search-input:focus {
+    border-color: #4CAF50;         
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+    background-color: #fff;        
+}
+
+.custom-search-input::placeholder {
+    color: #aaa;                   
+    font-style: italic;
 }

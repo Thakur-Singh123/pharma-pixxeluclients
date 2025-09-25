@@ -167,7 +167,7 @@ class TaskController extends Controller
             };
             //Get task details
             $events[] = [
-                'id'    => $task->id,
+                'id'    => $taskDetail->id,
                 'title' => $taskDetail->title ?? 'N/A',
                 'start' => $taskDetail->start_date ?? null,
                 'end'   => $taskDetail->end_date ?? null,
@@ -189,44 +189,41 @@ class TaskController extends Controller
     
     //Function for approve all tasks
     public function approveAll(Request $request) {
-
-       $current_month = $request->current_month;
-
-       echo $current_month;exit;
-
-
-        //Get all monthly tasks
-    $tasks = MonthlyTask::where('is_approval', 0)->get();
-
+        //Get input request
+        $current_month = $request->current_month;
+        // echo $current_month;exit;
+        //Get tasks
+        $tasks = MonthlyTask::where('task_month', $current_month)->where('is_approval', 0)->get();
+        //Check if tasks already approved or not
         if($tasks->isEmpty()) {
-            return back()->with('error', 'No tasks found to approval!');
+            return back()->with('error', 'Tasks already approved');
         }
-        //Update all
+        //Approve all tasks
         $tasks->each(function($task) {
             $task->update([
-                'is_approval' => 1,
+                'is_approval' => 1,  
                 'updated_at'  => now(),
             ]);
         });
-
-        return back()->with('success', 'All tasks approved successfully.');
+        return back()->with('success', 'All tasks approved successfully');
     }
 
     //Function for rejected tasks
-    public function rejectAll() {
-        //Get all pending/approved
-        $tasks = MonthlyTask::where('is_approval', 1)->get();
+    public function rejectAll(Request $request) {
+        //Get input request
+        $reject_month = $request->reject_month;
+        //Get tasks
+        $tasks = MonthlyTask::where('task_month', $reject_month)->where('is_approval', 1)->get();
         if ($tasks->isEmpty()) {
-            return back()->with('error', 'No tasks found to reject!');
+            return back()->with('error', 'Tasks already reject!');
         }
-        //Update all tasks
+        //Check if tasks already rejected or not
         $tasks->each(function($task) {
             $task->update([
                 'is_approval' => 0,
                 'updated_at'  => now(),
             ]);
         });
-
         return back()->with('success', 'Tasks rejected successfully.');
     }
 }

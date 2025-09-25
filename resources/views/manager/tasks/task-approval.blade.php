@@ -21,7 +21,7 @@
                             </form>
                             <form action="{{ route('manager.tasks.rejectAll') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="current_month" id="reject_month">
+                                <input type="hidden" name="reject_month" id="reject_month">
                                 <button type="submit" id="rejectBtn" class="btn btn-danger">Reject All</button>
                             </form>
                         </div>
@@ -103,7 +103,7 @@
     </div>
 </div>
 <script>
-let calendar;  // Global calendar variable
+let calendar; // Global calendar variable
 
 document.addEventListener('DOMContentLoaded', () => {
     const calendarEl = document.getElementById('calendar');
@@ -134,33 +134,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     calendar.render();
 
-    function updateCurrentMonthInput() {
-        const currentDate = calendar.getDate();  
-        const year = currentDate.getFullYear();
-        const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-        const currentMonthValue = `${year}-${month}`;
+  function updateCurrentMonthInput() {
+    const currentDate = calendar.getDate();
+    const year = currentDate.getFullYear();
+    const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+    const currentMonthValue = `${year}-${month}`;
 
-        // Update hidden inputs for both forms
-        const approveHidden = document.getElementById('current_month');
-        const rejectHidden  = document.getElementById('reject_month');
-        if (approveHidden) approveHidden.value = currentMonthValue;
-        if (rejectHidden)  rejectHidden.value = currentMonthValue;
+    // Set hidden inputs for forms
+    document.getElementById('current_month').value = currentMonthValue;
+    document.getElementById('reject_month').value = currentMonthValue;
 
-        // Show/hide Approve & Reject buttons only for next month
-        const systemNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-        const systemNextMonthStr = `${systemNextMonth.getFullYear()}-${('0'+(systemNextMonth.getMonth()+1)).slice(-2)}`;
+    // Show/hide buttons and heading only for next month
+    const today = new Date();
+    const systemNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    const systemNextMonthStr = `${systemNextMonth.getFullYear()}-${('0'+(systemNextMonth.getMonth()+1)).slice(-2)}`;
 
-        const approveBtn = document.getElementById('approveBtn');
-        const rejectBtn  = document.getElementById('rejectBtn');
+    const approveBtn = document.getElementById('approveBtn');
+    const rejectBtn = document.getElementById('rejectBtn');
+    const heading = document.querySelector('.tasks-heading');
 
-        if (currentMonthValue === systemNextMonthStr) {
-            approveBtn?.classList.remove('d-none');
-            rejectBtn?.classList.remove('d-none');
-        } else {
-            approveBtn?.classList.add('d-none');
-            rejectBtn?.classList.add('d-none');
-        }
+    if (currentMonthValue === systemNextMonthStr) {
+        approveBtn?.classList.remove('d-none');
+        rejectBtn?.classList.remove('d-none');
+        heading?.classList.remove('d-none');
+    } else {
+        approveBtn?.classList.add('d-none');
+        rejectBtn?.classList.add('d-none');
+        heading?.classList.add('d-none');
     }
+}
+
 
     // Initial update on page load
     updateCurrentMonthInput();
@@ -177,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // hidden input already updated
         });
     }
+
     const rejectForm = document.getElementById('rejectAllForm');
     if (rejectForm) {
         rejectForm.addEventListener('submit', function(e) {
@@ -192,10 +196,12 @@ function formatDate(dateString) {
     return `${d.getFullYear()}-${('0'+(d.getMonth()+1)).slice(-2)}-${('0'+d.getDate()).slice(-2)}`;
 }
 
+
 // Open Edit Task Modal
 function openEditTaskModal(task) {
     const fields = ['task_id', 'title', 'description', 'location', 'status', 'pin_code'];
     fields.forEach(f => document.getElementById(f).value = task[f] || '');
+
     document.getElementById('doctor_name_display').value = task.doctor_name;
     document.getElementById('doctor_id').value = task.doctor_id;
     document.getElementById('mr_name_display').value = task.mr_name;
@@ -203,12 +209,14 @@ function openEditTaskModal(task) {
 
     const startInput = document.getElementById('start_date');
     const endInput = document.getElementById('end_date');
+
     startInput.value = formatDate(task.start_date);
     endInput.value = formatDate(task.end_date);
 
     const minStart = task.start_date || new Date().toISOString().split('T')[0];
     startInput.setAttribute('min', minStart);
     endInput.setAttribute('min', startInput.value);
+
     startInput.addEventListener('change', () => endInput.setAttribute('min', startInput.value));
 
     const form = document.getElementById('taskForm');

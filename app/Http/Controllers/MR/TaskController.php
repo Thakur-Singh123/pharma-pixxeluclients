@@ -175,7 +175,7 @@ class TaskController extends Controller
                 [
                     'manager_id' => $task->manager_id,
                     'is_approval' => 0,
-                    'task_month'  => \Carbon\Carbon::parse($task->start_date)->format('Y-m-d'),
+                    'task_month'  => \Carbon\Carbon::parse($task->start_date)->format('Y-m'),
                 ]
             );
         }
@@ -198,7 +198,7 @@ class TaskController extends Controller
             };
             //Events
             $events[] = [
-                'id' => $task->id,
+                'id' => $task->task_detail->id,
                 'title' => $task->task_detail->title ?? 'N/A',
                 'start' => $task->task_detail->start_date ?? null, 
                 'end' => $task->task_detail->end_date ?? null,  
@@ -228,7 +228,7 @@ class TaskController extends Controller
             //Get task details
             if ($taskDetail) {
                 $events[] = [
-                    'id'    => $task->id,
+                    'id'    => $task->task_detail->id,
                     'title' => $taskDetail->title ?? 'N/A',
                     'start' => $taskDetail->start_date ?? null,
                     'end'   => $taskDetail->end_date ?? null,

@@ -1,4 +1,3 @@
-//Search visit mr 
 $(document).ready(function() {
     function fetchVisits(page = 1, search = '') {
         $.ajax({
@@ -10,9 +9,14 @@ $(document).ready(function() {
             }
         });
     }
-    //key up
+    //keyup search
     $('#visitSearch').on('keyup', function() {
         let query = $(this).val().trim();
+        if(query.length === 0) {
+            fetchVisits(1, '');
+            history.pushState(null, null, base_url + '/mr/visits');
+            return;
+        }
         if(query.length < 2) return;
         fetchVisits(1, query);
         let newUrl = base_url + '/mr/visits?search=' + encodeURIComponent(query);

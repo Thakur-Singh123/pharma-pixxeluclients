@@ -36,7 +36,7 @@
                         class="{{ request()->is('mr/attendance*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/attendance*') ? 'true' : 'false' }}">
                         <i class="fas fa-user-check"></i>
-                        <p>Attendance</p>
+                        <p>Attendances</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse {{ request()->is('mr/attendance*') ? 'show' : '' }}" id="collapseMR">
@@ -84,15 +84,15 @@
                     </div>
                 </li>
                 <!--Task section-->
-                <li class="nav-item {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('mr/tasks*') || request()->is('mr/tasks-assigin-manager') || request()->is('mr/tasks-himself') || request()->is('mr/pending-approval') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTask"
-                    class="{{ request()->is('mr/tasks*') ? '' : 'collapsed' }}"
-                    aria-expanded="{{ request()->is('mr/tasks*') ? 'true' : 'false' }}">
+                        class="{{ request()->is('mr/tasks*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/tasks*') ? 'true' : 'false' }}">
                         <i class="fas fa-clipboard-list"></i>
-                        <p>Task</p>
+                        <p>Tasks</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/assigin-manger') || request()->is('mr/himself') || request()->is('mr/pending-approval') || request()->is('mr/approved-by-manager') || request()->is('mr/rejected-by-manager') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/tasks-assigin-manager') || request()->is('mr/tasks-himself') || request()->is('mr/pending-approval') || request()->is('mr/tasks-approved-by-manager') || request()->is('mr/tasks-rejected-by-manager') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.create') }}">
@@ -104,13 +104,13 @@
                                     <span class="sub-item">All Tasks</span>
                                 </a>
                             </li> -->
-                            <li class="{{ request()->is('mr/assigin-manger') ? 'active' : '' }}">
-                                <a href="{{ url('mr/assigin-manger') }}">
+                            <li class="{{ request()->is('mr/tasks-assigin-manager') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
+                                <a href="{{ url('mr/tasks-assigin-manager') }}">
                                     <span class="sub-item">Assigned By Manager</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/himself') ? 'active' : '' }}">
-                                <a href="{{ url('mr/himself') }}">
+                            <li class="{{ request()->is('mr/tasks-himself') ? 'active' : '' }}">
+                                <a href="{{ url('mr/tasks-himself') }}">
                                     <span class="sub-item">Created By Himself</span>
                                 </a>
                             </li>
@@ -119,13 +119,13 @@
                                     <span class="sub-item">Pending Approval</span>
                                 </a>
                             </li> -->
-                            <li class="{{ request()->is('mr/rejected-by-manager') ? 'active' : '' }}">
-                                <a href="{{ url('mr/rejected-by-manager') }}">
+                            <li class="{{ request()->is('mr/tasks-rejected-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/tasks-rejected-by-manager') }}">
                                     <span class="sub-item">Rejected Calendar</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/approved-by-manager') ? 'active' : '' }}">
-                                <a href="{{ url('mr/approved-by-manager') }}">
+                            <li class="{{ request()->is('mr/tasks-approved-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/tasks-approved-by-manager') }}">
                                     <span class="sub-item">Approved Calendar</span>
                                 </a>
                             </li>
@@ -188,20 +188,11 @@
                         </ul>
                     </div>
                 </li>
-                <!--calander section-->
-                <li class="nav-item {{ request()->is('mr/calendar*') ? 'active' : '' }}">
-                    <a href="{{ url('mr/calendar') }}"
-                        class="nav-link {{ request()->is('mr/calendar') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-alt"></i>
-                        <p>Calendar</p>
-                    </a>
-                </li>
                 <!--event section-->
                 @php
                     $isEventActive = request()->is('mr/events*') || request()->is('mr/active-participations*') || request()->is('mr/events-assigne-by-manager*') || request()->is('mr/events-himself*');
                 @endphp
-
-                  <li class="nav-item {{ $isEventActive ? 'active' : '' }}">
+                <li class="nav-item {{ $isEventActive ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseEvent"
                         class="{{ $isEventActive ? '' : 'collapsed' }}"
                         aria-expanded="{{ $isEventActive ? 'true' : 'false' }}">
@@ -213,7 +204,7 @@
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/events/create') ? 'active' : '' }}">
                                 <a href="{{ route('mr.events.create') }}">
-                                    <span class="sub-item">Add Events</span>
+                                    <span class="sub-item">Add Event</span>
                                 </a>
                             </li>
                             <li class="{{ request()->is('mr/events') || request()->is('mr/events/edit/*') ? 'active' : '' }}">
@@ -244,13 +235,21 @@
                         </ul>
                     </div>
                 </li>
+                <!--calander section-->
+                <li class="nav-item {{ request()->is('mr/calendar*') ? 'active' : '' }}">
+                    <a href="{{ url('mr/calendar') }}"
+                        class="nav-link {{ request()->is('mr/calendar') ? 'active' : '' }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Calendar</p>
+                    </a>
+                </li>
                 <!--referred patient section-->
                 <li class="nav-item {{ request()->is('mr/patients*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseReferredPatient"
                         class="{{ request()->is('mr/patients*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/patients*') ? 'true' : 'false' }}">
                         <i class="fas fa-user-plus"></i>
-                        <p>Referred Patient</p>
+                        <p>Referred Patients</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse {{ request()->is('mr/patients*') ? 'show' : '' }}" id="collapseReferredPatient">
@@ -360,6 +359,7 @@
                     </form>
                 </li>
             </ul>
+            <!--MR sales dashboard section-->
             @else
             <ul class="nav nav-secondary">
                 {{-- <!--dashboard section-->

@@ -64,6 +64,12 @@ document.addEventListener('DOMContentLoaded', function () {
         initialDate: nextMonth,
         events: @json($events),
         eventDisplay: 'block',
+        eventDidMount: function(info) {
+            info.el.style.cursor = 'pointer';
+        },
+        dayCellDidMount: function(info) {
+            info.el.style.cursor = 'pointer';
+        },
         eventClick: function(info) {
             let task = info.event.extendedProps;
             document.getElementById('taskTitle').innerText = info.event.title;

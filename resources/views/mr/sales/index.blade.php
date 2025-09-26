@@ -14,7 +14,6 @@
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Sales Data</h4>
-                                    
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -30,43 +29,53 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Sr No.</th>
+                                                                    style="width: 242.688px;">Sr No.
+                                                                </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Company Name</th>
+                                                                    style="width: 242.688px;">Company Name
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Phone Number</th>
+                                                                    style="width: 366.578px;">Phone Number
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Address</th>
+                                                                    style="width: 366.578px;">Address
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Designation</th>
+                                                                    style="width: 156.312px;">Designation
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Doctor Name</th>
+                                                                    style="width: 156.312px;">Doctor Name
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Perscription File</th>
+                                                                    style="width: 156.312px;">Perscription File
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Salt Name</th>
+                                                                    style="width: 156.312px;">Salt Name
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Brand Name</th>
+                                                                    style="width: 156.312px;">Brand Name
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Total Amount</th>
+                                                                    style="width: 156.312px;">Total Amount
+                                                                </th>
                                                                 <!-- <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -82,11 +91,13 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Payment Method</th>
+                                                                    style="width: 156.312px;">Payment Method
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Action</th>
+                                                                    style="width: 156.312px;">Action
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -102,7 +113,9 @@
                                                                     <td>
                                                                     <!--Check if image exists or not-->
                                                                         @if($event->prescription_file)
-                                                                            <a href="{{ asset('public/prescriptions/' . $event->prescription_file) }}" target="_blank">View</a>
+                                                                            <a href="{{ asset('public/prescriptions/' . $event->prescription_file) }}" target="_blank">
+                                                                                View
+                                                                            </a>
                                                                         @else
                                                                             N/A
                                                                         @endif

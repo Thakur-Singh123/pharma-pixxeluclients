@@ -114,7 +114,7 @@
                                                                 <!--Check if visit type exits or not-->
                                                                 @if($visit->visit_type == 'other') Other Visit -
                                                                     ({{ $visit->other_visit ?? 'N/A' }})
-                                                                @elseif($visit->visit_type == 'doctor') Doctor Visit - 
+                                                                @elseif($visit->visit_type == 'doctor') Doctor - 
                                                                     ({{ $visit->doctor->doctor_name ?? 'N/A' }}-{{ $visit->doctor->specialist ?? 'N/A' }}-{{ $visit->doctor->hospital_name ?? 'N/A' }}-{{ $visit->doctor->hospital_type ?? 'N/A' }})
                                                                 @elseif($visit->visit_type == 'religious_places')Religious Places -
                                                                     {{ $visit->religious_place ?? 'N/A' }}

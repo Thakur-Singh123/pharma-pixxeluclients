@@ -15,7 +15,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <h4 class="card-title">All Events</h4>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title">All Tasks</h4>
+                                </div>
                                 <!-- <div class="card-header d-flex justify-content-between align-items-center">
                                     <form method="GET" action="{{ route('manager.tasks.index') }}">
                                         <select name="created_by" class="form-control" onchange="this.form.submit()">
@@ -114,9 +116,9 @@
                                                                     <td>
                                                                         <span
                                                                             class="status-badge 
-                                                                    {{ $task->status == 'pending' ? 'status-pending' : '' }}
-                                                                    {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
-                                                                    {{ $task->status == 'completed' ? 'status-completed' : '' }}">
+                                                                                {{ $task->status == 'pending' ? 'status-pending' : '' }}
+                                                                                {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
+                                                                                {{ $task->status == 'completed' ? 'status-completed' : '' }}">
                                                                             {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
                                                                         </span>
                                                                     </td>

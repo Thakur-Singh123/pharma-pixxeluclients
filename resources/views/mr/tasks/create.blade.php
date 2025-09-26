@@ -13,7 +13,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            Tasks Calendar
+                            Monthly Tasks Calendar
                             <form action="{{ route('mr.tasks.sendMonthly') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="send-approval-btn float-end">
@@ -51,8 +51,11 @@
                                                     <label>Assign Doctor</label>
                                                     <select name="doctor_id" id="doctor_id" class="form-control">
                                                         <option value="" disabled selected>Select</option>
+                                                        <!--Get assign doctos-->
                                                         @foreach($all_doctors as $doctor)
-                                                            <option value="{{ $doctor->id }}">{{ $doctor->doctor_name }}</option>
+                                                            <option value="{{ $doctor->id }}">
+                                                                {{ $doctor->doctor_name }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -106,13 +109,17 @@ document.addEventListener('DOMContentLoaded', function () {
     nextMonthStart.setHours(0,0,0,0);
     var nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0); 
     nextMonthEnd.setHours(23,59,59,999); 
-
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         initialDate: nextMonthStart,
         selectable: true,
         events: @json($events),
-
+        eventDidMount: function(info) {
+            info.el.style.cursor = 'pointer';
+        },
+        dayCellDidMount: function(info) {
+            info.el.style.cursor = 'pointer';
+        },
         dayCellDidMount: function(info) {
             var cellDate = new Date(info.date);
             cellDate.setHours(12,0,0,0);

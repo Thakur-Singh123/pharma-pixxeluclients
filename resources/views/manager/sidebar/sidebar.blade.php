@@ -29,6 +29,30 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                 <!--attendance section-->
+                <li class="nav-item {{ request()->is('manager/attendance*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseattendance"
+                        class="{{ request()->is('manager/attendance*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/attendance*') ? 'true' : 'false' }}">
+                        <i class="fas fa-user-check"></i>
+                        <p>Attendances</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('manager/attendance*') ? 'show' : '' }}" id="collapseattendance">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('manager/attendance') ? 'active' : '' }}">
+                                <a href="{{ route('manager.attendance.index') }}">
+                                    <span class="sub-item">Monthly Attendance</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/attendance/daily') ? 'active' : '' }}">
+                                <a href="{{ route('manager.daily.attendance') }}">
+                                    <span class="sub-item">Today Attendance</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--mr section-->
                 <li class="nav-item {{ request()->is('manager/mrs*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseMR"
@@ -96,7 +120,7 @@
                         class="{{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('manager/tasks*') || request()->is('manager/tasks-waiting-for-approval') ? 'true' : 'false' }}">
                         <i class="fas fa-clipboard-list"></i>
-                        <p>Task</p>
+                        <p>Tasks</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse {{ request()->is('manager/tasks*') || request()->is('manager/calendar-for-approval') || request()->is('manager/tasks-waiting-for-approval') ? 'show' : '' }}" id="collapseTask">
@@ -108,7 +132,7 @@
                             </li>
                             <li class="{{ request()->is('manager/tasks') || request()->is('manager/tasks/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.index') }}">
-                                    <span class="sub-item">All Task</span>
+                                    <span class="sub-item">All Tasks</span>
                                 </a>
                             </li>
                             <!-- <li class="{{ request()->is('manager/tasks-waiting-for-approval') ? 'active' : '' }}">
@@ -148,14 +172,6 @@
                         </ul>
                     </div>
                 </li>
-                <!--patients section-->
-                <li class="nav-item {{ request()->is('manager/patients') ? 'active' : '' }}">
-                    <a href="{{ url('manager/patients') }}"
-                        class="nav-link {{ request()->is('manager/patients') ? 'active' : '' }}">
-                        <i class="fas fa-stethoscope"></i>
-                        <p>Referred Patients</p>
-                    </a>
-                </li>
                 <!--tada section-->
                 <li class="nav-item {{ request()->is('manager/tada-records') || request()->is('manager/edit-tada/*') ? 'active' : '' }}">
                     <a href="{{ url('manager/tada-records') }}"
@@ -164,19 +180,9 @@
                         <p>TA/DA</p>
                     </a>
                 </li>
-                <!--calander section-->
-                <li class="nav-item {{ request()->is('manager/calendar') ? 'active' : '' }}">
-                    <a href="{{ url('manager/calendar') }}"
-                        class="nav-link {{ request()->is('manager/calendar') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-alt"></i>
-                        <p>Calendar</p>
-                    </a>
-                </li>
-                <!--event section-->
                 @php
                     $isEventActive = request()->is('manager/events*') || request()->is('manager/waiting-for-approval') || request()->is('manager/active-participations*');
                 @endphp
-
                 <li class="nav-item {{ $isEventActive ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseEvent"
                         class="{{ $isEventActive ? '' : 'collapsed' }}"
@@ -185,7 +191,6 @@
                         <p>Events</p>
                         <span class="caret"></span>
                     </a>
-
                     <div class="collapse {{ $isEventActive ? 'show' : '' }}" id="collapseEvent">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('manager/events/create') ? 'active' : '' }}">
@@ -211,7 +216,23 @@
                         </ul>
                     </div>
                 </li>
-
+                <!--calander section-->
+                <li class="nav-item {{ request()->is('manager/calendar') ? 'active' : '' }}">
+                    <a href="{{ url('manager/calendar') }}"
+                        class="nav-link {{ request()->is('manager/calendar') ? 'active' : '' }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Calendar</p>
+                    </a>
+                </li>
+                <!--patients section-->
+                <li class="nav-item {{ request()->is('manager/patients') ? 'active' : '' }}">
+                    <a href="{{ url('manager/patients') }}"
+                        class="nav-link {{ request()->is('manager/patients') ? 'active' : '' }}">
+                        <i class="fas fa-user-plus"></i>
+                        <p>Referred Patients</p>
+                    </a>
+                </li>
+                <!--event section-->
                 <!--visit plan section-->
                 <li class="nav-item {{ request()->is('manager/visit-plans*') || request()->is('manager/edit-visit-plan*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseVisitPlan"
@@ -241,30 +262,6 @@
                         <i class="fas fa-chart-bar"></i>
                         <p>Daily MR Reports</p>
                     </a>
-                </li>
-                <!--attendance section-->
-                <li class="nav-item {{ request()->is('manager/attendance*') ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#collapseattendance"
-                        class="{{ request()->is('manager/attendance*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('manager/attendance*') ? 'true' : 'false' }}">
-                        <i class="fas fa-user-check"></i>
-                        <p>Attendance</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse {{ request()->is('manager/attendance*') ? 'show' : '' }}" id="collapseattendance">
-                        <ul class="nav nav-collapse">
-                            <li class="{{ request()->is('manager/attendance') ? 'active' : '' }}">
-                                <a href="{{ route('manager.attendance.index') }}">
-                                    <span class="sub-item">Monthly Attendance</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->is('manager/attendance/daily') ? 'active' : '' }}">
-                                <a href="{{ route('manager.daily.attendance') }}">
-                                    <span class="sub-item">Today Attendance</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
                 <!--sales-->
                 <li class="nav-item {{ request()->is('manager/sales*') ? 'active' : '' }}">

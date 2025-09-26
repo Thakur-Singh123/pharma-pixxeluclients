@@ -27,13 +27,13 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);
     //Task
     Route::resource('/tasks', App\Http\Controllers\MR\TaskController::class);
-    Route::get('/assigin-manger', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
-    Route::get('/himself', [App\Http\Controllers\MR\TaskController::class,'himself']);
+    Route::get('/tasks-assigin-manager', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
+    Route::get('/tasks-himself', [App\Http\Controllers\MR\TaskController::class,'himself']);
     Route::get('/pending-approval', [App\Http\Controllers\MR\TaskController::class,'pending_approval']);
 
     Route::post('/tasks/send-monthly', [App\Http\Controllers\MR\TaskController::class,'sendMonthlyTasksToManager'])->name('tasks.sendMonthly');
-    Route::get('/approved-by-manager', [App\Http\Controllers\MR\TaskController::class,'approved_tasks']);
-    Route::get('/rejected-by-manager', [App\Http\Controllers\MR\TaskController::class,'rajected_tasks']);
+    Route::get('/tasks-approved-by-manager', [App\Http\Controllers\MR\TaskController::class,'approved_tasks']);
+    Route::get('/tasks-rejected-by-manager', [App\Http\Controllers\MR\TaskController::class,'rajected_tasks']);
 
     //Problems & Challenges
     Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);

@@ -6349,7 +6349,7 @@ label.error {
 	border-color: #31ce36 !important;
 	height: 38px;
     border-radius: 6px;
-    width: 90px;
+    width: 100px;
 }
 .btn-success:disabled, .btn-success:focus, .btn-success:hover {
     color: #fff !important;

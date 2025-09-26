@@ -148,14 +148,39 @@
                                                                     ({{ $visit->religious_place ?? 'N/A' }})
                                                                 @endif
                                                             </td> -->
-                                                            <td>
-                                                                <span class="status-badge 
-                                                                    {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
-                                                                    {{ $visit->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                    {{ $visit->status == 'Active' ? 'status-active' : '' }}
-                                                                    {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
-                                                                    {{ ucfirst($visit->status) }}
-                                                                </span>
+                                                            <td style="display: flex; gap: 5px;">
+                                                                @if ($visit->status == 'Pending')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.visit.approve', $visit->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-success btn-sm">
+                                                                            Approve
+                                                                        </button>
+                                                                    </form>
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.visit.reject', $visit->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm">Reject
+                                                                        </button>
+                                                                    </form>
+                                                                @elseif($visit->status == 'Approved')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.visit.reject', $visit->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm">Reject
+                                                                        </button>
+                                                                    </form>
+                                                                @elseif($visit->status == 'Reject')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.visit.approve', $visit->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-success btn-sm">Approve</button>
+                                                                    </form>
+                                                                @endif
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">

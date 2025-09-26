@@ -34,6 +34,7 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::post('/tasks/send-monthly', [App\Http\Controllers\MR\TaskController::class,'sendMonthlyTasksToManager'])->name('tasks.sendMonthly');
     Route::get('/tasks-approved-by-manager', [App\Http\Controllers\MR\TaskController::class,'approved_tasks']);
     Route::get('/tasks-rejected-by-manager', [App\Http\Controllers\MR\TaskController::class,'rajected_tasks']);
+    Route::post('/task-update-status', [App\Http\Controllers\MR\TaskController::class,'update_status'])->name('task.update.status');
 
     //Problems & Challenges
     Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);

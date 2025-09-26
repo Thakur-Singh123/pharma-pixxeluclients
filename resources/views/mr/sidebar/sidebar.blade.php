@@ -104,7 +104,7 @@
                                     <span class="sub-item">All Tasks</span>
                                 </a>
                             </li> -->
-                            <li class="{{ request()->is('mr/tasks-assigin-manager') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/tasks-assigin-manager') ? 'active' : '' }}">
                                 <a href="{{ url('mr/tasks-assigin-manager') }}">
                                     <span class="sub-item">Assigned By Manager</span>
                                 </a>

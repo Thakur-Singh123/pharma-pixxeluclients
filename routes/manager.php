@@ -22,6 +22,8 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/users/{id}/pending', [App\Http\Controllers\Manager\UserStatusController::class, 'pending_user'])->name('user.pending');
     //Daily visits
     Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
+    Route::post('/visit-approve/{id}', [App\Http\Controllers\Manager\VisitController::class, 'approve'])->name('visit.approve');
+    Route::post('/visit-reject/{id}', [App\Http\Controllers\Manager\VisitController::class, 'reject'])->name('visit.reject');
     Route::get('/visit-filter', [App\Http\Controllers\Manager\VisitController::class, 'visitFilter']);
     //Task management
     Route::resource('tasks', App\Http\Controllers\Manager\TaskController::class);
@@ -31,7 +33,6 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/calendar-for-approval', [App\Http\Controllers\Manager\TaskController::class, 'all_tasks']);
     Route::post('/tasks/approve-all', [App\Http\Controllers\Manager\TaskController::class, 'approveAll'])->name('tasks.approveAll');
     Route::post('/tasks/reject-all', [App\Http\Controllers\Manager\TaskController::class, 'rejectAll'])->name('tasks.rejectAll');
-
     //Event management
     Route::resource('events', App\Http\Controllers\Manager\EventController::class);
     Route::get('waiting-for-approval', [App\Http\Controllers\Manager\EventController::class,'waitingForApproval'])->name('waiting.for.approval');

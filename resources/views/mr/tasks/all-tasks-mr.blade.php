@@ -50,10 +50,10 @@
                                                                     colspan="1"
                                                                     style="width: 156.312px;">End date
                                                                 </th>
-                                                                <th class="sorting" tabindex="0"
+                                                                <!-- <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Status
-                                                                </th>
+                                                                </th> -->
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Action
@@ -70,14 +70,14 @@
                                                                     <td>{{ $task->description }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
-                                                                    <td>
+                                                                    <!-- <td>
                                                                         <span class="status-badge 
                                                                             {{ $task->status == 'pending' ? 'status-pending' : '' }}
                                                                             {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
                                                                             {{ $task->status == 'completed' ? 'status-completed' : '' }}">
                                                                                 {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
                                                                         </span>
-                                                                    </td>
+                                                                    </td> -->
                                                                     <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('mr.tasks.edit', $task->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

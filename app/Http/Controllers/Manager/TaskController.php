@@ -127,7 +127,7 @@ class TaskController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'pin_code'   => $request->pin_code,
-            'status' => $request->status,
+            'status' => 'Pending',
         ]);
         //If MR changed, notify the new MR
         if ($oldMrId != $request->mr_id) {
@@ -180,7 +180,7 @@ class TaskController extends Controller
                 'pin_code'    => $taskDetail->pin_code ?? null,
                 'description' => $taskDetail->description ?? null,
                 'location'    => $taskDetail->location ?? null,
-                'status'      => $taskDetail->status ?? 'pending',
+                'status'      => 'Pending',
                 ],
             ];
         }

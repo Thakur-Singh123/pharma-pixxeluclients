@@ -76,14 +76,14 @@
                                                         <input type="text" class="form-control" id="mr_name_display" readonly>
                                                         <input type="hidden" id="mr_id" name="mr_id">
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <!-- <div class="col-md-6 mb-3">
                                                         <label>Status</label>
                                                         <select name="status" id="status" class="form-control">
                                                             <option value="pending">Pending</option>
                                                             <option value="in_progress">In Progress</option>
                                                             <option value="completed">Completed</option>
                                                         </select>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -103,18 +103,14 @@
     </div>
 </div>
 <script>
-let calendar; // Global calendar variable
-
+let calendar; 
 document.addEventListener('DOMContentLoaded', () => {
     const calendarEl = document.getElementById('calendar');
-
-    // Determine next month for default view
     const today = new Date();
-    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1); // first day of next month
-
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        initialDate: nextMonth, // Default view: next month
+        initialDate: nextMonth,
         events: @json($events),
         eventDidMount: function(info) {
             info.el.style.cursor = 'pointer';
@@ -129,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
             start_date: event.startStr,
             end_date: event.endStr || event.startStr,
             location: event.extendedProps.location || '',
-            status: event.extendedProps.status || 'pending',
             doctor_id: event.extendedProps.doctor_id || '',
             doctor_name: event.extendedProps.doctor_name || '',
             mr_id: event.extendedProps.mr_id || '',
@@ -137,77 +132,57 @@ document.addEventListener('DOMContentLoaded', () => {
             pin_code: event.extendedProps.pin_code || ''
         }),
     });
-
     calendar.render();
+    function updateCurrentMonthInput() {
+        const currentDate = calendar.getDate();
+        const year = currentDate.getFullYear();
+        const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+        const currentMonthValue = `${year}-${month}`;
 
-  function updateCurrentMonthInput() {
-    const currentDate = calendar.getDate();
-    const year = currentDate.getFullYear();
-    const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-    const currentMonthValue = `${year}-${month}`;
+        document.getElementById('current_month').value = currentMonthValue;
+        document.getElementById('reject_month').value = currentMonthValue;
 
-    // Set hidden inputs for forms
-    document.getElementById('current_month').value = currentMonthValue;
-    document.getElementById('reject_month').value = currentMonthValue;
+        const today = new Date();
+        const systemNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+        const systemNextMonthStr = `${systemNextMonth.getFullYear()}-${('0'+(systemNextMonth.getMonth()+1)).slice(-2)}`;
 
-    // Show/hide buttons and heading only for next month
-    const today = new Date();
-    const systemNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-    const systemNextMonthStr = `${systemNextMonth.getFullYear()}-${('0'+(systemNextMonth.getMonth()+1)).slice(-2)}`;
+        const approveBtn = document.getElementById('approveBtn');
+        const rejectBtn = document.getElementById('rejectBtn');
+        const heading = document.querySelector('.tasks-heading');
 
-    const approveBtn = document.getElementById('approveBtn');
-    const rejectBtn = document.getElementById('rejectBtn');
-    const heading = document.querySelector('.tasks-heading');
-
-    if (currentMonthValue === systemNextMonthStr) {
-        approveBtn?.classList.remove('d-none');
-        rejectBtn?.classList.remove('d-none');
-        heading?.classList.remove('d-none');
-    } else {
-        approveBtn?.classList.add('d-none');
-        rejectBtn?.classList.add('d-none');
-        heading?.classList.add('d-none');
+        if (currentMonthValue === systemNextMonthStr) {
+            approveBtn?.classList.remove('d-none');
+            rejectBtn?.classList.remove('d-none');
+            heading?.classList.remove('d-none');
+        } else {
+            approveBtn?.classList.add('d-none');
+            rejectBtn?.classList.add('d-none');
+            heading?.classList.add('d-none');
+        }
     }
-}
-
-
-    // Initial update on page load
     updateCurrentMonthInput();
-
-    // Update whenever calendar month changes
     calendar.on('datesSet', () => {
         updateCurrentMonthInput();
     });
-
-    // Optional: handle form submit if needed
     const approveForm = document.getElementById('approveAllForm');
     if (approveForm) {
         approveForm.addEventListener('submit', function(e) {
-            // hidden input already updated
         });
     }
-
     const rejectForm = document.getElementById('rejectAllForm');
     if (rejectForm) {
         rejectForm.addEventListener('submit', function(e) {
-            // hidden input already updated
         });
     }
 });
-
-// Format date for modal inputs
 function formatDate(dateString) {
     if (!dateString) return '';
     const d = new Date(dateString);
     return `${d.getFullYear()}-${('0'+(d.getMonth()+1)).slice(-2)}-${('0'+d.getDate()).slice(-2)}`;
 }
-
-
-// Open Edit Task Modal
 function openEditTaskModal(task) {
-    const fields = ['task_id', 'title', 'description', 'location', 'status', 'pin_code'];
+    const fields = ['task_id', 'title', 'description', 'location', 'pin_code'];
     fields.forEach(f => document.getElementById(f).value = task[f] || '');
-
     document.getElementById('doctor_name_display').value = task.doctor_name;
     document.getElementById('doctor_id').value = task.doctor_id;
     document.getElementById('mr_name_display').value = task.mr_name;
@@ -237,5 +212,4 @@ function openEditTaskModal(task) {
     form.action = "{{ route('manager.tasks.update', ':id') }}".replace(':id', task.id);
 }
 </script>
-
 @endsection

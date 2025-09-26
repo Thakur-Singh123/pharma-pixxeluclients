@@ -126,13 +126,12 @@
                                                             </td>
                                                             <td>
                                                                 <span class="status-badge 
-                                                                {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
-                                                                {{ $visit->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                {{ $visit->status == 'Active' ? 'status-active' : '' }}
-                                                                {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
-                                                                {{ ucfirst($visit->status) }}
+                                                                    {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
+                                                                    {{ $visit->status == 'Reject' ? 'status-suspend' : '' }}
+                                                                    {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($visit->status) }}
                                                                 </span>
-                                                            </td>
+                                                                </td>
                                                             <td>
                                                                 <div class="form-button-action">
                                                                 <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>

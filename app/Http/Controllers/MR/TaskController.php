@@ -12,7 +12,7 @@ class TaskController extends Controller
 {
     //Function for all tasks
     public function index(Request $request) {
-        $all_tasks = Task::orderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
+        $all_tasks = Task::OrderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
         return view('mr.tasks.all-tasks', compact('all_tasks'));
     }
 
@@ -38,7 +38,6 @@ class TaskController extends Controller
                     'pin_code'    => $task->pin_code,
                     'description' => $task->description,
                     'location'    => $task->location,
-                    'status'      => $task->status,
                 ]
             ];
         }
@@ -68,7 +67,7 @@ class TaskController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'created_by' => 'mr',
-            'status' => $request->status,
+            'status' => 'Pending',
             'is_active' => 0,
         ]);
         //Check if task created or not
@@ -108,7 +107,7 @@ class TaskController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'created_by' => 'mr',
-            'status' => $request->status,
+            'status' => 'Pending'
         ]);
         //Check if task updated or not
         if ($is_update_task) {
@@ -133,21 +132,21 @@ class TaskController extends Controller
     //Function for manager assgin tasks
     public function assign_manger() {
         //Get manager tasks
-        $manager_tasks = Task::where('created_by', 'Manager')->paginate(5);
+        $manager_tasks = Task::OrderBy('ID','DESC')->where('created_by', 'Manager')->paginate(5);
         return view('mr.tasks.all-tasks-manager', compact('manager_tasks'));
     }
 
     //Function for himself tasks
     public function himself() {
         //Get himself tasks
-        $himself_tasks = Task::where('created_by', 'mr')->paginate(5);
+        $himself_tasks = Task::OrderBy('ID','DESC')->where('created_by', 'mr')->paginate(5);
         return view('mr.tasks.all-tasks-mr', compact('himself_tasks'));
     }
 
     //function for pending approval
     public function pending_approval() {
         //Get pending tasks
-        $pending_tasks = Task::where('created_by', 'mr')->where('is_active', 0)->paginate(5);
+        $pending_tasks = Task::OrderBy('ID','DESC')->where('created_by', 'mr')->where('is_active', 0)->paginate(5);
         return view('mr.tasks.pending-approval', compact('pending_tasks'));
     }
 
@@ -190,12 +189,14 @@ class TaskController extends Controller
         //Get events task
         $events = [];
         foreach ($tasks as $task) {
-            $status = $task->is_approval; 
-            $color = match ($status) {
-                1 => '#28a745', 
-                0 => '#dc3545', 
-                default => '#ffc107', 
-            };
+            $status = $task->task_detail->status ?? 'pending';
+          // Color based on status
+        $color = match ($status) {
+            'pending'      => '#ffc107',
+            'in_progress'  => '#0d6efd', 
+            'completed'    => '#28a745', 
+            default        => '#7d756cff', 
+        };
             //Events
             $events[] = [
                 'id' => $task->task_detail->id,
@@ -207,6 +208,7 @@ class TaskController extends Controller
                 'location' => $task->task_detail->location ?? 'N/A',
                 'pin' => $task->task_detail->pin_code ?? 'N/A',
                 'color'=> $color,
+                'status'      => $status,
             ];
         }
         return view('mr.tasks.approved-by-manager', compact('events'));
@@ -239,11 +241,28 @@ class TaskController extends Controller
                         'pin_code'    => $taskDetail->pin_code ?? null,
                         'description' => $taskDetail->description ?? null,
                         'location'    => $taskDetail->location ?? null,
-                        'status'      => $taskDetail->status ?? 'pending',
                     ]
                 ];
             }
         }
         return view('mr.tasks.rejected-by-manager', compact('events','all_doctors'));
     }
+
+public function update_status(Request $request)
+{
+    $request->validate([
+        'id' => 'required|exists:tasks,id', 
+        'status' => 'required|in:pending,in_progress,completed',
+    ]);
+
+    // Find the task by ID
+    $task = Task::findOrFail($request->id);
+
+    // Update status
+    $task->status = $request->status;
+    $task->save();
+
+    return back()->with('success', 'Task status updated successfully.');
+}
+
 }

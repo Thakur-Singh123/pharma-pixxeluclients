@@ -63,7 +63,26 @@ class VisitController extends Controller
         $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
         return view('manager.daily-visits.edit-visit', compact('visit_detail','assignedDoctors'));
     }
+    
+    //Function for approve visit record
+    public function approve($id) {
+        //Get visit
+        $visit_record = Visit::findOrFail($id);
+        //update visit
+        $visit_record->status = 'Approved'; 
+        $visit_record->save();
+        return back()->with('success', 'Visit approved successfully.');
+    }
 
+    //Function for reject visit record
+    public function reject($id) {
+        //Get visit
+        $visit_record = Visit::findOrFail($id);
+        //update visit
+        $visit_record->status = 'Reject'; 
+        $visit_record->save();
+        return back()->with('success', 'Visit reject successfully.');
+    }
     //Function for update visit
     public function update(Request $request, $id) {
         //Validate input fields

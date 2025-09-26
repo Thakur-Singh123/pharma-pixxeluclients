@@ -27,8 +27,8 @@
                                     <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
                                 </div>
                                 <div class="col-md-4">
-                                <label>Email</label>
-                                <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>Designation</label>

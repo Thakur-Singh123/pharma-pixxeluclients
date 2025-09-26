@@ -17,8 +17,10 @@
                                       <form method="GET" action="{{ route('manager.sales.index') }}">
                                         <select name="created_by" class="form-control" onchange="this.form.submit()">
                                             <option value="">All Sales</option>
-                                            @foreach($mrs as $mr){
-                                                <option value="{{ $mr->id }}"{{ request('created_by') == $mr->id ? 'selected' : '' }}>{{ $mr->name }}</option>
+                                            @foreach($mrs as $mr) {
+                                                <option value="{{ $mr->id }}"{{ request('created_by') == $mr->id ? 'selected' : '' }}>
+                                                    {{ $mr->name }}
+                                                </option>
                                             }
                                             @endforeach
                                         </select>
@@ -38,35 +40,43 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Sr No.</th>
+                                                                    style="width: 242.688px;">Sr No.
+                                                                </th>
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Company Name</th>
+                                                                    style="width: 242.688px;">Company Name
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Phone Number</th>
+                                                                    style="width: 366.578px;">Phone Number
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 366.578px;">Address</th>
+                                                                    style="width: 366.578px;">Address
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Designation</th>
+                                                                    style="width: 156.312px;">Designation
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Doctor Name</th>
+                                                                    style="width: 156.312px;">Doctor Name
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Perscription File</th>
+                                                                    style="width: 156.312px;">Perscription File
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Salt Name</th>
+                                                                    style="width: 156.312px;">Salt Name
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -78,15 +88,18 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Payment Method</th>
+                                                                    style="width: 156.312px;">Payment Method
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Sales MR</th>
+                                                                    style="width: 156.312px;">Sales MR
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">Action</th>
+                                                                    style="width: 156.312px;">Action
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -134,7 +147,8 @@
                                                                 </tr>
                                                            @empty
                                                                 <tr>
-                                                                    <td colspan="10" class="text-center">No record found
+                                                                    <td colspan="10" class="text-center">
+                                                                        No record found
                                                                     </td>
                                                                 </tr>
                                                             @endforelse

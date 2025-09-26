@@ -116,6 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
         initialView: 'dayGridMonth',
         initialDate: nextMonth, // Default view: next month
         events: @json($events),
+        eventDidMount: function(info) {
+            info.el.style.cursor = 'pointer';
+        },
+        dayCellDidMount: function(info) {
+            info.el.style.cursor = 'pointer';
+        },
         eventClick: ({ event }) => openEditTaskModal({
             id: event.id,
             title: event.title || '',

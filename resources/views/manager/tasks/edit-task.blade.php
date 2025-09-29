@@ -52,7 +52,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date',$task_detail) }}">
+                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date',$task_detail->end_date) }}">
                                         @error('end_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -62,7 +62,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="location">Location</label>
-                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}" placeholder="Enter location">
+                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location',$task_detail->location) }}" placeholder="Enter location">
                                         @error('location')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -71,7 +71,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="pin_code">Pin Code</label>
-                                        <input type="Number" class="form-control" id="pin_code" name="pin_code" value="{{ old('pin_code') }}" placeholder="Enter pin code">
+                                        <input type="Number" class="form-control" id="pin_code" name="pin_code" value="{{ old('pin_code',$task_detail->pin_code) }}" placeholder="Enter pin code">
                                         @error('pin_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

@@ -750,7 +750,7 @@ li.page-item.active span.page-link {
 .tasks-heading {
     font-size: 17px;
     font-weight: 594;
-    margin: 4px 590px 2px 0px;
+    margin: 4px 705px 2px 0px;
 }
 
 .card .card-flexd {
@@ -797,8 +797,28 @@ h5.refer-heading {
     box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
     background-color: #fff;        
 }
-
 .custom-search-input::placeholder {
     color: #aaa;                   
     font-style: italic;
+}
+.status-form {
+    margin: 0; 
+}
+.custom-status-dropdown {
+    width: 100px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1.5px solid #41a33f;
+    background-color: #e6e3f7;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.custom-status-dropdown:hover,
+.custom-status-dropdown:focus {
+    border-color: #41a33f;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    outline: none;
 }

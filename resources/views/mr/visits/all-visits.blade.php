@@ -126,11 +126,10 @@
                                                             </td>
                                                             <td>
                                                                 <span class="status-badge 
-                                                                {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
-                                                                {{ $visit->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                {{ $visit->status == 'Active' ? 'status-active' : '' }}
-                                                                {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
-                                                                {{ ucfirst($visit->status) }}
+                                                                    {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
+                                                                    {{ $visit->status == 'Reject' ? 'status-suspend' : '' }}
+                                                                    {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($visit->status) }}
                                                                 </span>
                                                             </td>
                                                             <td>

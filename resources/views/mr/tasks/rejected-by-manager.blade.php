@@ -78,14 +78,14 @@
                                                     <label for="location">Location</label>
                                                     <input type="text" class="form-control" id="location" name="location" required>
                                                 </div>
-                                                <div class="col-md-6 mb-3">
+                                                <!-- <div class="col-md-6 mb-3">
                                                     <label>Status</label>
                                                     <select name="status" id="status" class="form-control">
                                                         <option value="pending">Pending</option>
                                                         <option value="in_progress">In Progress</option>
                                                         <option value="completed">Completed</option>
                                                     </select>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -133,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 start_date: event.startStr,
                 end_date: event.endStr || event.startStr,
                 location: event.extendedProps.location || '',
-                status: event.extendedProps.status || 'pending',
                 doctor_id: event.extendedProps.doctor_id || '',
                 pin_code: event.extendedProps.pin_code || ''
             };
@@ -151,7 +150,6 @@ function openEditTaskModal(task) {
     document.getElementById('start_date').value = task.start_date;
     document.getElementById('end_date').value = task.end_date;
     document.getElementById('location').value = task.location;
-    document.getElementById('status').value = task.status;
     document.getElementById('doctor_id').value = task.doctor_id;
     document.getElementById('pin_code').value = task.pin_code;
     let updateUrl = "{{ route('mr.tasks.update', ':id') }}".replace(':id', task.id);

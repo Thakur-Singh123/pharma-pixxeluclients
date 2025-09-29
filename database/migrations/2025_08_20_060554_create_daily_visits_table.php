@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('district')->nullable();
             $table->string('state')->nullable();
             $table->string('area_code')->nullable();
-            $table->enum('status',['Active','Pending','Suspend','Approved'])->default('Active')->nullable();
             $table->timestamps();
         });
     }

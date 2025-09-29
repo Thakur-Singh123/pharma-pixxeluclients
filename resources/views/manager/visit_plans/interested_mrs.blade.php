@@ -79,13 +79,15 @@
                                                                     <td>{{ $visit_plan->location }}</td>
                                                                     <td>{{ $intrested_mr->mr->name }}</td>
                                                                     <td>
-                                                                        <span class="status-badge 
-                                                                            {{ $visit_plan->status == 'assigned' ? 'status-assigned' : '' }}
-                                                                            {{ $visit_plan->status == 'interested' ? 'status-interested' : '' }}
-                                                                            {{ $visit_plan->status == 'completed' ? 'status-completed' : '' }}
-                                                                            {{ $visit_plan->status == 'open' ? 'status-open' : '' }}">
-                                                                                {{ ucfirst($visit_plan->status) }}
-                                                                        </span>
+                                                                        <form action="{{ route('manager.visit.update.status', $visit_plan->id) }}" method="POST" class="status-form">
+                                                                            @csrf
+                                                                            <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
+                                                                                <option value="assigned" {{ $visit_plan->status == 'assigned' ? 'selected' : '' }}>Assigned</option>
+                                                                                <option value="interested" {{ $visit_plan->status == 'interested' ? 'selected' : '' }}>Interested</option>
+                                                                                <option value="completed" {{ $visit_plan->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                                                <option value="open" {{ $visit_plan->status == 'open' ? 'selected' : '' }}>Open</option>
+                                                                            </select>
+                                                                        </form>
                                                                     </td>
                                                                     <td style="display: flex; gap: 5px;">
                                                                         <form

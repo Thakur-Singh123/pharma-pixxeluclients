@@ -135,7 +135,7 @@
                                 </div>
                                 --}}
                                 <!--Status-->
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status">
@@ -149,17 +149,17 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div>
-                                <!--Lock(checkbox)-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>
-                                            <input type="checkbox" name="is_locked" value="1" {{ old('is_locked') ? 'checked' : '' }}>Lock this plan
-                                        </label>
-                                        @error('is_locked')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
+                                </div> -->
+                            </div>
+                            <!--Lock(checkbox)-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="is_locked" value="1" {{ old('is_locked') ? 'checked' : '' }}>Lock this plan
+                                    </label>
+                                    @error('is_locked')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="card-action">

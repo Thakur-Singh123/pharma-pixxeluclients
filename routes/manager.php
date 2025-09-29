@@ -77,6 +77,9 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/visit-plans/interested-mrs', [App\Http\Controllers\Manager\VisitPlanController::class, 'showInterestedMRS'])->name('visit.plans.interested.mrs');
     Route::post('/visit-plans/action/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'approveRejectInterest'])->name('visit-plans.action');
     Route::post('/visit-plans/add-comment/', [App\Http\Controllers\Manager\VisitPlanController::class, 'add_comment'])->name('visit-plans.add-comment');
+    Route::post('/visit-plans/update-status/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'update_visit_status'])->name('visit.update.status');
+    
+
     //Daily mr reports
     Route::get('daily-mr-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'index'])->name('daily-reports.index');
     Route::post('review-reports/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'review'])->name('reports.review');

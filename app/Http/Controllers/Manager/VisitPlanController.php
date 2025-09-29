@@ -57,7 +57,7 @@ class VisitPlanController extends Controller
             //'assigned_to' => $request->assigned_to,
             //'doctor_id' => $request->doctor_id,
             //'note' => $request->note,
-            'status' => $request->status,
+            'status' => 'Open',
         ]);
         //Check if visit plan created or not
         if($is_create_visit) {
@@ -169,7 +169,7 @@ class VisitPlanController extends Controller
             //'assigned_to' => $request->assigned_to,
             //'doctor_id' => $request->doctor_id,
             //'note' => $request->note,
-            'status' => $request->status,
+            'status' => 'Open',
         ]);
         //Check if visit plan updated or not
         if($is_update_visit) {
@@ -189,5 +189,17 @@ class VisitPlanController extends Controller
         } else {
            return back()->with('error', 'Opps something went wrong!'); 
         }
+    }
+
+    //Function for update visit status
+    public function update_visit_status(Request $request, $id) {
+        //Get task detail
+        $visit = VisitPlan::findOrFail($id);
+        //Get status
+        $visit->status = $request->status;
+        //Update
+        $visit->save();
+
+        return redirect()->back()->with('success', 'Visit plan status updated successfully.');
     }
 }

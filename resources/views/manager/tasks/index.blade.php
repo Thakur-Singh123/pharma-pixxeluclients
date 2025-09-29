@@ -122,7 +122,7 @@
                                                                             {{ $task->status == 'pending' ? 'status-pending' : '' }}
                                                                             {{ $task->status == 'in_progress' ? 'status-suspend' : '' }}
                                                                             {{ $task->status == 'completed' ? 'status-approved' : '' }}">
-                                                                            {{ ucfirst($task->status) }}
+                                                                            {{ ucfirst(str_replace('_', ' ', $task->status)) }}
                                                                         </span>
                                                                     </td>
                                                                     <!-- <td>

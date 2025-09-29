@@ -13,12 +13,12 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">All Events</h4>
+                                    <h4 class="card-title">All Tasks</h4>
                                     <form method="GET" action="{{ route('mr.tasks.index') }}">
-                                    <select name="created_by" class="form-control" onchange="this.form.submit()">
+                                    <select name="created_by" class="form-control" onchange="handleFilterChange(this)">
                                         <option value="">📋 All Tasks</option>
                                         <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>👤 Created by Me (MR)</option>
-                                        <option value="Manager" {{ request('created_by') == 'Manager' ? 'selected' : '' }}>🧑‍💼 Created by Manager</option>
+                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>🧑‍💼 Created by Manager</option>
                                     </select>
                                     </form>
                                 </div>
@@ -49,6 +49,22 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Location
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Pin Code
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Doctor Name
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Created By
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
                                                                     style="width: 156.312px;">Start Date
                                                                 </th>
@@ -61,10 +77,10 @@
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Status
                                                                 </th>
-                                                                <th class="sorting" tabindex="0"
+                                                                <!-- <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Action
-                                                                </th>
+                                                                </th> -->
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -75,6 +91,10 @@
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $task->title }}</td>
                                                                     <td>{{ $task->description }}</td>
+                                                                    <td>{{ $task->location }}</td>
+                                                                    <td>{{ $task->pin_code }}</td>
+                                                                    <td>{{ $task->doctor['doctor_name'] ?? 'N/A'}}</td>
+                                                                    <td>{{ $task->created_by }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                                     <td>
@@ -85,7 +105,7 @@
                                                                                 {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
                                                                         </span>
                                                                     </td>
-                                                                    <td>
+                                                                    <!-- <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('mr.tasks.edit', $task->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
                                                                                 <i class="fa fa-edit"></i>
@@ -98,7 +118,7 @@
                                                                                 </a>
                                                                             </form>
                                                                         </div>
-                                                                    </td>
+                                                                    </td> -->
                                                                 </tr>
                                                             @empty
                                                                 <tr>
@@ -108,7 +128,7 @@
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{ $all_tasks->links('pagination::bootstrap-5') }}
+                                                    {{ $all_tasks->appends(request()->query())->links('pagination::bootstrap-5') }}    
                                                 </div>
                                             </div>
                                         </div>
@@ -121,4 +141,13 @@
             </div>
         </div>
     </div>
+<script>
+function handleFilterChange(select) {
+    if (select.value === "") {
+        window.location.href = "{{ route('mr.tasks.index') }}";
+    } else {
+        select.form.submit();
+    }
+}
+</script>
 @endsection

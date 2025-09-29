@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <!--Status-->
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status">
@@ -106,7 +106,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="card-action">
                                 <button type="submit" class="btn btn-success">Update</button>

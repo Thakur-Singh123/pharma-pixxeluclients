@@ -99,11 +99,11 @@
                                     <span class="sub-item">Add Task</span>
                                 </a>
                             </li>
-                            <!-- <li class="{{ request()->is('mr/tasks') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
+                            <li class="{{ request()->is('mr/tasks') || request()->is('mr/tasks/*/edit') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.index') }}">
                                     <span class="sub-item">All Tasks</span>
                                 </a>
-                            </li> -->
+                            </li>
                             <li class="{{ request()->is('mr/tasks-assigin-manager') ? 'active' : '' }}">
                                 <a href="{{ url('mr/tasks-assigin-manager') }}">
                                     <span class="sub-item">Assigned By Manager</span>
@@ -212,8 +212,8 @@
                                     <span class="sub-item">All Events</span>
                                 </a>
                             </li>
-                             <li class="{{ request()->is('mr/events-assigne-by-manager') ? 'active' : '' }}">
-                                <a href="{{ url('mr/events-assigne-by-manager') }}">
+                             <li class="{{ request()->is('mr/events-assigned-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/events-assigned-by-manager') }}">
                                     <span class="sub-item">Assigned By Manager</span>
                                 </a>
                             </li>
@@ -227,8 +227,8 @@
                                     <span class="sub-item">Pending For Approval</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/active-participations*') ? 'active' : '' }}">
-                                <a href="{{ url('mr/active-participations') }}">
+                            <li class="{{ request()->is('mr/events-active-participations*') ? 'active' : '' }}">
+                                <a href="{{ url('mr/events-active-participations') }}">
                                     <span class="sub-item">Active Participations</span>
                                 </a>
                             </li>

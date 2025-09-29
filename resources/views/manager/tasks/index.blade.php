@@ -15,21 +15,19 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
+                            <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Tasks</h4>
-                                </div>
-                                <!-- <div class="card-header d-flex justify-content-between align-items-center">
                                     <form method="GET" action="{{ route('manager.tasks.index') }}">
-                                        <select name="created_by" class="form-control" onchange="this.form.submit()">
+                                        <select name="created_by" class="form-control" onchange="handleFilterChange(this)">
                                             <option value="">📋 All Tasks</option>
-                                            <option value="Manager"
-                                                {{ request('created_by') == 'Manager' ? 'selected' : '' }}>👤 Created by Me
+                                            <option value="manager"
+                                                {{ request('created_by') == 'manager' ? 'selected' : '' }}>👤 Created by Me
                                                 (manager)</option>
                                             <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>
                                                 🧑‍💼 Created by MR</option>
                                         </select>
                                     </form>
-                                </div> -->
+                                </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <div id="basic-datatables_wrapper"
@@ -164,7 +162,7 @@
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{ $tasks->links('pagination::bootstrap-5') }}
+                                                    {{ $tasks->appends(request()->query())->links('pagination::bootstrap-5') }}
                                                 </div>
                                             </div>
                                         </div>
@@ -177,4 +175,13 @@
             </div>
         </div>
     </div>
+<script>
+function handleFilterChange(select) {
+    if (select.value === "") {
+        window.location.href = "{{ route('manager.tasks.index') }}";
+    } else {
+        select.form.submit();
+    }
+}
+</script>
 @endsection

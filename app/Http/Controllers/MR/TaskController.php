@@ -10,9 +10,14 @@ use App\Models\MangerMR;
 
 class TaskController extends Controller
 {
-    //Function for all tasks
+    //Function for show all tasks
     public function index(Request $request) {
-        $all_tasks = Task::OrderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
+        //Get tasks
+        $query = Task::with('doctor')->orderBy('ID','DESC');
+        if($request->filled('created_by')) {
+            $query->where('created_by', $request->created_by);
+        }
+        $all_tasks = $query->orderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
         return view('mr.tasks.all-tasks', compact('all_tasks'));
     }
 

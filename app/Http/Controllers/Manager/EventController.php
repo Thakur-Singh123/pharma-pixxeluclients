@@ -20,7 +20,7 @@ class EventController extends Controller
         if(request()->filled('created_by')) {
             $query = $query->where('created_by', request('created_by'));
         }
-        $events = $query->with('mr','doctor_detail')->orderBy('created_at', 'desc')->where('is_active', 1)->paginate(10);
+        $events = $query->with('mr','doctor_detail')->orderBy('created_at', 'desc')->where('is_active', 1)->paginate(5);
         return view('manager.events.index', compact('events'));
     }
 
@@ -31,7 +31,7 @@ class EventController extends Controller
          if(request()->filled('created_by')) {
              $query = $query->where('created_by', request('created_by'));
          }
-        $events = $query->with('mr','doctor_detail')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(10);
+        $events = $query->with('mr','doctor_detail')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(5);
         return view('manager.events.waiting-for-approval', compact('events'));
     }
 
@@ -84,7 +84,6 @@ class EventController extends Controller
             'location' =>'nullable|string|max:255',
             'start_datetime' =>'required|date',
             'end_datetime' =>'required|date|after_or_equal:start_datetime',
-            'status' =>'required|in:pending,in_progress,completed'
         ]);
         //Create event
         $event = new Events();
@@ -97,7 +96,7 @@ class EventController extends Controller
         $event->pin_code = $request->pin_code;
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime = $request->end_datetime;
-        $event->status = $request->status;
+        $event->status = 'pending';
         $event->created_by     = 'manager';
         $event->is_active = 1;
         $event->save();
@@ -138,6 +137,18 @@ class EventController extends Controller
         return view('manager.events.edit-event', compact('event_detail','mrs','all_doctors'));
     }
 
+    //Function for update event status
+    public function update_event_status(Request $request, $id) {
+        //Get task detail
+        $event = Events::findOrFail($id);
+        //Get status
+        $event->status = $request->status;
+        //Update
+        $event->save();
+
+        return redirect()->back()->with('success', 'Event status updated successfully.');
+    }
+
     //Function for update event
     public function update(Request $request, $id) {
         //Validate input fields
@@ -149,7 +160,6 @@ class EventController extends Controller
             'pin_code' =>'nullable|string|max:255',
             'start_datetime' =>'required|date',
             'end_datetime' =>'required|date|after_or_equal:start_datetime',
-            'status' =>'required|in:pending,in_progress,completed'
         ]);
         //Find event
         $event = Events::findOrFail($id);
@@ -163,10 +173,10 @@ class EventController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'location' => $request->location,
-            'pin_code' => $request->pin_code,
+            'pin_code' => $request->pin_code, 
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
-            'status' => $request->status,
+            'status' => 'pending',
         ]);
         //If MR changed, notify the new MR
         if ($oldMrId != $request->mr_id) {

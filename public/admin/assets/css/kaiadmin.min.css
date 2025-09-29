@@ -2847,11 +2847,11 @@ body[data-background-color=dark] .border-top {
 }
 
 .card-title {
-	margin: 0 0 10px 1px;
-	color: #2a2f5b;
-	font-size: 20px;
-	font-weight: 600;
-	line-height: 1.6
+    margin: 0px 10px 10px 0px;
+    color: #2a2f5b;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.6;
 }
 
 .card-title a,

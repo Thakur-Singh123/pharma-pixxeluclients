@@ -16,11 +16,11 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">
+                        <div class="card-title d-flex justify-content-between align-items-center">
                             Tasks Calendar Rejected by Manager
-                            <form action="{{ route('mr.tasks.sendMonthly') }}" method="POST">
+                            <form id="sendApprovalForm" action="{{ route('mr.tasks.sendMonthly') }}" method="POST" style="display: none;">
                                 @csrf
-                                <button type="submit" class="send-approval-btn float-end">
+                                <button type="submit" class="send-approval-btn">
                                     Send to Manager Approval
                                 </button>
                             </form>
@@ -78,14 +78,6 @@
                                                     <label for="location">Location</label>
                                                     <input type="text" class="form-control" id="location" name="location" required>
                                                 </div>
-                                                <!-- <div class="col-md-6 mb-3">
-                                                    <label>Status</label>
-                                                    <select name="status" id="status" class="form-control">
-                                                        <option value="pending">Pending</option>
-                                                        <option value="in_progress">In Progress</option>
-                                                        <option value="completed">Completed</option>
-                                                    </select>
-                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -107,17 +99,20 @@
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     var today = new Date();
-    var nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    today.setHours(0,0,0,0);
+
+    // Next month start date
+    var nextMonthStart = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        initialDate: nextMonth,
+        initialDate: nextMonthStart,
         selectable: false,
         events: @json($events),
         dayCellDidMount: function(info) {
             var todayZero = new Date();
             todayZero.setHours(0,0,0,0);
             var cellDate = new Date(info.date);
-            //Disable past dates
             if (cellDate < todayZero) {
                 info.el.style.backgroundColor = "#f0f0f0";
                 info.el.style.color = "#999";
@@ -139,7 +134,30 @@ document.addEventListener('DOMContentLoaded', function () {
             openEditTaskModal(task);
         }
     });
+
     calendar.render();
+
+    // ---- Send to Manager Approval Button Logic ----
+    var sendApprovalForm = document.getElementById('sendApprovalForm');
+
+    function toggleSendApprovalButton(currentDate) {
+        if (
+            currentDate.getFullYear() === nextMonthStart.getFullYear() &&
+            currentDate.getMonth() === nextMonthStart.getMonth()
+        ) {
+            sendApprovalForm.style.display = "inline-block";
+        } else {
+            sendApprovalForm.style.display = "none";
+        }
+    }
+
+    // Initially show/hide for default month
+    toggleSendApprovalButton(calendar.getDate());
+
+    // On month navigation
+    calendar.on('datesSet', function() {
+        toggleSendApprovalButton(calendar.getDate());
+    });
 });
 
 //Edit Task Modal

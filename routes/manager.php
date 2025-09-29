@@ -35,11 +35,12 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/tasks/reject-all', [App\Http\Controllers\Manager\TaskController::class, 'rejectAll'])->name('tasks.rejectAll');
     //Event management
     Route::resource('events', App\Http\Controllers\Manager\EventController::class);
-    Route::get('waiting-for-approval', [App\Http\Controllers\Manager\EventController::class,'waitingForApproval'])->name('waiting.for.approval');
+    Route::post('events/update-status/{id}', [App\Http\Controllers\Manager\EventController::class,'update_event_status'])->name('event.update.status');
+    Route::get('events-waiting-for-approval', [App\Http\Controllers\Manager\EventController::class,'waitingForApproval'])->name('waiting.for.approval');
     Route::post('approved-events/{id}', [App\Http\Controllers\Manager\EventController::class,'approvedevents'])->name('approved.events');
     Route::post('rejected-events/{id}', [App\Http\Controllers\Manager\EventController::class,'rejectedevents'])->name('rejected.events');
     //Event users
-    Route::get('active-participations', [App\Http\Controllers\Manager\EventController::class,'participations']);
+    Route::get('events-active-participations', [App\Http\Controllers\Manager\EventController::class,'participations']);
     //Patient
     Route::resource('patients', App\Http\Controllers\Manager\PatientController::class);
     //Doctor
@@ -78,8 +79,6 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/visit-plans/action/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'approveRejectInterest'])->name('visit-plans.action');
     Route::post('/visit-plans/add-comment/', [App\Http\Controllers\Manager\VisitPlanController::class, 'add_comment'])->name('visit-plans.add-comment');
     Route::post('/visit-plans/update-status/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'update_visit_status'])->name('visit.update.status');
-    
-
     //Daily mr reports
     Route::get('daily-mr-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'index'])->name('daily-reports.index');
     Route::post('review-reports/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'review'])->name('reports.review');

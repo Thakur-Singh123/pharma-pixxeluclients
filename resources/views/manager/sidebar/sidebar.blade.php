@@ -181,7 +181,7 @@
                     </a>
                 </li>
                 @php
-                    $isEventActive = request()->is('manager/events*') || request()->is('manager/waiting-for-approval') || request()->is('manager/active-participations*');
+                    $isEventActive = request()->is('manager/events*') || request()->is('manager/events-waiting-for-approval') || request()->is('manager/events-active-participations*');
                 @endphp
                 <li class="nav-item {{ $isEventActive ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseEvent"
@@ -203,13 +203,13 @@
                                     <span class="sub-item">All Events</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('manager/waiting-for-approval') ? 'active' : '' }}">
+                            <li class="{{ request()->is('manager/events-waiting-for-approval') ? 'active' : '' }}">
                                 <a href="{{ route('manager.waiting.for.approval') }}">
                                     <span class="sub-item">Waiting For Approval</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('manager/active-participations*') ? 'active' : '' }}">
-                                <a href="{{ url('manager/active-participations') }}">
+                            <li class="{{ request()->is('manager/events-active-participations*') ? 'active' : '' }}">
+                                <a href="{{ url('manager/events-active-participations') }}">
                                     <span class="sub-item">Active Participations</span>
                                 </a>
                             </li>

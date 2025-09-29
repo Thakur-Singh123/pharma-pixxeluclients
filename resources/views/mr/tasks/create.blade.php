@@ -12,11 +12,11 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">
+                        <div class="card-title d-flex justify-content-between align-items-center">
                             Monthly Tasks Calendar
-                            <form action="{{ route('mr.tasks.sendMonthly') }}" method="POST">
+                            <form id="sendApprovalForm" action="{{ route('mr.tasks.sendMonthly') }}" method="POST" style="display: none;">
                                 @csrf
-                                <button type="submit" class="send-approval-btn float-end">
+                                <button type="submit" class="send-approval-btn">
                                     Send to Manager Approval
                                 </button>
                             </form>
@@ -51,7 +51,6 @@
                                                     <label>Assign Doctor</label>
                                                     <select name="doctor_id" id="doctor_id" class="form-control">
                                                         <option value="" disabled selected>Select</option>
-                                                        <!--Get assign doctos-->
                                                         @foreach($all_doctors as $doctor)
                                                             <option value="{{ $doctor->id }}">
                                                                 {{ $doctor->doctor_name }}
@@ -75,14 +74,6 @@
                                                     <label for="location">Location</label>
                                                     <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
                                                 </div>
-                                                <!-- <div class="col-md-6 mb-3">
-                                                    <label>Status</label>
-                                                    <select name="status" id="status" class="form-control">
-                                                        <option value="pending">Pending</option>
-                                                        <option value="in_progress">In Progress</option>
-                                                        <option value="completed">Completed</option>
-                                                    </select>
-                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -100,6 +91,7 @@
         </div>
     </div>
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
@@ -109,15 +101,13 @@ document.addEventListener('DOMContentLoaded', function () {
     nextMonthStart.setHours(0,0,0,0);
     var nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0); 
     nextMonthEnd.setHours(23,59,59,999); 
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         initialDate: nextMonthStart,
         selectable: true,
         events: @json($events),
         eventDidMount: function(info) {
-            info.el.style.cursor = 'pointer';
-        },
-        dayCellDidMount: function(info) {
             info.el.style.cursor = 'pointer';
         },
         dayCellDidMount: function(info) {
@@ -131,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 info.el.style.cursor = "pointer";
             }
         },
-
         dateClick: function(info) {
             var clickedDate = new Date(info.dateStr);
             clickedDate.setHours(12,0,0,0);
@@ -143,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
             var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
             myModal.show();
         },
-
         eventClick: function(info) {
             var event = info.event;
             var task = {
@@ -168,6 +156,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 
+    var sendApprovalForm = document.getElementById('sendApprovalForm');
+    function toggleSendApprovalButton(currentDate) {
+        if (
+            currentDate.getFullYear() === nextMonthStart.getFullYear() &&
+            currentDate.getMonth() === nextMonthStart.getMonth()
+        ) {
+            sendApprovalForm.style.display = "inline-block";
+        } else {
+            sendApprovalForm.style.display = "none";
+        }
+    }
+
+    toggleSendApprovalButton(calendar.getDate());
+    calendar.on('datesSet', function() {
+        var currentViewDate = calendar.getDate();
+        toggleSendApprovalButton(currentViewDate);
+    });
+    //Task Modal 
     function openAddTaskModal() {
         var form = document.getElementById('taskForm');
         form.reset();
@@ -178,7 +184,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('saveTaskBtn').innerText = "Save";
         setDateValidation();
     }
-
     function openEditTaskModal(task) {
         var form = document.getElementById('taskForm');
         document.getElementById('task_id').value = task.id;
@@ -197,7 +202,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
         myModal.show();
     }
-
     function setDateValidation(existingStart = '', isEdit = false) {
         var startInput = document.getElementById('start_date');
         var endInput = document.getElementById('end_date');

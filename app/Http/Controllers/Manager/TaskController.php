@@ -18,7 +18,7 @@ class TaskController extends Controller
     //Function for show all tasks
     public function index(Request $request) {
         //Get tasks
-        $query = Task::with('doctor')->where('created_by', 'manager')->orderBy('ID','DESC');
+        $query = Task::with('doctor')->orderBy('ID','DESC');
         if($request->filled('created_by')) {
              $query->where('created_by', $request->created_by);
         }

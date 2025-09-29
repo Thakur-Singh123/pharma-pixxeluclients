@@ -101,20 +101,22 @@
                                                                             : 'N/A' 
                                                                         !!}
                                                                     </td>
-                                                                    <td>
-                                                                        <span class="status-badge 
-                                                                            {{ $event->status == 'pending' ? 'status-pending' : '' }}
-                                                                            {{ $event->status == 'in_progress' ? 'status-progress' : '' }}
-                                                                            {{ $event->status == 'completed' ? 'status-completed' : '' }}">
-                                                                                {{ $event->status == 'in_progress' ? 'In Progress' : ucfirst($event->status) }}
-                                                                        </span>
+                                                                   <td>
+                                                                        <form action="{{ route('mr.event.update.status', $event->id) }}" method="POST" class="status-form">
+                                                                            @csrf
+                                                                            <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
+                                                                                <option value="pending" {{ $event->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                                                <option value="in_progress" {{ $event->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                                                                <option value="completed" {{ $event->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                                            </select>
+                                                                        </form>
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-button-action">
-                                                                            <a href="{{ route('manager.events.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                            <a href="{{ route('mr.events.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
                                                                                 <i class="fa fa-edit"></i>
                                                                             </a>
-                                                                            <form action="{{ route('manager.events.destroy', $event->id) }}" method="POST" style="display:inline;">
+                                                                            <form action="{{ route('mr.events.destroy', $event->id) }}" method="POST" style="display:inline;">
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">

@@ -22,7 +22,7 @@ class EventController extends Controller
          if(request()->filled('created_by')) {
              $query = $query->where('created_by', request('created_by'));
          }
-        $events = $query->with('doctor_detail')->orderBy('created_at', 'desc')->paginate(10);
+        $events = $query->with('doctor_detail')->orderBy('created_at', 'desc')->paginate(5);
         return view('mr.events.index', compact('events'));
     }
 
@@ -33,7 +33,7 @@ class EventController extends Controller
          if(request()->filled('created_by')) {
              $query = $query->where('created_by', request('created_by'));
          }
-        $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(10);
+        $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(5);
         return view('mr.events.pending-approval', compact('events'));
     }
 
@@ -68,7 +68,6 @@ class EventController extends Controller
             'location' => 'nullable|string|max:255',
             'start_datetime' => 'required|date',
             'end_datetime' => 'required|date|after_or_equal:start_datetime',
-            'status' => 'required|in:pending,in_progress,completed',
         ]);
 
         //manager id
@@ -84,7 +83,7 @@ class EventController extends Controller
         $event->pin_code       = $request->pin_code;
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime   = $request->end_datetime;
-        $event->status         = $request->status;
+        $event->status         = 'pending';
         $event->created_by     = 'mr';
         $event->save();
 
@@ -103,7 +102,20 @@ class EventController extends Controller
         $all_doctors = $mr->doctors()->orderBy('ID', 'DESC')->get();
         //Get event 
         $event_detail = Events::find($id);
+
         return view('mr.events.edit-event', compact('event_detail','all_doctors'));
+    }
+
+    //Function for update event status
+    public function update_event_status(Request $request, $id) {
+        //Get task detail
+        $event = Events::findOrFail($id);
+        //Get status
+        $event->status = $request->status;
+        //Update
+        $event->save();
+
+        return redirect()->back()->with('success', 'Event status updated successfully.');
     }
 
     //Function for update event
@@ -116,7 +128,6 @@ class EventController extends Controller
             'pin_code' =>'nullable|string|max:255',
             'start_datetime' =>'required|date',
             'end_datetime' =>'required|date|after_or_equal:start_datetime',
-            'status' =>'required|in:pending,in_progress,completed'
         ]);
         //Find event
         $event = Events::findOrFail($id);
@@ -129,8 +140,10 @@ class EventController extends Controller
             'doctor_id' => $request->doctor_id,
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
-            'status' => $request->status,
+            'created_by' => 'mr',
+            'status' => 'pending',
         ]);
+
         return redirect()->route('mr.events.index')->with('success', 'Event updated successfully.');
     }
 

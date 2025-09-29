@@ -101,7 +101,7 @@ const events = @json($events);
 document.addEventListener('DOMContentLoaded', () => {
     const calendarEl = document.getElementById('calendar');
     const today = new Date();
-    const nextMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, 1); // Next month
+    const nextMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, 1); 
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         initialDate: nextMonthDate,

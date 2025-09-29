@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-md-12">
                     @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
                     @endif
                     <div class="row">
                         <div class="col-md-12">
@@ -55,10 +55,10 @@
                                                                     colspan="1"
                                                                     style="width: 156.312px;">Created By
                                                                 </th>
-                                                                <!-- <th class="sorting" tabindex="0"
+                                                                <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Status
-                                                                </th> -->
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Action
@@ -76,14 +76,16 @@
                                                                     <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                                     <td>{{ $task->created_by }}</td>
-                                                                    <!-- <td>
-                                                                        <span class="status-badge 
-                                                                            {{ $task->status == 'pending' ? 'status-pending' : '' }}
-                                                                            {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
-                                                                            {{ $task->status == 'completed' ? 'status-completed' : '' }}">
-                                                                                {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
-                                                                        </span>
-                                                                    </td> -->
+                                                                    <td>
+                                                                        <form action="{{ route('mr.tasks.update.status', $task->id) }}" method="POST" class="status-form">
+                                                                            @csrf
+                                                                            <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
+                                                                                <option value="pending" {{ $task->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                                                <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                                                                <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                                            </select>
+                                                                        </form>
+                                                                    </td>
                                                                     <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('mr.tasks.edit', $task->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

@@ -79,7 +79,7 @@ class TaskController extends Controller
             'end_date' => $request->end_date,
             'pin_code' => $request->pin_code,
             'created_by' => 'manager',
-            'status' => $request->status,
+            'status' => 'Pending',
             'is_active' => 1,
         ]);
         //Get mr
@@ -181,6 +181,7 @@ class TaskController extends Controller
                 'description' => $taskDetail->description ?? null,
                 'location'    => $taskDetail->location ?? null,
                 'status'      => 'Pending',
+                'is_approval' => $task->is_approval ?? 0, 
                 ],
             ];
         }

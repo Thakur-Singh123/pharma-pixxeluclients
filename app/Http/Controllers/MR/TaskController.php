@@ -192,7 +192,7 @@ class TaskController extends Controller
             $status = $task->task_detail->status ?? 'pending';
           // Color based on status
         $color = match ($status) {
-            'pending'      => '#ffc107',
+            'pending'      => '#dc3545',
             'in_progress'  => '#0d6efd', 
             'completed'    => '#28a745', 
             default        => '#7d756cff', 
@@ -248,21 +248,32 @@ class TaskController extends Controller
         return view('mr.tasks.rejected-by-manager', compact('events','all_doctors'));
     }
 
-public function update_status(Request $request)
-{
-    $request->validate([
-        'id' => 'required|exists:tasks,id', 
-        'status' => 'required|in:pending,in_progress,completed',
-    ]);
+    //Function for update calender task status
+    public function update_calender_status(Request $request) {
+        //Validate input request
+        $request->validate([
+            'id' => 'required|exists:tasks,id', 
+            'status' => 'required|in:pending,in_progress,completed',
+        ]);
+        //Get task detail
+        $task = Task::findOrFail($request->id);
+        //Update status
+        $task->status = $request->status;
+        $task->save();
 
-    // Find the task by ID
-    $task = Task::findOrFail($request->id);
+        return back()->with('success', 'Task status updated successfully.');
+    }
 
-    // Update status
-    $task->status = $request->status;
-    $task->save();
+    //Function for update task update
+    public function update_status(Request $request, $id) {
+        //Get task detail
+        $task = Task::findOrFail($id);
+        //Get status
+        $task->status = $request->status;
+        //Update
+        $task->save();
 
-    return back()->with('success', 'Task status updated successfully.');
-}
+        return redirect()->back()->with('success', 'Task status updated successfully.');
+    }
 
 }

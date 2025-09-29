@@ -131,7 +131,7 @@
                                                                     {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
                                                                     {{ ucfirst($visit->status) }}
                                                                 </span>
-                                                                </td>
+                                                            </td>
                                                             <td>
                                                                 <div class="form-button-action">
                                                                 <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>

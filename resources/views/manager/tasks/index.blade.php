@@ -84,6 +84,10 @@
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 156.312px;">Created By
                                                                 </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 156.312px;">Status
+                                                                </th>
                                                                 <!-- <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 156.312px;">Status
@@ -113,6 +117,14 @@
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}
                                                                     </td>
                                                                     <td>{{ $task->created_by }}</td>
+                                                                    <td>
+                                                                        <span class="status-badge 
+                                                                            {{ $task->status == 'pending' ? 'status-pending' : '' }}
+                                                                            {{ $task->status == 'in_progress' ? 'status-suspend' : '' }}
+                                                                            {{ $task->status == 'completed' ? 'status-approved' : '' }}">
+                                                                            {{ ucfirst($task->status) }}
+                                                                        </span>
+                                                                    </td>
                                                                     <!-- <td>
                                                                         <span
                                                                             class="status-badge 

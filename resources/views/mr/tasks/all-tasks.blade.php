@@ -98,12 +98,14 @@
                                                                     <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                                     <td>
-                                                                        <span class="status-badge 
-                                                                            {{ $task->status == 'pending' ? 'status-pending' : '' }}
-                                                                            {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
-                                                                            {{ $task->status == 'completed' ? 'status-completed' : '' }}">
-                                                                                {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
-                                                                        </span>
+                                                                        <form action="{{ route('mr.tasks.update.status', $task->id) }}" method="POST" class="status-form">
+                                                                            @csrf
+                                                                            <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
+                                                                                <option value="pending" {{ $task->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                                                <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                                                                <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                                            </select>
+                                                                        </form>
                                                                     </td>
                                                                     <!-- <td>
                                                                         <div class="form-button-action">
@@ -128,7 +130,7 @@
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{ $all_tasks->appends(request()->query())->links('pagination::bootstrap-5') }}    
+                                                    {{ $all_tasks->appends(request()->query())->links('pagination::bootstrap-5') }}     
                                                 </div>
                                             </div>
                                         </div>

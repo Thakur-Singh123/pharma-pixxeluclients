@@ -103,6 +103,18 @@ class TaskController extends Controller
         return view('manager.tasks.edit-task', compact('task_detail','mrs','all_doctors'));
     }
 
+    //Function for update task update
+    public function update_task_status(Request $request, $id) {
+        //Get task detail
+        $task = Task::findOrFail($id);
+        //Get status
+        $task->status = $request->status;
+        //Update
+        $task->save();
+
+        return redirect()->back()->with('success', 'Task status updated successfully.');
+    }
+
     //Function for update task
     public function update(Request $request, $id) {
         //Validate input fields

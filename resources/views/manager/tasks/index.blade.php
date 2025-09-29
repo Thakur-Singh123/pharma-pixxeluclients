@@ -116,22 +116,15 @@
                                                                     </td>
                                                                     <td>{{ $task->created_by }}</td>
                                                                     <td>
-                                                                        <span class="status-badge 
-                                                                            {{ $task->status == 'pending' ? 'status-pending' : '' }}
-                                                                            {{ $task->status == 'in_progress' ? 'status-suspend' : '' }}
-                                                                            {{ $task->status == 'completed' ? 'status-approved' : '' }}">
-                                                                            {{ ucfirst(str_replace('_', ' ', $task->status)) }}
-                                                                        </span>
+                                                                        <form action="{{ route('manager.tasks.update.status', $task->id) }}" method="POST" class="status-form">
+                                                                            @csrf
+                                                                            <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
+                                                                                <option value="pending" {{ $task->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                                                <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                                                                <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                                            </select>
+                                                                        </form>
                                                                     </td>
-                                                                    <!-- <td>
-                                                                        <span
-                                                                            class="status-badge 
-                                                                                {{ $task->status == 'pending' ? 'status-pending' : '' }}
-                                                                                {{ $task->status == 'in_progress' ? 'status-progress' : '' }}
-                                                                                {{ $task->status == 'completed' ? 'status-completed' : '' }}">
-                                                                            {{ $task->status == 'in_progress' ? 'In Progress' : ucfirst($task->status) }}
-                                                                        </span>
-                                                                    </td> -->
                                                                     <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('manager.tasks.edit', $task->id) }}"

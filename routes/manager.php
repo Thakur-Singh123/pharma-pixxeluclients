@@ -27,6 +27,7 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/visit-filter', [App\Http\Controllers\Manager\VisitController::class, 'visitFilter']);
     //Task management
     Route::resource('tasks', App\Http\Controllers\Manager\TaskController::class);
+    Route::post('/task-update-status/{id}', [App\Http\Controllers\Manager\TaskController::class,'update_task_status'])->name('tasks.update.status');
     Route::get('tasks-waiting-for-approval', [App\Http\Controllers\Manager\TaskController::class,'waitingForApproval'])->name('tasks.waiting.for.approval');
     Route::post('approved-tasks/{id}', [App\Http\Controllers\Manager\TaskController::class,'approvedtasks'])->name('approved.tasks');
     Route::post('rejected-tasks/{id}', [App\Http\Controllers\Manager\TaskController::class,'rejectedtasks'])->name('rejected.tasks');

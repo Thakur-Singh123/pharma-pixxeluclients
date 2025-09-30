@@ -74,12 +74,14 @@ class EventController extends Controller
 
     //Functions for create event
     public function create() {
-        //Get mrs
+        //Get logged-in manager
         $manager = auth()->user();
-        $mrs =  $manager->mrs;
-        //Get doctors
-        $all_doctors = Doctor::orderBy('ID', 'DESC')->get();
-
+        //Get all MRs assigned
+        $mrs = $manager->mrs;
+        //Get all doctors
+        $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
+            $query->whereIn('users.id', $mrs->pluck('id'));
+        })->orderBy('id','DESC')->get();
         return view('manager.events.create', compact('mrs','all_doctors'));
     }
 
@@ -136,19 +138,21 @@ class EventController extends Controller
         return redirect()->route('manager.events.index')->with('success', 'Event created successfully.');
     }
     
-    //Function for edit event
+    //Function to edit event
     public function edit($id) {
-        //Get event 
+        //Get event detail 
         $event_detail = Events::find($id);
-        //Get mrs
+        //Get logged-in manager
         $manager = auth()->user();
-        $mrs =  $manager->mrs;
-        //Get doctors
-        $all_doctors = Doctor::orderBy('ID', 'DESC')->get();
-        
+        //Get MRs 
+        $mrs = $manager->mrs;
+        //Get all doctors
+        $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
+            $query->whereIn('users.id', $mrs->pluck('id'));
+        })->orderBy('id', 'DESC')->get();
         return view('manager.events.edit-event', compact('event_detail','mrs','all_doctors'));
     }
-
+    
     //Function for update event status
     public function update_event_status(Request $request, $id) {
         //Get task detail

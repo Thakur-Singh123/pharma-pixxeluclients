@@ -124,4 +124,16 @@ class PatientController extends Controller
             }
         }
     }
+
+    //Function for delete patient
+    public function destroy($id) {
+        //Delete patient
+        $is_delete_patient = ReferredPatient::where('id', $id)->delete();
+        //Check if patient updated or not
+        if ($is_delete_patient) {
+            return redirect()->route('manager.patients.index')->with('success', 'Referred patient deleted successfully.');
+        } else {
+            return back()->with('error', 'Opps something went wrong!');
+        }
+    }
 }

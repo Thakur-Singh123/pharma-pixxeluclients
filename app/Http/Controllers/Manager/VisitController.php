@@ -83,6 +83,7 @@ class VisitController extends Controller
         $visit_record->save();
         return back()->with('success', 'Visit reject successfully.');
     }
+    
     //Function for update visit
     public function update(Request $request, $id) {
         //Validate input fields

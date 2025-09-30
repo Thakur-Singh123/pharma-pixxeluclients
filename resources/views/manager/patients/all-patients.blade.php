@@ -78,6 +78,11 @@
                                                                 aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Status
                                                             </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 156.312px;">Action
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -105,13 +110,49 @@
                                                                     -
                                                                 @endif
                                                             </td>
-                                                             <td>
-                                                                <span class="status-badge 
-                                                                {{ $patient->status == 'Pending' ? 'status-pending' : '' }}
-                                                                {{ $patient->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                {{ $patient->status == 'Active' ? 'status-approved' : '' }}">
-                                                                    {{ ucfirst($patient->status) }}
-                                                                </span>
+                                                            <td style="display: flex; gap: 5px;">
+                                                                @if ($patient->status == 'pending')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.patient.approve', $patient->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-success btn-sm">Approve</button>
+                                                                    </form>
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.patient.reject', $patient->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm">Reject</button>
+                                                                    </form>
+                                                                @elseif($patient->status == 'approved')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.patient.reject', $patient->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm">Reject</button>
+                                                                    </form>
+                                                                @elseif($patient->status == 'rejected')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.patient.approve', $patient->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-success btn-sm">Approve</button>
+                                                                    </form>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-button-action">
+                                                                    <a href="{{ route('manager.patients.edit', $patient->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </a>
+                                                                    <form action="{{ route('manager.patients.destroy', $patient->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </a>
+                                                                    </form>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                         @empty

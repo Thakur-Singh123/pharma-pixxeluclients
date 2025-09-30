@@ -20,7 +20,6 @@ return new class extends Migration
             $table->LongText('address')->nullable();
             $table->string('disease')->nullable();
             $table->string('referred_to')->nullable();
-            $table->enum('status',['Active','Pending','Suspend'])->default('Active')->nullable();
             $table->timestamps();
         });
     }

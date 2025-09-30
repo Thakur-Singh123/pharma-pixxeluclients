@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -14,7 +14,7 @@
                         <h4 class="card-title">Edit Patient</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('mr.patients.update', $patient_detail->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('manager.patients.update', $patient_detail->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="row">

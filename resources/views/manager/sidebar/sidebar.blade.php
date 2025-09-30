@@ -225,7 +225,7 @@
                     </a>
                 </li>
                 <!--patients section-->
-                <li class="nav-item {{ request()->is('manager/patients') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/patients') || request()->is('manager/patients/*/edit') ? 'active' : '' }}">
                     <a href="{{ url('manager/patients') }}"
                         class="nav-link {{ request()->is('manager/patients') ? 'active' : '' }}">
                         <i class="fas fa-user-plus"></i>

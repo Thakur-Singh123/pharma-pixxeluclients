@@ -97,6 +97,15 @@ class DoctorController extends Controller
         return view('manager.doctors.edit-doctor', compact('doctor_detail','mrs','assignedMrsIds'));
     }
 
+    //Function for update doctor status
+    public function update_doctor_status(Request $request, $id) {
+        //Get doctor detail
+        Doctor::where('id', $id)->update([
+            'status' => $request->status
+        ]);
+        return back()->with('success', 'Doctor status updated successfully');
+    }
+
     //Function for update doctor
     public function update_doctor(Request $request, $id) {
         //Validate input fields

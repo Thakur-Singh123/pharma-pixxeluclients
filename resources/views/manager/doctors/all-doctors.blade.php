@@ -136,11 +136,13 @@
                                                             @endif
                                                             </td>
                                                             <td>
-                                                                <span class="status-badge 
-                                                                    {{ $doctor->status == 'pending' ? 'status-pending' : '' }}
-                                                                    {{ $doctor->status == 'active' ? 'status-active' : '' }}">
-                                                                    {{ ucfirst($doctor->status) }}
-                                                                </span>
+                                                                <form action="{{ route('manager.doctor.update.status', $doctor->id) }}" method="POST" class="status-form">
+                                                                    @csrf
+                                                                    <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
+                                                                        <option value="pending" {{ $doctor->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                                        <option value="active" {{ $doctor->status == 'active' ? 'selected' : '' }}>Active</option>
+                                                                    </select>
+                                                                </form>
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">

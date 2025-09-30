@@ -59,8 +59,9 @@ class TaskController extends Controller
         //Get mrs
         $mrs = User::find(auth()->id())->mrs;
         //Get doctors
-        $all_doctors = Doctor::OrderBy('ID','DESC')->get();
-
+        $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
+            $query->whereIn('users.id', $mrs->pluck('id'));
+        })->orderBy('id','DESC')->get();
         return view('manager.tasks.create', compact('mrs','all_doctors'));
     }
 
@@ -105,7 +106,9 @@ class TaskController extends Controller
         //get mrs
         $mrs = User::find(auth()->id())->mrs;
         //Get doctors
-        $all_doctors = Doctor::OrderBy('ID','DESC')->get();
+        $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
+            $query->whereIn('users.id', $mrs->pluck('id'));
+        })->orderBy('id','DESC')->get();
 
         return view('manager.tasks.edit-task', compact('task_detail','mrs','all_doctors'));
     }

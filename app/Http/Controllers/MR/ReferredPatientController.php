@@ -15,7 +15,7 @@ class ReferredPatientController extends Controller
         //Get login MR id
         $mr_id = auth()->id();
         //Get patients
-        $all_patients = ReferredPatient::with('doctor_detail')->where('mr_id', $mr_id)->OrderBy('ID', 'DESC')->paginate(5);
+        $all_patients = ReferredPatient::with('doctor_detail')->where('mr_id', $mr_id)->OrderBy('ID', 'DESC')->paginate(5); 
         return view('mr.referred-patients.all-patients', compact('all_patients'));
     }
 
@@ -62,7 +62,7 @@ class ReferredPatientController extends Controller
             'preferred_doctor' => $request->preferred_doctor,
             'place_referred' => $request->place_referred,
             'bill_amount' => $request->bill_amount,
-            'status' => $request->status,
+            'status' => 'Pending',
             'attachment' => $filename,
         ]);
         //Check if patient created or not
@@ -90,7 +90,6 @@ class ReferredPatientController extends Controller
         $request->validate([
             'patient_name' => 'required',
             'contact_no' => 'required',
-            'attachment' => 'required',
         ]);
         //Check if image is exit or not
         $filename = "";
@@ -118,7 +117,7 @@ class ReferredPatientController extends Controller
                 'preferred_doctor' => $request->preferred_doctor,
                 'place_referred' => $request->place_referred,
                 'bill_amount' => $request->bill_amount,
-                'status' => $request->status,
+                'status' => 'Pending',
                 'attachment' => $filename,
             ]);
             //Check if patient updated or not
@@ -147,7 +146,7 @@ class ReferredPatientController extends Controller
                 'preferred_doctor' => $request->preferred_doctor,
                 'place_referred' => $request->place_referred,
                 'bill_amount' => $request->bill_amount,
-                'status' => $request->status,
+                'status' => 'Pending',
             ]);
             //Check if patient updated or not
             if ($is_update_patient) {

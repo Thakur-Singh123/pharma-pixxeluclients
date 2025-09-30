@@ -105,11 +105,11 @@
                                                                     -
                                                                 @endif
                                                             </td>
-                                                            <td>
+                                                            <td> 
                                                                 <span class="status-badge 
-                                                                {{ $patient->status == 'Pending' ? 'status-pending' : '' }}
-                                                                {{ $patient->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                {{ $patient->status == 'Active' ? 'status-approved' : '' }}">
+                                                                {{ $patient->status == 'pending' ? 'status-pending' : '' }}
+                                                                {{ $patient->status == 'rejected' ? 'status-suspend' : '' }}
+                                                                {{ $patient->status == 'approved' ? 'status-approved' : '' }}">
                                                                     {{ ucfirst($patient->status) }}
                                                                 </span>
                                                             </td>

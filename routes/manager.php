@@ -44,6 +44,8 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('events-active-participations', [App\Http\Controllers\Manager\EventController::class,'participations']);
     //Patient
     Route::resource('patients', App\Http\Controllers\Manager\PatientController::class);
+    Route::post('/patient/{id}/approve', [App\Http\Controllers\Manager\PatientController::class, 'approve_patient'])->name('patient.approve');
+    Route::post('/patient/{id}/reject', [App\Http\Controllers\Manager\PatientController::class, 'reject_patient'])->name('patient.reject');
     //Doctor
     Route::get('/doctors/create', [App\Http\Controllers\Manager\DoctorController::class, 'add_doctor']);
     Route::post('/submit-doctor', [App\Http\Controllers\Manager\DoctorController::class, 'submit_doctor'])->name('submit.doctor');

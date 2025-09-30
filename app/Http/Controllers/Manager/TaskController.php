@@ -23,26 +23,29 @@ class TaskController extends Controller
              $query->where('created_by', $request->created_by);
         }
         $tasks = $query->orderBy('ID','DESC')->where('manager_id', auth()->id())->paginate(5);
+
         return view('manager.tasks.index', compact('tasks'));
     }
 
-    //function for waiting for approval
+    //Function for waiting for approval
     public function waitingForApproval() {
         //Get tasks
         $tasks = Task::OrderBy('ID','DESC')->where('manager_id', auth()->id())->where('is_active', 0)->with('mr')->paginate(10);
+       
         return view('manager.tasks.waiting-for-approval', compact('tasks'));
     }
     
-    //function for approved tasks
+    //Function for approved tasks
     public function approvedtasks($id) {
         //Get tasks
         $task = Task::find($id);
         $task->is_active = 1;
         $task->save();
+
         return redirect()->back()->with('success', 'Task approved successfully.');
     }
 
-    //function for rejected tasks
+    //Function for rejected tasks
     public function rejectedtasks($id) {
         //Get tasks
         $task = Task::find($id);
@@ -50,12 +53,14 @@ class TaskController extends Controller
         $task->save();
         return redirect()->back()->with('success', 'Task rejected successfully.');
     }
+
     //Function for create task
     public function create() {
         //Get mrs
         $mrs = User::find(auth()->id())->mrs;
         //Get doctors
         $all_doctors = Doctor::OrderBy('ID','DESC')->get();
+
         return view('manager.tasks.create', compact('mrs','all_doctors'));
     }
 
@@ -89,6 +94,7 @@ class TaskController extends Controller
             //Assign notification
             $user->notify(new TaskAssignedNotification($task));
         }
+
         return redirect()->route('manager.tasks.index')->with('success', 'Task assigned successfully.');
     }
 
@@ -100,6 +106,7 @@ class TaskController extends Controller
         $mrs = User::find(auth()->id())->mrs;
         //Get doctors
         $all_doctors = Doctor::OrderBy('ID','DESC')->get();
+
         return view('manager.tasks.edit-task', compact('task_detail','mrs','all_doctors'));
     }
 
@@ -148,6 +155,7 @@ class TaskController extends Controller
                 $user->notify(new TaskAssignedNotification($task));
             }
         }
+
         return back()->with('success', 'Task updated successfully.');
     }
 
@@ -197,6 +205,7 @@ class TaskController extends Controller
                 ],
             ];
         }
+
         return view('manager.tasks.task-approval', compact('events'));
     }
     
@@ -204,7 +213,6 @@ class TaskController extends Controller
     public function approveAll(Request $request) {
         //Get input request
         $current_month = $request->current_month;
-        // echo $current_month;exit;
         //Get tasks
         $tasks = MonthlyTask::where('task_month', $current_month)->where('is_approval', 0)->get();
         //Check if tasks already approved or not
@@ -218,6 +226,7 @@ class TaskController extends Controller
                 'updated_at'  => now(),
             ]);
         });
+
         return back()->with('success', 'All tasks approved successfully');
     }
 
@@ -237,6 +246,7 @@ class TaskController extends Controller
                 'updated_at'  => now(),
             ]);
         });
+        
         return back()->with('success', 'Tasks rejected successfully.');
     }
 }

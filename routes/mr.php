@@ -27,14 +27,14 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);
     //Task
     Route::resource('/tasks', App\Http\Controllers\MR\TaskController::class);
-    Route::get('/tasks-assigin-manager', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
+    Route::get('/tasks-assigned-by-manager', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
     Route::get('/tasks-himself', [App\Http\Controllers\MR\TaskController::class,'himself']);
     Route::get('/pending-approval', [App\Http\Controllers\MR\TaskController::class,'pending_approval']);
     Route::post('/task-update-status/{id}', [App\Http\Controllers\MR\TaskController::class,'update_status'])->name('tasks.update.status');
     //Task Calender
     Route::post('/tasks/send-monthly', [App\Http\Controllers\MR\TaskController::class,'sendMonthlyTasksToManager'])->name('tasks.sendMonthly');
-    Route::get('/tasks-approved-by-manager', [App\Http\Controllers\MR\TaskController::class,'approved_tasks']);
-    Route::get('/tasks-rejected-by-manager', [App\Http\Controllers\MR\TaskController::class,'rajected_tasks']);
+    Route::get('/tasks-calendar-approved-by-manager', [App\Http\Controllers\MR\TaskController::class,'approved_tasks']);
+    Route::get('/tasks-calendar-rejected-by-manager', [App\Http\Controllers\MR\TaskController::class,'rajected_tasks']);
     Route::post('/task-update-calender-status', [App\Http\Controllers\MR\TaskController::class,'update_calender_status'])->name('task.calender.update.status');
     //Problems & Challenge
     Route::resource('/problems', App\Http\Controllers\MR\ProblemController::class);

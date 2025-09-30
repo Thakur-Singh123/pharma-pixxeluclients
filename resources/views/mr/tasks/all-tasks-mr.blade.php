@@ -40,6 +40,18 @@
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 366.578px;">Description
                                                                 </th>
+                                                                       <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Location
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Pin Code
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Doctor Name
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -73,6 +85,9 @@
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ $task->title }}</td>
                                                                     <td>{{ $task->description }}</td>
+                                                                    <td>{{ $task->location }}</td>
+                                                                    <td>{{ $task->pin_code }}</td>
+                                                                    <td>{{ $task->doctor['doctor_name'] ?? 'N/A'}}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                                     <td>{{ $task->created_by }}</td>

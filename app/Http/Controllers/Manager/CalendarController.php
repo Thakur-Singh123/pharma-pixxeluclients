@@ -20,12 +20,12 @@ class CalendarController extends Controller
             ->where('manager_id', auth()->id())
             ->where('is_approval', '1')
             ->get();
+
         //Get manager active Tasks
         $tasks = Task::with('doctor','mr')->where('manager_id', auth()->id())
             ->where('is_active', '1')
             ->get();
 
-            // echo "<pre>"; print_r($tasks->toArray());exit;
         //Format task
         $formattedTasks = [];
         //Get MonthlyTasks
@@ -65,7 +65,7 @@ class CalendarController extends Controller
         return response()->json($formattedTasks);
     }
 
-    //Function to show evens calendar
+    //Function to show event calendar
     public function getEvents() {
         //Get approved events
         $events = Events::where('manager_id', auth()->id())->where('is_active', '1')->select('id', 'title', 'start_datetime as start',

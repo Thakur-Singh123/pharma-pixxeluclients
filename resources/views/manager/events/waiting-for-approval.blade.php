@@ -51,7 +51,7 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1" colspan="1"
                                                                     style="width: 366.578px;">
-                                                                    Assigned To
+                                                                    Mr Name
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -73,7 +73,7 @@
                                                                     colspan="1"
                                                                     style="width: 156.312px;">End Date & Time
                                                                 </th>
-                                                                 <th class="sorting" tabindex="0"
+                                                                <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
                                                                     style="width: 156.312px;">QR Code</th>

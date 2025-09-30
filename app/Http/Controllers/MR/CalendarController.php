@@ -22,6 +22,7 @@ class CalendarController extends Controller
             ->where('mr_id', auth()->id())
             ->where('is_approval', '1')
             ->get();
+            
         //Get manager active Tasks
         $tasks = Task::with('doctor')->where('mr_id', auth()->id())
             ->where('is_active', '1')

@@ -15,11 +15,11 @@
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Tasks</h4>
                                     <form method="GET" action="{{ route('mr.tasks.index') }}">
-                                    <select name="created_by" class="form-control" onchange="handleFilterChange(this)">
-                                        <option value="">📋 All Tasks</option>
-                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>👤 Created by Me (MR)</option>
-                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>🧑‍💼 Created by Manager</option>
-                                    </select>
+                                        <select name="created_by" class="form-control" onchange="handleFilterChange(this)">
+                                            <option value="">📋 All Tasks</option>
+                                            <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>👤 Created by Me (MR)</option>
+                                            <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>🧑‍💼 Created by Manager</option>
+                                        </select>
                                     </form>
                                 </div>
                                 <div class="card-body">
@@ -61,10 +61,6 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
-                                                                    colspan="1" style="width: 366.578px;">Created By
-                                                                </th>
-                                                                <th class="sorting" tabindex="0"
-                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
                                                                     style="width: 156.312px;">Start Date
                                                                 </th>
@@ -72,6 +68,10 @@
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
                                                                     style="width: 156.312px;">End date
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Created By
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -94,9 +94,9 @@
                                                                     <td>{{ $task->location }}</td>
                                                                     <td>{{ $task->pin_code }}</td>
                                                                     <td>{{ $task->doctor['doctor_name'] ?? 'N/A'}}</td>
-                                                                    <td>{{ $task->created_by }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
+                                                                    <td>{{ $task->created_by }}</td>
                                                                     <td>
                                                                         <form action="{{ route('mr.tasks.update.status', $task->id) }}" method="POST" class="status-form">
                                                                             @csrf

@@ -85,9 +85,12 @@ class TaskController extends Controller
 
     //Function for edit task
     public function edit($id) {
-        //Get task detail
+        //Get mrs doctors
+        $mr = auth()->user();
+        $all_doctors = $mr->doctors()->where('status', 'active')->get();
+        //Get Task
         $task_detail = Task::find($id);
-        return view('mr.tasks.edit-task', compact('task_detail'));
+        return view('mr.tasks.edit-task', compact('all_doctors','task_detail'));
     }
 
     //Function for update task

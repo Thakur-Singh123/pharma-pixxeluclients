@@ -146,7 +146,7 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $all_visits->links('pagination::bootstrap-5') }}
+                                                {{ $all_visits->appends(request()->query())->links('pagination::bootstrap-5') }}     
                                             </div>
                                         </div>
                                     </div>

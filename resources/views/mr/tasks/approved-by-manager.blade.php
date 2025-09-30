@@ -16,7 +16,7 @@
                 @endif
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Approved Tasks Calendar</h4>
+                        <h4 class="card-title">Tasks Calendar Approved by Manager</h4>
                     </div>
                     <div class="card-body">
                         <div id="calendar"></div>

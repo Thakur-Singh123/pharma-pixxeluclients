@@ -24,7 +24,7 @@
                             <form action="{{ route('manager.tasks.rejectAll') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="reject_month" id="reject_month">
-                                <button type="submit" id="rejectBtn" class="btn btn-danger d-none">Reject All</button>
+                                <button type="submit" id="rejectBtn" class="btn btn-danger-reject d-none">Reject All</button>
                             </form>
                         </div>
                         <div class="card-body">

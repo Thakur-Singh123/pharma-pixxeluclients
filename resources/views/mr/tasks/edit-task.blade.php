@@ -67,6 +67,31 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="pin_code">Pin Code</label>
+                                        <input type="Number" class="form-control" id="pin_code" name="pin_code" value="{{ old('pin_code',$task_detail->pin_code) }}" placeholder="Enter pin code">
+                                        @error('pin_code')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mr_id">Doctor Name</label>
+                                        <select class="form-control" id="doctor_id" name="doctor_id" required>
+                                            <option value="" disabled>Select Doctor</option>
+                                            @foreach ($all_doctors as $doctor)
+                                                <option value="{{ $doctor->id }}" {{ $task_detail->doctor_id == $doctor->id ? 'selected' : '' }}>
+                                                    {{ $doctor->doctor_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('doctor_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <!--Status-->
                                 <!-- <div class="col-md-6">
                                     <div class="form-group">

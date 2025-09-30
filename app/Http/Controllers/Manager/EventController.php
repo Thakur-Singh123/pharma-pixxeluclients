@@ -15,38 +15,43 @@ class EventController extends Controller
 {
     //Functions for show all events
     public function index() {
-        //Get events
+        //Filter event
         $query = Events::where('manager_id', auth()->id());
         if(request()->filled('created_by')) {
             $query = $query->where('created_by', request('created_by'));
         }
-        $events = $query->with('mr','doctor_detail')->orderBy('created_at', 'desc')->where('is_active', 1)->paginate(5);
+        //Get events
+        $events = $query->with('mr','doctor_detail')->OrderBy('ID', 'DESC')->where('is_active', 1)->paginate(5);
+
         return view('manager.events.index', compact('events'));
     }
 
-    //public function for show waiting for approval events
+    //Function for show waiting for approval events
     public function waitingForApproval() {
-        //Get events
+        //Filter event
         $query = Events::where('manager_id', auth()->id());
-         if(request()->filled('created_by')) {
-             $query = $query->where('created_by', request('created_by'));
-         }
-        $events = $query->with('mr','doctor_detail')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(5);
+        if(request()->filled('created_by')) {
+            $query = $query->where('created_by', request('created_by'));
+        }
+        //Get events
+        $events = $query->with('mr','doctor_detail')->orderBy('ID', 'DESC')->where('is_active', 0)->paginate(5);
+
         return view('manager.events.waiting-for-approval', compact('events'));
     }
 
-    //function for approved or rejected events
+    //Function for approved or rejected events
     public function approvedevents(Request $request, $id) {
+        //Get event detail
         $event = Events::find($id);
         $event->is_active = 1;
         $event->save();
-
+        //Get url
         $joinUrl     = url('/join-event/' . $event->id);
         $qrCodeImage = QrCode::format('png')->size(300)->generate($joinUrl);
         //Save QR code image to storage
         $filename = 'event_' . $event->id . '.png';
         $folder   = public_path('qr_codes');
-        // Make sure the folder exists
+        //Make sure the folder exists
         if (! file_exists($folder)) {
             mkdir($folder, 0775, true);
         }
@@ -55,22 +60,26 @@ class EventController extends Controller
         //Update event with QR code path
         $event->qr_code_path = $filename;
         $event->save();
-        return redirect()->back()->with('success', 'Event approved successfully.');
+
+        return redirect()->route('manager.events.index')->with('success', 'Event approved successfully.');
     }
 
-    //function for rejected events
+    //Function for rejected event
     public function rejectedevents(Request $request, $id) {
         $event = Events::find($id);
         $event->is_active = 0;
         $event->save();
         return redirect()->back()->with('success', 'Event rejected successfully.');
     }
+
     //Functions for create event
     public function create() {
         //Get mrs
         $manager = auth()->user();
         $mrs =  $manager->mrs;
+        //Get doctors
         $all_doctors = Doctor::orderBy('ID', 'DESC')->get();
+
         return view('manager.events.create', compact('mrs','all_doctors'));
     }
 
@@ -100,7 +109,8 @@ class EventController extends Controller
         $event->created_by     = 'manager';
         $event->is_active = 1;
         $event->save();
-
+        
+        //Generate Qr code
         $joinUrl     = url('/join-event/' . $event->id);
         $qrCodeImage = QrCode::format('png')->size(300)->generate($joinUrl);
 
@@ -133,7 +143,9 @@ class EventController extends Controller
         //Get mrs
         $manager = auth()->user();
         $mrs =  $manager->mrs;
+        //Get doctors
         $all_doctors = Doctor::orderBy('ID', 'DESC')->get();
+        
         return view('manager.events.edit-event', compact('event_detail','mrs','all_doctors'));
     }
 
@@ -174,6 +186,7 @@ class EventController extends Controller
             'description' => $request->description,
             'location' => $request->location,
             'pin_code' => $request->pin_code, 
+            'created_by' => 'manager',
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
             'status' => 'pending',

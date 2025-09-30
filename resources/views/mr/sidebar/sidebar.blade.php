@@ -84,7 +84,7 @@
                     </div>
                 </li>
                 <!--Task section-->
-                <li class="nav-item {{ request()->is('mr/tasks*') || request()->is('mr/tasks-assigin-manager') || request()->is('mr/tasks-himself') || request()->is('mr/pending-approval') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('mr/tasks*') || request()->is('mr/tasks-assigned-by-manager') || request()->is('mr/tasks-himself') || request()->is('mr/pending-approval') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTask"
                         class="{{ request()->is('mr/tasks*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/tasks*') ? 'true' : 'false' }}">
@@ -92,7 +92,7 @@
                         <p>Tasks</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/tasks-assigin-manager') || request()->is('mr/tasks-himself') || request()->is('mr/pending-approval') || request()->is('mr/tasks-approved-by-manager') || request()->is('mr/tasks-rejected-by-manager') ? 'show' : '' }}" id="collapseTask">
+                    <div class="collapse {{ request()->is('mr/tasks*') || request()->is('mr/tasks-assigned-by-manager') || request()->is('mr/tasks-himself') || request()->is('mr/pending-approval') || request()->is('mr/tasks-calendar-approved-by-manager') || request()->is('mr/tasks-calendar-rejected-by-manager') ? 'show' : '' }}" id="collapseTask">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('mr/tasks/create') ? 'active' : '' }}">
                                 <a href="{{ route('mr.tasks.create') }}">
@@ -104,8 +104,8 @@
                                     <span class="sub-item">All Tasks</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/tasks-assigin-manager') ? 'active' : '' }}">
-                                <a href="{{ url('mr/tasks-assigin-manager') }}">
+                            <li class="{{ request()->is('mr/tasks-assigned-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/tasks-assigned-by-manager') }}">
                                     <span class="sub-item">Assigned By Manager</span>
                                 </a>
                             </li>
@@ -119,13 +119,13 @@
                                     <span class="sub-item">Pending Approval</span>
                                 </a>
                             </li> -->
-                            <li class="{{ request()->is('mr/tasks-rejected-by-manager') ? 'active' : '' }}">
-                                <a href="{{ url('mr/tasks-rejected-by-manager') }}">
+                            <li class="{{ request()->is('mr/tasks-calendar-rejected-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/tasks-calendar-rejected-by-manager') }}">
                                     <span class="sub-item">Rejected Calendar</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->is('mr/tasks-approved-by-manager') ? 'active' : '' }}">
-                                <a href="{{ url('mr/tasks-approved-by-manager') }}">
+                            <li class="{{ request()->is('mr/tasks-calendar-approved-by-manager') ? 'active' : '' }}">
+                                <a href="{{ url('mr/tasks-calendar-approved-by-manager') }}">
                                     <span class="sub-item">Approved Calendar</span>
                                 </a>
                             </li>

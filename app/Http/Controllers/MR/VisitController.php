@@ -5,13 +5,24 @@ namespace App\Http\Controllers\MR;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Visit;
+use App\Models\Doctor;
+use App\Models\DoctorMrAssignement;
+use Auth;
 
 class VisitController extends Controller
 {
     //Function for add visit
     public function add_visit() {
-        $mr = auth()->user();
-        $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
+        //Get auth login
+        $auth_login = Auth::id();
+        //Get Assign doctor
+        $doctorIds = DoctorMrAssignement::where('mr_id', $auth_login)
+            ->pluck('doctor_id'); 
+        //Get doctor details
+        $assignedDoctors = Doctor::whereIn('id', $doctorIds)->where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->get();
+
         return view('mr.visits.add-visit',compact('assignedDoctors'));
     }
 
@@ -146,9 +157,17 @@ class VisitController extends Controller
     //Function for edit visit
     public function edit_visit($id) {
         //Get visit detail
-        $visit_detail = Visit::with('mr','doctor')->find($id);
-        $mr = auth()->user();
-        $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
+        $visit_detail = Visit::find($id);
+        //Get auth login
+        $auth_login = Auth::id();
+        //Get Assign doctor
+        $doctorIds = DoctorMrAssignement::where('mr_id', $auth_login)
+            ->pluck('doctor_id'); 
+        //Get doctor details
+        $assignedDoctors = Doctor::whereIn('id', $doctorIds)->where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->get();
+
         return view('mr.visits.edit-visit', compact('visit_detail','assignedDoctors'));
     }
 
@@ -191,7 +210,6 @@ class VisitController extends Controller
             'pin_code' => $request->pin_code,
             'visit_date' => $request->visit_date,
             'comments' => $request->comments,
-            'status' => 'Pending',
             'mr_id' => auth()->user()->id,
             'visit_type' => $request->visit_type,
             'doctor_id' => $request->visit_type == 'doctor' ? $request->doctor_id : NULL,

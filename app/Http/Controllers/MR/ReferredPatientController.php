@@ -146,7 +146,6 @@ class ReferredPatientController extends Controller
                 'preferred_doctor' => $request->preferred_doctor,
                 'place_referred' => $request->place_referred,
                 'bill_amount' => $request->bill_amount,
-                'status' => 'Pending',
             ]);
             //Check if patient updated or not
             if ($is_update_patient) {

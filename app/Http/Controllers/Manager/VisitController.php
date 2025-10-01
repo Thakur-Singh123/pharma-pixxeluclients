@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User; 
+use App\Models\Doctor;
+use App\Models\DoctorMrAssignement;
 use App\Models\Visit;
+use Auth;
 
 class VisitController extends Controller
 {
@@ -58,9 +62,11 @@ class VisitController extends Controller
     //Function for edit visit
     public function edit($id) {
         //Get visit detail
-        $visit_detail = Visit::with('mr','doctor')->find($id);
-        $mr = auth()->user();
-        $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
+        $visit_detail = Visit::with('mr')->find($id);
+        //Get auth login id
+        $auth_login = Auth::id();
+        //Get doctors
+        $assignedDoctors = Doctor::where('user_id', $auth_login)->orderBy('id', 'DESC')->get();
         return view('manager.daily-visits.edit-visit', compact('visit_detail','assignedDoctors'));
     }
     
@@ -116,6 +122,7 @@ class VisitController extends Controller
         ]);
         //Update visit
         $is_update_visit = Visit::where('id', $id)->update([
+            'mr_id' => $request->mr_id,
             'area_name' => $request->area_name,
             'area_block' => $request->area_block,
             'district' => $request->district,
@@ -123,7 +130,6 @@ class VisitController extends Controller
             'pin_code' => $request->pin_code,
             'visit_date' => $request->visit_date,
             'comments' => $request->comments,
-            'status' => 'Pending',
             'visit_type' => $request->visit_type,
             'doctor_id' => $request->visit_type == 'doctor' ? $request->doctor_id : NULL,
             'religious_place' => $request->visit_type == 'religious_places' ? $request->religious_place_name : NULL,
@@ -134,6 +140,13 @@ class VisitController extends Controller
             'ngo' => $request->visit_type == 'ngo' ? $request->ngo : NULL,
             'other_visit' => $request->visit_type == 'other' ? $request->other_visit_details : NULL,
         ]);
+
+        //Assign new doctor MR
+        DoctorMrAssignement::firstOrCreate([
+            'doctor_id' => $request->doctor_id,
+            'mr_id'     => $request->mr_id,
+        ]);
+
         //Check if visit updated or not
         if ($is_update_visit) {
             return back()->with('success','Visit updated successfully.');

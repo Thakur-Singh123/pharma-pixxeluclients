@@ -114,8 +114,6 @@ class TaskController extends Controller
             'location' => $request->location,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'created_by' => 'mr',
-            'status' => 'Pending'
         ]);
         //Check if task updated or not
         if ($is_update_task) {

@@ -280,16 +280,32 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
+                            <label>Hospital Name</label>
+                            <input type="text" name="hospital_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Hospital Type</label>
+                            <input type="text" name="hospital_type" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
                             <label>Doctor Name</label>
                             <input type="text" name="doctor_name" class="form-control" required>
                         </div>
                         <div class="col-md-6">
+                            <label>Speciality</label>
+                            <input type="text" name="specialist" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
                             <label>Contact Number</label>
-                            <input type="text" name="doctor_contact" class="form-control" required>
+                            <input type="number" name="doctor_contact" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label>Location</label>
                             <input type="text" name="location" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Area Pin Code</label>
+                            <input type="number" name="area_code" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label>Picture (Clinic Visit)</label>
@@ -313,7 +329,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const visitType = document.getElementById("visit_type");
     const allExtras = document.querySelectorAll(".visit-extra");
-
     function toggleFields() {
         allExtras.forEach(el => el.style.display = "none");
         if (visitType.value) {
@@ -321,7 +336,6 @@ document.addEventListener("DOMContentLoaded", function() {
             if (target) target.style.display = "block";
         }
     }
-
     visitType.addEventListener("change", toggleFields);
     toggleFields(); 
 });

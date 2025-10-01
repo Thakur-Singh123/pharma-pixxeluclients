@@ -140,8 +140,6 @@ class EventController extends Controller
             'doctor_id' => $request->doctor_id,
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
-            'created_by' => 'mr',
-            'status' => 'pending',
         ]);
 
         return redirect()->route('mr.events.index')->with('success', 'Event updated successfully.');

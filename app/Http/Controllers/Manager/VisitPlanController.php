@@ -169,7 +169,6 @@ class VisitPlanController extends Controller
             //'assigned_to' => $request->assigned_to,
             //'doctor_id' => $request->doctor_id,
             //'note' => $request->note,
-            'status' => 'Open',
         ]);
         //Check if visit plan updated or not
         if($is_update_visit) {

@@ -82,7 +82,7 @@ class EventController extends Controller
         //Get all doctors
         $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
             $query->whereIn('users.id', $mrs->pluck('id'));
-        })->orderBy('id','DESC')->get();
+        })->orderBy('id','DESC')->where('status', 'active')->get();
         return view('manager.events.create', compact('mrs','all_doctors'));
     }
 
@@ -156,7 +156,7 @@ class EventController extends Controller
         //Get all doctors
         $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
             $query->whereIn('users.id', $mrs->pluck('id'));
-        })->orderBy('id', 'DESC')->get();
+        })->orderBy('id', 'DESC')->where('status', 'active')->get();
         return view('manager.events.edit-event', compact('event_detail','mrs','all_doctors'));
     }
     
@@ -200,7 +200,6 @@ class EventController extends Controller
             'created_by' => 'manager',
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
-            'status' => 'pending',
         ]);
 
         //Assign new doctor MR

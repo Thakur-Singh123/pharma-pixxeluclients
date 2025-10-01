@@ -9,23 +9,23 @@ use App\Models\DoctorMrAssignement;
 
 class DoctorController extends Controller
 {
-    //fynction for view doctors
-    public function index()
-    {
-        $mr              = auth()->user();
-        $assignedDoctors = $mr->doctors()->paginate(10);
+    //Function for all doctors
+    public function index() {
+        //Get auth login
+        $mr = auth()->user();
+        //Get all doctors
+        $assignedDoctors = $mr->doctors()->where('status', 'active')->paginate(5);
         return view('mr.doctors.index', compact('assignedDoctors'));
     }
 
-    //function for create doctor
-    public function submit_doctor(Request $request)
-    {
+    //Function for create doctor
+    public function submit_doctor(Request $request) {
         //Validate input fields
         $request->validate([
-            'doctor_name'    => 'required|string',
+            'doctor_name'  => 'required|string',
             'doctor_contact' => 'required|string',
-            'location'       => 'required|string',
-            'remarks'        => 'required|string',
+            'location' => 'required|string',
+            'remarks'  => 'required|string',
         ]);
         //Check if image is exit or not
         $filename = "";
@@ -35,27 +35,30 @@ class DoctorController extends Controller
             $filename  = time() . '.' . $extension;
             $file->move(public_path('uploads/doctors'), $filename);
         }
-
-        //get manager of this mr
+        //Get manager of this mr
         $mr = auth()->user();
         $manager = $mr->managers()->first();
         $manager_id = $manager->id;
         //Create doctor
         $is_create_doctor = Doctor::create([
-            'user_id'        => $manager_id,
-            'doctor_name'    => $request->doctor_name,
+            'user_id' => $manager_id,
+            'hospital_name' => $request->hospital_name,
+            'hospital_type' => $request->hospital_type,
+            'doctor_name' => $request->doctor_name,
+            'specialist' => $request->specialist,
             'doctor_contact' => $request->doctor_contact,
-            'location'       => $request->location,
-            'remarks'        => $request->remarks,
-            'picture'        => $filename,
-            'status'         => 'pending',
+            'location' => $request->location, 
+            'area_code' => $request->area_code, 
+            'remarks' => $request->remarks,
+            'picture' => $filename,
+            'status' => 'active',
         ]);
         //Check if doctor created or not
         if ($is_create_doctor) {
             //Assign MR to doctor
             DoctorMrAssignement::create([
+                'mr_id' => auth()->id(),
                 'doctor_id' => $is_create_doctor->id,
-                'mr_id'     => auth()->id(),
             ]);
             return back()->with('success', 'Doctor created successfully.');
         } else {

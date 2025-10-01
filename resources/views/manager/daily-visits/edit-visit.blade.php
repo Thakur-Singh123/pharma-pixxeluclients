@@ -18,6 +18,7 @@
                     @csrf
                     @method('PUT')
                      <div class="row">
+                        <input type="hidden" name="mr_id" value="{{ $visit_detail->mr_id }}">
                         <!--Area Name-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">

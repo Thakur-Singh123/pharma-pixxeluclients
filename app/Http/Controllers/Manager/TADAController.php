@@ -88,7 +88,6 @@ class TADAController extends Controller
                 'purpose_of_visit' => $request->purpose,
                 'remarks' => $request->remarks,
                 'attachment' => $attachmentPath,
-                'status' => 'Pending',
                 'approved_by' => null,
                 'approved_at' => null,
             ]);
@@ -112,7 +111,6 @@ class TADAController extends Controller
                 'mode_of_travel' => $request->mode_of_travel,
                 'purpose_of_visit' => $request->purpose,
                 'remarks' => $request->remarks,
-                'status' => 'Pending',
                 'approved_by' => null,
                 'approved_at' => null,
             ]);

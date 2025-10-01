@@ -62,7 +62,7 @@ class TaskController extends Controller
         //Get doctors
         $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
             $query->whereIn('users.id', $mrs->pluck('id'));
-        })->orderBy('id','DESC')->get();
+        })->orderBy('id','DESC')->where('status', 'active')->get();
         return view('manager.tasks.create', compact('mrs','all_doctors'));
     }
 
@@ -116,7 +116,7 @@ class TaskController extends Controller
         //Get doctors
         $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
             $query->whereIn('users.id', $mrs->pluck('id'));
-        })->orderBy('id','DESC')->get();
+        })->orderBy('id','DESC')->where('status', 'active')->get();
 
         return view('manager.tasks.edit-task', compact('task_detail','mrs','all_doctors'));
     }
@@ -157,7 +157,6 @@ class TaskController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'pin_code'   => $request->pin_code,
-            'status' => 'Pending',
         ]);
 
         //Assign new doctor MR

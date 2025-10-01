@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Events;
 use App\Models\EventUser;
 use App\Models\User;
-use App\Models\Doctor;
+use App\Models\Doctor; 
+use App\Models\DoctorMrAssignement;
 use App\Notifications\EventAssignedNotification;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -111,7 +112,13 @@ class EventController extends Controller
         $event->created_by     = 'manager';
         $event->is_active = 1;
         $event->save();
-        
+
+        //Assign new doctor MR
+        DoctorMrAssignement::firstOrCreate([
+            'doctor_id' => $request->doctor_id,
+            'mr_id'     => $request->mr_id,
+        ]);
+
         //Generate Qr code
         $joinUrl     = url('/join-event/' . $event->id);
         $qrCodeImage = QrCode::format('png')->size(300)->generate($joinUrl);
@@ -195,6 +202,13 @@ class EventController extends Controller
             'end_datetime' => $request->end_datetime,
             'status' => 'pending',
         ]);
+
+        //Assign new doctor MR
+        DoctorMrAssignement::firstOrCreate([
+            'doctor_id' => $request->doctor_id,
+            'mr_id'     => $request->mr_id,
+        ]);
+
         //If MR changed, notify the new MR
         if ($oldMrId != $request->mr_id) {
             $user = User::find($request->mr_id);

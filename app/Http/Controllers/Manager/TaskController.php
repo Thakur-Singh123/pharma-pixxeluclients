@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Doctor;
+use App\Models\DoctorMrAssignement;
 use App\Models\Task;
 use App\Models\MonthlyTask;
 use Illuminate\Http\Request;
@@ -88,6 +89,13 @@ class TaskController extends Controller
             'status' => 'Pending',
             'is_active' => 1,
         ]);
+
+        //Assign new doctor MR
+        DoctorMrAssignement::firstOrCreate([
+            'doctor_id' => $request->doctor_id,
+            'mr_id'     => $request->mr_id,
+        ]);
+
         //Get mr
         $user = User::find($request->mr_id);
         //Check if task assigned or not
@@ -151,6 +159,13 @@ class TaskController extends Controller
             'pin_code'   => $request->pin_code,
             'status' => 'Pending',
         ]);
+
+        //Assign new doctor MR
+        DoctorMrAssignement::firstOrCreate([
+            'doctor_id' => $request->doctor_id,
+            'mr_id'     => $request->mr_id,
+        ]);
+
         //If MR changed, notify the new MR
         if ($oldMrId != $request->mr_id) {
             $user = User::find($request->mr_id);

@@ -134,40 +134,43 @@
                               <input type="text" class="form-control" id="speciality" name="speciality"
                                  value="{{ old('speciality') }}" placeholder="Enter speciality">
                               @error('speciality')
-                                 <small class="text-danger">{{ $message }}</small>
+                              <small class="text-danger">{{ $message }}</small>
                               @enderror
-                           </div>
-                        </div>
-                        <!--Remarks-->
-                        <div class="col-md-6 col-lg-4">
-                           <div class="form-group">
-                              <label for="remarks">Remarks</label>
-                              <textarea name="remarks" rows="3" class="form-control" placeholder="Enter ramarks">{{ old('remarks') }}</textarea>
-                              @error('remarks')
-                                 <small class="text-danger">{{ $message }}</small>
-                              @enderror
-                           </div>
-                        </div>
-                        <!--image-->
-                        <div class="col-md-6 col-lg-4">
-                           <div class="form-group">
-                              <label for="image">Image</label>
-                              <input
-                                 type="file" name="image"
-                                 class="form-control"
-                                 id="exampleFormControlFile1"
-                                 />
                            </div>
                         </div>
                         <!--Assigne MR-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="status">Assigne MR</label>
-                              <select  class="form-control select2" id="visit_type" name="mr_id[]" multiple>
-                                 @foreach($mrs as $mr)
-                                    <option value="{{ $mr->id }}">{{ $mr->name }}</option>
+                              <label for="mr_id">Assign MR</label>
+                              <select name="mr_id[]" id="visit_type" class="form-control select2" multiple data-placeholder="Select MR">
+                                 @foreach ($mrs as $mr)
+                                 <option value="{{ $mr->id }}" {{ (collect(old('mr_id'))->contains($mr->id)) ? 'selected' : '' }}>
+                                    {{ $mr->name }} 
+                                 </option>
                                  @endforeach
                               </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <!--Remarks-->
+                        <div class="col-md-8 col-lg-8">
+                           <div class="form-group">
+                              <label for="remarks">Remarks</label>
+                              <textarea name="remarks" rows="3" class="form-control" placeholder="Enter remarks">{{ old('remarks') }}</textarea>
+                              @error('remarks')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--Image-->
+                        <div class="col-md-4 col-lg-4">
+                           <div class="form-group">
+                              <label for="image">Image</label>
+                              <input type="file" name="image" class="form-control" id="image" />
+                              @error('image')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
                            </div>
                         </div>
                      </div>

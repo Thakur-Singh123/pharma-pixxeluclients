@@ -10,8 +10,8 @@
     <!--FullCalendar CSS-->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/custom.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.min.css') }}" />
+      <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.css') }}" />
+      <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/plugins.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/kaiadmin.min.css') }}" />
@@ -173,16 +173,18 @@
     <script>
         var base_Url = '{{ url('/') }}';
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="{{ asset('public/admin/assets/select2/js/select2.js') }}"></script>
+      <script src="{{ asset('public/admin/assets/select2/js/select2.min.js') }}"></script>
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="{{ asset('public/admin/assets/js/custom-script.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/manager-custom-ajax.js') }}"></script>
     <!--core js files-->
     {{--
     <script src="{{ asset('public/admin/assets/js/custom-script.js') }}"></script> --}}
-    <script src="{{ asset('public/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>
+    <!-- <script src="{{ asset('public/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script> -->
     <script src="{{ asset('public/admin/assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/core/bootstrap.min.js') }}"></script>
     {{--<script src="{{ asset('public/admin/assets/select2/js/select2.js') }}"></script>
@@ -202,5 +204,10 @@
     <script src="{{ asset('public/admin/assets/js/setting-demo.js') }}"></script> --}}
     {{--<script src="{{ asset('public/admin/assets/js/demo.js') }}"></script> --}}
     <script src="{{ asset('public/admin/assets/js/plugin/webfont/webfont.min.js') }}"></script>
+    <script>
+        $(function () {
+        $('.select2').select2()
+        });
+    </script>
 </body>
 </html>

@@ -44,8 +44,7 @@
                                     <div class="form-group">
                                         <label for="area_name">Area Name</label>
                                         <input type="text" class="form-control" id="area_name" name="area_name"
-                                            value="{{ old('area_name', $doctor_detail->area_name) }}"
-                                            placeholder="Enter area name">
+                                            value="{{ old('area_name', $doctor_detail->area_name) }}" placeholder="Enter area name">
                                         @error('area_name')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -56,8 +55,7 @@
                                     <div class="form-group">
                                         <label for="area_block">Area Block</label>
                                         <input type="text" class="form-control" id="area_block" name="area_block"
-                                            value="{{ old('area_block', $doctor_detail->area_block) }}"
-                                            placeholder="Enter area block">
+                                            value="{{ old('area_block', $doctor_detail->area_block) }}" placeholder="Enter area block">
                                         @error('area_block')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -66,10 +64,9 @@
                                 <!--District-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
-                                        <label for="district">Distrcit</label>
+                                        <label for="district">District</label>
                                         <input type="text" class="form-control" id="district" name="district"
-                                            value="{{ old('area_block', $doctor_detail->area_block) }}"
-                                            placeholder="Enter district">
+                                            value="{{ old('area_block', $doctor_detail->area_block) }}" placeholder="Enter district">
                                         @error('district')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -91,8 +88,7 @@
                                     <div class="form-group">
                                         <label for="area_code">Area Code</label>
                                         <input type="number" class="form-control" id="area_code" name="area_code"
-                                            value="{{ old('area_code', $doctor_detail->area_code) }}"
-                                            placeholder="Enter area code">
+                                            value="{{ old('area_code', $doctor_detail->area_code) }}" placeholder="Enter area code">
                                         @error('area_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -103,8 +99,7 @@
                                     <div class="form-group">
                                         <label for="doctor_name">Doctor Name</label>
                                         <input type="text" class="form-control" id="doctor_name" name="doctor_name"
-                                            value="{{ old('doctor_name', $doctor_detail->doctor_name) }}"
-                                            placeholder="Enter doctor name">
+                                            value="{{ old('doctor_name', $doctor_detail->doctor_name) }}" placeholder="Enter doctor name">
                                         @error('doctor_name')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -116,8 +111,7 @@
                                         <label for="doctor_contact">Doctor Contact</label>
                                         <input type="number" class="form-control" id="doctor_contact"
                                             name="doctor_contact"
-                                            value="{{ old('doctor_contact', $doctor_detail->doctor_contact) }}"
-                                            placeholder="Enter contact">
+                                            value="{{ old('doctor_contact', $doctor_detail->doctor_contact) }}" placeholder="Enter contact">
                                         @error('doctor_contact')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -128,8 +122,7 @@
                                     <div class="form-group">
                                         <label for="location">Location</label>
                                         <input type="text" class="form-control" id="location" name="location"
-                                            value="{{ old('location', $doctor_detail->location) }}"
-                                            placeholder="Enter location">
+                                            value="{{ old('location', $doctor_detail->location) }}" placeholder="Enter location">
                                         @error('location')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -146,35 +139,11 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <!--Remarks-->
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="remarks">Remarks</label>
-                                        <textarea name="remarks" rows="3" class="form-control" placeholder="Enter remarks">{{ old('remarks', $doctor_detail->remarks) }}</textarea>
-                                        @error('remarks')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <!--image -->
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="image">Image</label>
-                                        <input type="file" name="image" class="form-control"
-                                            id="exampleFormControlFile1" />
-                                    </div>
-                                    <!--check if image exists or not-->
-                                    @if ($doctor_detail->picture)
-                                        <img src = "{{ asset('public/uploads/doctors/' . $doctor_detail->picture) }}">
-                                    @else
-                                        -
-                                    @endif
-                                </div>
                                 <!--Assigne MR-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="status">Assigne MR</label>
-                                        <select class="form-control" id="visit_type" name="mr_id[]" multiple>
+                                        <select name="mr_id[]" id="visit_type" class="form-control select2" multiple data-placeholder="Select MR">
                                             <!--Get mrs-->
                                             @foreach ($mrs as $mr)
                                             <option value="{{ $mr->id }}" {{ in_array($mr->id, $assignedMrsIds) ? 'selected' : '' }}>
@@ -184,20 +153,45 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!--Status-->
-                                <!-- <div class="col-md-6 col-lg-4">
+                            </div>
+                            <div class="row">
+                                <!--Remarks-->
+                                <div class="col-md-8 col-lg-8">
                                     <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select name="status" class="form-control">
-                                            <option value="active" {{ $doctor_detail->status == 'active' ? 'selected' : '' }}>Active</option>
-                                            <option value="pending" {{ $doctor_detail->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        </select>
-                                        @error('status')
+                                        <label for="remarks">Remarks</label>
+                                        <textarea name="remarks" rows="3" class="form-control" placeholder="Enter remarks">{{ old('remarks', $doctor_detail->remarks) }}</textarea>
+                                        @error('remarks')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div> -->
+                                </div>
+                                <!--image -->
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="image">Image</label>
+                                        <input type="file" name="image" class="form-control" id="exampleFormControlFile1" />
+                                    </div>
+                                    <!--check if image exists or not-->
+                                    @if ($doctor_detail->picture)
+                                        <img src = "{{ asset('public/uploads/doctors/' . $doctor_detail->picture) }}" class="doctor-image">
+                                    @else
+                                        -
+                                    @endif
+                                </div>
                             </div>
+                            <!--Status-->
+                            <!--<div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select name="status" class="form-control">
+                                        <option value="active" {{ $doctor_detail->status == 'active' ? 'selected' : '' }}>Active</option>
+                                        <option value="pending" {{ $doctor_detail->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    </select>
+                                    @error('status')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                </div>-->
                             <div class="card-action">
                                 <button type="submit" class="btn btn-success">Update</button>
                                 <button type="reset" class="btn btn-danger">Cancel</button>

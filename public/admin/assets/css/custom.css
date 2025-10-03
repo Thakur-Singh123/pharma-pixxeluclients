@@ -831,3 +831,10 @@ h5.refer-heading {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
     outline: none;
 }
+
+.doctor-image {
+    height: 50%;
+    width: 100%;
+    padding: 12px 0px;
+    border-radius: 8px;
+}

@@ -91,13 +91,13 @@
                                                             <td>{{ $mr->state }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($mr->joining_date)->format('d M, Y') }}</td>
                                                             <td>
-                                                                <span class="status-badge 
-                                                                    {{ $mr->status == 'Pending' ? 'status-pending' : '' }}
-                                                                    {{ $mr->status == 'Suspend' ? 'status-suspend' : '' }}
-                                                                    {{ $mr->status == 'Active' ? 'status-active' : '' }}
-                                                                    {{ $mr->status == 'Approved' ? 'status-approved' : '' }}">
-                                                                    {{ ucfirst($mr->status) }}
-                                                                </span>
+                                                                <form action="{{ route('manager.mr.update.status', $mr->id) }}" method="POST" class="status-form">
+                                                                    @csrf
+                                                                    <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
+                                                                        <option value="Pending" {{ $mr->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                                                        <option value="Active" {{ $mr->status == 'Active' ? 'selected' : '' }}>Active</option>
+                                                                    </select>
+                                                                </form>
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">

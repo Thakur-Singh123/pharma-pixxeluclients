@@ -13,6 +13,7 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/dashboard', [App\Http\Controllers\Manager\DashboardController::class, 'dashboard']);
     //Mrs
     Route::resource('mrs', App\Http\Controllers\Manager\MRController::class);
+    Route::post('/update-mr-status/{id}', [App\Http\Controllers\Manager\MRController::class, 'update_mr_status'])->name('mr.update.status');
     //Pending uers
     Route::get('/active-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_active_users']);
     Route::get('/pending-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_pending_users']);
@@ -50,8 +51,12 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/doctors/create', [App\Http\Controllers\Manager\DoctorController::class, 'add_doctor']);
     Route::post('/submit-doctor', [App\Http\Controllers\Manager\DoctorController::class, 'submit_doctor'])->name('submit.doctor');
     Route::get('/doctors', [App\Http\Controllers\Manager\DoctorController::class, 'all_doctors'])->name('doctors');
+    Route::get('/doctors-waiting-for-approval', [App\Http\Controllers\Manager\DoctorController::class,'waiting_for_approval']);
+    Route::post('/doctor-approve/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'approve'])->name('doctor.approve');
+    Route::post('/doctor-reject/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'reject'])->name('doctor.reject');
+
     Route::get('/doctors/edit/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'edit_doctor']);
-     Route::post('/update-doctor-status/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'update_doctor_status'])->name('doctor.update.status');
+    Route::post('/update-doctor-status/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'update_doctor_status'])->name('doctor.update.status');
     Route::post('/update-doctor/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'update_doctor'])->name('update.doctor');
     Route::get('/delete-doctor/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'delete_doctor']);
     //TADA records

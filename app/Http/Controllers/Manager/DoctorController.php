@@ -60,8 +60,10 @@ class DoctorController extends Controller
             'doctor_contact' => $request->doctor_contact,
             'location' => $request->location,
             'remarks' => $request->remarks,
+            'created_by' => 'manager',
             'picture' => $filename,
-            'status' => 'active',
+            'status' => 'Active',
+            'approval_status' => 'Approved',
         ]);
         //Check if doctor created or not
         if ($is_create_doctor) {
@@ -83,7 +85,7 @@ class DoctorController extends Controller
     //Function for all doctors
     public function all_doctors() {
         //Get doctors
-        $all_doctors = Doctor::OrderBy('ID','DESC')->where('user_id',auth()->id())->paginate(10);
+        $all_doctors = Doctor::OrderBy('ID','DESC')->where('approval_status', 'Approved')->where('user_id',auth()->id())->paginate(5);
         return view('manager.doctors.all-doctors', compact('all_doctors'));
     }
 
@@ -97,11 +99,32 @@ class DoctorController extends Controller
         return view('manager.doctors.edit-doctor', compact('doctor_detail','mrs','assignedMrsIds'));
     }
 
+    //Function for approve doctor record
+    public function approve($id) {
+        //Get doctor
+        $doctor_record = Doctor::findOrFail($id);
+        //update doctor
+        $doctor_record->approval_status = 'Approved'; 
+        $doctor_record->status = 'Active'; 
+        $doctor_record->save();
+        return redirect()->route('manager.doctors')->with('success', 'Doctor approved successfully.');
+    }
+
+    //Function for reject doctor record
+    public function reject($id) {
+        //Get doctor
+        $doctor_record = Doctor::findOrFail($id);
+        //update doctor
+        $doctor_record->approval_status = 'Reject'; 
+        $doctor_record->save();
+        return back()->with('success', 'Doctor reject successfully.');
+    }
+
     //Function for update doctor status
     public function update_doctor_status(Request $request, $id) {
         //Get doctor detail
         Doctor::where('id', $id)->update([
-            'status' => $request->status
+            'status' => $request->status,
         ]);
         return back()->with('success', 'Doctor status updated successfully');
     }
@@ -145,7 +168,6 @@ class DoctorController extends Controller
                 'location' => $request->location,
                 'remarks' => $request->remarks,
                 'picture' => $filename,
-                'status' => 'active',
             ]);
             //Check if doctor updated or not
             if ($is_updated_doctor) {
@@ -168,7 +190,6 @@ class DoctorController extends Controller
                 'doctor_contact' => $request->doctor_contact,
                 'location' => $request->location,
                 'remarks' => $request->remarks,
-                'status' => 'active',
             ]);
             //Check if doctor updated or not
             if ($is_updated_doctor) {
@@ -202,5 +223,12 @@ class DoctorController extends Controller
         } else {
             return back()->with('unsuccess', 'Opps something went wrong!');
         }
+    }
+
+    //Function for waiting for approval doctor mr
+    public function waiting_for_approval() {
+        //Get pending doctors
+        $all_pending_doctors = Doctor::OrderBy('ID', 'Desc')->whereIn('approval_status', ['Pending','Reject'])->paginate(5);
+        return view('manager.doctors.waiting-for-approval', compact('all_pending_doctors'));
     }
 }

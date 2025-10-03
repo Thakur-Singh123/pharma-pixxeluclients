@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                                 <!--Status-->
-                                <div class="col-md-6 col-lg-4">
+                                <!-- <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status">
@@ -120,7 +120,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--Role-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">

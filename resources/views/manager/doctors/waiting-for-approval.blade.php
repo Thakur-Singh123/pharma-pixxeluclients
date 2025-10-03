@@ -116,7 +116,7 @@
                                                     <tbody>
                                                         @php $count = 1 @endphp
                                                         <!--Get doctors-->
-                                                        @forelse ($all_doctors as $doctor)
+                                                        @forelse ($all_pending_doctors as $doctor)
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
                                                             <td>{{ $doctor->hospital_name }}</td>
@@ -142,14 +142,39 @@
                                                                 -
                                                             @endif
                                                             </td>
-                                                            <td>
-                                                                <form action="{{ route('manager.doctor.update.status', $doctor->id) }}" method="POST" class="status-form">
-                                                                    @csrf
-                                                                    <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
-                                                                        <option value="Pending" {{ $doctor->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                                        <option value="Active" {{ $doctor->status == 'Active' ? 'selected' : '' }}>Active</option>
-                                                                    </select>
-                                                                </form>
+                                                           <td style="display: flex; gap: 5px;">
+                                                                @if ($doctor->approval_status == 'Pending')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.doctor.approve', $doctor->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-success btn-sm">
+                                                                            Approve
+                                                                        </button>
+                                                                    </form>
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.doctor.reject', $doctor->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm">Reject
+                                                                        </button>
+                                                                    </form>
+                                                                @elseif($doctor->approval_status == 'Approved')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.doctor.reject', $doctor->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm">Reject
+                                                                        </button>
+                                                                    </form>
+                                                                @elseif($doctor->approval_status == 'Reject')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.doctor.approve', $doctor->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-success btn-sm">Approve</button>
+                                                                    </form>
+                                                                @endif
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">
@@ -169,7 +194,7 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $all_doctors->links('pagination::bootstrap-5') }}
+                                                {{ $all_pending_doctors->links('pagination::bootstrap-5') }}
                                             </div>
                                         </div>
                                     </div>

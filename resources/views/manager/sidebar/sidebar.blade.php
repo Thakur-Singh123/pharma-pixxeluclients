@@ -83,7 +83,7 @@
                         class="{{ request()->is('manager/pending-users') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('manager/pending-users') ? 'true' : 'false' }}">
                         <i class="fas fa-users"></i>
-                        <p>MRS Users</p>
+                        <p>MR User Requests</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse {{ request()->is('manager/active-users') || request()->is('manager/pending-users') || request()->is('manager/suspend-users') ? 'show' : '' }}" id="collapseUser">
@@ -167,6 +167,11 @@
                             <li class="{{ request()->is('manager/doctors') || request()->is('manager/doctors/edit/*') ? 'active' : '' }}">
                                 <a href="{{ url('manager/doctors') }}">
                                     <span class="sub-item">All Doctors</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/doctors-waiting-for-approval') ? 'active' : '' }}">
+                                <a href="{{ url('manager/doctors-waiting-for-approval') }}">
+                                    <span class="sub-item">Waiting For Approval</span>
                                 </a>
                             </li>
                         </ul>

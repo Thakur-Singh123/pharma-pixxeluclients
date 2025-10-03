@@ -37,7 +37,6 @@ class MRController extends Controller
             'city' =>'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
             'joining_date' =>'nullable|date',
-            'status' =>'required|in:Active,Pending',
         ]);
         //Get last employee code
         $lastEmployee = User::OrderBy('ID', 'DESC')->first();
@@ -60,7 +59,7 @@ class MRController extends Controller
             'city' => $request->city,
             'state' => $request->state,
             'joining_date' => $request->joining_date,
-            'status' => $request->status,
+            'status' => 'Active',
             'user_type' => 'MR',
             'can_sale' => $request->can_sale,
         ]);
@@ -75,6 +74,15 @@ class MRController extends Controller
             ]);
         }
         return redirect()->route('manager.mrs.index')->with('success', 'MR created successfully');
+    }
+
+    //Function for update mr status
+    public function update_mr_status(Request $request, $id) {
+        //Get mr detail
+        User::where('id', $id)->update([
+            'status' => $request->status,
+        ]);
+        return back()->with('success', 'Mr status updated successfully');
     }
 
     //Function for edit mr
@@ -97,7 +105,6 @@ class MRController extends Controller
             'city' =>'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
             'joining_date' =>'nullable|date',
-            'status' =>'required|in:Active,Pending',
         ]);
         //Get mr detail
         $mr = User::findOrFail($id);
@@ -109,7 +116,6 @@ class MRController extends Controller
             'city' => $request->city,
             'state' => $request->state,
             'joining_date' => $request->joining_date,
-            'status' => $request->status,
             'user_type' => 'MR',
             'can_sale' => $request->can_sale,
         ]);

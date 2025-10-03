@@ -66,7 +66,7 @@ class VisitController extends Controller
         //Get auth login id
         $auth_login = Auth::id();
         //Get doctors
-        $assignedDoctors = Doctor::where('user_id', $auth_login)->orderBy('id', 'DESC')->get();
+        $assignedDoctors = Doctor::where('user_id', $auth_login)->orderBy('id', 'DESC')->where('status', 'active')->get();
         return view('manager.daily-visits.edit-visit', compact('visit_detail','assignedDoctors'));
     }
     

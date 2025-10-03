@@ -4,9 +4,12 @@ namespace App\Http\Controllers\MR;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\Task;
 use App\Models\MonthlyTask;
 use App\Models\MangerMR;
+use Carbon\Carbon;
+use App\Notifications\MonthlyTasksSent;
 
 class TaskController extends Controller
 {
@@ -156,11 +159,10 @@ class TaskController extends Controller
         return view('mr.tasks.pending-approval', compact('pending_tasks'));
     }
 
-    //Function for send monthly tasks to manager
+    //Function for send monthly tasks calender to manager approval
     public function sendMonthlyTasksToManager(Request $request) {
         //Get auth detail
         $mrId = auth()->id();
-
         //Get next month and year
         $nextMonth = now()->addMonth()->month;
         $nextYear = now()->addMonth()->year;
@@ -184,6 +186,15 @@ class TaskController extends Controller
                 ]
             );
         }
+
+        //Get task month
+        $taskMonth = $task->task_month;
+        //Get auth detail
+        $manager  = auth()->user()->managers->pluck('id');
+        $manager  = $manager->first();
+        $manager  = User::find($manager);
+        //Send notification
+        $manager->notify(new MonthlyTasksSent($taskMonth));
 
         return back()->with('success', 'Tasks sent to the manager for approval successfully.');
     }
@@ -229,6 +240,7 @@ class TaskController extends Controller
             ->where('mr_id', auth()->id())
             ->where('is_approval', '0')
             ->get();
+        echo "<pre>"; print_r($all_tasks->toArray());exit;
         //Events
         $events = [];
         foreach ($all_tasks as $task) {
@@ -251,6 +263,14 @@ class TaskController extends Controller
                 ];
             }
         }
+
+        //Get task month
+        // $taskMonth = $task->task_month;
+        // $manager  = auth()->user()->managers->pluck('id');
+        // $manager  = $manager->first();
+        // $manager  = User::find($manager);
+        // $manager->notify(new MonthlyTasksSent($taskMonth));
+
         return view('mr.tasks.rejected-by-manager', compact('events','all_doctors'));
     }
 

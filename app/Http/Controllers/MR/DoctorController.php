@@ -14,7 +14,7 @@ class DoctorController extends Controller
         //Get auth login
         $mr = auth()->user();
         //Get all doctors
-        $assignedDoctors = $mr->doctors()->where('status', 'active')->paginate(5);
+        $assignedDoctors = $mr->doctors()->where('status', 'Active')->paginate(5);
         return view('mr.doctors.index', compact('assignedDoctors'));
     }
 
@@ -50,8 +50,10 @@ class DoctorController extends Controller
             'location' => $request->location, 
             'area_code' => $request->area_code, 
             'remarks' => $request->remarks,
+            'created_by' => 'mr',
             'picture' => $filename,
-            'status' => 'active',
+            'status' => 'Pending',
+            'approval_status' => 'Pending',
         ]);
         //Check if doctor created or not
         if ($is_create_doctor) {

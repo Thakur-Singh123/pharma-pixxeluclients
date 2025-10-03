@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('doctors', function (Blueprint $table) {
-            $table->string('status')->default('pending');
+            $table->enum('status',['Active','Pending',])->after('visit_type')->default('Pending');
+            $table->enum('approval_status',['Pending','Approved','Reject'])->after('status')->default('Pending');
         });
     }
 

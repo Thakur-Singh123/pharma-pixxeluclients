@@ -166,16 +166,16 @@ class TaskController extends Controller
         //Get next month and year
         $nextMonth = now()->addMonth()->month;
         $nextYear = now()->addMonth()->year;
-
+        //Get tasks
         $tasks = Task::where('mr_id', $mrId)
             ->whereYear('start_date', $nextYear)
             ->whereMonth('start_date', $nextMonth)
             ->get();
-
+        //Check if task exists or not
         if ($tasks->isEmpty()) {
             return back()->with('error', 'No tasks found for next month!');
         }
-
+        //Create monthly task
         foreach ($tasks as $task) {
             MonthlyTask::updateOrCreate(
                 ['task_id' => $task->id, 'mr_id' => $mrId],
@@ -186,9 +186,12 @@ class TaskController extends Controller
                 ]
             );
         }
-
+        //Get monthly tasks
+        $monthlyTask = MonthlyTask::where('mr_id', $mrId)
+            ->whereIn('task_id', $tasks->pluck('id'))
+            ->first();
         //Get task month
-        $taskMonth = $task->task_month;
+        $taskMonth = $monthlyTask->task_month;
         //Get auth detail
         $manager  = auth()->user()->managers->pluck('id');
         $manager  = $manager->first();
@@ -240,7 +243,6 @@ class TaskController extends Controller
             ->where('mr_id', auth()->id())
             ->where('is_approval', '0')
             ->get();
-        echo "<pre>"; print_r($all_tasks->toArray());exit;
         //Events
         $events = [];
         foreach ($all_tasks as $task) {
@@ -264,8 +266,9 @@ class TaskController extends Controller
             }
         }
 
-        //Get task month
-        // $taskMonth = $task->task_month;
+        //// Get task month
+        // $taskMonth = $all_tasks->pluck('task_month')->unique()->first();
+        //// echo "<pre>"; print_r($taskMonth);exit;
         // $manager  = auth()->user()->managers->pluck('id');
         // $manager  = $manager->first();
         // $manager  = User::find($manager);

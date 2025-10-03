@@ -7126,7 +7126,8 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^=col-]:last-child 
 	background-color: #fff;
 	border: 1px solid #aaa;
 	border-radius: 4px;
-	cursor: text
+	cursor: text;
+	height: 46px;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
@@ -7159,16 +7160,14 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^=col-]:last-child 
     background-color: #0453e98a;
     border: 1px solid #0453e98a;
     border-radius: 6px;
-    margin-right: 5px;
-    margin-top: 5px;
-    padding: 2px 8px;
-
+    margin-right: 4px;
+    margin-top: 3px;
+    padding: 2px 0px;
     display: flex;
-    align-items: center;   /* Vertical center */
-    justify-content: center; /* Horizontal center */
-    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
 }
-
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
 	color: #f70909;
@@ -7234,7 +7233,8 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^=col-]:last-child 
 	border: none;
 	outline: 0;
 	box-shadow: none;
-	-webkit-appearance: textfield
+	-webkit-appearance: textfield;
+	margin: -3px 0px 0px 8px;
 }
 
 .select2-container--default .select2-results>.select2-results__options {

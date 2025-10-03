@@ -84,8 +84,14 @@ class DoctorController extends Controller
 
     //Function for all doctors
     public function all_doctors() {
+        //Filter
+        $query = Doctor::where('user_id', auth()->id());
+        if(request()->filled('created_by')) {
+            $query = $query->where('created_by', request('created_by'));
+        }
         //Get doctors
-        $all_doctors = Doctor::OrderBy('ID','DESC')->where('approval_status', 'Approved')->where('user_id',auth()->id())->paginate(5);
+        $all_doctors = $query->OrderBy('ID', 'DESC')->where('approval_status', 'Approved')->paginate(5);
+        
         return view('manager.doctors.all-doctors', compact('all_doctors'));
     }
 

@@ -41,7 +41,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label class="form-label">Distance Km</label>
-                                        <input type="number" name="distance_km" class="form-control" placeholder="Enter distnace" value="{{ old('distance_km',$tada_detail->distance_km) }}">
+                                        <input type="number" name="distance_km" class="form-control" placeholder="Enter distance" value="{{ old('distance_km',$tada_detail->distance_km) }}">
                                         @error('distance_km')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -108,7 +108,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label class="form-label">Outstation Stay</label>
-                                        <textarea name="outstation_stay" class="form-control" rows="2" placeholder="Enterut outstation stay">{{ old('outstation_stay', $tada_detail->outstation_stay) }}</textarea>
+                                        <textarea name="outstation_stay" class="form-control" rows="2" placeholder="Enter outstation stay">{{ old('outstation_stay', $tada_detail->outstation_stay) }}</textarea>
                                         @error('outstation_stay')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

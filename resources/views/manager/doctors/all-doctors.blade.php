@@ -12,8 +12,15 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Doctors</h4>
+                                <form method="GET" action="{{ route('manager.doctors') }}">
+                                    <select name="created_by" class="form-control" onchange="handleFilterChange(this)">
+                                        <option value="">👨‍⚕️ All Doctors</option>
+                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>🧑‍💼 Created by Me (Manager)</option>
+                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>📋 Created by MR</option>
+                                    </select>
+                                </form>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -169,7 +176,7 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $all_doctors->links('pagination::bootstrap-5') }}
+                                                {{ $all_doctors->appends(request()->query())->links('pagination::bootstrap-5') }}    
                                             </div>
                                         </div>
                                     </div>
@@ -182,4 +189,13 @@
         </div>
     </div>
 </div>
+<script>
+function handleFilterChange(select) {
+    if (select.value === "") {
+        window.location.href = "{{ route('manager.doctors') }}";
+    } else {
+        select.form.submit();
+    }
+}
+</script>
 @endsection

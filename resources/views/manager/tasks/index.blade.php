@@ -106,7 +106,12 @@
                                                                     <td>{{ $task->description }}</td>
                                                                     <td>{{ $task->location }}</td>
                                                                     <td>{{ $task->pin_code }}</td>
-                                                                    <td>{{ $task->doctor['doctor_name'] ?? 'N/A'}}</td>
+                                                                    <td>
+                                                                        {{ $task->doctor->doctor_name ?? 'N/A' }}
+                                                                            @if(isset($task->doctor->specialist))
+                                                                                ({{ $task->doctor->specialist }})
+                                                                            @endif
+                                                                    </td>
                                                                     <td> 
                                                                         {{ optional($task->mr)->name ?? 'N/A'}}
                                                                     </td>

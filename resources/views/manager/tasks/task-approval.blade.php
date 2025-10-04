@@ -51,9 +51,42 @@
                                                         <label>Description</label>
                                                         <textarea class="form-control" id="description" name="description"></textarea>
                                                     </div>
+                                                                                                      <div class="col-md-6 mb-3">
+                                                        <label>Location</label>
+                                                        <input type="text" class="form-control" id="location" name="location">
+                                                    </div>
                                                     <div class="col-md-6 mb-3">
                                                         <label>Area Pin Code</label>
-                                                        <input type="text" class="form-control" id="pin_code" name="pin_code">
+                                                        <input type="number" class="form-control" id="pin_code" name="pin_code">
+                                                    </div>
+                                                        <div class="col-md-6 mb-3">
+                                                        <label for="mr_id">Doctor Name</label>
+                                                        <select class="form-control" id="doctor_id" name="doctor_id" required>
+                                                            <option value="" disabled selected>Select</option>
+                                                            @foreach ($all_doctors as $doctor)
+                                                                <option value="{{ $doctor->id }}">
+                                                                    {{ $doctor->doctor_name }} ({{ $doctor->specialist }})
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('doctor_id')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                    <!--Assign to MR-->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="mr_id">Assign to MR</label>
+                                                        <select class="form-control" id="mr_id" name="mr_id" required>
+                                                            <option value="" disabled selected>Select</option>
+                                                            @foreach ($mrs as $mr)
+                                                                <option value="{{ $mr->id }}">
+                                                                    {{ $mr->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('mr_id')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-6 mb-3">
                                                         <label>Start Date</label>
@@ -62,20 +95,6 @@
                                                     <div class="col-md-6 mb-3">
                                                         <label>End Date</label>
                                                         <input type="date" class="form-control" id="end_date" name="end_date">
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label>Location</label>
-                                                        <input type="text" class="form-control" id="location" name="location">
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label>Doctor Name</label>
-                                                        <input type="text" class="form-control" id="doctor_name_display" readonly>
-                                                        <input type="hidden" id="doctor_id" name="doctor_id">
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label>MR Name</label>
-                                                        <input type="text" class="form-control" id="mr_name_display" readonly>
-                                                        <input type="hidden" id="mr_id" name="mr_id">
                                                     </div>
                                                 </div>
                                             </div>
@@ -168,10 +187,9 @@ function formatDate(dateString) {
 function openEditTaskModal(task) {
     const fields = ['task_id', 'title', 'description', 'location', 'pin_code'];
     fields.forEach(f => document.getElementById(f).value = task[f] || '');
-    document.getElementById('doctor_name_display').value = task.doctor_name;
     document.getElementById('doctor_id').value = task.doctor_id;
-    document.getElementById('mr_name_display').value = task.mr_name;
     document.getElementById('mr_id').value = task.mr_id;
+    
     const startInput = document.getElementById('start_date');
     const endInput = document.getElementById('end_date');
     startInput.value = formatDate(task.start_date);

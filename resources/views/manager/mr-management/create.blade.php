@@ -31,7 +31,7 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="email2">Email Address</label>
-                                        <input type="email" class="form-control" id="email2" name="email" value="{{ old('email') }}" placeholder="Enter email" autocomplete="new-email">
+                                        <input type="email" class="form-control" id="email2" name="email" value="{{ old('email') }}" placeholder="Enter email address" autocomplete="new-email">
                                         @error('email')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -126,9 +126,9 @@
                                     <div class="form-group">
                                         <label for="status">Role</label>
                                         <select class="form-control" id="status" name="can_sale">
-                                        <option value="" disabled>Select Status</option>
-                                        <option value="1" {{ old('can_sale') == '1' ? 'selected' : '' }}>Sales</option>
-                                        <option value="0" {{ old('can_sale') == '0' ? 'selected' : '' }}>Visit</option>
+                                            <option value="" disabled>Select Status</option>
+                                            <option value="1" {{ old('can_sale') == '1' ? 'selected' : '' }}>Sales</option>
+                                            <option value="0" {{ old('can_sale') == '0' ? 'selected' : '' }}>Visit</option>
                                         </select>
                                         @error('can_sale')
                                             <small class="text-danger">{{ $message }}</small>

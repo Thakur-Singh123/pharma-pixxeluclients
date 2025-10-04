@@ -81,9 +81,10 @@
                                     <div class="form-group">
                                         <label for="mr_id">Doctor Name</label>
                                         <select class="form-control" id="doctor_id" name="doctor_id" required>
+                                            <option value="" selected disabled>Select</option>
                                             @foreach ($all_doctors as $doctor)
-                                                <option value="{{ $doctor->id }}" {{ $task_detail->doctor_id == $doctor->id ? 'selected' : '' }}>
-                                                    {{ $doctor->doctor_name }}
+                                                <option value="{{ $doctor->id }}" {{ old('doctor_id', $task_detail->doctor_id) == $doctor->id ? 'selected' : '' }}>
+                                                    {{ $doctor->doctor_name }} ({{ $doctor->specialist }})
                                                 </option>
                                             @endforeach
                                         </select>
@@ -97,8 +98,9 @@
                                     <div class="form-group">
                                         <label for="mr_id">Assign to MR</label>
                                         <select class="form-control" id="mr_id" name="mr_id" required>
+                                            <option value="" selected disabled>Select</option>
                                             @foreach ($mrs as $mr)
-                                                <option value="{{ $mr->id }}" {{ $task_detail->mr_id == $mr->id ? 'selected' : '' }}>
+                                                <option value="{{ $mr->id }}" {{ old('mr_id', $task_detail->mr_id) == $mr->id ? 'selected' : '' }}>
                                                     {{ $mr->name }}
                                                 </option>
                                             @endforeach

@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                                 <!--Employee Code-->
-                                <div class="col-md-6 col-lg-4">
+                                <!-- <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="employee_code">Employee Code</label>
                                         <input type="number" class="form-control" id="employee_code" name="employee_code" value="{{ old('employee_code',$mr_detail->employee_code) }}" placeholder="Enter employee code" disabled>
@@ -67,9 +67,9 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--Territory-->
-                                {{-- <div class="col-md-6 col-lg-4">
+                                <!-- <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="territory">Territory</label>
                                         <input type="text" class="form-control" id="territory" name="territory" value="{{ old('territory',$mr_detail->territory) }}" placeholder="Enter territory">
@@ -77,7 +77,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div> --}}
+                                </div> -->
                                 <!--City-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">

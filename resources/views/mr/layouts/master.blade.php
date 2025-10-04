@@ -77,7 +77,8 @@
                                                                     {{ $notification->data['message'] }}
                                                                 </span>
                                                                 <span
-                                                                    class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                                    class="time">{{ $notification->created_at->diffForHumans() }}
+                                                                </span>
                                                             </div>
                                                         </a>
                                                     @empty

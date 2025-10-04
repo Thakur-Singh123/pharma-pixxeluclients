@@ -28,19 +28,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                 <!--Doctors-->
+                                <!--Description-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="doctor_id">Doctor Name</label>
-                                        <select class="form-control" id="doctor_id" name="doctor_id">
-                                            <option value="" disabled selected>Select Doctor</option>
-                                            <!--Get doctors-->
-                                            @foreach($all_doctors as $doctor)
-                                                <option value="{{ $doctor->id }}" @if($event_detail->doctor_id == $doctor->id) selected @endif>
-                                                    {{ $doctor->doctor_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <label for="description">Description</label>
+                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description',$event_detail->description) }}</textarea>
+                                        @error('description')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                                 <!--Location-->
@@ -82,16 +77,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <!--Description-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description',$event_detail->description) }}</textarea>
-                                        @error('description')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
                                 <!--Status-->
                                 <!-- <div class="col-md-6">
                                     <div class="form-group">
@@ -107,6 +92,21 @@
                                         @enderror
                                     </div>
                                 </div> -->
+                                <!--Doctors-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="doctor_id">Doctor Name</label>
+                                        <select class="form-control" id="doctor_id" name="doctor_id">
+                                            <option value="" disabled selected>Select</option>
+                                            <!--Get doctors-->
+                                            @foreach($all_doctors as $doctor)
+                                                <option value="{{ $doctor->id }}" @if( old('doctor_id', $event_detail->doctor_id) == $doctor->id) selected @endif>
+                                                    {{ $doctor->doctor_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <!--Assign to MR-->
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -115,7 +115,9 @@
                                             <option value="" disabled>Select Status</option>
                                             <!--Get mrs-->
                                             @foreach ($mrs as $mr)
-                                                <option value="{{ $mr->id }}" @if($event_detail->mr_id == $mr->id) selected @endif>{{ $mr->name }}</option>
+                                                <option value="{{ $mr->id }}" @if( old('mr_id', $event_detail->mr_id) == $mr->id) selected @endif>
+                                                    {{ $mr->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         @error('mr_id')

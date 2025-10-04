@@ -10,11 +10,11 @@ use App\Models\Doctor;
 
 class MRDailyReportController extends Controller
 {
-    //function for show all daily reports
-    public function index(Request $request)
-    {
+    //Function for show all daily reports
+    public function index(Request $request) {
+        //Get auth login
         $mrIds = auth()->user()->mrs->pluck('id')->toArray();
-
+        //Query
         $query = MrDailyReport::with('mr','doctor_detail')->whereIn('mr_id', $mrIds);
         //Filter Logic
         $filter = $request->get('filter_by') ?? 'all';
@@ -32,20 +32,21 @@ class MRDailyReportController extends Controller
         } elseif($filter === 'all') {
             $query->whereNotNull('report_date');    
         }
-
+        //Get reports records
         $reports = $query->orderBy('report_date', 'desc')->paginate(10);
 
         return view('manager.daily_reports.index', compact('reports'));
     }
-    //function for review report
-    public function review(Request $request, $id)
-    {
+
+    //Function for review report
+    public function review(Request $request, $id) {
+        //Validate input fields
         $request->validate([
             'action' => 'required|in:approve,reject',
         ]);
-
+        //Get daily report 
         $report = MrDailyReport::findOrFail($id);
-
+        //Update daily report
         $report->update([
             'status' => $request->action == 'approve' ? 'approved' : 'rejected',
             'manager_id' => auth()->id(),
@@ -55,15 +56,16 @@ class MRDailyReportController extends Controller
         return back()->with('success', 'Report ' . $request->action . 'ed successfully.');
     }
 
-    //edit daily report
+    //Function for edit daily report
     public function edit($id) {
         //Get report detail
         $report_detail = MrDailyReport::with('doctor_detail')->find($id);
         return view('manager.daily_reports.edit',compact('report_detail')); 
     }
 
-     //Function for update daily report
+    //Function for update daily report
     public function update(Request $request, $id) {
+        //Validate input fields
          $request->validate([
             'doctor_id' =>'required',
             'report_date' =>'required|date',
@@ -89,9 +91,9 @@ class MRDailyReportController extends Controller
         }
     }
 
-    //function for download
-    public function export(Request $request)
-    {
+    //Function for download excel sheet
+    public function export(Request $request) {
+        //Filter
         $filter = $request->get('filter_by');
         return Excel::download(new ReportsExport($filter), 'daily_reports.xlsx');
     }

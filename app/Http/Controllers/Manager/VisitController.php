@@ -9,6 +9,8 @@ use App\Models\Doctor;
 use App\Models\DoctorMrAssignement;
 use App\Models\Visit;
 use Auth;
+use App\Notifications\VisitApprovedNotification;
+use App\Notifications\VisitRejectedNotification;
 
 class VisitController extends Controller
 {
@@ -55,7 +57,6 @@ class VisitController extends Controller
             $query->where('status', $request->status);
         }
         $all_visits = $query->orderBy('id', 'DESC')->paginate(5);
-        
         return view('manager.daily-visits.filter-visits', compact('all_visits'));
     }
 
@@ -74,9 +75,16 @@ class VisitController extends Controller
     public function approve($id) {
         //Get visit
         $visit_record = Visit::findOrFail($id);
-        //update visit
+        //Update visit
         $visit_record->status = 'Approved'; 
         $visit_record->save();
+        //Send notification to MR
+        // $mr = $visit_record->mr;
+        // // echo "<pre>"; print_r($mr->toArray());exit;
+        // if($mr) {
+        //     $mr->notify(new VisitApprovedNotification($visit_record));
+        // }
+
         return back()->with('success', 'Visit approved successfully.');
     }
 
@@ -84,9 +92,15 @@ class VisitController extends Controller
     public function reject($id) {
         //Get visit
         $visit_record = Visit::findOrFail($id);
-        //update visit
+        //Update visit
         $visit_record->status = 'Reject'; 
         $visit_record->save();
+        //Send notification to MR
+        // $mr = $visit_record->mr;
+        // if($mr) {
+        //     $mr->notify(new VisitRejectedNotification($visit_record));
+        // }
+
         return back()->with('success', 'Visit reject successfully.');
     }
     

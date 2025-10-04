@@ -19,7 +19,7 @@ class TaskController extends Controller
     //Function for show all tasks
     public function index(Request $request) {
         //Get tasks
-        $query = Task::with('doctor')->orderBy('ID','DESC');
+        $query = Task::with('doctor');
         if($request->filled('created_by')) {
              $query->where('created_by', $request->created_by);
         }
@@ -189,7 +189,14 @@ class TaskController extends Controller
     }
      
     //Function for all tasks
-    public function all_tasks()  {
+    public function all_tasks(Request $request)  {
+        //Get mrs
+        $mrs = User::find(auth()->id())->mrs;
+        //Get doctors
+        $all_doctors = Doctor::whereHas('mr', function($query) use ($mrs) {
+            $query->whereIn('users.id', $mrs->pluck('id'));
+        })->orderBy('id','DESC')->where('status', 'active')->get();
+
         //Get all tasks 
         $tasks = MonthlyTask::with('task_detail','doctor_detail','mr_detail')->where('manager_id', auth()->id())->get();
         //tasks calendar data
@@ -223,7 +230,7 @@ class TaskController extends Controller
             ];
         }
 
-        return view('manager.tasks.task-approval', compact('events'));
+        return view('manager.tasks.task-approval', compact('events','mrs','all_doctors'));
     }
     
     //Function for approve all tasks

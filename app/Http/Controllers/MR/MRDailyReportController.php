@@ -4,7 +4,8 @@ namespace App\Http\Controllers\MR;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\MrDailyReport;
+use App\Models\DailyReport;
+use App\Models\DailyReportDetail;
 use App\Models\Doctor;
 
 class MRDailyReportController extends Controller
@@ -12,7 +13,7 @@ class MRDailyReportController extends Controller
     //Function for all daily reports
     public function index() {
         //Get daily reports
-        $reports = MrDailyReport::with('doctor_detail')->where('mr_id', auth()->id())->orderBy('report_date', 'desc')->paginate(10);
+        $reports = DailyReport::where('mr_id', auth()->id())->orderBy('report_date', 'desc')->paginate(10);
         return view('mr.daily_reports.index',compact('reports')); 
     }
 
@@ -26,27 +27,26 @@ class MRDailyReportController extends Controller
 
     //Function for store daily report
     public function store(Request $request) {
-        //Validate input fields
-        $request->validate([
-            'doctor_id' =>'required',
-            'report_date' =>'required|date',
-            'area_name' =>'required',
-            'total_visits' =>'required|integer|min:0',
-            'patients_referred' =>'required|integer|min:0',
-            'notes' =>'nullable|string',
-        ]);
         //Create daily report
-        $is_create_report = MrDailyReport::create([
+        $is_create_report = DailyReport::create([
             'mr_id' => auth()->id(),
-            'doctor_id' => $request->doctor_id, 
             'report_date' => $request->report_date, 
-            'area_name' => $request->area_name, 
-            'total_visits' => $request->total_visits,
-            'patients_referred' => $request->patients_referred,
-            'notes' => $request->notes,
         ]);
         //Check if report created or not
         if($is_create_report) {
+            //Get request for input fileds
+            foreach($request->doctor_id as $index => $doctor_id) {
+                //Create daily report detail
+                DailyReportDetail::create([
+                    'report_id' => $is_create_report->id,
+                    'doctor_id' => $doctor_id,
+                    'area_name' => $request->area_name[$index],
+                    'total_visits' => $request->total_visits[$index],
+                    'patients_referred'=> $request->patients_referred[$index],
+                    'notes' => $request->notes[$index],
+                    'staus' => 'Pending',
+                ]);
+            }
             return redirect()->route('mr.daily-reports.index')->with('success','Daily report created successfully.');
         } else {
             return redirect()->back()->with('error', 'Failed to created Daily report!');
@@ -56,7 +56,8 @@ class MRDailyReportController extends Controller
     //Function for edit daily report
     public function edit($id) {
         //Get report detail
-        $report_detail = MrDailyReport::find($id);
+        $report_detail = DailyReport::with('report_details')->find($id);
+        // echo "<pre>"; print_r($report_detail->toArray());exit;
        //Get doctors
         $mr = auth()->user();
         $assignedDoctors = $mr->doctors()->where('status', 'active')->get();
@@ -65,27 +66,26 @@ class MRDailyReportController extends Controller
 
     //Function for update daily report
     public function update(Request $request, $id) {
-        //Validate input fields
-        $request->validate([
-            'doctor_id' =>'required',
-            'report_date' =>'required|date',
-            'area_name' =>'required',
-            'total_visits' =>'required|integer|min:0',
-            'patients_referred' =>'required|integer|min:0',
-            'notes' =>'nullable|string',
-        ]);
         //Update daily report
-        $is_update_report = MrDailyReport::where('id', $id)->update([
+        $is_update_report = DailyReport::where('id', $id)->update([
             'mr_id' => auth()->id(),
-            'doctor_id' => $request->doctor_id, 
-            'report_date' => $request->report_date, 
-            'area_name' => $request->area_name,  
-            'total_visits' => $request->total_visits,
-            'patients_referred' => $request->patients_referred,
-            'notes' => $request->notes,
+            'report_date' => $request->report_date,
         ]);
         //Check if report Updated or not
         if($is_update_report) {
+            //Delete old report
+            DailyReportDetail::where('report_id', $id)->delete();
+            //Create daily report detail
+            foreach($request->doctor_id as $index => $doctor_id) {
+                DailyReportDetail::create([
+                    'report_id'  => $id,
+                    'doctor_id' => $doctor_id,
+                    'area_name' => $request->area_name[$index],
+                    'total_visits' => $request->total_visits[$index],
+                    'patients_referred' => $request->patients_referred[$index] ?? 0,
+                    'notes' => $request->notes[$index] ?? null,
+                ]);
+            }
             return redirect()->route('mr.daily-reports.index')->with('success','Daily report updated successfully.');
         } else {
             return redirect()->back()->with('error', 'Failed to updated Daily report!');
@@ -95,9 +95,10 @@ class MRDailyReportController extends Controller
     //Function for delete daily report
     public function destroy($id) {
         //Delete report
-        $is_delete_report = MrDailyReport::where('id',$id)->delete();
+        $is_delete_report = DailyReport::where('id',$id)->delete();
         //Check if daily report deleted or not
         if ($is_delete_report) {
+            DailyReportDetail::where('report_id', $id)->delete();
             return redirect()->route('mr.daily-reports.index')->with('success','Daily report deleted successfully.');
         } else {
             return redirect()->back()->with('error', 'Failed to deleted Daily report!');

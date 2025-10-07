@@ -838,3 +838,62 @@ h5.refer-heading {
     padding: 12px 0px;
     border-radius: 8px;
 }
+
+h5.details-heading {
+   margin: 10px 0 10px 0;
+   color: #2a2f5b;
+   font-size: 14px;
+   font-weight: 600;
+   line-height: 1.6;
+   padding-top: 20px;
+   border-top: 2px solid #8d8f9f4f;
+}
+
+.form-check, .form-groups {
+    margin-bottom: 0;
+    padding-top: 0px;
+}
+
+.compact-input {
+    height: 38px;
+    /*padding: 5px 10px;*/
+    font-size: 13px;
+}
+
+.compact-textarea {
+    /*padding: 5px 10px;*/
+    height: 60px;
+    font-size: 14px;
+}
+
+.dynamic-row {
+    border: 1px solid #0d6efd;
+    /* padding: 15px; */
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    /* background-color: #fafafa; */
+}
+.remove-btn {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff6f6;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid red;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 23px;
+    background: red;
+}
+.add-more-btn {
+    margin-top: 10px;
+}
+.card-body .row + .row {
+    margin-top: 10px;
+}

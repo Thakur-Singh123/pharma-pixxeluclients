@@ -12,16 +12,15 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Add Visit</h4>
-                        <!--Add New Doctor Button-->
+                        <!--Add doctor button-->
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addDoctorModal">
-                            <i class="fas fa-user-md"></i> Add New Doctor
+                                <i class="fas fa-user-md"></i> Add New Doctor
                         </button>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('mr.submit.visit') }}" method="POST" autocomplete="off">
                             @csrf
                             <div class="row">
-
                                 <!--Area Name-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -29,11 +28,10 @@
                                         <input type="text" class="form-control" id="area_name" name="area_name"
                                             value="{{ old('area_name') }}" placeholder="Enter area name">
                                         @error('area_name')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--Area Block-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -41,11 +39,10 @@
                                         <input type="text" class="form-control" id="area_block" name="area_block"
                                             value="{{ old('area_block') }}" placeholder="Enter area block">
                                         @error('area_block')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--District-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -53,11 +50,10 @@
                                         <input type="text" class="form-control" id="district" name="district"
                                             value="{{ old('district') }}" placeholder="Enter district">
                                         @error('district')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--State-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -65,11 +61,10 @@
                                         <input type="text" class="form-control" id="state" name="state"
                                             value="{{ old('state') }}" placeholder="Enter state">
                                         @error('state')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--Pin Code-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -77,11 +72,10 @@
                                         <input type="number" class="form-control" id="pin_code" name="pin_code"
                                             value="{{ old('pin_code') }}" placeholder="Enter area pin code">
                                         @error('pin_code')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--Visit Date-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -89,28 +83,26 @@
                                         <input type="date" class="form-control" id="visit_date" name="visit_date"
                                             value="{{ old('visit_date', date('Y-m-d')) }}">
                                         @error('visit_date')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
-                                  <!--Status-->
-                                <!-- <div class="col-md-6 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" id="status" name="status">
-                                            <option value="" disabled selected>Select Status</option>
-                                            <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
-                                            <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                            <option value="Suspend" {{ old('status') == 'Suspend' ? 'selected' : '' }}>Suspend</option>
-                                            <option value="Approved" {{ old('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                        </select>
-                                        @error('status')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div> -->
-
+                                <!--Status-->
+                                <!--<div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="" disabled selected>Select Status</option>
+                                        <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
+                                        <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="Suspend" {{ old('status') == 'Suspend' ? 'selected' : '' }}>Suspend</option>
+                                        <option value="Approved" {{ old('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
+                                    </select>
+                                    @error('status')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                </div>-->
                                 <!--Comments-->
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -118,11 +110,10 @@
                                         <textarea name="comments" class="form-control" rows="4"
                                             placeholder="Enter comments">{{ old('comments') }}</textarea>
                                         @error('comments')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--Visit Type-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -143,27 +134,28 @@
                                             <option value="other" {{ old('visit_type') == 'other' ? 'selected' : '' }}>Other Visit</option>
                                         </select>
                                         @error('visit_type')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--Doctor-->
                                 <div class="col-md-8 visit-extra visit-doctor" style="display:none;">
                                     <div class="form-group">
                                         <label for="doctor_id">Doctor</label>
                                         <select name="doctor_id" class="form-control">
-                                            <option value="">Please Select</option>
+                                            <option value="" selected disabled>Please Select</option>
                                             @foreach ($assignedDoctors as $doctor)
-                                            <option value="{{ $doctor->id }}">{{ $doctor->doctor_name }} ({{ $doctor->specialist }}), {{ $doctor->hospital_name }} - {{ $doctor->hospital_type }}</option>
+                                            <option value="{{ $doctor->id }}">
+                                                {{ $doctor->doctor_name }} ({{ $doctor->specialist }}), 
+                                                {{ $doctor->hospital_name }} - {{ $doctor->hospital_type }}
+                                            </option>
                                             @endforeach
                                         </select>
                                         @error('doctor_id')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--Villages-->
                                 <div class="col-md-8 visit-extra visit-villages" style="display:none;">
                                     <div class="form-group">
@@ -171,11 +163,10 @@
                                         <textarea name="villages" class="form-control" rows="4"
                                             placeholder="Enter village, pin code, contacts of sarpanch, panch, important person of village, designation">{{ old('villages') }}</textarea>
                                         @error('villages')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--City-->
                                 <div class="col-md-8 visit-extra visit-city" style="display:none;">
                                     <div class="form-group">
@@ -183,11 +174,10 @@
                                         <textarea name="city" class="form-control" rows="3"
                                             placeholder="Enter city, sector/ward, important person">{{ old('city') }}</textarea>
                                         @error('city')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--Societies-->
                                 <div class="col-md-8 visit-extra visit-societies" style="display:none;">
                                     <div class="form-group">
@@ -195,11 +185,10 @@
                                         <textarea name="societies" class="form-control" rows="3"
                                             placeholder="Enter societies, contacts of past or present members, important persons">{{ old('societies') }}</textarea>
                                         @error('societies')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--NGO-->
                                 <div class="col-md-8 visit-extra visit-ngo" style="display:none;">
                                     <div class="form-group">
@@ -207,11 +196,10 @@
                                         <textarea name="ngo" class="form-control" rows="3"
                                             placeholder="Enter ngo of the area, social activist, contact number">{{ old('ngo') }}</textarea>
                                         @error('ngo')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--Religious Places-->
                                 <div class="col-md-8 visit-extra visit-religious_places" style="display:none;">
                                     <div class="form-group">
@@ -219,13 +207,10 @@
                                         <textarea name="religious_place_name" class="form-control" rows="3"
                                             placeholder="Enter religious places, contacts">{{ old('religious_place_name') }}</textarea>
                                         @error('religious_place_name')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
-
-
                                 <!--Other-->
                                 <div class="col-md-8 visit-extra visit-other" style="display:none;">
                                     <div class="form-group">
@@ -233,11 +218,10 @@
                                         <input type="text" name="other_visit_details" class="form-control"
                                             value="{{ old('other_visit_details') }}" placeholder="Enter details">
                                         @error('other_visit_details')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <!--School-->
                                 <div class="col-md-8 visit-extra visit-school" style="display:none;">
                                     <div class="form-group">
@@ -250,7 +234,7 @@
                                             <option value="Other" {{ old('school_type') == 'Other' ? 'selected' : '' }}>Other</option>
                                         </select>
                                         @error('school_type')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -266,7 +250,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal: Add New Doctor -->
 <div class="modal fade" id="addDoctorModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -326,18 +309,18 @@
     </div>
 </div>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const visitType = document.getElementById("visit_type");
-    const allExtras = document.querySelectorAll(".visit-extra");
-    function toggleFields() {
-        allExtras.forEach(el => el.style.display = "none");
-        if (visitType.value) {
-            const target = document.querySelector(".visit-" + visitType.value);
-            if (target) target.style.display = "block";
-        }
-    }
-    visitType.addEventListener("change", toggleFields);
-    toggleFields(); 
-});
+   document.addEventListener("DOMContentLoaded", function() {
+       const visitType = document.getElementById("visit_type");
+       const allExtras = document.querySelectorAll(".visit-extra");
+       function toggleFields() {
+           allExtras.forEach(el => el.style.display = "none");
+           if (visitType.value) {
+               const target = document.querySelector(".visit-" + visitType.value);
+               if (target) target.style.display = "block";
+           }
+       }
+       visitType.addEventListener("change", toggleFields);
+       toggleFields(); 
+   });
 </script>
 @endsection

@@ -15,8 +15,8 @@
                </div>
                <div class="card-body">
                   <form action="{{ route('manager.visits.update', $visit_detail->id) }}" method="POST" autocomplete="off">
-                    @csrf
-                    @method('PUT')
+                     @csrf
+                     @method('PUT')
                      <div class="row">
                         <input type="hidden" name="mr_id" value="{{ $visit_detail->mr_id }}">
                         <!--Area Name-->
@@ -66,26 +66,26 @@
                         <!--Area Pin Code-->
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                                 <label for="pin_code">Area Pin Code</label>
-                                 <input type="number" class="form-control" id="pin_code" name="pin_code"
-                                    value="{{ old('pin_code', $visit_detail->pin_code) }}" placeholder="Enter area pin code">
-                                 @error('pin_code')
-                                    <small class="text-danger">{{ $message }}</small>
-                                 @enderror
+                              <label for="pin_code">Area Pin Code</label>
+                              <input type="number" class="form-control" id="pin_code" name="pin_code"
+                                 value="{{ old('pin_code', $visit_detail->pin_code) }}" placeholder="Enter area pin code">
+                              @error('pin_code')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
                            </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
-                                 <label for="visit_date">Visit Date</label>
-                                 <input type="date" class="form-control start-date" id="visit_date" name="visit_date"
-                                    value="{{ old('visit_date', $visit_detail->visit_date) }}" placeholder="Enter visit date">
-                                 @error('visit_date')
-                                    <small class="text-danger">{{ $message }}</small>
-                                 @enderror
+                              <label for="visit_date">Visit Date</label>
+                              <input type="date" class="form-control start-date" id="visit_date" name="visit_date"
+                                 value="{{ old('visit_date', $visit_detail->visit_date) }}" placeholder="Enter visit date">
+                              @error('visit_date')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
                            </div>
                         </div>
-                          <!--Status-->
-                        <!-- <div class="col-md-6 col-lg-4">
+                        <!--Status-->
+                        <!--<div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="status">Status</label>
                               <select class="form-control" id="status" name="status">
@@ -99,46 +99,46 @@
                                  <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
-                        </div> -->
+                        </div>-->
                         <div class="col-md-12">
                            <div class="form-group">
-                                 <label>Comments</label>
-                                 <textarea name="comments" class="form-control" rows="4"
-                                    placeholder="Enter comments">{{ old('comments', $visit_detail->comments) }}</textarea>
-                                 @error('comments')
-                                    <small class="text-danger">{{ $message }}</small>
-                                 @enderror
+                              <label>Comments</label>
+                              <textarea name="comments" class="form-control" rows="4"
+                                 placeholder="Enter comments">{{ old('comments', $visit_detail->comments) }}</textarea>
+                              @error('comments')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
                            </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="status">Visit Type</label>
                               <select name="visit_type" id="visit_type" class="form-control">
-                                 <option value="doctor" {{ old('visit_type', $visit_detail->visit_type) == 'doctor' ? 'selected' : '' }}>MBBS, MD, MS, Diploma, (mention name of hospital whether  government or  pvt doctor)</option>
-                                 <option value="bams_rmp_dental" {{ old('visit_type', $visit_detail->visit_type) == 'bams_rmp_dental' ? 'selected' : '' }}>BAMS RMP Dental</option>
-                                 <option value="asha_workers" {{ old('visit_type', $visit_detail->visit_type) == 'asha_workers' ? 'selected' : '' }}>Asha Workers</option>
-                                 <option value="health_workers" {{ old('visit_type', $visit_detail->visit_type) == 'health_workers' ? 'selected' : '' }}>Health Workers</option>
-                                 <option value="anganwadi" {{ old('visit_type', $visit_detail->visit_type) == 'anganwadi' ? 'selected' : '' }}>Anganwadi / Balvatika</option>
-                                 <option value="school" {{ old('visit_type', $visit_detail->visit_type) == 'school' ? 'selected' : '' }}>School</option>
-                                 <option value="villages" {{ old('visit_type', $visit_detail->visit_type) == 'villages' ? 'selected' : '' }}>Villages</option>
-                                 <option value="city" {{ old('visit_type', $visit_detail->visit_type) == 'city' ? 'selected' : '' }}>City</option>
-                                 <option value="societies" {{ old('visit_type', $visit_detail->visit_type) == 'societies' ? 'selected' : '' }}>Societies</option>
-                                 <option value="ngo" {{ old('visit_type', $visit_detail->visit_type) == 'ngo' ? 'selected' : '' }}>NGO</option>
-                                 <option value="religious_places" {{ old('visit_type', $visit_detail->visit_type) == 'religious_places' ? 'selected' : '' }}>Religious Places</option>
-                                 <option value="other" {{ old('visit_type', $visit_detail->visit_type) == 'other' ? 'selected' : '' }}>Other Visit (NGOs, Asha workers etc.)</option>
+                              <option value="doctor" {{ old('visit_type', $visit_detail->visit_type) == 'doctor' ? 'selected' : '' }}>MBBS, MD, MS, Diploma, (mention name of hospital whether  government or  pvt doctor)</option>
+                              <option value="bams_rmp_dental" {{ old('visit_type', $visit_detail->visit_type) == 'bams_rmp_dental' ? 'selected' : '' }}>BAMS RMP Dental</option>
+                              <option value="asha_workers" {{ old('visit_type', $visit_detail->visit_type) == 'asha_workers' ? 'selected' : '' }}>Asha Workers</option>
+                              <option value="health_workers" {{ old('visit_type', $visit_detail->visit_type) == 'health_workers' ? 'selected' : '' }}>Health Workers</option>
+                              <option value="anganwadi" {{ old('visit_type', $visit_detail->visit_type) == 'anganwadi' ? 'selected' : '' }}>Anganwadi / Balvatika</option>
+                              <option value="school" {{ old('visit_type', $visit_detail->visit_type) == 'school' ? 'selected' : '' }}>School</option>
+                              <option value="villages" {{ old('visit_type', $visit_detail->visit_type) == 'villages' ? 'selected' : '' }}>Villages</option>
+                              <option value="city" {{ old('visit_type', $visit_detail->visit_type) == 'city' ? 'selected' : '' }}>City</option>
+                              <option value="societies" {{ old('visit_type', $visit_detail->visit_type) == 'societies' ? 'selected' : '' }}>Societies</option>
+                              <option value="ngo" {{ old('visit_type', $visit_detail->visit_type) == 'ngo' ? 'selected' : '' }}>NGO</option>
+                              <option value="religious_places" {{ old('visit_type', $visit_detail->visit_type) == 'religious_places' ? 'selected' : '' }}>Religious Places</option>
+                              <option value="other" {{ old('visit_type', $visit_detail->visit_type) == 'other' ? 'selected' : '' }}>Other Visit (NGOs, Asha workers etc.)</option>
                               </select>
                            </div>
                         </div>
-            
-                           <div class="col-md-8 visit-extra visit-doctor" style="display:none;">
+                        <div class="col-md-8 visit-extra visit-doctor" style="display:none;">
                            <div class="form-group">
                               <label for="status">Doctor</label>
                               <select name="doctor_id" class="form-control">
-                                 <option value="">Please select</option>
+                                 <option value="" disabled selected>Please select</option>
                                  <!--Get doctors-->
                                  @foreach ($assignedDoctors as $doctor)
                                  <option value="{{ $doctor->id }}" {{ $visit_detail->doctor?->id == $doctor->id ? 'selected' : '' }}>
-                                    {{ $doctor->doctor_name }} ({{ $doctor->specialist }}), {{ $doctor->hospital_name }} - {{ $doctor->hospital_type }}
+                                    {{ $doctor->doctor_name }} ({{ $doctor->specialist }}), 
+                                    {{ $doctor->hospital_name }} - {{ $doctor->hospital_type }}
                                  </option>
                                  @endforeach
                               </select>
@@ -147,98 +147,88 @@
                               @enderror
                            </div>
                         </div>
-                          <!--Villages-->
-                                <div class="col-md-8 visit-extra visit-villages" style="display:none;">
-                                    <div class="form-group">
-                                        <label>Villages</label>
-                                        <textarea name="villages" class="form-control" rows="3"
-                                            placeholder="Enter village, pin code, contacts of sarpanch, panch, important person of village, designation">{{ old('villages',$visit_detail->villages) }}</textarea>
-                                        @error('villages')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <!--City-->
-                                <div class="col-md-8 visit-extra visit-city" style="display:none;">
-                                    <div class="form-group">
-                                        <label>City</label>
-                                        <textarea name="city" class="form-control" rows="3"
-                                            placeholder="Enter city, sector/ward, important person">{{ old('city',$visit_detail->city) }}</textarea>
-                                        @error('city')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <!--Societies-->
-                                <div class="col-md-8 visit-extra visit-societies" style="display:none;">
-                                    <div class="form-group">
-                                        <label>Societies</label>
-                                        <textarea name="societies" class="form-control" rows="3"
-                                            placeholder="Enter societies, contacts of past or present members, important persons">{{ old('societies',$visit_detail->societies) }}</textarea>
-                                        @error('societies')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <!--NGO-->
-                                <div class="col-md-8 visit-extra visit-ngo" style="display:none;">
-                                    <div class="form-group">
-                                        <label>NGO</label>
-                                        <textarea name="ngo" class="form-control" rows="3"
-                                            placeholder="Enter ngo of the area, social activist, contact number">{{ old('ngo',$visit_detail->ngo) }}</textarea>
-                                        @error('ngo')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                    <!--Religious Places-->
-                                <div class="col-md-8 visit-extra visit-religious_places" style="display:none;">
-                                    <div class="form-group">
-                                        <label>Religious Place</label>
-                                        <textarea name="religious_place_name" class="form-control" rows="3"
-                                            placeholder="Enter religious places, contacts">{{ old('religious_place_name',$visit_detail->religious_place) }}</textarea>
-                                        @error('religious_place_name')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-
-
-                                <!--Other-->
-                                <div class="col-md-8 visit-extra visit-other" style="display:none;">
-                                    <div class="form-group">
-                                        <label>Other Visit Details</label>
-                                        <input type="text" name="other_visit_details" class="form-control"
-                                            value="{{ old('other_visit_details',$visit_detail->other_visit) }}" placeholder="Enter details">
-                                        @error('other_visit_details')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <!--School-->
-                                <div class="col-md-8 visit-extra visit-school" style="display:none;">
-                                    <div class="form-group">
-                                        <label>School Type</label>
-                                        <select name="school_type" class="form-control">
-                                            <option value="">Please Select</option>
-                                            <option value="Government" {{ old('school_type', $visit_detail->school_type) == 'Government' ? 'selected' : '' }}>Government</option>
-                                            <option value="Private" {{ old('school_type', $visit_detail->school_type) == 'Private' ? 'selected' : '' }}>Private</option>
-                                            <option value="Play" {{ old('school_type', $visit_detail->school_type) == 'Play' ? 'selected' : '' }}>Play School</option>
-                                            <option value="Other" {{ old('school_type', $visit_detail->school_type) == 'Other' ? 'selected' : '' }}>Other</option>
-                                        </select>
-                                        @error('school_type')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-            
+                        <!--Villages-->
+                        <div class="col-md-8 visit-extra visit-villages" style="display:none;">
+                           <div class="form-group">
+                              <label>Villages</label>
+                              <textarea name="villages" class="form-control" rows="3"
+                                 placeholder="Enter village, pin code, contacts of sarpanch, panch, important person of village, designation">{{ old('villages',$visit_detail->villages) }}</textarea>
+                              @error('villages')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--City-->
+                        <div class="col-md-8 visit-extra visit-city" style="display:none;">
+                           <div class="form-group">
+                              <label>City</label>
+                              <textarea name="city" class="form-control" rows="3"
+                                 placeholder="Enter city, sector/ward, important person">{{ old('city',$visit_detail->city) }}</textarea>
+                              @error('city')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--Societies-->
+                        <div class="col-md-8 visit-extra visit-societies" style="display:none;">
+                           <div class="form-group">
+                              <label>Societies</label>
+                              <textarea name="societies" class="form-control" rows="3"
+                                 placeholder="Enter societies, contacts of past or present members, important persons">{{ old('societies',$visit_detail->societies) }}</textarea>
+                              @error('societies')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--NGO-->
+                        <div class="col-md-8 visit-extra visit-ngo" style="display:none;">
+                           <div class="form-group">
+                              <label>NGO</label>
+                              <textarea name="ngo" class="form-control" rows="3"
+                                 placeholder="Enter ngo of the area, social activist, contact number">{{ old('ngo',$visit_detail->ngo) }}</textarea>
+                              @error('ngo')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--Religious Places-->
+                        <div class="col-md-8 visit-extra visit-religious_places" style="display:none;">
+                           <div class="form-group">
+                              <label>Religious Place</label>
+                              <textarea name="religious_place_name" class="form-control" rows="3"
+                                 placeholder="Enter religious places, contacts">{{ old('religious_place_name',$visit_detail->religious_place) }}</textarea>
+                              @error('religious_place_name')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--Other-->
+                        <div class="col-md-8 visit-extra visit-other" style="display:none;">
+                           <div class="form-group">
+                              <label>Other Visit Details</label>
+                              <input type="text" name="other_visit_details" class="form-control"
+                                 value="{{ old('other_visit_details',$visit_detail->other_visit) }}" placeholder="Enter details">
+                              @error('other_visit_details')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--School-->
+                        <div class="col-md-8 visit-extra visit-school" style="display:none;">
+                           <div class="form-group">
+                              <label>School Type</label>
+                              <select name="school_type" class="form-control">
+                                 <option value="">Please Select</option>
+                                 <option value="Government" {{ old('school_type', $visit_detail->school_type) == 'Government' ? 'selected' : '' }}>Government</option>
+                                 <option value="Private" {{ old('school_type', $visit_detail->school_type) == 'Private' ? 'selected' : '' }}>Private</option>
+                                 <option value="Play" {{ old('school_type', $visit_detail->school_type) == 'Play' ? 'selected' : '' }}>Play School</option>
+                                 <option value="Other" {{ old('school_type', $visit_detail->school_type) == 'Other' ? 'selected' : '' }}>Other</option>
+                              </select>
+                              @error('school_type')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
                      </div>
                      <div class="card-action">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -252,20 +242,18 @@
    </div>
 </div>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const visitType = document.getElementById("visit_type");
-    const allExtras = document.querySelectorAll(".visit-extra");
-
-    function toggleFields() {
-        allExtras.forEach(el => el.style.display = "none");
-        if (visitType.value) {
+   document.addEventListener("DOMContentLoaded", function() {
+      const visitType = document.getElementById("visit_type");
+      const allExtras = document.querySelectorAll(".visit-extra");
+      function toggleFields() {
+         allExtras.forEach(el => el.style.display = "none");
+         if (visitType.value) {
             const target = document.querySelector(".visit-" + visitType.value);
             if (target) target.style.display = "block";
-        }
-    }
-
-    visitType.addEventListener("change", toggleFields);
-    toggleFields(); 
-});
+         }
+      }
+      visitType.addEventListener("change", toggleFields);
+      toggleFields(); 
+   });
 </script>
 @endsection

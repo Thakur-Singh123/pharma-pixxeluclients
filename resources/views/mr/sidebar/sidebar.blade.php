@@ -54,6 +54,30 @@
                         </ul>
                     </div>
                 </li>
+                <!--Clients section-->
+                <li class="nav-item {{ request()->is('mr/clients*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseClients"
+                        class="{{ request()->is('mr/clients*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/clients*') ? 'true' : 'false' }}">
+                        <i class="fas fa-address-card"></i>
+                        <p>Clients</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('mr/clients*') ? 'show' : '' }}" id="collapseClients">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('mr/clients/create') ? 'active' : '' }}">
+                                <a href="{{ url('mr/clients/create') }}">
+                                    <span class="sub-item">Add Client</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/clients') || request()->is('mr/clients/*/edit') ? 'active' : '' }}">
+                                <a href="{{ url('mr/clients') }}">
+                                    <span class="sub-item">All Clients</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--daily visit section-->
                 <li class="nav-item {{ request()->is('mr/visits*') || request()->is('mr/areas-served') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseVisit"

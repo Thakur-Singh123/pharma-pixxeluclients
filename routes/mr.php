@@ -16,6 +16,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::post('/attendance/check-in', [App\Http\Controllers\MR\AttendanceController::class, 'checkIn'])->name('attendance.checkin');
     Route::post('/attendance/check-out', [App\Http\Controllers\MR\AttendanceController::class, 'checkOut'])->name('attendance.checkout');
     Route::get('/attendance/monthly', [App\Http\Controllers\MR\AttendanceController::class, 'month'])->name('attendance.monthly');
+    //Task
+    Route::resource('/clients', App\Http\Controllers\MR\ClientController::class);
     //Daily visits
     Route::get('/visits/create', [App\Http\Controllers\MR\VisitController::class, 'add_visit']);
     Route::post('/submit-visit', [App\Http\Controllers\MR\VisitController::class, 'submit_visit'])->name('submit.visit');

@@ -135,7 +135,7 @@
                                                                 @endif
                                                             </td>
                                                             <td>{{ $visit->mr['name'] }}</td>
-                                                            <!-- <td>
+                                                            <!--<td>
                                                                 @if($visit->visit_type == 'other')
                                                                     Other Visit -
                                                                     ({{ $visit->other_visit ?? 'N/A' }})
@@ -147,7 +147,7 @@
                                                                     Religious Places -
                                                                     ({{ $visit->religious_place ?? 'N/A' }})
                                                                 @endif
-                                                            </td> -->
+                                                            </td>-->
                                                             <td style="display: flex; gap: 5px;">
                                                                 @if ($visit->status == 'Pending')
                                                                     <form method="POST"
@@ -162,7 +162,8 @@
                                                                         action="{{ route('manager.visit.reject', $visit->id) }}">
                                                                         @csrf
                                                                         <button
-                                                                            class="btn btn-danger btn-sm">Reject
+                                                                            class="btn btn-danger btn-sm">
+                                                                            Reject
                                                                         </button>
                                                                     </form>
                                                                 @elseif($visit->status == 'Approved')
@@ -170,7 +171,8 @@
                                                                         action="{{ route('manager.visit.reject', $visit->id) }}">
                                                                         @csrf
                                                                         <button
-                                                                            class="btn btn-danger btn-sm">Reject
+                                                                            class="btn btn-danger btn-sm">
+                                                                            Reject
                                                                         </button>
                                                                     </form>
                                                                 @elseif($visit->status == 'Reject')
@@ -178,7 +180,9 @@
                                                                         action="{{ route('manager.visit.approve', $visit->id) }}">
                                                                         @csrf
                                                                         <button
-                                                                            class="btn btn-success btn-sm">Approve</button>
+                                                                            class="btn btn-success btn-sm">
+                                                                            Approve
+                                                                        </button>
                                                                     </form>
                                                                 @endif
                                                             </td>

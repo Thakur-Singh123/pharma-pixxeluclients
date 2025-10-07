@@ -118,7 +118,7 @@
                                                     </tr>
                                                     @empty
                                                     <tr>
-                                                        <td colspan="8" class="text-center">No visits found.</td>
+                                                        <td colspan="8" class="text-center">No clients found.</td>
                                                     </tr>
                                                     @endforelse
                                                 </tbody>

@@ -12,30 +12,54 @@ use DB;
 
 class SalesController extends Controller
 {
-    //function for view sales
+    //Function for all sales
     public function index(Request $request) {
+        //Get auth login detail
         $mrs_id = MangerMR::where('manager_id', auth()->user()->id)->pluck('mr_id')->toArray();
         $mrs = User::where('can_sale', 1)->where('status','Active')->whereIn('id', $mrs_id)->get();
-
-
+        //Filter sale
         $query = Sale::orderBy('created_at', 'desc');
         if($request->filled('created_by')){
             $query->where('user_id', $request->created_by);
         }
-
-        $sales = $query->with('user','items')->paginate(10);
+        //Get sales
+        $sales = $query->with('user','items')->paginate(5);
         return view('manager.sales.index', compact('sales','mrs'));
     }
 
-    //function for edit
+    //Function for edit sale
     public function edit($id) {
+        //Get sale detail
         $sale = Sale::with('items')->findOrFail($id);
         return view('manager.sales.edit', compact('sale'));
     }
 
-    //function for update
-     public function update(Request $request, $id)
-    {
+    //Function for approval sale
+    public function sale_approve($id) {
+        //Get sale detail
+        $sale_detail = Sale::with('items')->findOrFail($id);
+        //Update status
+        $sale_detail->status = 'Approved';
+        $sale_detail->approved_by = auth()->user()->id;
+        $sale_detail->save();
+
+        return redirect()->back()->with('success', 'Sale approved successfully.');
+    }
+
+    //Function for reject sale
+    public function sale_reject($id) {
+        //Get sale detail
+        $sale_detail = Sale::with('items')->findOrFail($id);
+        //Update status
+        $sale_detail->status = 'Reject';
+        $sale_detail->approved_by = auth()->user()->id;
+        $sale_detail->save();
+
+        return redirect()->back()->with('success', 'Sale reject successfully.');
+    }
+
+    //Function for update sale
+    public function update(Request $request, $id) {
         // $request->validate([
         //     'name' => 'required|string',
         //     'email' => 'required|email',
@@ -57,19 +81,17 @@ class SalesController extends Controller
         //     'net_amount' => 'required|numeric',
         //     'payment_mode' => 'required|string',
         // ]);
-
+        //Db function
         DB::transaction(function () use ($request, $id) {
             $sale = Sale::with('items')->findOrFail($id);
-
-            // Handle file upload (optional)
+            //Handle file upload (optional)
             $currentFile = $sale->prescription_file;
             if ($request->hasFile('prescription_file')) {
                 $prescription = $request->file('prescription_file');
                 $prescription->move(public_path('prescriptions'), $prescription->getClientOriginalName());
                 $currentFile = $prescription->getClientOriginalName();
             }
-
-            // Update Sale
+            //Update sale
             $sale->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -83,8 +105,7 @@ class SalesController extends Controller
                 'net_amount' => '0',
                 'payment_mode' => $request->payment_mode,
             ]);
-
-            //Replace Sale Items
+            //Update sale items
             $sale->items()->delete();
             foreach ($request->salt_name as $index => $salt_name) {
                 $sale->items()->create([
@@ -105,21 +126,24 @@ class SalesController extends Controller
             }
         });
 
-        return redirect()->route('manager.sales.index')->with('success', 'Sale updated successfully!');
+        return redirect()->route('manager.sales.index')->with('success', 'Sale updated successfully.');
     }
 
-    //function for destroy
+    //Function for destroy sale
     public function destroy($id) {
+        //Get sale detail
         $sale = Sale::findOrFail($id);
+        //Check if prescription file exists or not
         if($sale && $sale->prescription_file){
             unlink(public_path('prescriptions/'.$sale->prescription_file));
         }
+        //Delete sale item
         if($sale->items){
             foreach($sale->items as $item){
                 $item->delete();
             }
         }
         $sale->delete();
-        return redirect()->route('manager.sales.index')->with('success', 'Sale deleted successfully!');
+        return redirect()->route('manager.sales.index')->with('success', 'Sale deleted successfully.');
     }
 }

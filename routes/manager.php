@@ -21,6 +21,10 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/user/{id}/approve', [App\Http\Controllers\Manager\UserStatusController::class, 'approve_user'])->name('user.approve');
     Route::post('/users/{id}/reject', [App\Http\Controllers\Manager\UserStatusController::class, 'reject_user'])->name('user.reject');
     Route::post('/users/{id}/pending', [App\Http\Controllers\Manager\UserStatusController::class, 'pending_user'])->name('user.pending');
+    //Clients
+    Route::resource('/clients', App\Http\Controllers\Manager\ClientController::class);
+    Route::post('/clients/{id}/approve', [App\Http\Controllers\Manager\ClientController::class, 'client_approve'])->name('clients.approve');
+    Route::post('/clients/{id}/reject', [App\Http\Controllers\Manager\ClientController::class, 'client_reject'])->name('clients.reject');
     //Daily visits
     Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
     Route::post('/visit-approve/{id}', [App\Http\Controllers\Manager\VisitController::class, 'approve'])->name('visit.approve');
@@ -54,7 +58,6 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/doctors-waiting-for-approval', [App\Http\Controllers\Manager\DoctorController::class,'waiting_for_approval']);
     Route::post('/doctor-approve/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'approve'])->name('doctor.approve');
     Route::post('/doctor-reject/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'reject'])->name('doctor.reject');
-
     Route::get('/doctors/edit/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'edit_doctor']);
     Route::post('/update-doctor-status/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'update_doctor_status'])->name('doctor.update.status');
     Route::post('/update-doctor/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'update_doctor'])->name('update.doctor');
@@ -96,6 +99,8 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('export-daily-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'export'])->name('reports.export.daily');
     //Sales
     Route::resource('sales', App\Http\Controllers\Manager\SalesController::class);
+    Route::post('/sale/{id}/approve', [App\Http\Controllers\Manager\SalesController::class, 'sale_approve'])->name('sale.approve');
+    Route::post('/sale/{id}/reject', [App\Http\Controllers\Manager\SalesController::class, 'sale_reject'])->name('sale.reject');
     //Camp reports
     Route::get('export-camp-report', [App\Http\Controllers\Manager\CampReportExportController::class, 'export_campReport']);
 });

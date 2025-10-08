@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
-            $table->id();
-            $table->string('category_type')->nullable();
-            $table->json('details')->nullable(); 
-            $table->timestamps();
+        Schema::table('clients', function (Blueprint $table) {
+            $table->string('approved_by')->after('status')->nullable();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::table('clients', function (Blueprint $table) {
+            //
+        });
     }
 };

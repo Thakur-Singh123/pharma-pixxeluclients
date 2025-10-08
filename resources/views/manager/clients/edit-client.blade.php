@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -14,7 +14,7 @@
                         <h4 class="card-title">Edit Client</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('mr.clients.update', $client_detail->id) }}" method="POST" autocomplete="off">
+                        <form action="{{ route('manager.clients.update', $client_detail->id) }}" method="POST" autocomplete="off">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -43,7 +43,7 @@
                             </div>
                             <!--Dynamic fields-->
                             <div class="row mt-3" id="category-fields">
-                                 <!--Doctor Details-->
+                                <!--Doctor Details-->
                                 <div class="col-md-12 extra doctor-heading" style="display:none;">
                                     <h5 class="details-heading">*Doctor Details</h5>
                                 </div>

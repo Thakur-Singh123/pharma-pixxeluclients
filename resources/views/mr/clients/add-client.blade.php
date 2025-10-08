@@ -39,28 +39,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <!--Client name-->
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="client_name">Client Name</label>
-                                        <input type="text" class="form-control" id="client_name" name="client_name"
-                                            value="{{ old('client_name') }}" placeholder="Enter client name">
-                                        @error('client_name')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <!--Client contact-->
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="client_contact">Contact Number</label>
-                                        <input type="number" class="form-control" id="client_contact" name="client_contact"
-                                            value="{{ old('client_contact') }}" placeholder="Enter contact number">
-                                        @error('client_contact')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
                             </div>
                             <!--Dynamic fields-->
                             <div class="row mt-3" id="category-fields">
@@ -71,19 +49,19 @@
                                 <div class="col-md-4 extra doctor" style="display:none;">
                                     <div class="form-group">
                                         <label>Doctor Name</label>
-                                        <input type="text" name="doctor_name" class="form-control" value="{{ old('doctor_name') }}" placeholder="Enter doctor name">
+                                        <input type="text" name="doctor_name" class="form-control" value="{{ old('doctor_name') }}" placeholder="Enter doctor name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra doctor" style="display:none;">
                                     <div class="form-group">
                                         <label>Hospital Name</label>
-                                        <input type="text" name="hospital_name" class="form-control" value="{{ old('hospital_name') }}" placeholder="Enter hospital name">
+                                        <input type="text" name="hospital_name" class="form-control" value="{{ old('hospital_name') }}" placeholder="Enter hospital name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra doctor" style="display:none;">
                                     <div class="form-group">
                                         <label>Hospital Type</label>
-                                        <select name="hospital_type" class="form-control">
+                                        <select name="hospital_type" class="form-control" required>
                                             <option value="" selected disabled>Select</option>
                                             <option value="government" {{ old('hospital_type') == 'government' ? 'selected' : '' }}>Government</option>
                                             <option value="private" {{ old('hospital_type') == 'private' ? 'selected' : '' }}>Private</option>
@@ -95,19 +73,31 @@
                                 <div class="col-md-4 extra doctor" style="display:none;">
                                     <div class="form-group">
                                         <label>Specialist</label>
-                                        <input type="text" name="specialist" class="form-control" value="{{ old('specialist') }}" placeholder="Enter MBBS / MD / MS / Diploma">
+                                        <input type="text" name="specialist" class="form-control" value="{{ old('specialist') }}" placeholder="Enter MBBS / MD / MS / Diploma" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra doctor" style="display:none;">
                                     <div class="form-group">
-                                        <label>Age</label>
-                                        <input type="number" name="age" class="form-control" value="{{ old('age') }}" placeholder="Enter age">
+                                        <label>Contact</label>
+                                        <input type="number" name="hospital_contact" class="form-control" value="{{ old('hospital_contact') }}" placeholder="Enter contact number" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra doctor" style="display:none;">
                                     <div class="form-group">
-                                        <label>Experience</label>
-                                        <input type="text" name="experience" class="form-control" value="{{ old('experience') }}" placeholder="Enter experience">
+                                        <label>Address</label>
+                                        <input type="text" name="hospital_address" class="form-control" value="{{ old('hospital_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra doctor" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="hospital_particulars" class="form-control" value="{{ old('hospital_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra doctor" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="hospital_remarks" class="form-control" value="{{ old('hospital_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Nurse Details-->
@@ -117,37 +107,31 @@
                                 <div class="col-md-4 extra nurse" style="display:none;">
                                     <div class="form-group">
                                         <label>Nurse Name</label>
-                                        <input type="text" name="nurse_name" class="form-control" value="{{ old('nurse_name') }}" placeholder="Enter nurse name">
+                                        <input type="text" name="nurse_name" class="form-control" value="{{ old('nurse_name') }}" placeholder="Enter nurse name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra nurse" style="display:none;">
                                     <div class="form-group">
-                                        <label>Hospital Name</label>
-                                        <input type="text" name="n_hospital_name" class="form-control" value="{{ old('n_hospital_name') }}" placeholder="Enter hospital name">
+                                        <label>Contact</label>
+                                        <input type="number" name="nurse_contact" class="form-control" value="{{ old('nurse_contact') }}" placeholder="Enter contact number" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra nurse" style="display:none;">
                                     <div class="form-group">
-                                        <label>Department</label>
-                                        <select name="department" class="form-control">
-                                            <option value="" disabled selected>Select</option>
-                                            <option value="icu" {{ old('department') == 'icu' ? 'selected' : '' }}>ICU</option>
-                                            <option value="general" {{ old('department') == 'general' ? 'selected' : '' }}>General</option>
-                                            <option value="pediatrics" {{ old('department') == 'pediatrics' ? 'selected' : '' }}>Pediatrics</option>
-                                            <option value="others" {{ old('department') == 'others' ? 'selected' : '' }}>Others</option>
-                                        </select>
+                                        <label>Address</label>
+                                        <input type="text" name="nurse_address" class="form-control" value="{{ old('nurse_address') }}" placeholder="Enter address" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra nurse" style="display:none;">
                                     <div class="form-group">
-                                        <label>Age</label>
-                                        <input type="number" name="n_age" class="form-control" value="{{ old('n_age') }}" placeholder="Enter age">
+                                        <label>Particulars</label>
+                                        <input type="text" name="nurse_particulars" class="form-control" value="{{ old('nurse_particulars') }}" placeholder="Enter particulars" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra nurse" style="display:none;">
                                     <div class="form-group">
-                                        <label>Experience</label>
-                                        <input type="text" name="n_experience" class="form-control" value="{{ old('n_experience') }}" placeholder="Enter experience">
+                                        <label>Remarks</label>
+                                        <input type="text" name="nurse_remarks" class="form-control" value="{{ old('nurse_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Lab Technician Details-->
@@ -157,13 +141,31 @@
                                 <div class="col-md-4 extra lab_technician" style="display:none;">
                                     <div class="form-group">
                                         <label>Lab Name</label>
-                                        <input type="text" name="lab_name" class="form-control" value="{{ old('lab_name') }}" placeholder="Enter lab name">
+                                        <input type="text" name="lab_name" class="form-control" value="{{ old('lab_name') }}" placeholder="Enter lab name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra lab_technician" style="display:none;">
                                     <div class="form-group">
                                         <label>Contact</label>
-                                        <input type="number" name="lab_contact" class="form-control" value="{{ old('lab_contact') }}" placeholder="Enter contact number">
+                                        <input type="number" name="lab_contact" class="form-control" value="{{ old('lab_contact') }}" placeholder="Enter contact number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra lab_technician" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" name="lab_address" class="form-control" value="{{ old('lab_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra lab_technician" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="lab_particulars" class="form-control" value="{{ old('lab_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra lab_technician" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="lab_remarks" class="form-control" value="{{ old('lab_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Chemist Details--> 
@@ -173,13 +175,31 @@
                                 <div class="col-md-4 extra chemist" style="display:none;">
                                     <div class="form-group">
                                         <label>Chemist Name</label>
-                                        <input type="text" name="chemist_name" class="form-control" value="{{ old('chemist_name') }}" placeholder="Enter chemist name">
+                                        <input type="text" name="chemist_name" class="form-control" value="{{ old('chemist_name') }}" placeholder="Enter chemist name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra chemist" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Contact</label>
+                                        <input type="number" name="chemist_contact" class="form-control" value="{{ old('chemist_contact') }}" placeholder="Enter contact number" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra chemist" style="display:none;">
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <input type="text" name="address" class="form-control" value="{{ old('address') }}" placeholder="Enter address">
+                                        <input type="text" name="chemist_address" class="form-control" value="{{ old('chemist_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra chemist" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="chemist_particulars" class="form-control" value="{{ old('chemist_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra chemist" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="chemist_remarks" class="form-control" value="{{ old('chemist_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Asha Worker Details-->
@@ -189,13 +209,31 @@
                                 <div class="col-md-4 extra asha_worker" style="display:none;">
                                     <div class="form-group">
                                         <label>Asha Worker Name</label>
-                                        <input type="text" name="asha_name" class="form-control" value="{{ old('asha_name') }}" placeholder="Enter name">
+                                        <input type="text" name="asha_name" class="form-control" value="{{ old('asha_name') }}" placeholder="Enter name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra asha_worker" style="display:none;">
                                     <div class="form-group">
-                                        <label>Area / Pin Code</label>
-                                        <input type="number" name="asha_area" class="form-control" value="{{ old('asha_area') }}" placeholder="Enter area / pin code">
+                                        <label>Contact</label>
+                                        <input type="number" name="asha_contact" class="form-control" value="{{ old('asha_contact') }}" placeholder="Enter contact number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra asha_worker" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" name="asha_address" class="form-control" value="{{ old('asha_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra asha_worker" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="asha_particulars" class="form-control" value="{{ old('asha_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra asha_worker" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="asha_remarks" class="form-control" value="{{ old('asha_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Sarpanch Details-->
@@ -205,13 +243,31 @@
                                 <div class="col-md-4 extra sarpanch" style="display:none;">
                                     <div class="form-group">
                                         <label>Sarpanch Name</label>
-                                        <input type="text" name="sarpanch_name" class="form-control" value="{{ old('sarpanch_name') }}" placeholder="Enter sarpanch name">
+                                        <input type="text" name="sarpanch_name" class="form-control" value="{{ old('sarpanch_name') }}" placeholder="Enter sarpanch name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra sarpanch" style="display:none;">
                                     <div class="form-group">
                                         <label>Contact</label>
-                                        <input type="number" name="contact" class="form-control" value="{{ old('contact') }}" placeholder="Enter contact number">
+                                        <input type="number" name="sarpanch_contact" class="form-control" value="{{ old('sarpanch_contact') }}" placeholder="Enter contact number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra sarpanch" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" name="sarpanch_address" class="form-control" value="{{ old('sarpanch_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra sarpanch" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="sarpanch_particulars" class="form-control" value="{{ old('sarpanch_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra sarpanch" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="sarpanch_remarks" class="form-control" value="{{ old('sarpanch_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Ward / MC Details-->
@@ -221,13 +277,31 @@
                                 <div class="col-md-4 extra mc" style="display:none;">
                                     <div class="form-group">
                                         <label>Ward / MC</label>
-                                        <input type="text" name="mc_ward" class="form-control" value="{{ old('mc_ward') }}" placeholder="Enter ward / mc name">
+                                        <input type="text" name="mc_ward" class="form-control" value="{{ old('mc_ward') }}" placeholder="Enter ward / mc name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 extra mc" style="display:none;">
                                     <div class="form-group">
-                                        <label>Important Person</label>
-                                        <input type="text" name="mc_person" class="form-control" value="{{ old('mc_person') }}" placeholder="Enter important person name">
+                                        <label>Contact</label>
+                                        <input type="number" name="mc_contact" class="form-control" value="{{ old('mc_contact') }}" placeholder="Enter contact number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra mc" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" name="mc_address" class="form-control" value="{{ old('mc_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra mc" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="mc_particulars" class="form-control" value="{{ old('mc_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra mc" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="mc_remarks" class="form-control" value="{{ old('mc_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Franchisee Details-->
@@ -237,7 +311,31 @@
                                 <div class="col-md-4 extra franchisee" style="display:none;">
                                     <div class="form-group">
                                         <label>Franchisee Name</label>
-                                        <input type="text" name="franchisee_name" class="form-control" value="{{ old('franchisee_name') }}" placeholder="Enter franchisee name">
+                                        <input type="text" name="franchisee_name" class="form-control" value="{{ old('franchisee_name') }}" placeholder="Enter franchisee name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra franchisee" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Contact</label>
+                                        <input type="number" name="franchisee_contact" class="form-control" value="{{ old('franchisee_contact') }}" placeholder="Enter contact number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra franchisee" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" name="franchisee_address" class="form-control" value="{{ old('franchisee_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra franchisee" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="franchisee_particulars" class="form-control" value="{{ old('franchisee_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div> 
+                                <div class="col-md-4 extra franchisee" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="franchisee_remarks" class="form-control" value="{{ old('franchisee_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Healthcare Details-->
@@ -247,7 +345,31 @@
                                 <div class="col-md-4 extra healthcare_worker" style="display:none;">
                                     <div class="form-group">
                                         <label>Healthcare Worker Name</label>
-                                        <input type="text" name="health_worker_name" class="form-control" value="{{ old('health_worker_name') }}" placeholder="Enter name">
+                                        <input type="text" name="health_worker_name" class="form-control" value="{{ old('health_worker_name') }}" placeholder="Enter name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra healthcare_worker" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Contact</label>
+                                        <input type="number" name="health_contact" class="form-control" value="{{ old('health_contact') }}" placeholder="Enter contact number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra healthcare_worker" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" name="health_address" class="form-control" value="{{ old('health_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra healthcare_worker" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="health_particulars" class="form-control" value="{{ old('health_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra healthcare_worker" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="health_remarks" class="form-control" value="{{ old('health_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                                 <!--Other Details-->
@@ -256,7 +378,32 @@
                                 </div>
                                 <div class="col-md-4 extra others" style="display:none;">
                                     <div class="form-group">
-                                        <input type="text" name="others" class="form-control" value="{{ old('others') }}" placeholder="Enter other details">
+                                        <label>Name</label>
+                                        <input type="text" name="others_name" class="form-control" value="{{ old('others_name') }}" placeholder="Enter name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra others" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Contact</label>
+                                        <input type="number" name="others_contact" class="form-control" value="{{ old('others_contact') }}" placeholder="Enter contact number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra others" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" name="others_address" class="form-control" value="{{ old('others_address') }}" placeholder="Enter address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra others" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Particulars</label>
+                                        <input type="text" name="others_particulars" class="form-control" value="{{ old('others_particulars') }}" placeholder="Enter particulars" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 extra others" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" name="others_remarks" class="form-control" value="{{ old('others_remarks') }}" placeholder="Enter remarks" required>
                                     </div>
                                 </div>
                             </div>
@@ -273,20 +420,28 @@
 </div>
 <!--Js-->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const categorySelect = document.getElementById("category_type");
-        const allExtra = document.querySelectorAll(".extra");
-        function toggleFields() {
-            allExtra.forEach(el => el.style.display = "none");
-            if(categorySelect.value) {
-                const fields = document.querySelectorAll("." + categorySelect.value);
-                fields.forEach(el => el.style.display = "block");
-                const heading = document.querySelector("." + categorySelect.value + "-heading");
-                if(heading) heading.style.display = "block";
-            }
+document.addEventListener("DOMContentLoaded", function() {
+    const categorySelect = document.getElementById("category_type");
+    const allExtra = document.querySelectorAll(".extra");
+    function toggleFields() {
+        allExtra.forEach(el => {
+            el.style.display = "none";
+            const inputs = el.querySelectorAll("input, select, textarea");
+            inputs.forEach(input => input.removeAttribute("required"));
+        });
+        if (categorySelect.value) {
+            const fields = document.querySelectorAll("." + categorySelect.value);
+            fields.forEach(el => {
+                el.style.display = "block";
+                const inputs = el.querySelectorAll("input, select, textarea");
+                inputs.forEach(input => input.setAttribute("required", true));
+            });
+            const heading = document.querySelector("." + categorySelect.value + "-heading");
+            if (heading) heading.style.display = "block";
         }
-        categorySelect.addEventListener("change", toggleFields);
-        toggleFields();
-    });
+    }
+    categorySelect.addEventListener("change", toggleFields);
+    toggleFields();
+});
 </script>
 @endsection

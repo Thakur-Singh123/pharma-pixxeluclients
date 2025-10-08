@@ -20,6 +20,8 @@ class Sale extends Model
         'discount',
         'net_amount',
         'payment_mode',
+        'status',
+        'approved_by',
     ];
 
     public function items()

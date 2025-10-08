@@ -106,6 +106,14 @@
                         </ul>
                     </div>
                 </li>
+                <!--clients section-->
+                <li class="nav-item {{ request()->is('manager/clients') || request()->is('manager/clients/*/edit') ? 'active' : '' }}">
+                    <a href="{{ url('manager/clients') }}"
+                        class="nav-link {{ request()->is('manager/clients') || request()->is('manager/clients/*/edit') ? 'active' : '' }}">
+                        <i class="fas fa-address-card"></i>
+                        <p>All Clients</p>
+                    </a>
+                </li>
                 <!--daily visit section-->
                 <li class="nav-item {{ request()->is('manager/visits') || request()->is('manager/visits/*/edit') ? 'active' : '' }}">
                     <a href="{{ url('manager/visits') }}"
@@ -268,24 +276,13 @@
                         <p>Daily MR Reports</p>
                     </a>
                 </li>
-                <!--sales-->
-                <li class="nav-item {{ request()->is('manager/sales*') ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#collapseSales"
-                        class="{{ request()->is('manager/sales*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('manager/sales*') ? 'true' : 'false' }}">
+                <!--sales section-->
+                <li class="nav-item {{ request()->is('manager/sales') || request()->is('manager/sales/*/edit') ? 'active' : '' }}">
+                    <a href="{{ url('manager/sales') }}"
+                        class="nav-link {{ request()->is('manager/sales') || request()->is('manager/sales/*/edit') ? 'active' : '' }}">
                         <i class="fas fa-handshake"></i>
-                        <p>Sales</p>
-                        <span class="caret"></span>
+                        <p>All Sales</p>
                     </a>
-                    <div class="collapse {{ request()->is('manager/sales*') ? 'show' : '' }}" id="collapseSales">
-                        <ul class="nav nav-collapse">
-                            <li class="{{ request()->is('manager/sales') || request()->is('manager/sales/*/edit') ? 'active' : '' }}">
-                                <a href="{{ route('manager.sales.index') }}">
-                                    <span class="sub-item">All Sales</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
                 <!--logout section-->
                 <li class="nav-item">

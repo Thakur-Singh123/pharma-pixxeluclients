@@ -98,6 +98,11 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
+                                                                    style="width: 156.312px;">Status
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
                                                                     style="width: 156.312px;">Action
                                                                 </th>
                                                             </tr>
@@ -125,6 +130,36 @@
                                                                     <td>{{ $event->total_amount }}</td>
                                                                     <td>{{ $event->payment_mode }}</td>
                                                                     <td>{{ $event->user?->name }}</td>
+                                                                    <td style="display: flex; gap: 5px;">
+                                                                        @if ($event->status == 'Pending')
+                                                                            <form method="POST"
+                                                                                action="{{ route('manager.sale.approve', $event->id) }}">
+                                                                                @csrf
+                                                                                <button
+                                                                                    class="btn btn-success btn-sm">Approve</button>
+                                                                            </form>
+                                                                            <form method="POST"
+                                                                                action="{{ route('manager.sale.reject', $event->id) }}">
+                                                                                @csrf
+                                                                                <button
+                                                                                    class="btn btn-danger btn-sm">Reject</button>
+                                                                            </form>
+                                                                        @elseif($event->status == 'Approved')
+                                                                            <form method="POST"
+                                                                                action="{{ route('manager.sale.reject', $event->id) }}">
+                                                                                @csrf
+                                                                                <button
+                                                                                    class="btn btn-danger btn-sm">Reject</button>
+                                                                            </form>
+                                                                        @elseif($event->status == 'Reject')
+                                                                            <form method="POST"
+                                                                                action="{{ route('manager.sale.approve', $event->id) }}">
+                                                                                @csrf
+                                                                                <button
+                                                                                    class="btn btn-success btn-sm">Approve</button>
+                                                                            </form>
+                                                                        @endif
+                                                                    </td>
                                                                     <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('manager.sales.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

@@ -28,25 +28,25 @@
                                 <!-- Customer Info -->
                                 <div class="row">
                                     <h4>Customer Details</h4>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 mb-4">
                                         <label>Company Name<span class="text-danger">*</span></label>
-                                        <input type="text" name="name" class="form-control" value="{{ old('name', $sale->name) }}" required>
+                                        <input type="text" name="name" class="form-control" value="{{ old('name', $sale->name) }}" placeholder="Enter company name" required>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 mb-4">
                                         <label>Email</label>
-                                        <input type="email" name="email" class="form-control" value="{{ old('email', $sale->email) }}" required>
+                                        <input type="email" name="email" class="form-control" value="{{ old('email', $sale->email) }}" placeholder="Enter email address" required>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 mb-4">
                                         <label>Designation</label>
-                                        <input type="text" name="designation" class="form-control" value="{{ old('designation', $sale->designation) }}" required>
+                                        <input type="text" name="designation" class="form-control" value="{{ old('designation', $sale->designation) }}" placeholder="Enter designation" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label>Phone</label>
-                                        <input type="number" name="phone" class="form-control" value="{{ old('phone', $sale->phone) }}" required>
+                                        <input type="number" name="phone" class="form-control" value="{{ old('phone', $sale->phone) }}" placeholder="Enter phone number" required>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 mb-4">
                                         <label>Company Address</label>
-                                        <input type="text" name="address" class="form-control" value="{{ old('address', $sale->address) }}" required>
+                                        <input type="text" name="address" class="form-control" value="{{ old('address', $sale->address) }}" placeholder="Enter company address" required>
                                     </div>
                                 </div>
                                 <!--Doctor & Prescription-->
@@ -54,7 +54,7 @@
                                     <h4>Doctor / Prescription Info</h4>
                                     <div class="col-md-4">
                                         <label>Doctor Name</label>
-                                        <input type="text" name="doctor_name" class="form-control" value="{{ old('doctor_name', $sale->doctor_name) }}" required>
+                                        <input type="text" name="doctor_name" class="form-control" value="{{ old('doctor_name', $sale->doctor_name) }}" placeholder="Enter doctor name" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label>Upload New Prescription (optional)</label>
@@ -133,7 +133,7 @@
                                     <div class="col-md-4">
                                         <label>Payment Mode</label>
                                         <select name="payment_mode" class="form-control">
-                                            <option value="">-- Select --</option>
+                                            <option value="" disabled selected>Select</option>
                                             @php $pm = old('payment_mode', $sale->payment_mode); @endphp
                                             <option value="Cash" {{ $pm == 'Cash' ? 'selected' : '' }}>Cash</option>
                                             <option value="UPI" {{ $pm == 'UPI' ? 'selected' : '' }}>UPI</option>
@@ -142,7 +142,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button class="btn btn-success w-100">Update</button>
+                                <div class="card-action">
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                    <button type="reset" class="btn btn-danger">Cancel</button>
+                                </div>
                             </form>
                         </div>
                     </div>

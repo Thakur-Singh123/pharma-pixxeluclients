@@ -8,5 +8,5 @@ class Client extends Model
 {
     //Call migration
     protected $table = 'clients';
-    protected $fillable = ['name','contact','category_type','details','status'];
+    protected $fillable = ['category_type','details','status','approved_by'];
 }

@@ -10,25 +10,30 @@ use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
 {
-    //function for view sales form
+    //Function for show all sales
+    public function index() {
+        //Get sales
+        $sales = Sale::orderBy('created_at', 'desc')->with('items')->paginate(5);
+        return view('mr.sales.index', compact('sales'));
+    }
+
+    //Function for view sales form
     public function create() {
         return view('mr.sales.create');
     }
 
-    //function for store
-    public function store(Request $request)
-    {
-       
+    //Function for store sale
+    public function store(Request $request) {
+        //Db function
         DB::transaction(function () use ($request) {
-
-            // Handle file upload
+            //Handle file upload
             $currentFile = null;
             if ($request->hasFile('prescription_file')) {
                 $prescription = $request->file('prescription_file');
                 $prescription->move(public_path('prescriptions'), $prescription->getClientOriginalName());
                 $currentFile = $prescription->getClientOriginalName();
             }
-            // Save Sale
+            //Create sale
             $sale = Sale::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -42,9 +47,9 @@ class SalesController extends Controller
                 'net_amount' => '0',
                 'payment_mode' => $request->payment_mode,
                 'user_id' => auth()->id(),
+                'status' => 'Pending',
             ]);
-
-            // Save Sale Items
+            //Create sale items
             foreach ($request->salt_name as $index => $salt_name) {
                 $sale->items()->create([
                     'medicine_name' => 'Thakur',
@@ -65,24 +70,18 @@ class SalesController extends Controller
             }
         });
 
-        return redirect()->back()->with('success', 'Sale recorded successfully!');
+        return redirect()->back()->with('success', 'Sale created successfully.');
     }
 
-    //function for view sales
-    public function index() {
-        $sales = Sale::orderBy('created_at', 'desc')->with('items')->paginate(10);
-        return view('mr.sales.index', compact('sales'));
-    }
-
-    //function for edit
+    //Function for edit sale
     public function edit($id) {
+        //Get sale detail
         $sale = Sale::with('items')->findOrFail($id);
         return view('mr.sales.edit', compact('sale'));
     }
 
-    //function for update
-    public function update(Request $request, $id)
-    {
+    //Function for update sale
+    public function update(Request $request, $id) {
         // $request->validate([
         //     'name' => 'required|string',
         //     'email' => 'required|email',
@@ -104,19 +103,17 @@ class SalesController extends Controller
         //     'net_amount' => 'required|numeric',
         //     'payment_mode' => 'required|string',
         // ]);
-
+        //Db function
         DB::transaction(function () use ($request, $id) {
             $sale = Sale::with('items')->findOrFail($id);
-
-            // Handle file upload (optional)
+            //Handle file upload (optional)
             $currentFile = $sale->prescription_file;
             if ($request->hasFile('prescription_file')) {
                 $prescription = $request->file('prescription_file');
                 $prescription->move(public_path('prescriptions'), $prescription->getClientOriginalName());
                 $currentFile = $prescription->getClientOriginalName();
             }
-
-            // Update Sale
+            //Update Sale
             $sale->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -130,8 +127,7 @@ class SalesController extends Controller
                 'net_amount' => '0',
                 'payment_mode' => $request->payment_mode,
             ]);
-
-            // Replace Sale Items
+            //Update sale items
             $sale->items()->delete();
             foreach ($request->salt_name as $index => $salt_name) {
                 $sale->items()->create([
@@ -151,7 +147,7 @@ class SalesController extends Controller
                 ]);
             }
         });
-
-        return redirect()->route('mr.sales.index')->with('success', 'Sale updated successfully!');
+        
+        return redirect()->route('mr.sales.index')->with('success', 'Sale updated successfully.');
     }
 }

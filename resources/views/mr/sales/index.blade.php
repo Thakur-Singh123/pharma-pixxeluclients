@@ -96,6 +96,11 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
+                                                                    style="width: 156.312px;">Status
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
                                                                     style="width: 156.312px;">Action
                                                                 </th>
                                                             </tr>
@@ -123,9 +128,17 @@
                                                                     <td>{{ $event['items']['0']['salt_name'] }}</td>
                                                                     <td>{{ $event['items']['0']['brand_name'] }}</td>
                                                                     <td>{{ $event->total_amount }}</td>
+                                                                    <td>{{ $event->payment_mode }}</td>
                                                                     <!--<td>{{ $event->discount }}</td>
                                                                     <td>{{ $event->net_amount }}</td>-->
-                                                                    <td>{{ $event->payment_mode }}</td>
+                                                                    <td>
+                                                                        <span class="status-badge 
+                                                                            {{ $event->status == 'Pending' ? 'status-pending' : '' }}
+                                                                            {{ $event->status == 'Reject' ? 'status-suspend' : '' }}
+                                                                            {{ $event->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                            {{ ucfirst($event->status) }}
+                                                                        </span>
+                                                                    </td>
                                                                     <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('mr.sales.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
@@ -134,7 +147,7 @@
                                                                         </div>
                                                                     </td>
                                                                 </tr>
-                                                           @empty
+                                                            @empty
                                                                 <tr>
                                                                     <td colspan="10" class="text-center">No record found
                                                                     </td>

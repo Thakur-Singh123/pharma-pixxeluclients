@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
-            $table->id();
-            $table->string('category_type')->nullable();
-            $table->json('details')->nullable(); 
-            $table->timestamps();
+        Schema::table('sales', function (Blueprint $table) {
+            $table->enum('status',['Approved','Reject','Pending'])->after('payment_mode')->default('Pending');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::table('sales', function (Blueprint $table) {
+            //
+        });
     }
 };

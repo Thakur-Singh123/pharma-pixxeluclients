@@ -16,7 +16,7 @@
                                     <h4 class="card-title">All TA/DA Claims</h4>
                                     <form method="GET" action="{{ route('manager.tada.index') }}">
                                         <select name="status" class="form-control" onchange="this.form.submit()">
-                                            <option value="">-- Filter by Status --</option>
+                                            <option value="">Filter by Status</option>
                                             <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
                                                 Pending</option>
                                             <option value="approved"

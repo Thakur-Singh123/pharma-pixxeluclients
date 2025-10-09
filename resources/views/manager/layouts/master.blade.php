@@ -209,5 +209,17 @@
         $('.select2').select2()
         });
     </script>
+    <script>
+        $(document).ready(function(){
+            $('#add-more').click(function(){
+                let template = $('#row-template').html();
+                $('#dynamic-rows').append(template);
+            });
+
+            $(document).on('click', '.remove-btn', function(){
+                $(this).closest('.dynamic-row').remove();
+            });
+        });
+    </script>
 </body>
 </html>

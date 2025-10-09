@@ -92,6 +92,10 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 366.578px;">Approval
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Action
@@ -148,6 +152,14 @@
                                                                     ({{ $visit->religious_place ?? 'N/A' }})
                                                                 @endif
                                                             </td>-->
+                                                            <td>
+                                                            <span class="status-badge 
+                                                                    {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
+                                                                    {{ $visit->status == 'Reject' ? 'status-suspend' : '' }}
+                                                                    {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($visit->status) }}
+                                                                </span>
+                                                            </td>
                                                             <td style="display: flex; gap: 5px;">
                                                                 @if ($visit->status == 'Pending')
                                                                     <form method="POST"

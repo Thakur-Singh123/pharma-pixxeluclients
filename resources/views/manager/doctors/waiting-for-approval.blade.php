@@ -142,7 +142,7 @@
                                                                 -
                                                             @endif
                                                             </td>
-                                                           <td style="display: flex; gap: 5px;">
+                                                            <td style="display: flex; gap: 5px;">
                                                                 @if ($doctor->approval_status == 'Pending')
                                                                     <form method="POST"
                                                                         action="{{ route('manager.doctor.approve', $doctor->id) }}">

@@ -110,15 +110,13 @@
                                                                     <td>{{ $report->total_visits }}</td>
                                                                     <td>{{ $report->patients_referred }}</td>
                                                                     <td>{{ $report->notes }}</td>
-                                                                    <td
-                                                                        style="color: {{ $report->status == 'pending'
-                                                                            ? 'orange'
-                                                                            : ($report->status == 'rejected'
-                                                                                ? 'blue'
-                                                                                : ($report->status == 'approved'
-                                                                                    ? 'green'
-                                                                                    : 'black')) }}">
-                                                                        {{ ucfirst($report->status) }}
+                                                                    <td>
+                                                                        <span class="status-badge 
+                                                                            {{ $report->status == 'pending' ? 'status-pending' : '' }}
+                                                                            {{ $report->status == 'rejected' ? 'status-suspend' : '' }}
+                                                                            {{ $report->status == 'approved' ? 'status-approved' : '' }}">
+                                                                            {{ ucfirst($report->status) }}
+                                                                        </span>
                                                                     </td>
                                                                     <td>
                                                                         @if ($report->status == 'pending')

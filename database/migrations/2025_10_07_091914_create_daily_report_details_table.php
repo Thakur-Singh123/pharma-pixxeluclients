@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('total_visits')->nullable();
             $table->string('patients_referred')->nullable();
             $table->LongText('notes')->nullable();
-            $table->enum('status',['Approved','Reject','Pending'])->default('Pending');
             $table->timestamps();
         });
     }

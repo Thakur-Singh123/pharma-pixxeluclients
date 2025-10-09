@@ -102,6 +102,10 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Approval
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
                                                                     style="width: 156.312px;">Action
                                                                 </th>
@@ -130,6 +134,14 @@
                                                                     <td>{{ $event->total_amount }}</td>
                                                                     <td>{{ $event->payment_mode }}</td>
                                                                     <td>{{ $event->user?->name }}</td>
+                                                                    <td>
+                                                                        <span class="status-badge 
+                                                                            {{ $event->status == 'Pending' ? 'status-pending' : '' }}
+                                                                            {{ $event->status == 'Reject' ? 'status-suspend' : '' }}
+                                                                            {{ $event->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                            {{ ucfirst($event->status) }}
+                                                                        </span>
+                                                                    </td>
                                                                     <td style="display: flex; gap: 5px;">
                                                                         @if ($event->status == 'Pending')
                                                                             <form method="POST"

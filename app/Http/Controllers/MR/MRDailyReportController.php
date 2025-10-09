@@ -31,6 +31,7 @@ class MRDailyReportController extends Controller
         $is_create_report = DailyReport::create([
             'mr_id' => auth()->id(),
             'report_date' => $request->report_date, 
+            'staus' => 'Pending',
         ]);
         //Check if report created or not
         if($is_create_report) {
@@ -44,7 +45,6 @@ class MRDailyReportController extends Controller
                     'total_visits' => $request->total_visits[$index],
                     'patients_referred'=> $request->patients_referred[$index],
                     'notes' => $request->notes[$index],
-                    'staus' => 'Pending',
                 ]);
             }
             return redirect()->route('mr.daily-reports.index')->with('success','Daily report created successfully.');

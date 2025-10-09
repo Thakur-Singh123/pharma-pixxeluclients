@@ -46,6 +46,10 @@
                                                         </th>
                                                         <th class="sorting" tabindex="0"
                                                             aria-controls="basic-datatables" rowspan="1"
+                                                            colspan="1" style="width: 366.578px;">Approval
+                                                        </th>
+                                                        <th class="sorting" tabindex="0"
+                                                            aria-controls="basic-datatables" rowspan="1"
                                                             colspan="1"
                                                             style="width: 156.312px;">Action
                                                         </th>
@@ -80,6 +84,14 @@
                                                             @else
                                                                 N/A
                                                             @endif
+                                                        </td>
+                                                        <td>
+                                                            <span class="status-badge 
+                                                                {{ $client->status == 'Pending' ? 'status-pending' : '' }}
+                                                                {{ $client->status == 'Reject' ? 'status-suspend' : '' }}
+                                                                {{ $client->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                {{ ucfirst($client->status) }}
+                                                            </span>
                                                         </td>
                                                         <td style="display: flex; justify-content: center; align-items: center; gap: 8px; border: none; height: 97px;">
                                                             @if ($client->status == 'Pending')

@@ -36,6 +36,11 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 156.312px;">Status
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" style="width: 366.578px;">Action
                                                             </th>
                                                         </tr>
@@ -46,6 +51,14 @@
                                                         <tr role="row">
                                                             <td class="sorting_1">{{ $count++ }}.</td>
                                                             <td>{{ \Carbon\Carbon::parse($report->report_date)->format('d M, Y') }}</td>
+                                                            <td>
+                                                                <span class="status-badge 
+                                                                    {{ $report->status == 'Pending' ? 'status-pending' : '' }}
+                                                                    {{ $report->status == 'Reject' ? 'status-suspend' : '' }}
+                                                                    {{ $report->status == 'Approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($report->status) }}
+                                                                </span>
+                                                            </td>
                                                             <td>
                                                                 <div class="form-button-action">
                                                                     <a href="{{ route('mr.daily-reports.edit', $report->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

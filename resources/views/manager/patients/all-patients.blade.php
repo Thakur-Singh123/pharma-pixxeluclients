@@ -80,6 +80,10 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 366.578px;">Approval
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 style="width: 156.312px;">Action
                                                             </th>
@@ -109,6 +113,14 @@
                                                                 @else
                                                                     -
                                                                 @endif
+                                                            </td>
+                                                            <td>
+                                                                <span class="status-badge 
+                                                                    {{ $patient->status == 'pending' ? 'status-pending' : '' }}
+                                                                    {{ $patient->status == 'rejected' ? 'status-suspend' : '' }}
+                                                                    {{ $patient->status == 'approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($patient->status) }}
+                                                                </span>
                                                             </td>
                                                             <td style="display: flex; gap: 5px;">
                                                                 @if ($patient->status == 'pending')

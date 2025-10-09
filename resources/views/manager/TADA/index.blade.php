@@ -87,6 +87,10 @@
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 156.312px;">Status
                                                                 </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Approval
+                                                                </th>
                                                                  <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 156.312px;">Action
@@ -114,6 +118,14 @@
                                                                         @else
                                                                             -
                                                                         @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="status-badge 
+                                                                            {{ $tada_record->status == 'pending' ? 'status-pending' : '' }}
+                                                                            {{ $tada_record->status == 'rejected' ? 'status-suspend' : '' }}
+                                                                            {{ $tada_record->status == 'approved' ? 'status-approved' : '' }}">
+                                                                            {{ ucfirst($tada_record->status) }}
+                                                                        </span>
                                                                     </td>
                                                                     <td style="display: flex; gap: 5px;">
                                                                         @if ($tada_record->status == 'pending')

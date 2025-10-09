@@ -8,7 +8,7 @@ class DailyReport extends Model
 {
     //Call migration
     protected $table = 'daily_reports';
-    protected $fillable = ['mr_id','manager_id','report_date'];
+    protected $fillable = ['mr_id','manager_id','report_date','status'];
 
     //Function for get daily reports details
     public function report_details() {

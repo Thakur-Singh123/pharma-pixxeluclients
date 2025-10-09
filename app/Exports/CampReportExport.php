@@ -13,21 +13,19 @@ use Illuminate\Support\Collection;
 
 class CampReportExport implements FromCollection, ShouldAutoSize, WithEvents, WithCustomStartCell, WithMapping
 {
-    public function collection()
-    {
+    //Function for get collection
+    public function collection() {
         //Get all records
         return EventUser::with('event_detail.mr')->orderBy('id', 'DESC')->get();
     }
 
-    //collection row 
-    public function startCell(): string
-    {
+    //Function for start row 
+    public function startCell(): string {
         return 'A3';
     }
 
     //Excel columns
-    public function map($row): array
-    {
+    public function map($row): array {
         $age = (int) $row->age;
         $male = $row->sex == 'male' ? 1 : 0;
         $female = $row->sex == 'female' ? 1 : 0;
@@ -54,17 +52,19 @@ class CampReportExport implements FromCollection, ShouldAutoSize, WithEvents, Wi
             $above40,
         ];
     }
-
-    public function registerEvents(): array
-    {
+    
+    //Function for custom header
+    public function registerEvents(): array {
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                //main header
                 $sheet->mergeCells('A1:P1'); 
                 $sheet->setCellValue('A1', "All Camp Report Details");
                 $sheet->getStyle('A1')->applyFromArray([
-                    'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                        'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                    ],
                     'font' => ['bold' => true, 'size' => 14],
                 ]);
                 $headers = [
@@ -78,7 +78,10 @@ class CampReportExport implements FromCollection, ShouldAutoSize, WithEvents, Wi
                 }
                 $sheet->getStyle('A2:P2')->applyFromArray([
                     'font' => ['bold' => true],
-                    'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                        'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                    ],
                     'borders' => [
                         'allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
                     ],
@@ -88,6 +91,10 @@ class CampReportExport implements FromCollection, ShouldAutoSize, WithEvents, Wi
                     ],
                 ]);
                 $sheet->freezePane('A3');
+                foreach (range('A', 'P') as $columnID) {
+                    $sheet->getColumnDimension($columnID)->setAutoSize(true);
+                }
+                $sheet->getDefaultRowDimension()->setRowHeight(-1);
             },
         ];
     }

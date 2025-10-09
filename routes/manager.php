@@ -93,7 +93,14 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/visit-plans/update-status/{id}', [App\Http\Controllers\Manager\VisitPlanController::class, 'update_visit_status'])->name('visit.update.status');
     //Daily mr reports
     Route::get('daily-mr-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'index'])->name('daily-reports.index');
-    Route::post('review-reports/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'review'])->name('reports.review');
+    //Route::post('review-reports/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'review'])->name('reports.review');
+    Route::post('report-approve/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'report_approve'])->name('report.approve');
+    Route::post('report-reject/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'report_reject'])->name('report.reject');
+
+
+
+
+
     Route::get('edit-report/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'edit'])->name('reports.edit.daily');
     Route::PUT('update-daily-report/{id}', [App\Http\Controllers\Manager\MRDailyReportController::class, 'update'])->name('reports.update.daily');
     Route::get('export-daily-reports', [App\Http\Controllers\Manager\MRDailyReportController::class, 'export'])->name('reports.export.daily');

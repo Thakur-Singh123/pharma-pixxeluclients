@@ -186,16 +186,16 @@
     <script src="{{ asset('public/admin/assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('public/admin/assets/js/core/bootstrap.min.js') }}"></script>
     <script>
-    $(document).ready(function(){
-        $('#add-more').click(function(){
-            let template = $('#row-template').html();
-            $('#dynamic-rows').append(template);
-        });
+        $(document).ready(function(){
+            $('#add-more').click(function(){
+                let template = $('#row-template').html();
+                $('#dynamic-rows').append(template);
+            });
 
-        $(document).on('click', '.remove-btn', function(){
-            $(this).closest('.dynamic-row').remove();
+            $(document).on('click', '.remove-btn', function(){
+                $(this).closest('.dynamic-row').remove();
+            });
         });
-    });
     </script>
 </body>
 </html>

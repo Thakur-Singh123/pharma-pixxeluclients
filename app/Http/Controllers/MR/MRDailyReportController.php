@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MR;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\MangerMR;
 use App\Models\DailyReport;
 use App\Models\DailyReportDetail;
 use App\Models\Doctor;
@@ -13,7 +14,7 @@ class MRDailyReportController extends Controller
     //Function for all daily reports
     public function index() {
         //Get daily reports
-        $reports = DailyReport::where('mr_id', auth()->id())->orderBy('report_date', 'desc')->paginate(10);
+        $reports = DailyReport::where('mr_id', auth()->id())->orderBy('ID','DESC')->paginate(10);
         return view('mr.daily_reports.index',compact('reports')); 
     }
 
@@ -27,9 +28,12 @@ class MRDailyReportController extends Controller
 
     //Function for store daily report
     public function store(Request $request) {
+        //Get manager id
+        $manager_id = MangerMR::where('mr_id', auth()->id())->value('manager_id');
         //Create daily report
         $is_create_report = DailyReport::create([
             'mr_id' => auth()->id(),
+            'manager_id' => $manager_id,
             'report_date' => $request->report_date, 
             'staus' => 'Pending',
         ]);
@@ -57,7 +61,6 @@ class MRDailyReportController extends Controller
     public function edit($id) {
         //Get report detail
         $report_detail = DailyReport::with('report_details')->find($id);
-        // echo "<pre>"; print_r($report_detail->toArray());exit;
        //Get doctors
         $mr = auth()->user();
         $assignedDoctors = $mr->doctors()->where('status', 'active')->get();

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\User;
+Use Auth;
 use App\Models\MangerMR;
 use DB;
 
@@ -18,7 +19,7 @@ class SalesController extends Controller
         $mrs_id = MangerMR::where('manager_id', auth()->user()->id)->pluck('mr_id')->toArray();
         $mrs = User::where('can_sale', 1)->where('status','Active')->whereIn('id', $mrs_id)->get();
         //Filter sale
-        $query = Sale::orderBy('created_at', 'desc');
+        $query = Sale::orderBy('created_at', 'desc')->where('user_id', $mrs_id);
         if($request->filled('created_by')){
             $query->where('user_id', $request->created_by);
         }
@@ -40,7 +41,7 @@ class SalesController extends Controller
         $sale_detail = Sale::with('items')->findOrFail($id);
         //Update status
         $sale_detail->status = 'Approved';
-        $sale_detail->approved_by = auth()->user()->id;
+        $sale_detail->approved_by = '1';
         $sale_detail->save();
 
         return redirect()->back()->with('success', 'Sale approved successfully.');
@@ -52,7 +53,7 @@ class SalesController extends Controller
         $sale_detail = Sale::with('items')->findOrFail($id);
         //Update status
         $sale_detail->status = 'Reject';
-        $sale_detail->approved_by = auth()->user()->id;
+        $sale_detail->approved_by = '0';
         $sale_detail->save();
 
         return redirect()->back()->with('success', 'Sale reject successfully.');

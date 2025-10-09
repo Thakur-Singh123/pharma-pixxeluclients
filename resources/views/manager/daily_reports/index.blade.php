@@ -64,7 +64,29 @@
                                                                 <th class="sorting_asc" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" aria-sort="ascending"
-                                                                    style="width: 242.688px;">Status
+                                                                    style="width: 242.688px;">Doctor Name
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" aria-sort="ascending"
+                                                                    style="width: 242.688px;">Area Served
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Total Visits
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Patients
+                                                                    Referred
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Notes
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1" style="width: 366.578px;">Status
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -83,13 +105,20 @@
                                                                     <td class="sorting_1">{{ $count++ }}.</td>
                                                                     <td>{{ \Carbon\Carbon::parse($report->report_date)->format('d M, Y') }}</td>
                                                                     <td>{{ $report->mr->name ?? 'N/A' }}</td>
-                                                                    <td>
-                                                                        <span class="status-badge 
-                                                                            {{ $report->status == 'pending' ? 'status-pending' : '' }}
-                                                                            {{ $report->status == 'rejected' ? 'status-suspend' : '' }}
-                                                                            {{ $report->status == 'approved' ? 'status-approved' : '' }}">
-                                                                            {{ ucfirst($report->status) }}
-                                                                        </span>
+                                                                    <td>{{ $report->doctor_detail->doctor_name ?? '-' }}</td>
+                                                                    <td>{{ $report->area_name }}</td>
+                                                                    <td>{{ $report->total_visits }}</td>
+                                                                    <td>{{ $report->patients_referred }}</td>
+                                                                    <td>{{ $report->notes }}</td>
+                                                                    <td
+                                                                        style="color: {{ $report->status == 'pending'
+                                                                            ? 'orange'
+                                                                            : ($report->status == 'rejected'
+                                                                                ? 'blue'
+                                                                                : ($report->status == 'approved'
+                                                                                    ? 'green'
+                                                                                    : 'black')) }}">
+                                                                        {{ ucfirst($report->status) }}
                                                                     </td>
                                                                     <td>
                                                                         @if ($report->status == 'pending')

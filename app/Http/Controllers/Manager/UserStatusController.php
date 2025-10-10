@@ -13,9 +13,10 @@ class UserStatusController extends Controller
 {
     //Function for active users
     public function all_active_users() {
-        //Get users
-        $active_users = User::OrderBy('ID','DESC')->where('user_type', 'MR')->where('status', 'Active')->paginate(5);
-
+        //Get auth login detail
+        $manager = User::find(auth()->id());
+        //Get active users
+        $active_users = $manager->mrs()->OrderBy('ID', 'DESC')->where('user_type', 'MR')->where('status', 'Active')->paginate(10);
         return view('manager.users-status.active-users', compact('active_users'));
     }
 
@@ -50,17 +51,24 @@ class UserStatusController extends Controller
             $user->save();
 
             //Check if relation already exists to avoid duplicate entries
-            $exists = MangerMR::where('manager_id', Auth::id())
-                            ->where('mr_id', $id)
-                            ->exists();
+            // $exists = MangerMR::where('manager_id', Auth::id())
+            //                 ->where('mr_id', $id)
+            //                 ->exists();
 
-            if (!$exists) {
-                MangerMR::create([
-                    'manager_id' => Auth::id(),
-                    'mr_id'      => $id,
-                ]);
-            }
-
+            // if (!$exists) {
+            //     MangerMR::create([
+            //         'manager_id' => Auth::id(),
+            //         'mr_id'      => $id,
+            //     ]);
+            // }
+            //Remove old
+            MangerMR::where('mr_id', $id)->delete();
+            //Create update MR
+            MangerMR::updateOrCreate([
+                'manager_id' => Auth::id(),
+                'mr_id'      => $id,
+            ]);
+            
             return redirect()->back()->with('success', 'User approved successfully.');
             
         } catch (\Exception $e) {

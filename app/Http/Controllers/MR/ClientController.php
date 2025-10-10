@@ -5,12 +5,13 @@ namespace App\Http\Controllers\MR;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\MangerMR;
 
 class ClientController extends Controller
 {
     //Function for show all clients
     public function index() {
-        $all_clients = Client::OrderBy('ID', 'DESC')->paginate(5);
+        $all_clients = Client::OrderBy('ID', 'DESC')->where('mr_id', auth()->id())->paginate(5);
         return view('mr.clients.all-clients', compact('all_clients'));
     }
 
@@ -121,8 +122,12 @@ class ClientController extends Controller
                 'remarks' => $request->others_remarks,
             ];
         }
+        //Get manager id
+        $manager_id = MangerMR::where('mr_id', auth()->id())->value('manager_id');
         //Create client
         $is_create_client = Client::create([
+            'mr_id' => auth()->id(),
+            'manager_id' => $manager_id,
             'category_type' => $request->category_type,
             'details' => json_encode($details),
             'status' => 'Pending',

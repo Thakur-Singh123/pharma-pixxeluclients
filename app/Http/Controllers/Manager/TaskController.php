@@ -87,6 +87,7 @@ class TaskController extends Controller
             'pin_code' => $request->pin_code,
             'created_by' => 'manager',
             'status' => 'Pending',
+            'is_approval' => 'Pending',
             'is_active' => 1,
         ]);
 

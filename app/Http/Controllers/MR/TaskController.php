@@ -76,6 +76,7 @@ class TaskController extends Controller
             'end_date' => $request->end_date,
             'created_by' => 'mr',
             'status' => 'Pending',
+            'is_approval' => 'Pending',
             'is_active' => 0,
         ]);
         //Check if task created or not

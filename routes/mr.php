@@ -34,8 +34,9 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/pending-approval', [App\Http\Controllers\MR\TaskController::class,'pending_approval']);
     Route::post('/task-update-status/{id}', [App\Http\Controllers\MR\TaskController::class,'update_status'])->name('tasks.update.status');
     //Tour plans
-    Route::resource('/tour-plans', App\Http\Controllers\MR\TourPlanController::class);
-    // Route::get('/all-updated-tour-plans', App\Http\Controllers\MR\TourPlanController::class, 'updated_tour_plans');
+    Route::resource('/assigned-tour-plans', App\Http\Controllers\MR\TourPlanController::class);
+    Route::get('/updated-tour-plans', [App\Http\Controllers\MR\TourPlanController::class, 'updated_tour_plans'])->name('update.plan');
+    Route::get('/delete-tour-plan/{id}', [App\Http\Controllers\MR\TourPlanController::class, 'delete_tour_plan']);
     //Task Calender
     Route::post('/tasks/send-monthly', [App\Http\Controllers\MR\TaskController::class,'sendMonthlyTasksToManager'])->name('tasks.sendMonthly');
     Route::get('/tasks-calendar-approved-by-manager', [App\Http\Controllers\MR\TaskController::class,'approved_tasks']);

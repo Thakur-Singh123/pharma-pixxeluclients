@@ -4,7 +4,7 @@
         <!--header section-->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ url('admin/dashboard') }}" class="logo">
-                <img src="{{ asset('public/admin/images/logos.png') }}" alt="navbar brand" class="navbar-brand" height="20" />
+                <img src="{{ asset('public/admin/images/Ad People Logo.svg') }}" alt="navbar brand" class="navbar-brand" height="20" />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -268,6 +268,13 @@
                             </li>
                         </ul>
                     </div>
+                </li>
+                <!--tour-plans section-->
+                <li class="nav-item {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-tour-plans*') ? 'active' : '' }}">
+                    <a href="{{ url('manager/tour-plans') }}" class="nav-link {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-report*') ? 'active' : '' }}">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <p>Tour Plans</p>
+                    </a>
                 </li>
                 <!--daily mr report section-->
                 <li class="nav-item {{ request()->is('manager/daily-mr-reports*') || request()->is('manager/edit-report*') ? 'active' : '' }}">

@@ -18,13 +18,16 @@ class SalesController extends Controller
         //Get auth login detail
         $mrs_id = MangerMR::where('manager_id', auth()->user()->id)->pluck('mr_id')->toArray();
         $mrs = User::where('can_sale', 1)->where('status','Active')->whereIn('id', $mrs_id)->get();
-        //Filter sale
-        $query = Sale::orderBy('created_at', 'desc')->where('user_id', $mrs_id);
-        if($request->filled('created_by')){
-            $query->where('user_id', $request->created_by);
-        }
+        //Get sales
+        $query = Sale::orderBy('created_at', 'desc')
+        ->where(function($q) use ($mrs_id) {
+            $q->whereIn('user_id', $mrs_id)
+              ->whereNull('manager_id'); 
+        })
+        ->orWhere('manager_id', Auth::id()); 
         //Get sales
         $sales = $query->with('user','items')->paginate(5);
+        
         return view('manager.sales.index', compact('sales','mrs'));
     }
 
@@ -42,6 +45,7 @@ class SalesController extends Controller
         //Update status
         $sale_detail->status = 'Approved';
         $sale_detail->approved_by = '1';
+        $sale_detail->manager_id = Auth::id();
         $sale_detail->save();
 
         return redirect()->back()->with('success', 'Sale approved successfully.');
@@ -54,6 +58,7 @@ class SalesController extends Controller
         //Update status
         $sale_detail->status = 'Reject';
         $sale_detail->approved_by = '0';
+        $sale_detail->manager_id = null;
         $sale_detail->save();
 
         return redirect()->back()->with('success', 'Sale reject successfully.');

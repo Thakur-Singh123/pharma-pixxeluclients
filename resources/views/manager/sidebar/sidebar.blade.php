@@ -4,7 +4,7 @@
         <!--header section-->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ url('admin/dashboard') }}" class="logo">
-                <img src="{{ asset('public/admin/images/pd_management_logo.svg') }}" alt="navbar brand" class="navbar-brand" height="20" />
+                <img src="{{ asset('public/admin/images/logos.png') }}" alt="navbar brand" class="navbar-brand" height="20" />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">

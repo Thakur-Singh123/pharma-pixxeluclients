@@ -11,7 +11,7 @@ class ClientController extends Controller
     //Function for show all clients
     public function index() {
         //Get clients
-        $all_clients = Client::OrderBy('ID', 'DESC')->paginate(5);
+        $all_clients = Client::OrderBy('ID','DESC')->where('manager_id', auth()->id())->paginate(5);
         return view('manager.clients.all-clients', compact('all_clients'));
     }
 
@@ -21,7 +21,7 @@ class ClientController extends Controller
         $client_detail = Client::findOrFail($id);
         //Update status
         $client_detail->status = 'Approved';
-        $client_detail->approved_by = auth()->user()->id;
+        $client_detail->approved_by = '1';
         $client_detail->save();
 
         return redirect()->back()->with('success', 'Client approved successfully.');
@@ -33,7 +33,7 @@ class ClientController extends Controller
         $client_detail = Client::findOrFail($id);
         //Update status
         $client_detail->status = 'Reject';
-        $client_detail->approved_by = auth()->user()->id;
+        $client_detail->approved_by = '0';
         $client_detail->save();
         
         return redirect()->back()->with('success', 'Client reject successfully.');

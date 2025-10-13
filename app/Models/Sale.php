@@ -9,6 +9,7 @@ class Sale extends Model
     protected $table = 'sales';
        protected $fillable = [
         'user_id',
+        'manager_id',
         'name',
         'email',
         'designation',

@@ -1,0 +1,127 @@
+@extends('mr.layouts.master')
+@section('content')
+<div class="container">
+    <div class="page-inner">
+        <div class="row">
+            <div class="col-md-12">
+                @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @endif
+                @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Edit Tour Plan</div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('mr.tour-plans.update', $task_tour_plan->id) }}" method="POST" autocomplete="off">
+                            @csrf
+                            @method('PUT')
+                            <div class="row">
+                                <!--Title-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="title">Title</label>
+                                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $task_tour_plan->title) }}" placeholder="Enter task title">
+                                        @error('title')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Description-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea class="form-control" id="description" name="description" placeholder="Enter description">{{ old('description', $task_tour_plan->description) }}</textarea>
+                                        @error('description')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Start Date-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="start_date">Start Date</label>
+                                        <input type="date" class="form-control start-date" id="start_date" name="start_date" value="{{ old('start_date', $task_tour_plan->start_date) }}">
+                                        @error('start_date')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--End Date-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="end_date">End Date</label>
+                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date', $task_tour_plan->end_date) }}">
+                                        @error('end_date')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="location">Location</label>
+                                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $task_tour_plan->location) }}" placeholder="Enter location">
+                                        @error('location')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="pin_code">Pin Code</label>
+                                        <input type="Number" class="form-control" id="pin_code" name="pin_code" value="{{ old('pin_code',$task_tour_plan->pin_code) }}" placeholder="Enter pin code">
+                                        @error('pin_code')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mr_id">Doctor Name</label>
+                                        <select class="form-control" id="doctor_id" name="doctor_id" required>
+                                            <option value="" disabled>Select Doctor</option>
+                                            @foreach ($all_doctors as $doctor)
+                                                <option value="{{ $doctor->id }}" {{ $task_tour_plan->doctor_id == $doctor->id ? 'selected' : '' }}>
+                                                    {{ $doctor->doctor_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('doctor_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!--Status-->
+                                <!-- <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select class="form-control" id="status" name="status">
+                                        <option value="" disabled>Select Status</option>
+                                            <option value="pending" {{ old('status', $task_tour_plan->status) == 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="in_progress" {{ old('status', $task_tour_plan->status) == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                            <option value="completed" {{ old('status', $task_tour_plan->status) == 'completed' ? 'selected' : '' }}>Completed</option>
+                                        </select>
+                                        @error('status')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="card-action">
+                                <button type="submit" class="btn btn-success">Update</button>
+                                <button type="reset" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

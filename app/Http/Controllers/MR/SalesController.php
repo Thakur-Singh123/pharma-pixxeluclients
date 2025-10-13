@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class SalesController extends Controller
 {
     //Function for show all sales
     public function index() {
         //Get sales
-        $sales = Sale::orderBy('created_at', 'desc')->with('items')->paginate(5);
+        $sales = Sale::orderBy('created_at', 'desc')->with('items')->where('user_id', Auth::id())->paginate(5);
         return view('mr.sales.index', compact('sales'));
     }
 

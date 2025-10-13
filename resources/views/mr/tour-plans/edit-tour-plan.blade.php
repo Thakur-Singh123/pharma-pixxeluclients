@@ -19,7 +19,7 @@
                         <div class="card-title">Edit Tour Plan</div>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('mr.tour-plans.update', $task_tour_plan->id) }}" method="POST" autocomplete="off">
+                        <form action="{{ route('mr.assigned-tour-plans.update', $task_tour_plan->id) }}" method="POST" autocomplete="off">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -47,7 +47,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_date">Start Date</label>
-                                        <input type="date" class="form-control start-date" id="start_date" name="start_date" value="{{ old('start_date', $task_tour_plan->start_date) }}">
+                                        <input type="date" class="form-control start-date" id="start_date" name="start_date" value="{{ old('start_date', $task_tour_plan->start_date) }}" disabled>
+                                        <input type="hidden" name="start_date" value="{{ old('start_date', $task_tour_plan->start_date) }}">
                                         @error('start_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -57,7 +58,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date', $task_tour_plan->end_date) }}">
+                                        <input type="date" class="form-control end-date" id="end_date" name="end_date" value="{{ old('end_date', $task_tour_plan->end_date) }}" disabled>
+                                        <input type="hidden" name="end_date" value="{{ old('end_date', $task_tour_plan->end_date) }}">
                                         @error('end_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

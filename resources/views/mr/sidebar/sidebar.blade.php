@@ -4,7 +4,7 @@
         <!--header section-->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ url('admin/dashboard') }}" class="logo">
-                <img src="{{ asset('public/admin/images/logos.png') }}" alt="navbar brand" class="navbar-brand" height="20" />
+                <img src="{{ asset('public/admin/images/Ad People Logo.svg') }}" alt="navbar brand" class="navbar-brand" height="20" />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -344,35 +344,30 @@
                         </ul>
                     </div>
                 </li>
-
-
-              <!-- Tour Plan Section -->
-<li class="nav-item {{ request()->is('mr/tour-plans*') || request()->is('mr/update-tour-plan*') ? 'active' : '' }}">
-    <a data-bs-toggle="collapse" href="#collapseTourPlan"
-       class="nav-link {{ request()->is('mr/tour-plans*') || request()->is('mr/update-tour-plan*') ? '' : 'collapsed' }}"
-       aria-expanded="{{ request()->is('mr/tour-plans*') || request()->is('mr/update-tour-plan*') ? 'true' : 'false' }}">
-        <i class="fas fa-map-marked-alt"></i>
-        <p>Tour Plans</p>
-        <span class="caret"></span>
-    </a>
-    <div class="collapse {{ request()->is('mr/tour-plans*') || request()->is('mr/update-tour-plan*') ? 'show' : '' }}" id="collapseTourPlan">
-        <ul class="nav nav-collapse">
-            <li class="{{ request()->is('mr/tour-plans') ? 'active' : '' }}">
-                <a href="{{ url('mr/tour-plans') }}">
-                    <span class="sub-item">Assigned Tour Plan</span>
-                </a>
-            </li>
-            <li class="{{ request()->is('mr/update-tour-plan') ? 'active' : '' }}">
-                <a href="{{ url('mr/update-tour-plan') }}">
-                    <span class="sub-item">Updated Tour Plan</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-
-
-
+                <!--Tour Plan Section-->
+                <li class="nav-item {{ request()->is('mr/assigned-tour-plans*') || request()->is('mr/updated-tour-plans*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapseTourPlan"
+                        class="nav-link {{ request()->is('mr/assigned-tour-plans*') || request()->is('mr/updated-tour-plans*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('mr/assigned-tour-plans*') || request()->is('mr/updated-tour-plansn*') ? 'true' : 'false' }}">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <p>Tour Plans</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ request()->is('mr/assigned-tour-plans*') || request()->is('mr/updated-tour-plans*') ? 'show' : '' }}" id="collapseTourPlan">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('mr/assigned-tour-plans') ? 'active' : '' }}">
+                                <a href="{{ url('mr/assigned-tour-plans') }}">
+                                    <span class="sub-item">Assigned Tour Plans</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('mr/updated-tour-plans') ? 'active' : '' }}">
+                                <a href="{{ url('mr/updated-tour-plans') }}">
+                                    <span class="sub-item">Updated Tour Plans</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!--report section-->
                 <li class="nav-item {{ request()->is('mr/daily-reports*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseDailyReport"

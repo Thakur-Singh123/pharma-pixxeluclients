@@ -7,11 +7,10 @@
     <link rel="icon" href="{{ asset('public/admin/images/Ad People Logo.svg') }}" type="image/x-icon" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
     <!--css files-->
-    <!--FullCalendar CSS-->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/custom.css') }}" />
-      <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.css') }}" />
-      <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/select2/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/plugins.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/admin/assets/css/kaiadmin.min.css') }}" />
@@ -26,8 +25,7 @@
                 <div class="main-header-logo">
                     <div class="logo-header" data-background-color="dark">
                         <a href="#" class="logo">
-                            <img src="{{ asset('public/admin/assets/img/kaiadmin/logo_light.svg') }}" alt="navbar brand"
-                                class="navbar-brand" height="20" />
+                            <img src="{{ asset('public/admin/assets/img/kaiadmin/logo_light.svg') }}" alt="navbar brand" class="navbar-brand" height="20" />
                         </a>
                         <div class="nav-toggle">
                             <button class="btn btn-toggle toggle-sidebar">
@@ -50,7 +48,8 @@
                                     role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <i class="fa fa-bell"></i>
                                     <span
-                                        class="notification">{{ auth()->user()->unreadNotifications->count() }}</span>
+                                        class="notification">{{ auth()->user()->unreadNotifications->count() }}
+                                    </span>
                                 </a>
                                 <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown"
                                     data-bs-popper="static">
@@ -128,8 +127,8 @@
                                                     <h4>{{ auth()->user()->name }}</h4>
                                                     <p class="text-muted">{{ auth()->user()->email }}</p>
                                                     <a href="{{ url('manager/profile') }}"
-                                                        class="profile-btn btn-xs btn-secondarys btn-sm">View
-                                                        Profile</a>
+                                                        class="profile-btn btn-xs btn-secondarys btn-sm">View Profile
+                                                    </a>
                                                 </div>
                                             </div>
                                         </li>
@@ -206,7 +205,7 @@
     <script src="{{ asset('public/admin/assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
         $(function () {
-        $('.select2').select2()
+            $('.select2').select2()
         });
     </script>
     <script>

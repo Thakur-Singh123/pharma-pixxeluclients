@@ -128,27 +128,35 @@
                                                                         action="{{ route('manager.patient.approve', $patient->id) }}">
                                                                         @csrf
                                                                         <button
-                                                                            class="btn btn-success btn-sm">Approve</button>
+                                                                            class="btn btn-success btn-sm">
+                                                                            Approve
+                                                                        </button>
                                                                     </form>
                                                                     <form method="POST"
                                                                         action="{{ route('manager.patient.reject', $patient->id) }}">
                                                                         @csrf
                                                                         <button
-                                                                            class="btn btn-danger btn-sm">Reject</button>
+                                                                            class="btn btn-danger btn-sm">
+                                                                            Reject
+                                                                        </button>
                                                                     </form>
                                                                 @elseif($patient->status == 'approved')
                                                                     <form method="POST"
                                                                         action="{{ route('manager.patient.reject', $patient->id) }}">
                                                                         @csrf
                                                                         <button
-                                                                            class="btn btn-danger btn-sm">Reject</button>
+                                                                            class="btn btn-danger btn-sm">
+                                                                            Reject
+                                                                        </button>
                                                                     </form>
                                                                 @elseif($patient->status == 'rejected')
                                                                     <form method="POST"
                                                                         action="{{ route('manager.patient.approve', $patient->id) }}">
                                                                         @csrf
                                                                         <button
-                                                                            class="btn btn-success btn-sm">Approve</button>
+                                                                            class="btn btn-success btn-sm">
+                                                                            Approve
+                                                                        </button>
                                                                     </form>
                                                                 @endif
                                                             </td>

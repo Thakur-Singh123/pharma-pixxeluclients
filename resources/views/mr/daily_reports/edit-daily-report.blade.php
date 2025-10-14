@@ -19,8 +19,8 @@
                             @method('PUT')
                             <div class="row mb-2">
                                 <div class="col-md-3">
-                                <label>Report Date</label>
-                                <input type="date" name="report_date" class="form-control compact-input"
+                                    <label>Report Date</label>
+                                    <input type="date" name="report_date" class="form-control compact-input"
                                     value="{{ old('report_date',$report_detail->report_date) }}" required>
                                     @error('report_date')
                                         <small class="text-danger">{{ $message }}</small>

@@ -134,7 +134,7 @@
                               <input type="text" class="form-control" id="speciality" name="speciality"
                                  value="{{ old('speciality') }}" placeholder="Enter speciality">
                               @error('speciality')
-                              <small class="text-danger">{{ $message }}</small>
+                                  <small class="text-danger">{{ $message }}</small>
                               @enderror
                            </div>
                         </div>

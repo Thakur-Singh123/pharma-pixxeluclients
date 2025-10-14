@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                                 <!--Employee Code-->
-                                <!-- <div class="col-md-6 col-lg-4">
+                                <!--<div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="employee_code">Employee Code</label>
                                         <input type="number" class="form-control" id="employee_code" name="employee_code" value="{{ old('employee_code',$mr_detail->employee_code) }}" placeholder="Enter employee code" disabled>
@@ -67,9 +67,9 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div> -->
+                                </div>-->
                                 <!--Territory-->
-                                <!-- <div class="col-md-6 col-lg-4">
+                                <!--<div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="territory">Territory</label>
                                         <input type="text" class="form-control" id="territory" name="territory" value="{{ old('territory',$mr_detail->territory) }}" placeholder="Enter territory">
@@ -77,7 +77,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div> -->
+                                </div>-->
                                 <!--City-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                                 <!--Status-->
-                                <!-- <div class="col-md-6 col-lg-4">
+                                <!--<div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status">
@@ -121,15 +121,15 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                </div> -->
+                                </div>-->
                                  <!--Role-->
                                 <div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label for="status">Role</label>
                                         <select class="form-control" id="status" name="can_sale">
-                                        <option value="" disabled>Select Status</option>
-                                        <option value="1" {{ old('can_sale' ,$mr_detail->can_sale) == '1' ? 'selected' : '' }}>Sales</option>
-                                        <option value="0" {{ old('can_sale' ,$mr_detail->can_sale) == '0' ? 'selected' : '' }}>Visit</option>
+                                            <option value="" disabled>Select Status</option>
+                                            <option value="1" {{ old('can_sale' ,$mr_detail->can_sale) == '1' ? 'selected' : '' }}>Sales</option>
+                                            <option value="0" {{ old('can_sale' ,$mr_detail->can_sale) == '0' ? 'selected' : '' }}>Visit</option>
                                         </select>
                                         @error('can_sale')
                                             <small class="text-danger">{{ $message }}</small>

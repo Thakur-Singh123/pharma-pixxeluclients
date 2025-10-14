@@ -52,40 +52,52 @@
     </div>
 </div>
 <style>
-    #calendar {
-        background: #ffffff;
-        border-radius: 12px;
-        padding: 10px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .fc-toolbar-title { font-size: 20px; font-weight: 600; color: #2c3e50; }
-    .fc-button {
-        background: #3498db !important;
-        border: none !important;
-        border-radius: 6px !important;
-        padding: 5px 12px !important;
-        font-size: 14px !important;
-        color: #fff !important;
-        transition: 0.3s;
-    }
-    .fc-button:hover { background: #2980b9 !important; }
-    .fc-daygrid-day-frame {
-        min-height: 70px !important;
-        padding: 4px !important;
-        border-radius: 8px;
-        transition: 0.3s;
-    }
-    .fc-daygrid-day-frame:hover {
-        background: #f1f8ff;
-        transform: scale(1.02);
-        box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.05);
-    }
-    .fc-daygrid-day-number { 
-        font-size: 13px; font-weight: 600; color: #34495e; 
-    }
-    .fc-event { 
-        font-size: 12px; border-radius: 6px; padding: 2px 6px; font-weight: 500; border: none !important; 
-    }
+#calendar {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+.fc-toolbar-title { 
+    font-size: 20px; 
+    font-weight: 600; 
+    color: #2c3e50; 
+}
+.fc-button {
+    background: #3498db !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 5px 12px !important;
+    font-size: 14px !important;
+    color: #fff !important;
+    transition: 0.3s;
+}
+.fc-button:hover {
+    background: #2980b9 !important; 
+}
+.fc-daygrid-day-frame {
+    min-height: 70px !important;
+    padding: 4px !important;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.fc-daygrid-day-frame:hover {
+    background: #f1f8ff;
+    transform: scale(1.02);
+    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.05);
+}
+.fc-daygrid-day-number { 
+    font-size: 13px; 
+    font-weight: 600; 
+    color: #34495e; 
+}
+.fc-event { 
+    font-size: 12px; 
+    border-radius: 6px; 
+    padding: 2px 6px; 
+    font-weight: 500; 
+    border: none !important; 
+}
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -96,6 +108,7 @@
         const eventModalInstance = new bootstrap.Modal(eventModalEl);
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'timeGridWeek',
+            initialDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
             contentHeight: 550,
             expandRows: true,
             eventSources: [
@@ -137,7 +150,6 @@
                     } else {
                         badge.classList.add("bg-secondary");
                     }
-    
                     let mrLabel = "";
                     let mrValue = "";
                     if(info.event.extendedProps.type === "monthly_task") {
@@ -166,7 +178,6 @@
                 }
             }
         });
-    
         calendar.render();
     });
 </script>

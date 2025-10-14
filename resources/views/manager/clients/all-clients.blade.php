@@ -99,27 +99,31 @@
                                                                     action="{{ route('manager.clients.approve', $client->id) }}">
                                                                     @csrf
                                                                     <button
-                                                                        class="btn btn-success btn-sm">Approve</button>
+                                                                        class="btn btn-success btn-sm">Approve
+                                                                    </button>
                                                                 </form>
                                                                 <form method="POST"
                                                                     action="{{ route('manager.clients.reject', $client->id) }}">
                                                                     @csrf
                                                                     <button
-                                                                        class="btn btn-danger btn-sm">Reject</button>
+                                                                        class="btn btn-danger btn-sm">Reject
+                                                                    </button>
                                                                 </form>
                                                             @elseif($client->status == 'Approved')
                                                                 <form method="POST"
                                                                     action="{{ route('manager.clients.reject', $client->id) }}">
                                                                     @csrf
                                                                     <button
-                                                                        class="btn btn-danger btn-sm">Reject</button>
+                                                                        class="btn btn-danger btn-sm">Reject
+                                                                    </button>
                                                                 </form>
                                                             @elseif($client->status == 'Reject')
                                                                 <form method="POST"
                                                                     action="{{ route('manager.clients.approve', $client->id) }}">
                                                                     @csrf
                                                                     <button
-                                                                        class="btn btn-success btn-sm">Approve</button>
+                                                                        class="btn btn-success btn-sm">Approve
+                                                                    </button>
                                                                 </form>
                                                             @endif
                                                         </td>

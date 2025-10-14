@@ -42,7 +42,7 @@
                             </div>
                             <!--Dynamic fields-->
                             <div class="row mt-3" id="category-fields">
-                                 <!--Doctor Details-->
+                                <!--Doctor Details-->
                                 <div class="col-md-12 extra doctor-heading" style="display:none;">
                                     <h5 class="details-heading">*Doctor Details</h5>
                                 </div>

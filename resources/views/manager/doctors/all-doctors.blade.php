@@ -141,7 +141,7 @@
                                                             <td>{{ $doctor->remarks }}</td>
                                                             <td>
                                                             <!--check if image exists or not-->
-                                                            @if ($doctor->picture)
+                                                            @if($doctor->picture)
                                                                 <a href="{{ asset('public/uploads/doctors/' . $doctor->picture) }}"
                                                                     target="_blank">View
                                                                 </a>

@@ -18,12 +18,12 @@
                             @csrf
                             <div class="row mb-2">
                                 <div class="col-md-3">
-                                <label>Report Date</label>
-                                <input type="date" name="report_date" class="form-control compact-input"
-                                    value="{{ old('report_date', now()->format('Y-m-d')) }}" required>
-                                    @error('report_date')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <label>Report Date</label>
+                                    <input type="date" name="report_date" class="form-control compact-input"
+                                        value="{{ old('report_date', now()->format('Y-m-d')) }}" required>
+                                        @error('report_date')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="dynamic-row">

@@ -53,7 +53,8 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
-                                                                style="width: 84.5px;">State</th>
+                                                                style="width: 84.5px;">State
+                                                            </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
@@ -79,11 +80,11 @@
                                                                 colspan="1"
                                                                 style="width: 184.234px;">Mr Name
                                                             </th>
-                                                            <!-- <th class="sorting" tabindex="0"
+                                                            <!--<th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 style="width: 184.234px;">Visit Type
-                                                            </th> -->
+                                                            </th>-->
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
@@ -153,7 +154,7 @@
                                                                 @endif
                                                             </td>-->
                                                             <td>
-                                                            <span class="status-badge 
+                                                                <span class="status-badge 
                                                                     {{ $visit->status == 'Pending' ? 'status-pending' : '' }}
                                                                     {{ $visit->status == 'Reject' ? 'status-suspend' : '' }}
                                                                     {{ $visit->status == 'Approved' ? 'status-approved' : '' }}">

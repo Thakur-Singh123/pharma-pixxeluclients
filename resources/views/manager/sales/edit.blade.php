@@ -105,7 +105,9 @@
                                                 <td>
                                                     <input type="number" name="margin[]" class="form-control margin" value="{{ old("margin.$i", $items[$i]->margin ?? '') }}" readonly>
                                                 </td>
-                                                <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">×</button></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">×</button>
+                                               </td>
                                             </tr>
                                             @endfor
                                         </tbody>
@@ -146,34 +148,34 @@
 </div>
 <!--JS-->
 <script>
-   function addRow() {
-       let table = document.querySelector('#medicineTable tbody');
-       let row = document.createElement('tr');
-       row.innerHTML = `
-           <td><input name="salt_name[]" class="form-control"></td>
-           <td><input name="brand_name[]" class="form-control"></td>
-           <td><input name="company[]" class="form-control"></td>
-           <td><input type="number" name="base_price[]" class="form-control base" oninput="calcTotal()"></td>
-           <td><input type="number" name="sale_price[]" class="form-control rate" oninput="calcTotal()"></td>
-           <td><input type="number" name="margin[]" class="form-control margin" readonly></td>
-           <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">×</button></td>
-       `;
-       table.appendChild(row);
-   }
-   function removeRow(btn) {
-       btn.closest('tr').remove();
-       calcTotal();
-   }
-   function calcTotal() {
-       let total = 0;
-       document.querySelectorAll('#medicineTable tbody tr').forEach(row => {
-           let base = parseFloat(row.querySelector('.base')?.value) || 0;
-           let rate = parseFloat(row.querySelector('.rate')?.value) || 0;
-           let margin = (base - rate).toFixed(2);
-           row.querySelector('.margin').value = margin;
-           total += rate;
-       });
-       document.getElementById('totalAmount').value = total.toFixed(2);
-   }
+function addRow() {
+    let table = document.querySelector('#medicineTable tbody');
+    let row = document.createElement('tr');
+    row.innerHTML = `
+        <td><input name="salt_name[]" class="form-control"></td>
+        <td><input name="brand_name[]" class="form-control"></td>
+        <td><input name="company[]" class="form-control"></td>
+        <td><input type="number" name="base_price[]" class="form-control base" oninput="calcTotal()"></td>
+        <td><input type="number" name="sale_price[]" class="form-control rate" oninput="calcTotal()"></td>
+        <td><input type="number" name="margin[]" class="form-control margin" readonly></td>
+        <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">×</button></td>
+    `;
+    table.appendChild(row);
+}
+function removeRow(btn) {
+    btn.closest('tr').remove();
+    calcTotal();
+}
+function calcTotal() {
+    let total = 0;
+    document.querySelectorAll('#medicineTable tbody tr').forEach(row => {
+        let base = parseFloat(row.querySelector('.base')?.value) || 0;
+        let rate = parseFloat(row.querySelector('.rate')?.value) || 0;
+        let margin = (base - rate).toFixed(2);
+        row.querySelector('.margin').value = margin;
+        total += rate;
+    });
+    document.getElementById('totalAmount').value = total.toFixed(2);
+}
 </script>
 @endsection

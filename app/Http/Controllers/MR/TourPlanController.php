@@ -14,7 +14,7 @@ class TourPlanController extends Controller
 {
     //Function for show all tasks
     public function index(Request $request) {
-        //Get tasks     
+        //Get tasks
         $all_task_tour_plan = Task::with('doctor')->orderBy('ID', 'DESC')
             ->whereDate('start_date', Carbon::now()->addDays(1)) 
             ->where('mr_id', auth()->id())
@@ -28,7 +28,7 @@ class TourPlanController extends Controller
         //Get mrs doctors
         $mr = auth()->user();
         $all_doctors = $mr->doctors()->where('status', 'active')->get();
-        //Get Task
+        //Get task detail
         $task_tour_plan = Task::find($id);
 
         return view('mr.tour-plans.edit-tour-plan', compact('all_doctors','task_tour_plan'));
@@ -44,16 +44,17 @@ class TourPlanController extends Controller
         $task = Task::findOrFail($id);
         //Get auth detail
         $mrId = auth()->id();
+        //Get manager id
         $managerId = MangerMR::where('mr_id', $mrId)->value('manager_id');
         //Check existing record
         $tourPlan = TaskTourPlan::where('task_id', $task->id)
             ->where('mr_id', $mrId)
             ->first();
-        //Check if plan approved or not
+        //Check if Tourplan approved or not
         if ($tourPlan && $tourPlan->approval_status === 'Approved') {
             return redirect()->route('mr.update.plan')->with('error', 'This tour plan is already approved. Please delete the plan before modifying it!');
         }
-        //Check if plan pending or not
+        //Check if Tourplan pending or not
         if ($tourPlan && $tourPlan->approval_status === 'Pending') {
             return back()->with('error', 'This tour plan is already pending for manager approval.');
         }
@@ -78,7 +79,7 @@ class TourPlanController extends Controller
 
     //Function for getn updated tour plan
     public function updated_tour_plans(Request $request) {
-        //Get tasks     
+        //Get TourPlan detail   
         $all_updated_tour_plan = TaskTourPlan::with('doctor')->orderBy('ID', 'DESC')
             ->whereDate('start_date', Carbon::now()->addDays(1))->where('mr_id', auth()->id())
             ->paginate(5);

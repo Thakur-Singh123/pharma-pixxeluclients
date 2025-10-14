@@ -39,7 +39,7 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/tasks-calendar-for-approval', [App\Http\Controllers\Manager\TaskController::class, 'all_tasks']);
     Route::post('/tasks/approve-all', [App\Http\Controllers\Manager\TaskController::class, 'approveAll'])->name('tasks.approveAll');
     Route::post('/tasks/reject-all', [App\Http\Controllers\Manager\TaskController::class, 'rejectAll'])->name('tasks.rejectAll');
-    //Tour plan
+    //Tour plans
     Route::get('/tour-plans', [App\Http\Controllers\Manager\TourPlanController::class,'tour_plans']);
     Route::post('/approve-tour-plan{id}', [App\Http\Controllers\Manager\TourPlanController::class,'approve_tour_plan'])->name('tour.approve');
     Route::post('/reject-tour-plan/{id}', [App\Http\Controllers\Manager\TourPlanController::class,'reject_tour_plan'])->name('tour.reject');

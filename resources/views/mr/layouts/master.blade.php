@@ -3,9 +3,9 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Pd Management</title>
+    <title>Ad People</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="{{ asset('public/admin/images/Final-Logo-BMS 2 (1) - Copy.png') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('public/admin/images/Ad People Logo.svg') }}" type="image/x-icon" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
     <!--css files-->
     <!-- FullCalendar CSS -->

@@ -23,6 +23,7 @@
                         </div>
                         <div class="add-new-student-pic">
                            <div class="avatar-preview">
+                              <!--Check if image exists or not-->
                               @if($user_profile->image)
                                  <img id="imagePreview" src="{{ url('public/uploads/users/' .$user_profile->image) }}" alt="User Avatar">
                               @else

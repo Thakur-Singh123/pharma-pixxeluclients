@@ -14,7 +14,7 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Sales Data</h4>
-                                    <form method="GET" action="{{ route('manager.sales.index') }}">
+                                <form method="GET" action="{{ route('manager.sales.index') }}">
                                     <select name="created_by" class="form-control" onchange="this.form.submit()">
                                         <option value="">All Sales</option>
                                         <!--Get mrs-->

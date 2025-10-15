@@ -92,7 +92,7 @@
                                     @endif
                                 </div>
                                 <!--Status-->
-                                <!-- <div class="col-md-6 col-lg-4">
+                                <!--<div class="col-md-6 col-lg-4">
                                     <div class="form-group">
                                         <label>Status</label>
                                         <select name="status" class="form-control">
@@ -102,7 +102,7 @@
                                             <option value="Suspend" @if($patient_detail->status == 'Suspend') selected @endif>Suspend</option>
                                         </select>
                                     </div>
-                                </div> -->
+                                </div>-->
                                 <!--Medical History-->
                                 <div class="col-md-12">
                                     <div class="form-group">

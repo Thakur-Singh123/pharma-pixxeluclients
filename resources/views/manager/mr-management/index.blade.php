@@ -70,7 +70,7 @@
                                                                 colspan="1"
                                                                 style="width: 156.312px;">Status
                                                             </th>
-                                                               <th class="sorting" tabindex="0"
+                                                            <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 style="width: 156.312px;">Action

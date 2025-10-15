@@ -72,10 +72,10 @@
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" style="width: 366.578px;">Approval
                                                             </th>
-                                                            <!-- <th class="sorting" tabindex="0"
+                                                            <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1" style="width: 187.688px;">Action
-                                                            </th> -->
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -100,20 +100,6 @@
                                                                     {{ ucfirst($tour->approval_status) }}
                                                                 </span>
                                                             </td>
-                                                            <!-- <td> -->
-                                                                <!-- <div class="form-button-action">
-                                                                <a href="{{ route('mr.assigned-tour-plans.edit', $tour->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                <i class="fa fa-edit"></i>
-                                                                </a> -->
-                                                                <!-- <form action="{{ route('mr.tasks.destroy', $tour->id) }}" method="POST" style="display:inline;">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
-                                                                        <i class="fa fa-trash"></i>
-                                                                    </a>
-                                                                    </form> -->
-                                                                <!-- </div>
-                                                            </td> -->
                                                             <td style="display: flex; gap: 5px;">
                                                                 @if ($tour->approval_status == 'Pending')
                                                                     <form method="POST"
@@ -144,11 +130,24 @@
                                                                     </form>
                                                                 @endif
                                                             </td>
+                                                            <td>
+                                                                <div class="form-button-action">
+                                                                    <a href="{{ url('manager/edit-tour-plan', $tour->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </a>
+                                                                    <!--<form action="{{ route('mr.tasks.destroy', $tour->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <a href="#" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </a>
+                                                                        </form>-->
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         @empty
                                                         <tr>
-                                                            <td colspan="10" class="text-center">No record found
-                                                            </td>
+                                                            <td colspan="10" class="text-center">No record found</td>
                                                         </tr>
                                                         @endforelse
                                                     </tbody>

@@ -36,44 +36,45 @@ class TourPlanController extends Controller
 
     //Function for update tour plan
     public function update(Request $request, $id) {
-        //Validate input fileds
+        //Validate input fields
         $request->validate([
             'title' => 'required|string|max:255',
         ]);
         //Get task detail
         $task = Task::findOrFail($id);
-        //Get auth detail
+        //Get auth login detail
         $mrId = auth()->id();
-        //Get manager id
+        //Get manager acc mr
         $managerId = MangerMR::where('mr_id', $mrId)->value('manager_id');
-        //Check existing record
+        //Check if tour plan exists or not
         $tourPlan = TaskTourPlan::where('task_id', $task->id)
             ->where('mr_id', $mrId)
             ->first();
-        //Check if Tourplan approved or not
+        //Check if tour plan approved or not
         if ($tourPlan && $tourPlan->approval_status === 'Approved') {
-            return redirect()->route('mr.update.plan')->with('error', 'This tour plan is already approved. Please delete the plan before modifying it!');
+            return redirect()->route('mr.update.plan')
+            ->with('error', 'This tour plan is already approved. Please delete the plan before modifying it!');
         }
-        //Check if Tourplan pending or not
+        //Check if tour plan pending or not
         if ($tourPlan && $tourPlan->approval_status === 'Pending') {
-            return back()->with('error', 'This tour plan is already pending for manager approval.');
+            return redirect()->route('mr.update.plan')
+            ->with('error', 'This tour plan is already pending for manager approval.');
         }
-        //Create or update plan
+        //Create or update the tour plan
         TaskTourPlan::updateOrCreate(
             ['task_id' => $task->id, 'mr_id' => $mrId],
             [
-                'manager_id' => $managerId,
-                'doctor_id' => $request->doctor_id,
-                'title' => $request->title,
-                'description' => $request->description,
-                'location' => $request->location,
-                'pin_code' => $request->pin_code,
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'is_approval' => 'Pending',
+                'manager_id'   => $managerId,
+                'doctor_id'    => $request->doctor_id,
+                'title'        => $request->title,
+                'description'  => $request->description,
+                'location'     => $request->location,
+                'pin_code'     => $request->pin_code,
+                'start_date'   => $request->start_date,
+                'end_date'     => $request->end_date,
+                'approval_status' => 'Pending',
             ]
         );
-
         return redirect()->route('mr.update.plan')->with('success', 'Tour plan sent for manager approval.');
     }
 

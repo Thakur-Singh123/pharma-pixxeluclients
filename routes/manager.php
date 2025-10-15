@@ -40,7 +40,9 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/tasks/approve-all', [App\Http\Controllers\Manager\TaskController::class, 'approveAll'])->name('tasks.approveAll');
     Route::post('/tasks/reject-all', [App\Http\Controllers\Manager\TaskController::class, 'rejectAll'])->name('tasks.rejectAll');
     //Tour plans
-    Route::get('/tour-plans', [App\Http\Controllers\Manager\TourPlanController::class,'tour_plans']);
+    Route::get('/tour-plans', [App\Http\Controllers\Manager\TourPlanController::class,'tour_plans'])->name('all.tours');
+    Route::get('/edit-tour-plan/{id}', [App\Http\Controllers\Manager\TourPlanController::class,'edit_tour_plan']);
+    Route::post('/update-tour-plan{id}', [App\Http\Controllers\Manager\TourPlanController::class,'update_tour_plan'])->name('update.tour.plan');
     Route::post('/approve-tour-plan{id}', [App\Http\Controllers\Manager\TourPlanController::class,'approve_tour_plan'])->name('tour.approve');
     Route::post('/reject-tour-plan/{id}', [App\Http\Controllers\Manager\TourPlanController::class,'reject_tour_plan'])->name('tour.reject');
     //Event management

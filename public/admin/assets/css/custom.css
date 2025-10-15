@@ -897,3 +897,52 @@ h5.details-heading {
 .card-body .row + .row {
     margin-top: 10px;
 }
+.dashboard-row {
+    margin-bottom: 30px;
+}
+.dashboard-card {
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    padding: 25px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dashboard-card .card-header {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #34495e;
+    text-align: left;
+    margin: -16px 0px 20px -10px;
+}
+.dashboard-card:hover {
+    transform: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.dashboard-card canvas {
+    height: 260px !important;
+    width: 100% !important;
+    cursor: pointer;
+    transition: filter 0.3s ease;
+}
+.dashboard-card canvas.chart-glow:hover {
+    filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.6))
+            drop-shadow(0 0 20px rgba(255, 193, 7, 0.4));
+}
+.chart-glow {
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+    0% { filter: drop-shadow(0 0 2px rgba(255,255,255,0.1)); }
+    50% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.2)); }
+    100% { filter: drop-shadow(0 0 2px rgba(255,255,255,0.1)); }
+}
+@media (max-width: 1200px) {
+    .dashboard-card canvas { height: 220px !important; }
+}
+@media (max-width: 768px) {
+    .dashboard-card canvas { height: 200px !important; }
+}

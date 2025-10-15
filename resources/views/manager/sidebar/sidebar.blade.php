@@ -143,11 +143,11 @@
                                     <span class="sub-item">All Tasks</span>
                                 </a>
                             </li>
-                            <!-- <li class="{{ request()->is('manager/tasks-waiting-for-approval') ? 'active' : '' }}">
+                            <!--<li class="{{ request()->is('manager/tasks-waiting-for-approval') ? 'active' : '' }}">
                                 <a href="{{ route('manager.tasks.waiting.for.approval') }}">
                                     <span class="sub-item">Waiting For Approval</span>
                                 </a>
-                            </li> -->
+                            </li>-->
                             <li class="{{ request()->is('manager/tasks-calendar-for-approval') ? 'active' : '' }}">
                                 <a href="{{ url('manager/tasks-calendar-for-approval') }}">
                                     <span class="sub-item">Calendar For Approval</span>
@@ -270,8 +270,8 @@
                     </div>
                 </li>
                 <!--tour-plans section-->
-                <li class="nav-item {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-tour-plans*') ? 'active' : '' }}">
-                    <a href="{{ url('manager/tour-plans') }}" class="nav-link {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-report*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-tour-plan*') ? 'active' : '' }}">
+                    <a href="{{ url('manager/tour-plans') }}" class="nav-link {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-tour-plan*') ? 'active' : '' }}">
                         <i class="fas fa-map-marked-alt"></i>
                         <p>Tour Plans</p>
                     </a>

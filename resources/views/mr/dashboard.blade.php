@@ -2,173 +2,252 @@
 @section('content')
 <div class="container">
   <div class="page-inner">
-
-    <!-- First Row -->
+    <!--reports-->
     <div class="row dashboard-row">
-      <!-- Visitors Card -->
       <div class="col-lg-6 col-md-12 mb-3">
         <div class="dashboard-card">
-          <div class="card-header">Visitors</div>
+          <div class="card-header">Visitors (Monthly)</div>
           <canvas id="chartBar" class="chart-glow"></canvas>
         </div>
       </div>
-
-      <!-- Reports Card with Buttons -->
       <div class="col-lg-6 col-md-12 mb-3">
         <div class="dashboard-card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            {{-- Left side: Reports label --}}
-            <div>Reports</div>
-            {{-- Right side: Month / Week / Year buttons --}}
-            <!-- <div>
-              <button class="btn btn-sm btn-primary filter-btn" data-type="week">Week</button>
-              <button class="btn btn-sm btn-primary filter-btn" data-type="month">Month</button>
-              <button class="btn btn-sm btn-primary filter-btn" data-type="year">Year</button>
-            </div> -->
-          </div>
+          <div class="card-header">Reports (Weekly)</div>
           <canvas id="chartLine" class="chart-glow"></canvas>
         </div>
       </div>
     </div>
-
-    <!-- Second Row -->
+    <!--clients-->
     <div class="row dashboard-row">
-      <!-- Revenue Sources -->
-      <div class="col-md-4 mb-3">
+      <div class="col-md-6 mb-3">
         <div class="dashboard-card">
-          <div class="card-header">Revenue Sources</div>
-          <canvas id="chartDoughnut" class="chart-glow"></canvas>
+          <div class="card-header">Clients (Status)</div>
+          <canvas id="chartClients" class="chart-glow"></canvas>
         </div>
       </div>
-
-      <!-- Orders Distribution -->
-      <div class="col-md-4 mb-3">
+      <!--clients-->
+      <div class="col-md-6 mb-3">
         <div class="dashboard-card">
-          <div class="card-header">Orders Distribution</div>
-          <canvas id="chartPie" class="chart-glow"></canvas>
-        </div>
-      </div>
-
-      <!-- User Activity -->
-      <div class="col-md-4 mb-3">
-        <div class="dashboard-card">
-          <div class="card-header">User Activity</div>
-          <canvas id="chartPolar" class="chart-glow"></canvas>
+          <div class="card-header">TA / DA (Travel)</div>
+          <canvas id="chartTADA" class="chart-glow"></canvas>
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   const barCtx = document.getElementById('chartBar').getContext('2d');
   const barGradient = barCtx.createLinearGradient(0, 0, 0, 400);
   barGradient.addColorStop(0, 'rgba(75, 192, 192, 0.9)');
   barGradient.addColorStop(1, 'rgba(75, 192, 192, 0.3)');
-
+  
   const lineCtx = document.getElementById('chartLine').getContext('2d');
   const lineGradient = lineCtx.createLinearGradient(0, 0, 0, 400);
   lineGradient.addColorStop(0, 'rgba(255, 99, 132, 0.5)');
   lineGradient.addColorStop(1, 'rgba(255, 99, 132, 0)');
-
-  const doughnutColors = ['rgba(75, 192, 192, 0.9)', 'rgba(54, 162, 235, 0.9)', 'rgba(255, 99, 132, 0.9)'];
-  const pieColors = ['rgba(153, 102, 255, 0.9)', 'rgba(255, 159, 64, 0.9)', 'rgba(75, 192, 192, 0.9)'];
-
-// Bar Chart (Visitors)
-new Chart(barCtx, {
-  type: 'bar',
-  data: {
-    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    datasets: [{ 
-      label: '', // set empty string to avoid 'undefined'
-      data: [12,19,10,15,7,20,10,5,4,2,15,20],
-      backgroundColor: barGradient, 
-      borderWidth: 1
-    }]
-  },
-  options: { 
-    responsive: true, 
-    animation: { duration: 1500 },
-    plugins: {
-      legend: { display: false } // hide legend completely
-    }
-  }
-});
-
-
-  // Line Chart (Reports) WITHOUT label and borderColor
-  // Line Chart (Reports) WITHOUT label and borderColor, no legend
-new Chart(lineCtx, {
-  type: 'line',
-  data: {
-    labels: [
-      @foreach($DailyReport as $v)
-        '{{ \Carbon\Carbon::parse($v['day'])->format("D") }}',
-      @endforeach
-    ],
-    datasets: [{
-      data: [
-        @foreach($DailyReport as $v)
-          {{ $v['total'] }},
+   
+  const clientsCtx = document.getElementById('chartClients').getContext('2d');
+  const tadaCtx = document.getElementById('chartTADA').getContext('2d');
+  
+  //Visitors
+  new Chart(barCtx, {
+    type: 'bar',
+    data: {
+      labels: [
+        @foreach($monthlyData as $v)
+          '{{ $v["month"] }}',
         @endforeach
       ],
-      backgroundColor: lineGradient,
-      fill: true,
-      tension: 0.4
-    }]
-  },
-  options: {
-    responsive: true,
-    animation: { duration: 1500 },
-    plugins: {
-      legend: { display: false } // ✅ Hide the legend to remove "undefined" color box
+      datasets: [{
+        label: 'Visits',
+        data: [
+          @foreach($monthlyData as $v)
+            {{ $v["total"] }},
+          @endforeach
+        ],
+        backgroundColor: barGradient,
+        borderWidth: 1
+      }]
     },
-    scales: {
-      y: { beginAtZero: true, ticks: { stepSize: 1 } }
+    options: {
+      responsive: true,
+      animation: { 
+        duration: 1500 
+      },
+      plugins: { 
+        legend: { 
+          display: false 
+        } 
+      },
+        scales: { 
+        y: { 
+          beginAtZero: true, ticks: { 
+            stepSize: 10 
+          }, 
+          title: { 
+            display:true, 
+            text:'Visitors Count' 
+          } 
+        },
+      }
     }
-  }
-});
-
-
-  // Doughnut Chart (Revenue)
-  new Chart(document.getElementById('chartDoughnut'), {
-    type: 'doughnut',
-    data: { 
-      labels:['Product A','Product B','Product C'], 
-      datasets:[{ data:[300,150,100], backgroundColor:doughnutColors }] 
-    },
-    options: { responsive:true, animation:{ animateScale:true, animateRotate:true } }
   });
-
-  // Pie Chart (Orders)
-  new Chart(document.getElementById('chartPie'), {
-    type: 'pie',
-    data: { 
-      labels:['Online','Offline','Direct'], 
-      datasets:[{ data:[120,90,60], backgroundColor:pieColors }] 
+  //Reports
+  new Chart(lineCtx, {
+    type: 'line',
+    data: {
+      labels: [
+        @foreach($weeklyData as $v)
+          '{{ \Carbon\Carbon::parse($v["day"])->format("D") }}',
+        @endforeach
+      ],
+      datasets: [{
+        label: 'Reports',
+        data: [
+          @foreach($weeklyData as $v)
+            {{ $v["total"] }},
+          @endforeach
+        ],
+        backgroundColor: lineGradient,
+        borderColor: 'rgba(255,99,132,0.8)',
+        fill: true,
+        tension: 0.4
+      }]
     },
-    options: { responsive:true, animation:{ animateScale:true } }
+    options: {
+      responsive: true,
+      animation: { 
+        duration: 1500 
+      },
+      plugins: { 
+        legend: { 
+          display: false 
+        },
+        tooltip: { 
+          enabled: true, 
+          mode: 'index',
+          intersect: false, 
+          callbacks: {
+            label: function(context) {
+              return `Reports: ${
+                context.parsed.y
+              }`;
+            }
+          }
+        }
+      },
+      interaction: {
+        mode: 'nearest',
+        axis: 'x',
+        intersect: false
+      },
+      scales: { 
+        y: { 
+          beginAtZero: true, 
+          ticks: { 
+            stepSize: 10 
+          }, 
+          title: { 
+            display:true, 
+            text:'Reports Count' 
+          } 
+        },
+      }
+    }
   });
-
-  // Polar Area Chart (User Activity)
-  new Chart(document.getElementById('chartPolar'), {
-    type: 'polarArea',
-    data: { 
-      labels:['USA','China','Europe','India','Brazil'], 
-      datasets:[{ data:[11,16,7,14,9], backgroundColor:doughnutColors }] 
+  //Clients
+  new Chart(clientsCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Approved','Pending','Rejected'],
+      datasets: [{
+        label: 'Clients',
+        data: [
+          {{ $is_approved ?? 0 }}, 
+          {{ $is_pending ?? 0 }},  
+          {{ $is_reject ?? 0 }}    
+        ],
+        backgroundColor: [
+          'rgba(75, 192, 75, 0.8)',  
+          'rgba(255, 14, 66, 0.93)', 
+          'rgba(255, 159, 64, 0.8)'  
+        ],
+        borderColor: '#fff',
+        borderWidth: 2
+      }]
     },
-    options: { responsive:true, animation:{ duration:1500 } }
+    options: {
+      responsive: true,
+      animation: { 
+        duration: 1500 
+      },
+      plugins: { 
+        legend: { 
+          display: false
+        },
+        tooltip: { 
+          enabled: true 
+        }
+      },
+      scales: { 
+        y: {
+          beginAtZero: true, 
+          ticks: { 
+            stepSize: 10 
+          }, 
+          title: {
+            display:true, text:'Number of Clients' 
+          } 
+        },
+      }
+    }
   });
-
-  // Minimal JS for buttons
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const type = this.dataset.type;
-      console.log("Filter clicked:", type);
-      // You can later integrate AJAX to reload chart data
-    });
+  //TA/DA Travel
+  const tadaGradient = tadaCtx.createLinearGradient(0, 0, 0, 400);
+  tadaGradient.addColorStop(0, 'rgba(255, 159, 64, 0.9)');
+  tadaGradient.addColorStop(1, 'rgba(255, 159, 64, 0.3)');
+  //TA/DA
+  new Chart(tadaCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Bus','Train','Flight','Car','Bike'],
+      datasets: [{
+        label: 'Travel Expenses',
+        data: [
+          {{ $bus ?? 0 }},
+          {{ $train ?? 0 }},
+          {{ $flight ?? 0 }},
+          {{ $car ?? 0 }},
+          {{ $bike ?? 0 }},
+        ],
+        backgroundColor: tadaGradient,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: { 
+        duration: 1500 
+      },
+      plugins: { 
+        legend: { 
+          display: false 
+        } 
+      },
+      scales: { 
+        y: { 
+          beginAtZero: true, 
+          ticks: {
+             stepSize: 10 
+            }, 
+          title: { 
+            display:true, 
+            text:'TA/DA Counts' 
+          } 
+        },
+      }
+    }
   });
 </script>
 @endsection

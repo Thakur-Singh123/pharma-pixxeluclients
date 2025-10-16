@@ -23,8 +23,8 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <!--dashboard section-->
-                <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
-                    <a href="{{ url('admin/dashboard') }}">
+                <li class="nav-item {{ Request::is('manager/dashboard') ? 'active' : '' }}">
+                    <a href="{{ url('manager/dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>

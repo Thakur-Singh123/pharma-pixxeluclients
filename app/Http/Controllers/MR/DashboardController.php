@@ -4,30 +4,57 @@ namespace App\Http\Controllers\MR;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Client;
+use App\Models\TADARecords;
+use App\Models\Visit;
 use App\Models\DailyReport;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function dashboard()
-    {
-        $start = Carbon::now()->startOfWeek();
-        $end   = Carbon::now()->endOfWeek();
-
-        $DailyReport = DailyReport::selectRaw('DATE(report_date) as day, COUNT(*) as total')
-            ->whereBetween('report_date', [$start, $end])
+    //Function for show dashboard
+    public function dashboard() {
+        //Get clients
+        $is_approved = Client::where('mr_id', Auth::id())->where('status', 'Approved')->count();
+        $is_pending = Client::where('mr_id', Auth::id())->where('status', 'Pending')->count();
+        $is_reject = Client::where('mr_id', Auth::id())->where('status', 'Reject')->count();
+        //Get tada record
+        $bus = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Bus')->count();
+        $train = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Train')->count();
+        $flight = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Flight')->count();
+        $car = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Car')->count();
+        $bike = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Bike')->count();
+        //Get current week
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek   = Carbon::now()->endOfWeek();
+        //Get daily reports
+        $DailyReport = DailyReport::where('mr_id', Auth::id())->selectRaw('DATE(report_date) as day, COUNT(*) as total')
+            ->whereBetween('report_date', [$startOfWeek, $endOfWeek])
             ->groupBy('day')
             ->get()
             ->keyBy('day');
-
-        $days = [];
-        for ($date = $start; $date->lte($end); $date->addDay()) {
-            $days[] = [
+        //Get weeks
+        $weeklyData = [];
+        for ($date = $startOfWeek->copy(); $date->lte($endOfWeek); $date->addDay()) {
+            $weeklyData[] = [
                 'day'   => $date->toDateString(),
-                'total' => $DailyReport->has($date->toDateString()) ? $DailyReport[$date->toDateString()]->total : 0
+                'total' => $DailyReport->has($date->toDateString()) ? $DailyReport[$date->toDateString()]->total : 0,
             ];
         }
-
-        return view('mr.dashboard', ['DailyReport' => $days]);
+        //Get monthly visits
+        $visits = Visit::where('mr_id', Auth::id())->selectRaw('MONTH(visit_date) as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->pluck('total', 'month');
+        //Get month
+        $monthlyData = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $monthlyData[] = [
+                'month' => Carbon::create()->month($m)->format('M'),
+                'total' => $visits->has($m) ? $visits[$m] : 0,
+            ];
+        }
+        
+        return view('mr.dashboard', compact('is_approved','is_pending','is_reject','bus','train','flight','car','bike','weeklyData','monthlyData'));
     }
 }

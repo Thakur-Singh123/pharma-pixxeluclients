@@ -75,7 +75,7 @@ class TADAController extends Controller
         if(request()->has('status') && in_array(request('status'), ['pending', 'approved', 'rejected'])) {
             $query = $query->where('status', request('status'));
         }
-        $tada_records = $query->paginate(10);
+        $tada_records = $query->paginate(5);
         return view('mr.TADA.index', compact('tada_records'));
     }
 

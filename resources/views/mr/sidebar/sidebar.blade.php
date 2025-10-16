@@ -24,8 +24,8 @@
             @if(auth()->user()->user_type == 'MR' && !auth()->user()->can_sale)
             <ul class="nav nav-secondary">
                 <!--dashboard section-->
-                <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
-                    <a href="{{ url('admin/dashboard') }}">
+                <li class="nav-item {{ Request::is('mr/dashboard') ? 'active' : '' }}">
+                    <a href="{{ url('mr/dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>

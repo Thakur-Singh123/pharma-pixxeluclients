@@ -10,6 +10,7 @@ use App\Models\Doctor;
 use App\Models\Task;
 use App\Models\TaskTourPlan;
 use Carbon\Carbon;
+use App\Notifications\TourStatusNotification;
 
 class TourPlanController extends Controller
 {
@@ -80,6 +81,12 @@ class TourPlanController extends Controller
         $tour_plan->update([
             'approval_status' => 'Approved',
         ]);
+        //Get MR detail
+        $mr = User::find($tour_plan->mr_id);
+        if($mr){
+            $mr->notify(new TourStatusNotification($tour_plan));
+        }
+
         return back()->with('success', 'Tour plan approval successfully.');
     }
 
@@ -97,6 +104,12 @@ class TourPlanController extends Controller
         $task->update([
             'is_approval' => 'Rejected',
         ]);
+        //Get MR detail
+        $mr = User::find($tour_plan->mr_id);
+        if($mr){
+            $mr->notify(new TourStatusNotification($tour_plan));
+        }
+        
         return back()->with('success', 'Tour plan rejected successfully.');
     }
 }

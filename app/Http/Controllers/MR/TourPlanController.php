@@ -9,6 +9,7 @@ use App\Models\MangerMR;
 use App\Models\Task;
 use App\Models\TaskTourPlan;
 use Carbon\Carbon;
+use App\Notifications\TourPlanNotification;
 
 class TourPlanController extends Controller
 {
@@ -61,7 +62,7 @@ class TourPlanController extends Controller
             ->with('error', 'This tour plan is already pending for manager approval.');
         }
         //Create or update the tour plan
-        TaskTourPlan::updateOrCreate(
+        $tourPlan = TaskTourPlan::updateOrCreate(
             ['task_id' => $task->id, 'mr_id' => $mrId],
             [
                 'manager_id'   => $managerId,
@@ -75,6 +76,14 @@ class TourPlanController extends Controller
                 'approval_status' => 'Pending',
             ]
         );
+        //Get manager detail
+        $manager = User::find($managerId);
+        //Check if manager exists or not
+        if ($manager) {
+            //Send notification
+            $manager->notify(new TourPlanNotification($tourPlan));
+        }
+        
         return redirect()->route('mr.update.plan')->with('success', 'Tour plan sent for manager approval.');
     }
 

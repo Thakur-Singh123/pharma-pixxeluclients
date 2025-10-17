@@ -8,50 +8,40 @@ use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
-    public function index()
-    {
-        $userId     = Auth::id();
-        $today      = Carbon::today()->toDateString();
+    public function index() {
+        $userId = Auth::id();
+        $today = Carbon::today()->toDateString();
         $attendance = MRAttendance::where('user_id', $userId)
             ->whereDate('date', $today)
             ->first();
-
         return view('mr.attendance.index', compact('attendance'));
     }
 
-    public function checkIn()
-    {
+    public function checkIn() {
         $today = Carbon::today();
-
         $attendance = MRAttendance::firstOrCreate(
             ['user_id' => Auth::id(), 'date' => $today],
             ['check_in' => Carbon::now()->toTimeString(), 'status' => 'half']
         );
-
-        // If record existed (already checked-in before), only update check_in if not set, and status if both times not available
+        //If record existed (already checked-in before), only update check_in if not set, and status if both times not available
         if (! $attendance->check_in) {
             $attendance->check_in = Carbon::now()->toTimeString();
             $attendance->status   = 'half';
             $attendance->save();
         }
-        // If already checked in (and checked out, don't change status here)
-
+        //If already checked in (and checked out, don't change status here)
         return back()->with('success', 'Check-in successful!');
     }
 
-    public function checkOut()
-    {
+    public function checkOut() {
         $today = Carbon::today();
-
         $attendance = MRAttendance::where('user_id', Auth::id())
             ->where('date', $today)
             ->first();
-
         if ($attendance && ! $attendance->check_out) {
             $attendance->check_out = Carbon::now()->toTimeString();
-
             if ($attendance->check_in) {
-                // Calculate total working hours
+                //Calculate total working hours
                 $checkIn  = Carbon::parse($attendance->check_in);
                 $checkOut = Carbon::parse($attendance->check_out);
 
@@ -65,19 +55,16 @@ class AttendanceController extends Controller
                     $attendance->status = 'absent';
                 }
             }
-
             $attendance->save();
         }
 
         return back()->with('success', 'Check-out successful!');
     }
 
-    public function month()
-    {
+    public function month() {
         $userId = Auth::id();
         $month  = now()->month;
         $year   = now()->year;
-
         $attendances = MRAttendance::where('user_id', $userId)
             ->whereMonth('date', $month)
             ->whereYear('date', $year)
@@ -97,5 +84,4 @@ class AttendanceController extends Controller
         }
         return view('mr.attendance.month', compact('days'));
     }
-
 }

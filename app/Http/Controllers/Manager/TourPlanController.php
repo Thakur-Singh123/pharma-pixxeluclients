@@ -83,7 +83,7 @@ class TourPlanController extends Controller
         ]);
         //Get MR detail
         $mr = User::find($tour_plan->mr_id);
-        if($mr){
+        if($mr) {
             $mr->notify(new TourStatusNotification($tour_plan));
         }
 
@@ -106,7 +106,7 @@ class TourPlanController extends Controller
         ]);
         //Get MR detail
         $mr = User::find($tour_plan->mr_id);
-        if($mr){
+        if($mr) {
             $mr->notify(new TourStatusNotification($tour_plan));
         }
         

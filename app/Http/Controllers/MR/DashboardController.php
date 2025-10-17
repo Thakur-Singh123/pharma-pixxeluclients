@@ -18,7 +18,7 @@ class DashboardController extends Controller
 {
     //Function for show dashboard
     public function dashboard() {
-        //Get visitor
+        //Get visitors
         $total_visits = Visit::where('mr_id', Auth::id())->count();
         //Get completed tasks
         $total_completed_task = Task::where('mr_id', Auth::id())->where('status', 'completed')->count();

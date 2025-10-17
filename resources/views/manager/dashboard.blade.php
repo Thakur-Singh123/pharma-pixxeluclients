@@ -2,6 +2,45 @@
 @section('content')
 <div class="container">
   <div class="page-inner">
+     <!--boxes section-->
+    <div class="dashboard-summary">
+      <div class="summary-card" style="background-image: url('{{ asset('public/admin/images/bg.png') }}');">
+        <div class="summary-icon">
+          <img src="{{ asset('public/admin/images/Group.png') }}" alt="Visitors Icon">
+        </div>
+        <div class="summary-text">
+          <h2>{{ number_format($total_visits) }}</h2>
+          <h5>Total Visitors</h5>
+        </div>
+      </div>
+      <div class="summary-card" style="background-image: url('{{ asset('public/admin/images/bg.png') }}');">
+        <div class="summary-icon">
+          <img src="{{ asset('public/admin/images/Group 34455.png') }}" alt="Tasks Icon">
+        </div>
+        <div class="summary-text">
+          <h2>{{ number_format($total_completed_task) }}</h2>
+          <h5>Tasks Completed</h5>
+        </div>
+      </div>
+      <div class="summary-card" style="background-image: url('{{ asset('public/admin/images/bg.png') }}');">
+        <div class="summary-icon">
+          <img src="{{ asset('public/admin/images/attendance 1.png') }}" alt="Attendance Icon">
+        </div>
+        <div class="summary-text">
+          <h2>{{ number_format($total_attendances) }}%</h2>
+          <h5>Attendance</h5>
+        </div>
+      </div>
+      <div class="summary-card" style="background-image: url('{{ asset('public/admin/images/bg.png') }}');">
+        <div class="summary-icon"> 
+          <img src="{{ asset('public/admin/images/sales 1.png') }}" alt="Sales Icon">
+        </div>
+        <div class="summary-text"> 
+          <h2>{{ number_format($total_sales) }}</h2> 
+          <h5>Sales</h5>
+        </div>
+      </div>
+    </div>
     <!--reports-->
     <div class="row dashboard-row">
       <div class="col-lg-6 col-md-12 mb-3">

@@ -910,22 +910,17 @@ h5.details-heading {
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    transition: box-shadow 0.3s ease, filter 0.3s ease; /* smooth shadow/glow */
+    transition: box-shadow 0.3s ease, filter 0.3s ease;
     color: #fff;
-    cursor: pointer; /* pointer on hover */
+    cursor: pointer; 
 }
-
-/* Hover effect: glow/shadow without moving card */
 .summary-card:hover {
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
-    filter: brightness(1.05); /* thoda bright effect on hover */
+    filter: brightness(1.05);
 }
-
-/* Click or active state: no movement */
 .summary-card:active {
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25); /* same as hover */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
 }
-
 .summary-icon {
     background: #F78DDC;
     border-radius: 50%;
@@ -940,7 +935,6 @@ h5.details-heading {
 .summary-text {
     padding: 0px 10px;
 }
-
 .summary-icon img {
     width: 26px;
     height: 26px;

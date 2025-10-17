@@ -9,16 +9,20 @@ class TourPlanNotification extends Notification
 {
     use Queueable;
     
-    protected $tourPlan; // Only tour plan
+    //Get tour plan
+    protected $tourPlan; 
 
+    //Function for construct
     public function __construct($tourPlan) {
         $this->tourPlan = $tourPlan;
     }
 
+    //Function for db notification
     public function via(object $notifiable): array {
         return ['database'];
     }
-
+    
+    //Function for get tour plan data
     public function toArray(object $notifiable): array {
         return [
             'tour_id' => $this->tourPlan->id,

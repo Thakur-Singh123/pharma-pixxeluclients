@@ -16,25 +16,26 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    // Function for showing MR Dashboard Data
-    public function dashboard()
-    {
-
-        // echo "yes"; exit;
+    //Function for show dashboard
+    public function dashboard() {
+        //Get auth login detail
         $userId = Auth::id();
-
-        // === Basic Counts ===
-        $total_visits         = Visit::where('mr_id', $userId)->count();
+        //Check if user exists
+        if (!$userId) {
+            $error['status'] = 401;
+            $error['message'] = "Unauthorized access. Please login first.";
+            return response()->json($error, 401);
+        }
+        //Visits
+        $total_visits = Visit::where('mr_id', $userId)->count();
         $total_completed_task = Task::where('mr_id', $userId)->where('status', 'completed')->count();
-        $total_attendances    = MRAttendance::where('user_id', $userId)->count();
-        $total_sales          = Sale::where('user_id', $userId)->count();
-
-        // === Clients ===
+        $total_attendances = MRAttendance::where('user_id', $userId)->count();
+        $total_sales = Sale::where('user_id', $userId)->count();
+        //Clients
         $is_approved = Client::where('mr_id', $userId)->where('status', 'Approved')->count();
         $is_pending  = Client::where('mr_id', $userId)->where('status', 'Pending')->count();
         $is_reject   = Client::where('mr_id', $userId)->where('status', 'Reject')->count();
-
-        // === TADA Mode Count ===
+        //TADAs
         $tada_modes = [
             'Bus'    => TADARecords::where('mr_id', $userId)->where('mode_of_travel', 'Bus')->count(),
             'Train'  => TADARecords::where('mr_id', $userId)->where('mode_of_travel', 'Train')->count(),
@@ -42,29 +43,24 @@ class DashboardController extends Controller
             'Car'    => TADARecords::where('mr_id', $userId)->where('mode_of_travel', 'Car')->count(),
             'Bike'   => TADARecords::where('mr_id', $userId)->where('mode_of_travel', 'Bike')->count(),
         ];
-
-        // === Weekly Reports ===
+        //Weekly reports
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek   = Carbon::now()->endOfWeek();
-
+        //Get reports
         $dailyReports = DailyReport::where('mr_id', $userId)
             ->selectRaw('DATE(report_date) as day, COUNT(*) as total')
             ->whereBetween('report_date', [$startOfWeek, $endOfWeek])
             ->groupBy('day')
             ->get()
             ->keyBy('day');
-
         $weeklyData = [];
         for ($date = $startOfWeek->copy(); $date->lte($endOfWeek); $date->addDay()) {
             $weeklyData[] = [
                 'day'   => $date->format('Y-m-d'),
-                'total' => $dailyReports->has($date->toDateString()) 
-                            ? $dailyReports[$date->toDateString()]->total 
-                            : 0,
+                'total' => $dailyReports->has($date->toDateString()) ? $dailyReports[$date->toDateString()]->total : 0,
             ];
         }
-
-        // === Monthly Visits ===
+        //Monthly Visits
         $visits = Visit::where('mr_id', $userId)
             ->selectRaw('MONTH(visit_date) as month, COUNT(*) as total')
             ->groupBy('month')
@@ -77,21 +73,20 @@ class DashboardController extends Controller
                 'total' => $visits->has($m) ? $visits[$m] : 0,
             ];
         }
-
-        // === Response ===
+        //Response
         $success['status'] = 200;
         $success['message'] = "Dashboard data get successfully.";
         $success['data'] = [
-            'total_visits'          => $total_visits,
-            'total_completed_task'  => $total_completed_task,
-            'total_attendances'     => $total_attendances,
-            'total_sales'           => $total_sales,
+            'total_visits' => $total_visits,
+            'total_completed_task' => $total_completed_task,
+            'total_attendances' => $total_attendances,
+            'total_sales' => $total_sales,
             'clients' => [
                 'approved' => $is_approved,
                 'pending'  => $is_pending,
                 'rejected' => $is_reject,
             ],
-            'tada_modes'   => $tada_modes,
+            'tada_modes' => $tada_modes,
             'weekly_data'  => $weeklyData,
             'monthly_data' => $monthlyData,
         ];

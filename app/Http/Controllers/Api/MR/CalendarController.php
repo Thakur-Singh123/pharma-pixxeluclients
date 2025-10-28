@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\MR;
+namespace App\Http\Controllers\Api\MR;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,13 +10,8 @@ use App\Models\Events;
 
 class CalendarController extends Controller
 {
-    //Function for show calendar
-    public function index() {
-        return view('mr.calendar.index');
-    }
-
     //Function to show tasks calendar
-    public function getTasks() {
+    public function all_tasks() {
         //Get approved MonthlyTasks
         $monthlyTasks = MonthlyTask::with('task_detail','doctor_detail')
             ->where('mr_id', auth()->id())
@@ -27,7 +22,7 @@ class CalendarController extends Controller
         $tasks = Task::with('doctor')->where('mr_id', auth()->id())
             ->where('is_active', '1')
             ->get();
-        //Format tasks
+        //Format task
         $formattedTasks = [];
         //Get MonthlyTasks
         foreach ($monthlyTasks as $task) {
@@ -61,11 +56,24 @@ class CalendarController extends Controller
                 'type'        => 'task',
             ];
         }
-        return response()->json($formattedTasks);
+        //Check if tasks exists or not
+        if($formattedTasks) {
+            $success['status'] = 200;
+            $success['message'] = "Calendar tasks get successfully.";
+            $success['data'] = [
+                'calendar_tasks' => $formattedTasks,
+            ];
+            return response()->json($success, 200);
+        } else {
+            $error['status'] = 404;
+            $error['message'] = "No calendar tasks found.";
+            $error['data'] = [];
+            return response()->json($error, 404);
+        }
     }
 
-    //Function to show event calendar
-    public function getEvents() {
+    //Function to show events calendar
+    public function all_events() {
         //Get approved events
         $events = Events::where('mr_id', auth()->id())->where('is_active', '1')->select('id', 'title', 'start_datetime as start',
             'end_datetime as end', 'status', 'location')
@@ -84,6 +92,19 @@ class CalendarController extends Controller
                 'type'     => 'event',
             ];
         }
-        return response()->json($formattedEvents);
+        //Check if events exists or not
+        if ($formattedEvents) {
+            $success['status'] = 200;
+            $success['message'] = "Calendar events get successfully.";
+            $success['data'] = [
+                'calendar_events' => $formattedEvents,
+            ];
+            return response()->json($success, 200);
+        } else {
+            $error['status'] = 404;
+            $error['message'] = "No calendar events  found.";
+            $error['data'] = [];
+            return response()->json($error, 404);
+        }
     }
 }

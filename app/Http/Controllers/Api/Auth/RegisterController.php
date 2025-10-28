@@ -28,9 +28,9 @@ class RegisterController extends Controller
         //If validation fails
         if ($validator->fails()) {
             //Response
-            $success['status'] = 400;
-            $success['message'] =  $validator->errors()->first();
-            return response()->json($success, 400);
+            $error['status'] = 400;
+            $error['message'] =  $validator->errors()->first();
+            return response()->json($error, 400);
         }
 
         //Get email 
@@ -39,12 +39,12 @@ class RegisterController extends Controller
         //Check if email already exists or not
         if($email_exists) {
             //Response
-            $success['status'] = 400;
-            $success['message'] = 'This email is already taken. Please try with a new email.';
-            $success['data'] = [
+            $error['status'] = 400;
+            $error['message'] = 'This email is already taken. Please try with a new email.';
+            $error['data'] = [
                 'email' => $request->email
             ];
-            return response()->json($success, 400);
+            return response()->json($error, 400);
 
         } else {
 
@@ -87,10 +87,10 @@ class RegisterController extends Controller
                 return response()->json($success, 200);
             } else {
                 //Response
-                $success['status'] = 400;
-                $success['message'] = 'Oops Something Wrong..';
-                $success['data'] = [];
-                return response()->json($success, 400);
+                $error['status'] = 400;
+                $error['message'] = 'Oops Something Wrong..';
+                $error['data'] = [];
+                return response()->json($error, 400);
             } 
         }
     }

@@ -22,9 +22,9 @@ class LoginController extends Controller
         //If validation fails
         if ($validator->fails()) {
             //Response
-            $success['status'] = 400;
-            $success['message'] =  $validator->errors()->first();
-            return response()->json($success, 400);
+            $error['status'] = 400;
+            $error['message'] =  $validator->errors()->first();
+            return response()->json($error, 400);
         }
 
         //Get user detail
@@ -33,17 +33,17 @@ class LoginController extends Controller
         //Check credential exists or not
         if (!$user || !Hash::check($request->password, $user->password)) {
             //Response
-            $success['status'] = 400;
-            $success['message'] = "Invalid credentials. Please check your email or password!";
-            return response()->json($success, 400);
+            $error['status'] = 400;
+            $error['message'] = "Invalid credentials. Please check your email or password!";
+            return response()->json($error, 400);
         }
 
         //Check if status active or not
         if ($user->status !== 'Active') {
             //Response
-            $success['status'] = 400;
-            $success['message'] = "Your request is still pending for approval. Please wait until it is approved!";
-            return response()->json($success, 400);
+            $error['status'] = 400;
+            $error['message'] = "Your request is still pending for approval. Please wait until it is approved!";
+            return response()->json($error, 400);
         }
 
         //Create token
@@ -81,9 +81,9 @@ class LoginController extends Controller
 
         } else {
             //Response
-            $success['status'] = 400;
-            $success['message'] = "Unauthenticated!";
-            return response()->json($success, 400);
+            $error['status'] = 400;
+            $error['message'] = "Unauthenticated!";
+            return response()->json($error, 400);
         }
     }
 
@@ -95,9 +95,9 @@ class LoginController extends Controller
         //Check if refresh token exists
         if (!$refreshToken) {
             //Response
-            $success['status'] = 400;
-            $success['message'] = "Refresh token is missing!";
-            return response()->json($success, 400);
+            $error['status'] = 400;
+            $error['message'] = "Refresh token is missing!";
+            return response()->json($error, 400);
         }
 
         //Get token
@@ -106,9 +106,9 @@ class LoginController extends Controller
         //Check token validity
         if (!$tokenModel || !$tokenModel->can('refresh')) {
             //Response
-            $success['status'] = 400;
-            $success['message'] = "Invalid refresh token!";
-            return response()->json($success, 400);
+            $error['status'] = 400;
+            $error['message'] = "Invalid refresh token!";
+            return response()->json($error, 400);
         }
 
         //Get user
@@ -117,9 +117,9 @@ class LoginController extends Controller
         //Check if user exists or not
         if (!$user) {
             //Response
-            $success['status'] = 400;
-            $success['message'] = "User not found for this token!";
-            return response()->json($success, 400);
+            $error['status'] = 400;
+            $error['message'] = "User not found for this token!";
+            return response()->json($error, 400);
         }
 
         //Remove old access tokens

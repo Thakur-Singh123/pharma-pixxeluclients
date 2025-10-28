@@ -8,6 +8,9 @@ use App\Http\Middleware\Admin;
 use App\Http\Middleware\Manager;
 use App\Http\Middleware\MR;
 use App\Http\Middleware\CanSaleMiddleware;
+use App\Http\Middleware\Vendor;
+use App\Http\Middleware\PurchaseManager;
+use App\Http\Middleware\Counselor;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,6 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__.'/../routes/admin.php',
             __DIR__.'/../routes/manager.php',
             __DIR__.'/../routes/mr.php',
+            __DIR__.'/../routes/vendor.php',
+            __DIR__.'/../routes/purchase-manager.php',
+            __DIR__.'/../routes/counselor.php',
         ],
         api: [
             __DIR__.'/../routes/api/api.php',
@@ -32,6 +38,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'manager' => Manager::class,
             'mr' => MR::class,
             'can_sales' => CanSaleMiddleware::class,
+            'vendor' => Vendor::class,
+            'purchase-manager' => PurchaseManager::class,
+            'counselor' => Counselor::class,
         ]); 
     })
     ->withExceptions(function (Exceptions $exceptions): void {

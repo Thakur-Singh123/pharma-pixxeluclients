@@ -10,8 +10,6 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function() {
 });
 
-
-
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/notifications/read/{id}', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');

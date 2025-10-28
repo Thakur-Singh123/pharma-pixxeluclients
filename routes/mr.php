@@ -11,7 +11,6 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::post('/submit-password/{id}', [App\Http\Controllers\MR\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
     //Dashboard
     Route::get('/dashboard', [App\Http\Controllers\MR\DashboardController::class, 'dashboard'])->name('dashboard');
-    
     //Attendances
     Route::get('/attendance', [App\Http\Controllers\MR\AttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance/check-in', [App\Http\Controllers\MR\AttendanceController::class, 'checkIn'])->name('attendance.checkin');
@@ -79,7 +78,6 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     //Camp reports
     Route::get('export-camp-report', [App\Http\Controllers\MR\CampReportExportController::class, 'export_campReport']);
 });
-
 
 //sales
 Route::prefix('mr')->name('mr.')->middleware(['web','auth','can_sales'])->group(function () {

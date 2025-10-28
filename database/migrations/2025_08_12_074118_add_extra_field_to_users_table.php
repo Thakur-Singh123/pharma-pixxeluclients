@@ -20,7 +20,6 @@ return new class extends Migration
             $table->LongText('address')->after('mobile')->nullable();
             $table->string('image')->after('address')->nullable();
             $table->enum('status',['Active','Pending','Suspend','Approved'])->default('Pending')->after('image')->nullable();
-            $table->enum('user_type',['Admin','Manager','MR'])->default('MR')->after('status')->nullable();
         });
     }
 

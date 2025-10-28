@@ -951,3 +951,12 @@ h5.details-heading {
     margin-bottom: 4px;
     font-weight: 600;
 }
+.input-group .toggle-password {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+    height: 46px;
+}

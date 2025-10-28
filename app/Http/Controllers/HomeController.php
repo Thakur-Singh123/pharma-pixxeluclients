@@ -37,6 +37,12 @@ class HomeController extends Controller
             return redirect('mr/dashboard');
         } elseif ($user_detail->user_type == 'MR' && $user_detail->can_sale == 1) {
             return redirect('mr/sales');
+        } elseif ($user_detail->user_type == 'Vendor') {
+            return redirect('vendor/dashboard');
+        } elseif ($user_detail->user_type == 'Purchase Manager') {
+            return redirect('purchase-manager/dashboard');
+        } elseif ($user_detail->user_type == 'Counselor') {
+            return redirect('counselor/dashboard');
         } else {
             return view('home');
         }

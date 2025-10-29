@@ -10,3 +10,5 @@ Route::post('/login', [App\Http\Controllers\Api\Auth\LoginController::class, 'lo
 Route::middleware('auth:sanctum')->post('/logout', [App\Http\Controllers\Api\Auth\LoginController::class, 'logout']);
 //Refresh token
 Route::post('/refresh-token', [App\Http\Controllers\Api\Auth\LoginController::class, 'refreshToken']); 
+//expire token
+Route::post('/expire-token', [App\Http\Controllers\Api\Auth\LoginController::class, 'expire_token']);

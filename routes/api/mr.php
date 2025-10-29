@@ -16,5 +16,7 @@ Route::prefix('mr')->middleware(['auth:sanctum', 'mr'])->group(function () {
     Route::get('/attendance/month', [App\Http\Controllers\Api\MR\AttendanceController::class, 'month']); 
     //Calander
     Route::get('/calendar-tasks', [App\Http\Controllers\Api\MR\CalendarController::class, 'all_tasks']); 
-    Route::get('/calendar-events', [App\Http\Controllers\Api\MR\CalendarController::class, 'all_events']);  
+    Route::get('/calendar-events', [App\Http\Controllers\Api\MR\CalendarController::class, 'all_events']);
+    //TADA
+    Route::resource('/tada', App\Http\Controllers\Api\MR\TADAController::class);  
 });

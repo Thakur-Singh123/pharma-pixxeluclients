@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use App\Models\Visit;
 use App\Models\Task; 
@@ -14,18 +14,12 @@ use App\Models\DailyReport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class DashboardController extends BaseController
 {
     //Function for show dashboard
     public function dashboard() {
         //Get auth login detail
         $userId = Auth::id();
-        //Check if user exists
-        if (!$userId) {
-            $error['status'] = 401;
-            $error['message'] = "Unauthorized access. Please login first.";
-            return response()->json($error, 401);
-        }
         //Visits
         $total_visits = Visit::where('mr_id', $userId)->count();
         $total_completed_task = Task::where('mr_id', $userId)->where('status', 'completed')->count();

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Models\MRAttendance;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class AttendanceController extends Controller
+class AttendanceController extends BaseController
 {
     //Functino for get Today’s Attendances
     public function index() {

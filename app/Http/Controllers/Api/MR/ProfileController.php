@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class ProfileController extends Controller
+class ProfileController extends BaseController
 {
     //Function for show account
     public function account() {

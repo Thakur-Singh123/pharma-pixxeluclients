@@ -3,7 +3,7 @@
     <div class="sidebar-logo">
         <!--header section-->
         <div class="logo-header" data-background-color="dark">
-            <a href="{{ url('purchase-manager/dashboard') }}" class="logo">
+            <a href="{{ url('vendor/dashboard') }}" class="logo">
                 <img src="{{ asset('public/admin/images/Ad People Logo.svg') }}" alt="navbar brand" class="navbar-brand" height="20" />
             </a>
             <div class="nav-toggle">
@@ -23,8 +23,8 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                <!--dashboard section-->
-                <li class="nav-item {{ Request::is('purchase-manager/dashboard') ? 'active' : '' }}">
-                    <a href="{{ url('purchase-manager/dashboard') }}">
+                <li class="nav-item {{ Request::is('vendor/dashboard') ? 'active' : '' }}">
+                    <a href="{{ url('vendor/dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>

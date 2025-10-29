@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+//Counselor Route
 Route::prefix('counselor')->name('counselor.')->middleware(['web','auth','counselor'])->group(function () {
   //Profile
   Route::get('/profile', [App\Http\Controllers\Counselor\ProfileController::class, 'profile']); 

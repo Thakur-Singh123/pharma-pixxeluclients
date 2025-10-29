@@ -64,7 +64,7 @@
                            </div>
                            <div class="form-group mb-3">
                               <label for="joining_date" class="@error('joining_date') is-invalid @enderror">Joining Date</label>
-                              <input type="date" name="joining_date" id="joining_date" class="form-control" value="{{ old('joining_date', $user_profile->joining_date, date('Y-m-d')) }}">
+                              <input type="date" name="joining_date" id="joining_date" class="form-control" value="{{ old('joining_date', $user_profile->joining_date ?? date('Y-m-d')) }}">
                               @error('joining_date')
                               <span class="invalid-feedback" role="alert">
                                  <strong>{{ $message }}</strong>
@@ -80,7 +80,7 @@
                            </div>
                            <div class="form-group mb-3 ">
                               <label for="dob">DOB</label>
-                              <input type="date" name="dob" class="form-control" value="{{ old('dob', $user_profile->dob, date('Y-m-d')) }}">
+                                <input type="date" name="dob" id="dob" class="form-control" value="{{ old('dob', $user_profile->dob ?? date('Y-m-d')) }}">
                               @error('dob')
                               <span class="invalid-feedback" role="alert">
                                  <strong>{{ $message }}</strong>

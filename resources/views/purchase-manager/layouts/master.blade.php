@@ -126,7 +126,7 @@
                                                 <div class="u-text">
                                                     <h4>{{ auth()->user()->name }}</h4>
                                                     <p class="text-muted">{{ auth()->user()->email }}</p>
-                                                    <a href="{{ url('mr/profile') }}"
+                                                    <a href="{{ url('purchase-manager/profile') }}"
                                                         class="profile-btn btn-xs btn-secondarys btn-sm">View
                                                         Profile</a>
                                                 </div>

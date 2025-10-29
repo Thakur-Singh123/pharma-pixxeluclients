@@ -8,7 +8,7 @@ Route::prefix('mr')->middleware(['auth:sanctum', 'mr'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Api\MR\DashboardController::class, 'dashboard']);
     //Profile
     Route::get('/account', [App\Http\Controllers\Api\MR\ProfileController::class, 'account']);
-    Route::post('/update-account/{id}', [App\Http\Controllers\Api\MR\ProfileController::class, 'update_account']);
+    Route::post('/update-account', [App\Http\Controllers\Api\MR\ProfileController::class, 'update_account']);
     //Attendances
     Route::get('/attendance', [App\Http\Controllers\Api\MR\AttendanceController::class, 'index']);
     Route::post('/attendance/check-in', [App\Http\Controllers\Api\MR\AttendanceController::class, 'checkIn']);  

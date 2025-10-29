@@ -1,25 +1,25 @@
-@extends('mr.layouts.master')
+@extends('purchase-manager.layouts.master')
 @section('content')
 <div class="container">
    <div class="page-inner">
       <div class="row">
          <div class="col-md-12">
             @if(session('success'))
-               <div class="alert alert-success">
-                  {{ session('success') }}
-               </div>
+            <div class="alert alert-success">
+               {{ session('success') }}
+            </div>
             @endif
             @if(session('unsuccess'))
-               <div class="alert alert-danger">
-                  {{ session('unsuccess') }}
-               </div>
+            <div class="alert alert-danger">
+               {{ session('unsuccess') }}
+            </div>
             @endif
             <div class="card">
                <div class="card-header">
                   <div class="card-title">Update Password</div>
                </div>
                <div class="card-body">
-                  <form action="{{ route('mr.submit.change.password', $user_profile->id) }}" method="POST" enctype="multipart/form-data">
+                  <form action="{{ route('purchase-manager.submit.change.password', $user_profile->id) }}" method="POST" enctype="multipart/form-data">
                      @csrf
                      <div class="row">
                         <!--left side column fields-->
@@ -74,20 +74,26 @@
 </div>
 <!--password toggle js-->
 <script>
+document.addEventListener("DOMContentLoaded", function() {
    document.querySelectorAll(".toggle-password").forEach(function(toggle) {
-      toggle.addEventListener("click", function() {
-         const input = document.querySelector(this.getAttribute("toggle"));
-         const icon = this.querySelector("i");
-         if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-         } else {
-            input.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
+      toggle.addEventListener("click", function(e) {
+         e.preventDefault();
+         const targetSelector = this.getAttribute("toggle");
+         const input = document.querySelector(targetSelector);
+         const icon = this.querySelector("i") || this;
+         if (input) {
+            if (input.type === "password") {
+               input.type = "text";
+               icon.classList.remove("fa-eye");
+               icon.classList.add("fa-eye-slash");
+            } else {
+               input.type = "password";
+               icon.classList.remove("fa-eye-slash");
+               icon.classList.add("fa-eye");
+            }
          }
       });
    });
+});
 </script>
 @endsection

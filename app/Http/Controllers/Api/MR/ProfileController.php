@@ -31,7 +31,9 @@ class ProfileController extends Controller
     }
 
     //Function for update account
-    public function update_account(Request $request, $id) {
+    public function update_account(Request $request) {
+        //Get request id
+        $id = $request->id;
         //Validate input fields
         $validator = \Validator::make($request->all(), [
             'name' =>'required|string',

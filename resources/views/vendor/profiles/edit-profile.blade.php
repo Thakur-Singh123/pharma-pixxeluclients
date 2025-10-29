@@ -1,4 +1,4 @@
-@extends('mr.layouts.master')
+@extends('vendor.layouts.master')
 @section('content')
 <div class="container">
    <div class="page-inner">
@@ -14,7 +14,7 @@
                   <div class="card-title">Edit Profile</div>
                </div>
                <div class="card-body">
-                  <form action="{{ route('mr.update.profile', $user_profile->id) }}" method="POST" enctype="multipart/form-data">
+                  <form action="{{ route('vendor.update.profile', $user_profile->id) }}" method="POST" enctype="multipart/form-data">
                      @csrf
                      <div class="avatar-upload">
                         <div class="avatar-edit">
@@ -53,7 +53,7 @@
                               </span>
                               @enderror
                            </div>
-                              <div class="form-group mb-3">
+                           <div class="form-group mb-3">
                               <label for="city" class="@error('city') is-invalid @enderror">City</label>
                               <input type="text" name="city" id="city" class="form-control" value="{{ old('city', $user_profile->city) }}" placeholder="Enter city">
                               @error('city')
@@ -64,7 +64,7 @@
                            </div>
                            <div class="form-group mb-3">
                               <label for="joining_date" class="@error('joining_date') is-invalid @enderror">Joining Date</label>
-                              <input type="date" name="joining_date" id="joining_date" class="form-control" value="{{ old('joining_date', $user_profile->joining_date, date('Y-m-d')) }}">
+                              <input type="date" name="joining_date" id="joining_date" class="form-control" value="{{ old('joining_date', $user_profile->joining_date ?? date('Y-m-d')) }}">
                               @error('joining_date')
                               <span class="invalid-feedback" role="alert">
                                  <strong>{{ $message }}</strong>
@@ -80,7 +80,12 @@
                            </div>
                            <div class="form-group mb-3 ">
                               <label for="dob">DOB</label>
-                              <input type="date" name="dob" class="form-control" value="{{ old('dob', $user_profile->dob, date('Y-m-d')) }}">
+                              <input type="date" name="dob" id="dob" class="form-control" value="{{ old('dob', $user_profile->dob ?? date('Y-m-d')) }}">
+                              @error('dob')
+                              <span class="invalid-feedback" role="alert">
+                                 <strong>{{ $message }}</strong>
+                              </span>
+                              @enderror
                            </div>
                            <div class="form-group mb-3">
                               <label for="state" class="@error('state') is-invalid @enderror">State</label>

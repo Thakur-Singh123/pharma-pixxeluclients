@@ -1,99 +1,99 @@
-@extends('mr.layouts.master')
+@extends('vendor.layouts.master')
 @section('content')
 <style>
-   .card-title {
-      margin: 10px 0px 10px 10px;
-      color: #2a2f5b;
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 1.6;
-   }
-   .avatar-edit {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, #007a4d, #00b873); 
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.3s ease-in-out;
-      box-shadow: 0px 4px 12px rgba(0, 122, 77, 0.3);
-      border: none;
-      text-decoration: none;
-      position: relative;
-   }
-   .avatar-edit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0px 6px 18px rgba(0, 122, 77, 0.4);
-      background: linear-gradient(135deg, #00945f, #00cc88);
-      color: #fff;
-   }
-   .avatar-edit i {
-      pointer-events: none;
-   }
-   .card {
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      border: none;
-      height: 520px;
-   }
-   .card-header {
-      background-color: #f8f9fa;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 20px;
-      font-weight: 600;
-      padding: 20px 24px;
-   }
-   .card-body p {
-      font-size: 14px;
-      margin-bottom: 12px;
-      color: #242222d9;
-   }
-   .card-body strong {
-      color: #242121;
-      font-size: 16px;
-   }
-   .card-body .row {
-      margin: 0px 0px 0px 100px;
-   }
-   .text-center img {
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-   }
-   .text-center img:hover {
-      transform: scale(1.05);
-   }
-   .status-green {
-      color: #28a745;
-      font-weight: 800;
-   }
-   .custom-tooltip {
-      position: relative;
-   }
-   .custom-tooltip::after {
-      content: 'Edit Profile'; 
-      position: absolute;
-      bottom: 100%; 
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #000;
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 4px;
-      white-space: nowrap;
-      opacity: 0;
-      visibility: hidden;
-      font-size: 13px;
-      transition: opacity 0.3s;
-      z-index: 10;
-   }
-   .custom-tooltip:hover::after {
-      opacity: 1;
-      visibility: visible;
-   }
+.card-title {
+   margin: 10px 0px 10px 10px;
+   color: #2a2f5b;
+   font-size: 20px;
+   font-weight: 600;
+   line-height: 1.6;
+}
+.avatar-edit {
+   width: 40px;
+   height: 40px;
+   background: linear-gradient(135deg, #007a4d, #00b873); 
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: white;
+   font-size: 16px;
+   cursor: pointer;
+   transition: all 0.3s ease-in-out;
+   box-shadow: 0px 4px 12px rgba(0, 122, 77, 0.3);
+   border: none;
+   text-decoration: none;
+   position: relative;
+}
+.avatar-edit:hover {
+   transform: translateY(-2px);
+   box-shadow: 0px 6px 18px rgba(0, 122, 77, 0.4);
+   background: linear-gradient(135deg, #00945f, #00cc88);
+   color: #fff;
+}
+.avatar-edit i {
+   pointer-events: none;
+}
+.card {
+   border-radius: 12px;
+   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+   border: none;
+   height: 520px;
+}
+.card-header {
+   background-color: #f8f9fa;
+   border-bottom: 1px solid #e0e0e0;
+   font-size: 20px;
+   font-weight: 600;
+   padding: 20px 24px;
+}
+.card-body p {
+   font-size: 14px;
+   margin-bottom: 12px;
+   color: #242222d9;
+}
+.card-body strong {
+   color: #242121;
+   font-size: 16px;
+}
+.card-body .row {
+   margin: 0px 0px 0px 100px;
+}
+.text-center img {
+   box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+   transition: transform 0.3s ease;
+}
+.text-center img:hover {
+   transform: scale(1.05);
+}
+.status-green {
+   color: #28a745;
+   font-weight: 800;
+}
+.custom-tooltip {
+   position: relative;
+}
+.custom-tooltip::after {
+   content: 'Edit Profile'; 
+   position: absolute;
+   bottom: 100%; 
+   left: 50%;
+   transform: translateX(-50%);
+   background-color: #000;
+   color: #fff;
+   padding: 6px 10px;
+   border-radius: 4px;
+   white-space: nowrap;
+   opacity: 0;
+   visibility: hidden;
+   font-size: 13px;
+   transition: opacity 0.3s;
+   z-index: 10;
+}
+.custom-tooltip:hover::after {
+   opacity: 1;
+   visibility: visible;
+}
 </style>
 <div class="container">
    <div class="page-inner">
@@ -102,7 +102,7 @@
             <div class="card">
                <div class="card-header d-flex justify-content-between align-items-center">
                   <div class="card-title">Profile Details</div>
-                  <a href="{{ url('mr/edit-profile') }}" class="avatar-edit custom-tooltip">
+                  <a href="{{ url('vendor/edit-profile') }}" class="avatar-edit custom-tooltip">
                      <i class="fas fa-pencil-alt"></i>
                   </a>
                </div>

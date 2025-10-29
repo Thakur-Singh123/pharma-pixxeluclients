@@ -7,7 +7,7 @@ Route::post('/register', [App\Http\Controllers\Api\Auth\RegisterController::clas
 //Login
 Route::post('/login', [App\Http\Controllers\Api\Auth\LoginController::class, 'login']); 
 //Logout
-Route::middleware('auth:sanctum')->post('/logout', [App\Http\Controllers\Api\Auth\LoginController::class, 'logout']);
+Route::post('/logout', [App\Http\Controllers\Api\Auth\LoginController::class, 'logout']); 
 //Refresh token
 Route::post('/refresh-token', [App\Http\Controllers\Api\Auth\LoginController::class, 'refreshToken']); 
 //expire token

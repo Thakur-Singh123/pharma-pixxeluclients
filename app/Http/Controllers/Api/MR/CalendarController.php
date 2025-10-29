@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\MonthlyTask;
 use App\Models\Events;
 
-class CalendarController extends Controller
+class CalendarController extends BaseController
 {
     //Function to show tasks calendar
     public function all_tasks() {

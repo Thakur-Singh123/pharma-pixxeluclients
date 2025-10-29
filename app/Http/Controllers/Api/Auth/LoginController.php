@@ -49,12 +49,6 @@ class LoginController extends Controller
         //Create token
         $accessToken  = $user->createToken('API Token')->plainTextToken;
         $refreshToken = $user->createToken('Refresh Token', ['refresh'])->plainTextToken;
-
-        //Define base URL
-        $baseUrl = match ($user->user_type) {
-            'Manager' => url('/api/manager/dashboard'),
-            'MR' => url('/api/mr/dashboard'),
-        };
         
         //Response
         $success['status'] = 200;
@@ -64,7 +58,6 @@ class LoginController extends Controller
             'access_token' => $accessToken,
             'refresh_token' => $refreshToken,
             'token_type' => 'Bearer',
-            'base_url' => $baseUrl,
         ];
         return response()->json($success, 200);
     }

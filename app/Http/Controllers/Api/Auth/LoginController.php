@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class LoginController extends BaseController
+class LoginController extends Controller
 {
     //Function for login
     public function login(Request $request) {
@@ -72,23 +72,34 @@ class LoginController extends BaseController
         return response()->json($success, 200);
     }
 
-    //Function for logout
-    public function logout(Request $request) {
-        //Check if user authenticated
-        if ($request->user()) {
-            $request->user()->currentAccessToken()->delete();
-            //Response
-            $success['status'] = 200;
-            $success['message'] = "Logged out successfully.";
-            return response()->json($success, 200);
-
-        } else {
-            //Response
-            $error['status'] = 400;
-            $error['message'] = "Unauthenticated!";
-            return response()->json($error, 400);
+  public function logout(Request $request)
+    {
+        $header = $request->header('Authorization');
+        if (!$header) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'You have already logged out, please login first.'
+            ], 400);
         }
+
+        $token = explode(' ', $header)[1] ?? null;
+        $accessToken = PersonalAccessToken::findToken($token);
+
+        if (!$accessToken) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'You have already logged out, please login first.'
+            ], 400);
+        }
+
+        $accessToken->delete();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Logged out successfully.'
+        ]);
     }
+
 
     //Function for refresh token
     public function refreshToken(Request $request) {

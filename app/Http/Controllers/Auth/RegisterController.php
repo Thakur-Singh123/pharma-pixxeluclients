@@ -98,21 +98,26 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'state' => $data['state'],
             'joining_date' => $data['joining_date'],
+            'nature_work' => $data['nature_work'],
             'status' => 'Pending',
             'file_attachement' => $filename,
-            'user_type' => 'MR',
+            'user_type' => $data['user_type'] ?? 'MR',
             'can_sale' => $data['can_sale'] ?? 0,
         ]);
     }
 
     //Function for register after created account
     protected function registered(Request $request, $user) {
+        //Get selected user type
+        $selectedType = session('selected_user_type');
         //logout user after registration 
         $this->guard()->logout();
         //Redirect back with success message
         return redirect()->route('login')
             ->with('success', 'Your account has been created successfully. Please wait for manager approval before login.')
-            ->with('openSignup', true);
+            ->with('openSignup', true)
+            ->with('selected_user_type', $selectedType);
+            
     }
 
     //Function for validation eror
@@ -120,12 +125,15 @@ class RegisterController extends Controller
         try {
             $this->validator($request->all())->validate();
         } catch (ValidationException $e) {
+            session(['selected_user_type' => $request->input('user_type')]);
             return redirect()->back()
                 ->withErrors($e->validator, 'register')
                 ->withInput()
                 ->with('openSignup', true); 
         }
         $user = $this->create($request->all());
+
+        session(['selected_user_type' => $request->input('user_type')]);
         return $this->registered($request, $user);
     }
 }

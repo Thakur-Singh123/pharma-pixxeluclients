@@ -11,14 +11,21 @@ use App\Notifications\TADACreateNotification;
 class TADAController extends BaseController
 {
     //Function for all TADA records
-    public function index() {
+    public function all_tada() {
         $query = TADARecords::where('mr_id', auth()->id());
         $query = $query->orderBy('created_at', 'desc');
         if(request()->has('status') && in_array(request('status'), ['pending', 'approved', 'rejected'])) {
             $query = $query->where('status', request('status'));
         }
         $tada_records = $query->paginate(5);
-
+        //Append full attachment URL
+        foreach ($tada_records as $tada) {
+            if ($tada->attachment) {
+                $tada->image_url = asset('public/uploads/ta_da/' . $tada->attachment);
+            } else {
+                
+            }
+        }
         //Check if events exists or not
         if ($tada_records) {
             $success['status'] = 200;
@@ -33,10 +40,10 @@ class TADAController extends BaseController
         }
     }
 
-     //Function for store TADA form
-    public function store(Request $request) {
+    //Function for store TADA form
+    public function create_tada(Request $request) {
         //Validate input fields
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'travel_date' => 'required|date',
             'place_visited' => 'required|string',
             'distance_km' => 'required|numeric',
@@ -48,6 +55,13 @@ class TADAController extends BaseController
             'remarks' => 'nullable|string',
             'attachment' => 'required|file',
         ]);
+        //If validation fails
+        if ($validator->fails()) {
+            $error['status'] = 400;
+            $error['message'] =  $validator->errors()->first();
+            $error['data'] = null;
+            return response()->json($error, 400);
+        }
         //Check if attachment exists or not
         $attachmentPath = null;
         if($request->hasFile('attachment')) {
@@ -77,21 +91,30 @@ class TADAController extends BaseController
             'approved_at' => null,
         ]);
         //Check if tada created or not
-        if (!$is_create_tada) {
-            return redirect()->back()->with('error', 'Failed to create TADA claim.');
+        if ($is_create_tada) {
+            $success['status'] = 200;
+            $success['message'] = "Tada created successfully.";
+            $success['data'] = [$is_create_tada];
+            return response()->json($success, 200);
+            //notification
+            $manager  = auth()->user()->managers->pluck('id');
+            $manager  = $manager->first();
+            $manager  = User::find($manager);
+            $manager->notify(new TADACreateNotification($is_create_tada));
+        } else {
+            $error['status'] = 400;
+            $error['message'] = "Oops! Something went wrong.";
+            $error['data'] = null;
+            return response()->json($error, 400);
         }
-        //notification
-        $manager  = auth()->user()->managers->pluck('id');
-        $manager  = $manager->first();
-        $manager  = User::find($manager);
-        $manager->notify(new TADACreateNotification($is_create_tada));
-        return redirect()->route('mr.tada.index')->with('success', 'TADA claim created successfully.');
     }
 
-     //Function for update tada
-    public function update(Request $request, $id) {
+    //Function for update tada
+    public function update_tada(Request $request) {
+        //Get id
+        $id = $request->id;
         //Validate input fields
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'travel_date' => 'required|date',
             'place_visited' => 'required|string',
             'distance_km' => 'required|numeric',
@@ -102,6 +125,13 @@ class TADAController extends BaseController
             'purpose' => 'required|string',
             'remarks' => 'nullable|string',
         ]);
+        //If validation fails
+        if ($validator->fails()) {
+            $error['status'] = 400;
+            $error['message'] =  $validator->errors()->first();
+            $error['data'] = null;
+            return response()->json($error, 400);
+        }
         //Check if attachment exists or not
         $attachmentPath = null;
         if($request->hasFile('attachment')) {
@@ -136,9 +166,16 @@ class TADAController extends BaseController
                 // $manager  = $manager->first();
                 // $manager  = User::find($manager);
                 // $manager->notify(new TADACreateNotification($is_update_tada));
-                return redirect()->route('mr.tada.index')->with('success', 'TADA claim updated successfully.');
+                $updatedData = TADARecords::find($id);
+                $success['status'] = 200;
+                $success['message'] = "Tada updated successfully.";
+                $success['data'] = $updatedData;
+                return response()->json($success, 200);
             } else {
-                return redirect()->back()->with('error', 'Failed to update TADA claim.');
+                $error['status'] = 400;
+                $error['message'] = "Oops! Something went wrong.";
+                $error['data'] = null;
+                return response()->json($error, 400);
             }
         } else {
             //Total amount
@@ -167,22 +204,46 @@ class TADAController extends BaseController
                 // $manager  = $manager->first();
                 // $manager  = User::find($manager);
                 // $manager->notify(new TADACreateNotification($is_update_tada));
-                return redirect()->route('mr.tada.index')->with('success', 'TADA claim updated successfully.');
+                $updatedData = TADARecords::find($id);
+                $success['status'] = 200;
+                $success['message'] = "Tada updated successfully.";
+                $success['data'] = $updatedData;
+                return response()->json($success, 200);
             } else {
-                return redirect()->back()->with('error', 'Failed to update TADA claim.');
+                $error['status'] = 400;
+                $error['message'] = "Oops! Something went wrong.";
+                $error['data'] = null;
+                return response()->json($error, 400);
             }
         }
     }
 
-    //Function for delete tada
-    public function destroy($id) {
+   //Function for delete tada
+    public function delete_tada(Request $request) {
+        //Get id
+        $id = $request->id;
+        //Check if record exists
+        $tada = TADARecords::find($id);
+        //Check if tada record fond or not
+        if (!$tada) {
+            $error['status'] = 404;
+            $error['message'] = "This record not found.";
+            $error['data'] = null;
+            return response()->json($error, 404);
+        }
         //Delete tada record
-        $is_delete_tada = TADARecords::where('id', $id)->delete();
+        $is_delete_tada = $tada->delete();
         //Check if tada deleted or not
         if ($is_delete_tada) {
-            return redirect()->route('mr.tada.index')->with('success', 'TADA claim deleted successfully.');
+            $success['status'] = 200;
+            $success['message'] = "Tada deleted successfully.";
+            $success['data'] = null;
+            return response()->json($success, 200);
         } else {
-            return redirect()->back()->with('error', 'Failed to update TADA claim.');
+            $error['status'] = 400;
+            $error['message'] = "Oops! Something went wrong.";
+            $error['data'] = null;
+            return response()->json($error, 400);
         }
     }
 }

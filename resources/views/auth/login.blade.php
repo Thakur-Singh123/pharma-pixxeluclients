@@ -51,7 +51,15 @@
    font-weight: 500;
    margin-bottom: 5px;
    color: #444;
+}.signup-header h3 {
+   font-weight: 600;
 }
+#backToSignup:hover {
+   color: #0056b3;
+   transform: scale(1.1);
+   transition: 0.2s;
+}
+
 
    </style>
    <body>
@@ -108,7 +116,15 @@
                   </form>
                </div>
                <div class="signup-form">
-                  <div class="title">Signup</div>
+       
+<div class="signup-header" style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 10px;">
+   <h3 id="signupRoleTitle" style="font-size:18px; color:#333; margin:0;">Signup</h3>
+   <span id="backToSignup" style="cursor:pointer; font-size:20px; color:#007bff; display:none;">
+      <i class="fas fa-arrow-left"></i>
+   </span>
+</div>
+
+
                   <form id="signupForm" method="POST" action="{{ route('register') }}" enctype="multipart/form-data" autocomplete="off">
                      @csrf
                      <div class="form-row">
@@ -172,6 +188,24 @@
                            @enderror
                         </div>
                      </div>
+
+<!-- Vendor Fields -->
+<div class="vendor-fields" style="display:none;">
+   <div class="form-row">
+      <div class="input-box">
+         <i class="fas fa-briefcase"></i>
+         <input type="text" name="nature_work" placeholder="Enter nature of work" value="{{ old('nature_work') }}">
+        
+      </div>
+   </div>
+</div>
+
+
+
+
+
+
+
                    <div class="form-row">
                      <!-- File Upload -->
                      <div class="input-box">
@@ -183,18 +217,38 @@
                         </div>
 
                         <!-- Role Selection -->
-                        <div class="input-box">
-                        
-                           <select id="can_sale" name="can_sale" style="height: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-                              <option value="" disabled selected>Choose Role</option>
-                              <option value="0" {{ old('can_sale') == '0' ? 'selected' : '' }}>Visit</option>
-                              <option value="1" {{ old('can_sale') == '1' ? 'selected' : '' }}>Sales</option>
-                           </select>
-                           @error('can_sale', 'register')
-                              <small class="text-danger">{{ $message }}</small>
-                           @enderror
-                        </div>
+<!-- Role Selection (will hide dynamically) -->
+<div class="form-row role-row">
+   <div class="input-box" style="flex: 1;">
+      <select id="can_sale" name="can_sale" style="height: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+         <option value="" disabled selected>Select type</option>
+         <option value="0" {{ old('can_sale') == '0' ? 'selected' : '' }}>Visit</option>
+         <option value="1" {{ old('can_sale') == '1' ? 'selected' : '' }}>Sales</option>
+      </select>
+      @error('can_sale', 'register')
+         <small class="text-danger">{{ $message }}</small>
+      @enderror
+   </div>
+</div>
+
+
                      </div>
+
+
+                     <div class="form-row">
+   <div class="input-box">
+      <select id="user_type" name="user_type" style="height: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+         <option value="">Choose role</option>
+         <option value="vendor">Vendor</option>
+         <option value="purchase_manager">Purchase Manager</option>
+         <option value="counsellor">Counsellor</option>
+      </select>
+      @error('user_type', 'register')
+         <small class="text-danger">{{ $message }}</small>
+      @enderror
+   </div>
+</div>
+
 
                      <div class="loaderss com_ajax_loader" style="display:none;">
                         <img src="{{ asset('public/admin/images/200w.gif') }}">
@@ -288,4 +342,84 @@
          });
       });
    </script>
+
+
+
+
+
+
+
+
+
+
+<script>
+document.getElementById("user_type").addEventListener("change", function() {
+   let selected = this.value;
+
+   // Hide all custom field groups
+   document.querySelectorAll(".vendor-fields, .purchase-fields, .counsellor-fields")
+      .forEach(div => div.style.display = "none");
+
+   // Elements
+   let roleRow = document.querySelector(".role-row");
+   let header = document.querySelector(".signup-header");
+   let headerTitle = document.getElementById("signupRoleTitle");
+   let backArrow = document.getElementById("backToSignup");
+
+   // Hide can_sale row
+   roleRow.style.display = "none";
+
+   // Show arrow only when user selects a type
+   backArrow.style.display = "inline";
+
+if (selected === "vendor") {
+   document.querySelector(".vendor-fields").style.display = "flex";
+   headerTitle.textContent = "Signup - Vendor";
+} else if (selected === "purchase_manager") {
+   headerTitle.textContent = "Signup - Purchase Manager";
+} else if (selected === "counsellor") {
+   headerTitle.textContent = "Signup - Counsellor";
+
+
+   } else {
+      headerTitle.textContent = "Signup";
+      backArrow.style.display = "none";
+      roleRow.style.display = "flex";
+   }
+});
+
+// Click back arrow to reset to default signup
+document.getElementById("backToSignup").addEventListener("click", function() {
+   const roleRow = document.querySelector(".role-row");
+   const userTypeSelect = document.getElementById("user_type");
+   const headerTitle = document.getElementById("signupRoleTitle");
+   const backArrow = document.getElementById("backToSignup");
+
+   // Reset visibility
+   document.querySelectorAll(".vendor-fields, .purchase-fields, .counsellor-fields")
+      .forEach(div => div.style.display = "none");
+
+   headerTitle.textContent = "Signup";
+   backArrow.style.display = "none";
+   roleRow.style.display = "flex";
+   userTypeSelect.value = "";
+});
+</script>
+
+
+
+<script>
+window.addEventListener("load", function() {
+   let selectedType = "{{ session('selected_user_type') }}";
+
+   if (selectedType) {
+      const userTypeSelect = document.getElementById("user_type");
+      userTypeSelect.value = selectedType;
+      userTypeSelect.dispatchEvent(new Event("change"));
+   }
+});
+</script>
+
+
+
 </html>

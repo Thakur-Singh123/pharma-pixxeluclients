@@ -36,6 +36,7 @@ class User extends Authenticatable
         'city',
         'state',
         'joining_date',
+        'nature_work',
         'employee_code',
         'can_sale',
     ];

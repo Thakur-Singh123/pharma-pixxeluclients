@@ -21,9 +21,9 @@
                                         <tr>
                                             <th>PO #</th>
                                             <th>Date</th>
-                                            <th>Vendor</th>
+                                            <th>Vendor Name</th>
+                                            <th>Vendor Email</th>
                                             <th>Nature Of Vendor</th>
-                                            <th class="text-end">Items</th>
                                             <th class="text-end">Subtotal</th>
                                             <th class="text-end">Discount</th>
                                             <th class="text-end">Grand Total</th>
@@ -36,15 +36,9 @@
                                             <tr>
                                                 <td>#{{ $po->id }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($po->order_date)->format('d M, Y') }}</td>
-                                                <td>
-                                                    {{ $po->vendor?->name ?? '—' }}
-                                                    @if ($po->vendor?->email)
-                                                        <br><small class="text-muted">{{ $po->vendor->email }}</small>
-                                                    @endif
-                                                </td>
+                                                <td> {{ $po->vendor?->name ?? '—' }}</td>
+                                                <td> {{ $po->vendor?->email ?? '—' }}</td>
                                                 <td>{{ $po->nature_of_vendor }}</td>
-                                                <td class="text-end">{{ $po->items_count ?? ($po->items->count() ?? 0) }}
-                                                </td>
                                                 <td class="text-end">₹{{ number_format($po->subtotal, 2) }}</td>
                                                 <td class="text-end">₹{{ number_format($po->discount_total, 2) }}</td>
                                                 <td class="text-end fw-semibold">₹{{ number_format($po->grand_total, 2) }}

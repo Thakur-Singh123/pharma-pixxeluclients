@@ -12,5 +12,7 @@ Route::prefix('vendor')->name('vendor.')->middleware(['web','auth','vendor'])->g
   Route::post('/submit-password/{id}', [App\Http\Controllers\Vendor\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
   //Dashboard
   Route::get('/dashboard', [App\Http\Controllers\Vendor\DashboardController::class, 'dashboard']);
+  //Purchase Order
+   Route::get('purchase-orders', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
 });
 

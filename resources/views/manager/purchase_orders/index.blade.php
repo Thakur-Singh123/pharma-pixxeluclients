@@ -108,7 +108,7 @@
                                                                             {{ ucfirst($po->status) }}
                                                                         </span>
                                                                     </td>
-                                                                    <td style="display: flex; gap: 5px; flex-wrap: wrap;">
+                                                                    <td style="display: flex; gap: 5px;">
                                                                         @if ($po->status === 'pending')
                                                                             <form method="POST"
                                                                                 action="{{ route('manager.purchase-manager.approvals.approve', $po->id) }}">

@@ -10,6 +10,7 @@ class PurchaseOrder extends Model
         'purchase_manager_id',
         'vendor_id',
         'order_date',
+        'nature_of_vendor',
         'notes',
         'subtotal',
         'discount_total',

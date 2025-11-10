@@ -46,6 +46,7 @@ class PatientController extends Controller
             'booking_amount'   => 'nullable|numeric|min:0',
             'booking_done'     => 'required|in:Yes,No',
             'other_department' => 'nullable|string|max:255',
+            'remark' => 'nullable|string',
         ]);
 
         if ($validated['department'] === 'Others' && !empty($validated['other_department'])) {
@@ -78,6 +79,7 @@ class PatientController extends Controller
             'booking_amount'   => 'nullable|numeric|min:0',
             //'booking_done'     => 'required|in:Yes,No',
             'other_department' => 'nullable|string|max:255',
+            'remark' => 'nullable|string',
         ]);
 
         if ($validated['department'] === 'Others' && !empty($validated['other_department'])) {

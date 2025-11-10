@@ -33,6 +33,7 @@
                                                                 <th>Department</th>
                                                                 <th>UHID No.</th>
                                                                 <th>Booking Amount</th>
+                                                                <th>Remark</th>
                                                                 <th>Booking Status</th>
                                                                 <th>Action</th>
                                                             </tr>
@@ -61,6 +62,7 @@
                                                                             —
                                                                         @endif
                                                                     </td>
+                                                                    <td>{{ $patient->remark ?? '—' }}</td>
                                                                     <td>
                                                                         <form
                                                                             action="{{ route('counselor.bookings.status', $patient->id) }}"

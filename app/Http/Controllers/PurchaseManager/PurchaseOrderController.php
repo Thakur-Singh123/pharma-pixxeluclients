@@ -32,6 +32,7 @@ class PurchaseOrderController extends Controller
         $validated = $request->validate([
             'vendor_id'              => 'required|exists:users,id',
             'order_date'             => 'required|date',
+            'nature_of_vendor'       => 'nullable|required',
             'notes'                  => 'nullable|string|max:1000',
             'items'                  => 'required|array|min:1',
             'items.*.product_name'   => 'required|string|max:255',
@@ -49,6 +50,7 @@ class PurchaseOrderController extends Controller
                 'manager_id'          => $managerId,
                 'vendor_id'           => $validated['vendor_id'],
                 'order_date'          => $validated['order_date'],
+                'nature_of_vendor'    => $validated['nature_of_vendor'],
                 'notes'               => $validated['notes'] ?? null,
                 'subtotal'            => 0,
                 'discount_total'      => 0,
@@ -153,6 +155,7 @@ class PurchaseOrderController extends Controller
         $validated = $request->validate([
             'vendor_id'              => 'required|exists:users,id',
             'order_date'             => 'required|date',
+            'nature_of_vendor'       => 'nullable|required',
             'notes'                  => 'nullable|string|max:1000',
             'items'                  => 'required|array|min:1',
             'items.*.product_name'   => 'required|string|max:255',
@@ -170,6 +173,7 @@ class PurchaseOrderController extends Controller
             $order->update([
                 'vendor_id'  => $validated['vendor_id'],
                 'order_date' => $validated['order_date'],
+                'nature_of_vendor' => $validated['nature_of_vendor'],
                 'notes'      => $validated['notes'] ?? null,
             ]);
 

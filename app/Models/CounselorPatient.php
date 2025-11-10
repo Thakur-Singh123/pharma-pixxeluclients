@@ -16,5 +16,6 @@ class CounselorPatient extends Model
         'booking_amount',
         'booking_done',
         'counselor_id',
+        'remark',
     ];
 }

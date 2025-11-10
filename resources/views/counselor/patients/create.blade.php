@@ -137,6 +137,17 @@
                                         </div>
                                     </div>
 
+                                    <!--Remarks-->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Remark</label>
+                                            <textarea name="remark" class="form-control" rows="2" placeholder="Any additional remark">{{ old('remark') }}</textarea>
+                                            @error('remark')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="card-action">

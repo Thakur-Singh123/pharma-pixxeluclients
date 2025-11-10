@@ -44,14 +44,14 @@
                                                                 <th style="width: 80px;">Sr No.</th>
                                                                 <th style="width: 120px;">PO #</th>
                                                                 <th style="width: 140px;">Date</th>
-                                                                <th style="width: 220px;">Vendor</th>
+                                                                <th>Vendor Name</th>
+                                                                <th>Vendor Email</th>
                                                                 <th style="width: 220px;">Nature Of Vendor</th>
-                                                                <th style="width: 220px;">First Item</th>
-                                                                <th style="width: 110px;" class="text-end">Items</th>
                                                                 <th style="width: 140px;" class="text-end">Subtotal</th>
                                                                 <th style="width: 140px;" class="text-end">Discount</th>
                                                                 <th style="width: 160px;" class="text-end">Grand Total</th>
-                                                                <th style="width: 180px;">Purchase Manager</th>
+                                                                <th style="width: 180px;">Purchase Manager Name</th>
+                                                                <th style="width: 180px;">Purchase Manager Email</th>
                                                                 <th style="width: 120px;">Status</th>
                                                                 <th style="width: 220px;">Approval</th>
                                                                 <th style="width: 140px;">Action</th>
@@ -65,40 +65,18 @@
                                                                     <td>#{{ $po->id }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($po->order_date)->format('d M, Y') }}
                                                                     </td>
-                                                                    <td>
-                                                                        {{ $po->vendor?->name ?? '—' }}
-                                                                        @if ($po->vendor?->email)
-                                                                            <br><small
-                                                                                class="text-muted">{{ $po->vendor->email }}</small>
-                                                                        @endif
-                                                                    </td>
+                                                                    <td> {{ $po->vendor?->name ?? '—' }}</td>
+                                                                    <td> {{ $po->vendor?->email ?? '—' }}</td>
                                                                     <td>{{ $po->nature_of_vendor }}</td>
-                                                                    <td>
-                                                                        @php
-                                                                            $firstItem = $po->items[0] ?? null;
-                                                                        @endphp
-                                                                        {{ $firstItem?->product_name ?? '—' }}
-                                                                        @if (!empty($firstItem?->type))
-                                                                            <br><small
-                                                                                class="text-muted">({{ $firstItem->type }})</small>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td class="text-end">
-                                                                        {{ $po->items_count ?? ($po->items->count() ?? 0) }}
-                                                                    </td>
                                                                     <td class="text-end">
                                                                         ₹{{ number_format($po->subtotal, 2) }}</td>
                                                                     <td class="text-end">
                                                                         ₹{{ number_format($po->discount_total, 2) }}</td>
                                                                     <td class="text-end fw-semibold">
                                                                         ₹{{ number_format($po->grand_total, 2) }}</td>
-                                                                    <td>
-                                                                        {{ $po->purchaseManager?->name ?? '—' }}
-                                                                        @if ($po->purchaseManager?->email)
-                                                                            <br><small
-                                                                                class="text-muted">{{ $po->purchaseManager->email }}</small>
-                                                                        @endif
-                                                                    </td>
+                                                                    <td> {{ $po->purchaseManager?->name ?? '—' }}</td>
+                                                                    <td> {{ $po->purchaseManager?->email ?? '—' }}</td>
+                                                                       
                                                                     <td>
                                                                         <span
                                                                             class="status-badge

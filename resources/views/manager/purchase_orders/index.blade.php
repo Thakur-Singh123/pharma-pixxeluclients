@@ -15,11 +15,40 @@
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Purchase Orders</h4>
 
-                                    {{-- Filter by Purchase Manager --}}
-                                    <form method="GET" action="{{ route('manager.purchase-manager.index') }}">
+                                    <form method="GET" action="{{ route('manager.purchase-manager.index') }}"
+                                        class="d-flex gap-2 align-items-center">
+                                        {{-- Status Filter --}}
+                                        <select name="status" class="form-control" onchange="this.form.submit()">
+                                            <option value="">All Status</option>
+                                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
+                                                Pending</option>
+                                            <option value="approved"
+                                                {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                                            <option value="rejected"
+                                                {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                        </select>
+
+                                        {{-- Date Range Filter --}}
+                                        <select name="date_range" class="form-control" onchange="this.form.submit()">
+                                             <option value="all" {{ request('date_range') == 'all' ? 'selected' : '' }}>
+                                                All</option>
+                                            <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>
+                                                Today</option>
+                                            <option value="this_week"
+                                                {{ request('date_range') == 'this_week' ? 'selected' : '' }}>This Week
+                                            </option>
+                                            <option value="this_month"
+                                                {{ request('date_range') == 'this_month' ? 'selected' : '' }}>This Month
+                                            </option>
+                                            <option value="this_year"
+                                                {{ request('date_range') == 'this_year' ? 'selected' : '' }}>This Year
+                                            </option>  
+                                        </select>
+
+                                        {{-- Purchase Manager Filter --}}
                                         <select name="purchase_manager_id" class="form-control"
                                             onchange="this.form.submit()">
-                                            <option value="">All Purchase Orders</option>
+                                            <option value="">All Purchase Managers</option>
                                             @foreach ($pms as $pm)
                                                 <option value="{{ $pm->id }}"
                                                     {{ request('purchase_manager_id') == $pm->id ? 'selected' : '' }}>
@@ -27,8 +56,14 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        {{-- Export CSV --}}
+                                        <a href="{{ route('manager.purchase-orders.export', request()->only('is_delivered', 'date_range', 'status', 'purchase_manager_id')) }}"
+                                            class="btn btn-primary">
+                                            Export
+                                        </a>
                                     </form>
                                 </div>
+
 
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -76,7 +111,7 @@
                                                                         ₹{{ number_format($po->grand_total, 2) }}</td>
                                                                     <td> {{ $po->purchaseManager?->name ?? '—' }}</td>
                                                                     <td> {{ $po->purchaseManager?->email ?? '—' }}</td>
-                                                                       
+
                                                                     <td>
                                                                         <span
                                                                             class="status-badge

@@ -20,5 +20,8 @@ Route::prefix('purchase-manager')->name('purchase-manager.')->middleware(['web',
   Route::get('purchase-orders/{id}/edit', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'edit'])->name('purchase-orders.edit');
   Route::put('purchase-orders/{id}', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'update'])->name('purchase-orders.update');
   Route::delete('purchase-orders/{id}', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
+
+  Route::get('purchase-orders/export', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'export'])
+  ->name('purchase-orders.export'); 
 });
 

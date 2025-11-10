@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\VenodrPurchaseOrdersExport;
+use App\Exports\PurchaseOrdersExport;
 use Illuminate\Support\Facades\Auth;
 
 class PurchaseOrderController extends Controller
@@ -62,7 +62,7 @@ class PurchaseOrderController extends Controller
     public function export(Request $request)
     {
         $filters = $request->only(['is_delivered', 'date_range']);
-        return Excel::download(new VenodrPurchaseOrdersExport($filters), 'purchase_orders.csv');
+        return Excel::download(new PurchaseOrdersExport($filters), 'purchase_orders.csv');
     }
 
 }

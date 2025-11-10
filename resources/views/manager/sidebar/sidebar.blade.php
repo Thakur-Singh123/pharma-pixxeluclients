@@ -296,7 +296,7 @@
                     <a href="{{ url('manager/purchase-manager') }}"
                         class="nav-link {{ request()->is('manager/purchase-manager') || request()->is('manager/purchase-manager/*/edit') ? 'active' : '' }}">
                         <i class="fas fa-handshake"></i>
-                        <p>All Purchase Manager</p>
+                        <p>All Purchase Manager Orders</p>
                     </a>
                 </li>
                 <!--logout section-->

@@ -7,7 +7,7 @@
     <div class="mb-4 d-flex align-items-center gap-2">
         <label class="me-2">Date Filter:</label>
         <form id="filterForm" method="GET" action="{{ route('vendor.dashboard') }}">
-            <select name="date_range" class="form-select" style="width: 180px" onchange="this.form.submit()">
+            <select name="date_range" class="form-control" style="width: 180px" onchange="this.form.submit()">
                 <option value="today" {{ request('date_range')=='today' ? 'selected' : '' }}>Today</option>
                 <option value="this_week" {{ request('date_range')=='this_week' ? 'selected' : '' }}>This Week</option>
                 <option value="this_month" {{ request('date_range')=='this_month' ? 'selected' : '' }}>This Month</option>

@@ -16,6 +16,7 @@ class PurchaseOrder extends Model
         'grand_total',
         'status',
         'manager_id',
+        'is_delivered'
     ];
 
     public function items()
@@ -26,5 +27,10 @@ class PurchaseOrder extends Model
     public function vendor()
     {
         return $this->belongsTo(User::class, 'vendor_id');
+    }
+
+    public function purchaseManager()
+    {
+        return $this->belongsTo(User::class, 'purchase_manager_id');
     }
 }

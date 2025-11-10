@@ -24,13 +24,21 @@ class PurchaseOrderController extends Controller
             ->whereIn('id', $purchase_manager_ids)
             ->get();
 
-        $orders = PurchaseOrder::with(['vendor', 'items'])
+         // Query purchase orders
+        $ordersQuery = PurchaseOrder::with(['vendor', 'items', 'purchaseManager'])
             ->withCount('items')
             ->where('manager_id', $managerId)
             ->whereIn('purchase_manager_id', $purchase_manager_ids)
-            ->orderByDesc('id')
-            ->paginate(10);
+            ->orderByDesc('id');
 
+        // Apply filter if selected
+        if ($request->filled('purchase_manager_id')) {
+            $ordersQuery->where('purchase_manager_id', $request->purchase_manager_id);
+        }
+
+          $orders = $ordersQuery->paginate(10);
+
+          
         return view('manager.purchase_orders.index', compact('orders', 'pms'));
     }
 

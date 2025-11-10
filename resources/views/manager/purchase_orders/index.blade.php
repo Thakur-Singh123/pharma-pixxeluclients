@@ -76,7 +76,6 @@
                                                                         ₹{{ number_format($po->grand_total, 2) }}</td>
                                                                     <td> {{ $po->purchaseManager?->name ?? '—' }}</td>
                                                                     <td> {{ $po->purchaseManager?->email ?? '—' }}</td>
-                                                                       
                                                                     <td>
                                                                         <span
                                                                             class="status-badge

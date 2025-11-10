@@ -17,7 +17,7 @@
                                 class="d-flex gap-2 align-items-center">
 
                                 {{-- Delivery Status Filter --}}
-                                <select name="is_delivered" class="form-select" style="width: 160px"
+                                <select name="is_delivered" class="form-control" style="width: 160px"
                                     onchange="this.form.submit()">
                                     <option value="">All Delivery</option>
                                     <option value="pending" {{ request('is_delivered') == 'pending' ? 'selected' : '' }}>
@@ -27,9 +27,9 @@
                                 </select>
 
                                 {{-- Date Range Filter --}}
-                                <select name="date_range" class="form-select" style="width: 180px"
+                                <select name="date_range" class="form-control" style="width: 180px"
                                     onchange="this.form.submit()">
-                                    <option value="">All Dates</option>
+                                    <option value="">All</option>
                                     <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>Today
                                     </option>
                                     <option value="this_week" {{ request('date_range') == 'this_week' ? 'selected' : '' }}>

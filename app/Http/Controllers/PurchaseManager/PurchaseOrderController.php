@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\PurchaseOrderNotification;
 use App\Notifications\PurchaseOrderUpdatedNotification;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PurchaseOrdersExport;
+use App\Mail\PurchaseOrderCreatedMail;
+use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
 {
@@ -104,6 +108,12 @@ class PurchaseOrderController extends Controller
                 //Send notification
                 $manager->notify(new PurchaseOrderNotification($po));
             }
+
+            //Send Email to Vendor
+            $vendor = User::find($validated['vendor_id']);
+            if ($vendor && $vendor->email) {
+                Mail::to($vendor->email)->send(new PurchaseOrderCreatedMail($po));
+            }
         });
 
         return redirect()->route('purchase-manager.purchase-orders.index')
@@ -114,27 +124,54 @@ class PurchaseOrderController extends Controller
     {
         $pmId = Auth::id();
 
-        $q    = $request->q;
-        $from = $request->from;
-        $to   = $request->to;
+        $query = PurchaseOrder::with(['vendor', 'purchaseManager'])
+            ->where('purchase_manager_id', $pmId);
 
-        $orders = PurchaseOrder::with(['vendor'])
-            ->withCount('items')
-            ->where('purchase_manager_id', $pmId)
-            ->when($q, function ($qr) use ($q) {
-                $qr->where('id', (int) $q)
-                    ->orWhereHas('vendor', function ($v) use ($q) {
-                        $v->where('name', 'like', "%{$q}%")
-                            ->orWhere('email', 'like', "%{$q}%");
-                    });
-            })
-            ->when($from, fn($qr) => $qr->whereDate('order_date', '>=', $from))
-            ->when($to, fn($qr) => $qr->whereDate('order_date', '<=', $to))
-            ->orderByDesc('id')
-            ->paginate(10);
+        // Status Filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
 
-        return view('purchase_manager.purchase_orders.index', compact('orders'));
+        // Vendor Filter
+        if ($request->filled('vendor_id')) {
+            $query->where('vendor_id', $request->vendor_id);
+        }
+
+        // Date Range Filter
+        if ($request->filled('date_range')) {
+            switch ($request->date_range) {
+                case 'today':
+                    $query->whereDate('order_date', now());
+                    break;
+                case 'this_week':
+                    $query->whereBetween('order_date', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'this_month':
+                    $query->whereMonth('order_date', now()->month)
+                        ->whereYear('order_date', now()->year);
+                    break;
+                case 'this_year':
+                    $query->whereYear('order_date', now()->year);
+                    break;
+                case 'all':
+                    // no filter
+                    break;
+            }
+        }
+
+        $orders = $query->orderByDesc('id')->paginate(10);
+
+        // Vendors list for dropdown
+        $managerId      = ManagerPurchaseManager::where('purchase_manager_id', $pmId)->value('manager_id');
+        $manager_vendor = ManagerVendor::where('manager_id', $managerId)->pluck('vendor_id')->toArray();
+        $vendors        = User::where('user_type', 'vendor')
+                            ->whereIn('id', $manager_vendor)
+                            ->orderBy('name')
+                            ->get(['id', 'name', 'email']);
+
+        return view('purchase_manager.purchase_orders.index', compact('orders', 'vendors'));
     }
+
 
     public function edit($id)
     {
@@ -252,6 +289,12 @@ class PurchaseOrderController extends Controller
         $order->delete(); // make sure FK is set to cascade for items
 
         return back()->with('success', 'Purchase Order deleted successfully.');
+    }
+
+    public function export(Request $request)
+    {
+        $filters = $request->only(['is_delivered', 'date_range', 'status', 'purchase_manager_id', 'vendor_id']);
+        return Excel::download(new PurchaseOrdersExport($filters), 'purchase_orders.csv');
     }
 
 }

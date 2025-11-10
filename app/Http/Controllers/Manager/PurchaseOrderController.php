@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\PurchaseOrderApprovedNotification;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PurchaseOrdersExport;
 
 class PurchaseOrderController extends Controller
 {
@@ -33,13 +35,39 @@ class PurchaseOrderController extends Controller
             ->orderByDesc('id');
 
         // Apply filter if selected
+        if ($request->filled('status')) {
+            $ordersQuery->where('status', $request->status);
+        }
+
+        // Filter by purchase manager
         if ($request->filled('purchase_manager_id')) {
             $ordersQuery->where('purchase_manager_id', $request->purchase_manager_id);
         }
 
-          $orders = $ordersQuery->paginate(10);
+        // Date range filter
+        if ($request->filled('date_range')) {
+            switch ($request->date_range) {
+                case 'today':
+                    $ordersQuery->whereDate('order_date', today());
+                    break;
+                case 'this_week':
+                    $ordersQuery->whereBetween('order_date', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'this_month':
+                    $ordersQuery->whereMonth('order_date', now()->month)
+                        ->whereYear('order_date', now()->year);
+                    break;
+                case 'this_year':
+                    $ordersQuery->whereYear('order_date', now()->year);
+                    break;
+                case 'all':
+                default:
+                    // No filtering
+                    break;
+            }
+        }
 
-          
+        $orders = $ordersQuery->paginate(10); 
         return view('manager.purchase_orders.index', compact('orders', 'pms'));
     }
 
@@ -168,8 +196,15 @@ class PurchaseOrderController extends Controller
             ]);
         });
 
-        // ✅ Redirect with correct route name (manager prefix)
+        // Redirect with correct route name (manager prefix)
         return redirect()->route('manager.purchase-manager.index')
             ->with('success', 'Purchase Order updated successfully.');
+    }
+
+    // Export Purchase Orders
+    public function export(Request $request)
+    {
+        $filters = $request->only(['is_delivered', 'date_range', 'status', 'purchase_manager_id']);
+        return Excel::download(new PurchaseOrdersExport($filters), 'purchase_orders.csv');
     }
 }

@@ -149,10 +149,6 @@
                                                                         <button class="btn btn-success btn-sm">Activate</button>
                                                                     </form>
                                                                 @elseif($active->status == 'Active')
-                                                                    <form method="POST" action="{{ route('manager.user.pending', $active->id) }}">
-                                                                        @csrf
-                                                                        <button class="btn btn-warning btn-sm">Pending</button>
-                                                                    </form>
                                                                     <form method="POST" action="{{ route('manager.user.reject', $active->id) }}">
                                                                         @csrf
                                                                         <button class="btn btn-danger btn-sm">Suspend</button>

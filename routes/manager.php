@@ -121,6 +121,8 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
         ->name('purchase-manager.approvals.approve');
     Route::patch('purchase-manager/{id}/reject', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'reject'])
         ->name('purchase-manager.approvals.reject');
+    Route::get('purchase-orders/export', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'export'])
+    ->name('purchase-orders.export');    
     //Camp reports
     Route::get('export-camp-report', [App\Http\Controllers\Manager\CampReportExportController::class, 'export_campReport']);
 });

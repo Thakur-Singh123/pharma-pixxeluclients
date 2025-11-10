@@ -28,8 +28,9 @@ class PurchaseOrderNotification extends Notification
         return [
             'po_id'  => $this->po->id,
             'title'  => 'New Purchase Order Created',
-            'message'=> 'A new purchase order has been created by ' . auth()->user()->name,
-            'url'     => url('manager/purchase-manager/' . $this->po->id . '/edit'),
+            'message' => 'A new purchase order (#' . $this->po->id . ') has been created by ' 
+                . auth()->user()->name . '. Please review the order details and approve it if all information is correct.',
+            'url' => url('manager/purchase-manager/'),
             'icon'   => 'fas fa-shopping-cart',
         ];
     }

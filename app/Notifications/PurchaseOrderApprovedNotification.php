@@ -29,12 +29,12 @@ class PurchaseOrderApprovedNotification extends Notification
         //URL
         $url = $this->type === 'vendor'
             ? url('vendor/purchase-orders')
-            : url('purchase-manager/purchase-orders/' . $this->po->id . '/edit');
+            : url('purchase-manager/purchase-orders');
 
         return [
             'po_id'   => $this->po->id,
             'title'   => 'Purchase Order Approved',
-            'message' => 'Your purchase order (ID: ' . $this->po->id . ') has been approved by Manager ' . auth()->user()->name,
+            'message' => 'Your purchase order (ID: ' . $this->po->id . ') has been successfully approved by Manager ' . auth()->user()->name,
             'url'     => $url,
             'icon'    => 'fas fa-check-circle',
         ];

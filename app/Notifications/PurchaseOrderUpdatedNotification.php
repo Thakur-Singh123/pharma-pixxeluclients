@@ -26,8 +26,9 @@ class PurchaseOrderUpdatedNotification extends Notification
         return [
             'po_id'   => $this->po->id,
             'title'   => 'Purchase Order Updated',
-            'message' => 'Purchase order has been updated by ' . auth()->user()->name,
-            'url'     => url('manager/purchase-manager/' . $this->po->id . '/edit'),
+            'message' => 'Purchase order (#' . $this->po->id . ') has been updated by ' 
+                         . auth()->user()->name . '. Please review the latest changes and take the necessary action if required.',
+            'url'     => url('manager/purchase-manager'),
             'icon'    => 'fas fa-edit',
         ];
     }

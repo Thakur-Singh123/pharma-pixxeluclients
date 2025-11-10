@@ -13,30 +13,42 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title mb-0">All Purchase Orders</h4>
 
-                            <form method="GET" action="{{ route('vendor.purchase-orders.index') }}" class="d-flex gap-2 align-items-center">
-                                {{-- Status Filter --}}
-                                <select name="status" class="form-select" style="width: 160px" onchange="this.form.submit()">
-                                    <option value="">All Status</option>
-                                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
-                                    <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                            <form method="GET" action="{{ route('vendor.purchase-orders.index') }}"
+                                class="d-flex gap-2 align-items-center">
+
+                                {{-- Delivery Status Filter --}}
+                                <select name="is_delivered" class="form-select" style="width: 160px"
+                                    onchange="this.form.submit()">
+                                    <option value="">All Delivery</option>
+                                    <option value="pending" {{ request('is_delivered') == 'pending' ? 'selected' : '' }}>
+                                        Pending</option>
+                                    <option value="completed"
+                                        {{ request('is_delivered') == 'completed' ? 'selected' : '' }}>Completed</option>
                                 </select>
 
                                 {{-- Date Range Filter --}}
-                                <input type="date" name="from_date" class="form-control"
-                                    value="{{ request('from_date') }}" style="width: 150px" onchange="this.form.submit()">
+                                <select name="date_range" class="form-select" style="width: 180px"
+                                    onchange="this.form.submit()">
+                                    <option value="">All Dates</option>
+                                    <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>Today
+                                    </option>
+                                    <option value="this_week" {{ request('date_range') == 'this_week' ? 'selected' : '' }}>
+                                        This Week</option>
+                                    <option value="this_month"
+                                        {{ request('date_range') == 'this_month' ? 'selected' : '' }}>This Month</option>
+                                    <option value="this_year" {{ request('date_range') == 'this_year' ? 'selected' : '' }}>
+                                        This Year</option>
+                                </select>
 
-                                <span class="mx-1">to</span>
+                                {{-- Export CSV --}}
+                                <a href="{{ route('vendor.purchase-orders.export', request()->only('is_delivered', 'date_range')) }}"
+                                    class="btn btn-primary">
+                                    Export CSV
+                                </a>
 
-                                <input type="date" name="to_date" class="form-control"
-                                    value="{{ request('to_date') }}" style="width: 150px" onchange="this.form.submit()">
-
-                                {{-- Reset Button --}}
-                                @if(request()->has('from_date') || request()->has('to_date'))
-                                    <a href="{{ route('vendor.purchase-orders.index') }}" class="btn btn-outline-secondary btn-sm">Reset</a>
-                                @endif
                             </form>
                         </div>
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover align-middle">
@@ -49,7 +61,7 @@
                                             <th class="text-end">Subtotal</th>
                                             <th class="text-end">Discount</th>
                                             <th class="text-end">Grand Total</th>
-                                            <th>Status</th>
+                                            <th>Delivery</th>
                                             {{-- <th style="width:120px;">Action</th> --}}
                                         </tr>
                                     </thead>
@@ -71,14 +83,23 @@
                                                 <td class="text-end fw-semibold">₹{{ number_format($po->grand_total, 2) }}
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="status-badge
-                                                                        {{ $po->status === 'pending' ? 'status-pending' : '' }}
-                                                                        {{ $po->status === 'approved' ? 'status-approved' : '' }}
-                                                                        {{ $po->status === 'rejected' ? 'status-suspend' : '' }}">
-                                                        {{ ucfirst($po->status) }}
-                                                    </span>
+                                                    <form
+                                                        action="{{ route('vendor.purchase-orders.update.delivery', $po->id) }}"
+                                                        method="POST" class="delivery-form">
+                                                        @csrf
+                                                        <select name="is_delivered" class="custom-status-dropdown"
+                                                            onchange="this.form.submit()">
+                                                            <option value="pending"
+                                                                {{ $po->is_delivered == 'pending' ? 'selected' : '' }}>
+                                                                Pending</option>
+                                                            <option value="completed"
+                                                                {{ $po->is_delivered == 'completed' ? 'selected' : '' }}>
+                                                                Completed</option>
+                                                        </select>
+                                                    </form>
                                                 </td>
+
+
                                                 {{-- <td>
                                                     <div class="form-button-action">
                                                         @if (Route::has('purchase-manager.purchase-orders.edit'))

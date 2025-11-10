@@ -22,6 +22,7 @@
                                             <th>PO #</th>
                                             <th>Date</th>
                                             <th>Vendor</th>
+                                            <th>Nature Of Vendor</th>
                                             <th class="text-end">Items</th>
                                             <th class="text-end">Subtotal</th>
                                             <th class="text-end">Discount</th>
@@ -41,6 +42,7 @@
                                                         <br><small class="text-muted">{{ $po->vendor->email }}</small>
                                                     @endif
                                                 </td>
+                                                <td>{{ $po->nature_of_vendor }}</td>
                                                 <td class="text-end">{{ $po->items_count ?? ($po->items->count() ?? 0) }}
                                                 </td>
                                                 <td class="text-end">₹{{ number_format($po->subtotal, 2) }}</td>

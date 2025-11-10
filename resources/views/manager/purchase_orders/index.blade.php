@@ -45,6 +45,7 @@
                                                                 <th style="width: 120px;">PO #</th>
                                                                 <th style="width: 140px;">Date</th>
                                                                 <th style="width: 220px;">Vendor</th>
+                                                                <th style="width: 220px;">Nature Of Vendor</th>
                                                                 <th style="width: 220px;">First Item</th>
                                                                 <th style="width: 110px;" class="text-end">Items</th>
                                                                 <th style="width: 140px;" class="text-end">Subtotal</th>
@@ -71,6 +72,7 @@
                                                                                 class="text-muted">{{ $po->vendor->email }}</small>
                                                                         @endif
                                                                     </td>
+                                                                    <td>{{ $po->nature_of_vendor }}</td>
                                                                     <td>
                                                                         @php
                                                                             $firstItem = $po->items[0] ?? null;
@@ -106,7 +108,7 @@
                                                                             {{ ucfirst($po->status) }}
                                                                         </span>
                                                                     </td>
-                                                                    <td style="display: flex; gap: 5px; flex-wrap: wrap;">
+                                                                    <td style="display: flex; gap: 5px;">
                                                                         @if ($po->status === 'pending')
                                                                             <form method="POST"
                                                                                 action="{{ route('manager.purchase-manager.approvals.approve', $po->id) }}">

@@ -4,46 +4,89 @@ namespace App\Http\Controllers\Vendor;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PurchaseOrder;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    //Function for show dashboard
-    public function dashboard()
+    // Show vendor dashboard
+    public function dashboard(Request $request)
     {
         $vendorId = Auth::id();
+        $dateRange = $request->get('date_range', 'all'); // default today
 
-                                     // Pehle se existing stats (ye tu already rakh raha hoga)
-        $total_visits         = 120; // example
-        $total_completed_task = 35;
-        $total_attendances    = 90;
-        $total_sales          = 50000;
+        $query = PurchaseOrder::where('vendor_id', $vendorId);
 
-        // New Stats for Orders
-        $pendingCount = PurchaseOrder::where('vendor_id', $vendorId)
-            ->where('status', 'pending')
-            ->count();
+        // Apply date range filter
+        switch ($dateRange) {
+            case 'today':
+                $query->whereDate('order_date', today());
+                break;
+            case 'this_week':
+                $query->whereBetween('order_date', [now()->startOfWeek(), now()->endOfWeek()]);
+                break;
+            case 'this_month':
+                $query->whereBetween('order_date', [now()->startOfMonth(), now()->endOfMonth()]);
+                break;
+            case 'this_year':
+                $query->whereYear('order_date', now()->year);
+                break;
+            case 'all':
+            default:
+                // no date filter
+                break;
+        }
 
-        $approvedCount = PurchaseOrder::where('vendor_id', $vendorId)
-            ->where('status', 'approved')
-            ->count();
+        $orders = $query->get();
 
-        $rejectedCount = PurchaseOrder::where('vendor_id', $vendorId)
-            ->where('status', 'rejected')
-            ->count();
+        // Counts & totals
+        $pendingCount = $orders->where('is_delivered', 'pending')->count();
+        $completedCount = $orders->where('is_delivered', 'completed')->count();
+        $approvedTotal = $orders->where('is_delivered', 'completed')->sum('grand_total');
 
-        $approvedTotal = PurchaseOrder::where('vendor_id', $vendorId)
-            ->where('status', 'approved')
-            ->sum('grand_total');
+        // Chart Data
+        $chartLabels = [];
+        $chartPending = [];
+        $chartCompleted = [];
+
+        if (in_array($dateRange, ['today', 'all'])) {
+            $chartLabels[] = 'Orders';
+            $chartPending[] = $pendingCount;
+            $chartCompleted[] = $completedCount;
+        } elseif ($dateRange === 'this_week') {
+            $startOfWeek = now()->startOfWeek();
+            for ($i = 0; $i < 7; $i++) {
+                $date = $startOfWeek->copy()->addDays($i);
+                $chartLabels[] = $date->format('D');
+                $chartPending[] = $orders->where('is_delivered', 'pending')
+                                         ->where('order_date', $date->format('Y-m-d'))->count();
+                $chartCompleted[] = $orders->where('is_delivered', 'completed')
+                                           ->where('order_date', $date->format('Y-m-d'))->count();
+            }
+        } elseif ($dateRange === 'this_month') {
+            $startOfMonth = now()->startOfMonth();
+            $daysInMonth = now()->daysInMonth;
+            for ($i = 0; $i < $daysInMonth; $i++) {
+                $date = $startOfMonth->copy()->addDays($i);
+                $chartLabels[] = $date->format('d M');
+                $chartPending[] = $orders->where('is_delivered', 'pending')
+                                         ->where('order_date', $date->format('Y-m-d'))->count();
+                $chartCompleted[] = $orders->where('is_delivered', 'completed')
+                                           ->where('order_date', $date->format('Y-m-d'))->count();
+            }
+        } elseif ($dateRange === 'this_year') {
+            for ($m = 1; $m <= 12; $m++) {
+                $chartLabels[] = Carbon::create(now()->year, $m, 1)->format('M');
+                $chartPending[] = $orders->where('is_delivered', 'pending')
+                                         ->whereMonth('order_date', $m)->count();
+                $chartCompleted[] = $orders->where('is_delivered', 'completed')
+                                           ->whereMonth('order_date', $m)->count();
+            }
+        }
 
         return view('vendor.dashboard', compact(
-            'total_visits',
-            'total_completed_task',
-            'total_attendances',
-            'total_sales',
-            'pendingCount',
-            'approvedCount',
-            'rejectedCount',
-            'approvedTotal'
+            'pendingCount', 'completedCount', 'approvedTotal',
+            'chartLabels', 'chartPending', 'chartCompleted', 'dateRange'
         ));
     }
 }

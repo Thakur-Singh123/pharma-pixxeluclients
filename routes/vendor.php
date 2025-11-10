@@ -11,8 +11,13 @@ Route::prefix('vendor')->name('vendor.')->middleware(['web','auth','vendor'])->g
   Route::get('/change-password', [App\Http\Controllers\Vendor\ProfileController::class, 'change_password']);
   Route::post('/submit-password/{id}', [App\Http\Controllers\Vendor\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
   //Dashboard
-  Route::get('/dashboard', [App\Http\Controllers\Vendor\DashboardController::class, 'dashboard']);
+  Route::get('/dashboard', [App\Http\Controllers\Vendor\DashboardController::class, 'dashboard'])->name('dashboard');
   //Purchase Order
    Route::get('purchase-orders', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
+   Route::post('purchase-orders/{id}/update-delivery', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'updateDelivery'])
+    ->name('purchase-orders.update.delivery');
+  Route::get('purchase-orders/export', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'export'])
+    ->name('purchase-orders.export');
+
 });
 

@@ -48,6 +48,16 @@
               </div>
             </div>
 
+            <!-- Order Date -->
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="nature_of_vendor">Nature Of Vendor</label>
+                <input type="text" id="nature_of_vendor" name="nature_of_vendor"
+                  class="form-control"
+                  value="{{ old('nature_of_vendor', $order->nature_of_vendor) }}" placeholder="Enter nature of vendor">
+              </div>
+            </div>
+
             <!-- Notes -->
             <div class="col-md-12">
               <div class="form-group">

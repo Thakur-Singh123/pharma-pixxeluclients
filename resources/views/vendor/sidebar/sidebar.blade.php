@@ -29,6 +29,14 @@
                         <p>Dashboard</p>
                     </a>
                 </li> 
+                <!--purchase order section-->
+                <li class="nav-item {{ Request::is('vendor/purchase-orders*') ? 'active' : '' }}">
+                    <a href="{{ route('vendor.purchase-orders.index') }}">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <p>Purchase Orders</p>
+                    </a>
+                </li>
+                
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

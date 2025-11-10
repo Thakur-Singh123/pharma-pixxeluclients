@@ -37,11 +37,11 @@ class HomeController extends Controller
             return redirect('mr/dashboard');
         } elseif ($user_detail->user_type == 'MR' && $user_detail->can_sale == 1) {
             return redirect('mr/sales');
-        } elseif ($user_detail->user_type == 'Vendor') {
+        } elseif ($user_detail->user_type == 'vendor') {
             return redirect('vendor/dashboard');
-        } elseif ($user_detail->user_type == 'Purchase Manager') {
+        } elseif ($user_detail->user_type == 'purchase_manager') {
             return redirect('purchase-manager/dashboard');
-        } elseif ($user_detail->user_type == 'Counselor') {
+        } elseif ($user_detail->user_type == 'counsellor') {
             return redirect('counselor/dashboard');
         } else {
             return view('home');

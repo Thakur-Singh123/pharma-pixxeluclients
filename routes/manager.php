@@ -15,9 +15,9 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::resource('mrs', App\Http\Controllers\Manager\MRController::class);
     Route::post('/update-mr-status/{id}', [App\Http\Controllers\Manager\MRController::class, 'update_mr_status'])->name('mr.update.status');
     //Pending uers
-    Route::get('/active-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_active_users']);
-    Route::get('/pending-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_pending_users']);
-    Route::get('/suspend-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_suspend_users']);
+    Route::get('/active-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_active_users'])->name('active.users');
+    Route::get('/pending-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_pending_users'])->name('pending.users');
+    Route::get('/suspend-users', [App\Http\Controllers\Manager\UserStatusController::class, 'all_suspend_users'])->name('suspend.users');
     Route::post('/user/{id}/approve', [App\Http\Controllers\Manager\UserStatusController::class, 'approve_user'])->name('user.approve');
     Route::post('/users/{id}/reject', [App\Http\Controllers\Manager\UserStatusController::class, 'reject_user'])->name('user.reject');
     Route::post('/users/{id}/pending', [App\Http\Controllers\Manager\UserStatusController::class, 'pending_user'])->name('user.pending');
@@ -109,6 +109,18 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::resource('sales', App\Http\Controllers\Manager\SalesController::class);
     Route::post('/sale/{id}/approve', [App\Http\Controllers\Manager\SalesController::class, 'sale_approve'])->name('sale.approve');
     Route::post('/sale/{id}/reject', [App\Http\Controllers\Manager\SalesController::class, 'sale_reject'])->name('sale.reject');
+
+    //Purchase Manager
+    Route::get('purchase-manager', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'index'])->name('purchase-manager.index');
+    Route::get('purchase-manager/{id}/edit', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'edit'])->name('purchase-manager.edit');
+    Route::put('purchase-manager/{id}', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'update'])->name('purchase-manager.update');
+    Route::delete('purchase-manager/{id}', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'destroy'])->name('purchase-manager.destroy');
+
+
+    Route::patch('purchase-manager/{id}/approve', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'approve'])
+        ->name('purchase-manager.approvals.approve');
+    Route::patch('purchase-manager/{id}/reject', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'reject'])
+        ->name('purchase-manager.approvals.reject');
     //Camp reports
     Route::get('export-camp-report', [App\Http\Controllers\Manager\CampReportExportController::class, 'export_campReport']);
 });

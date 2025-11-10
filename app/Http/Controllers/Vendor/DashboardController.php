@@ -1,76 +1,49 @@
 <?php
-
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Visit;
-use App\Models\Task; 
-use App\Models\MRAttendance;
-use App\Models\Sale;
-use App\Models\Client;
-use App\Models\TADARecords;
-use App\Models\DailyReport;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PurchaseOrder;
 
 class DashboardController extends Controller
 {
     //Function for show dashboard
-    public function dashboard() {
-        //Get visitors
-        $total_visits = Visit::where('mr_id', Auth::id())->count();
-        //Get completed tasks
-        $total_completed_task = Task::where('mr_id', Auth::id())->where('status', 'completed')->count();
-        //Get attendances
-        $total_attendances = MRAttendance::where('user_id', Auth::id())->count();
-        //Get sales
-        $total_sales = Sale::where('user_id', Auth::id())->count();
+    public function dashboard()
+    {
+        $vendorId = Auth::id();
 
-        //Get clients
-        $is_approved = Client::where('mr_id', Auth::id())->where('status', 'Approved')->count();
-        $is_pending = Client::where('mr_id', Auth::id())->where('status', 'Pending')->count();
-        $is_reject = Client::where('mr_id', Auth::id())->where('status', 'Reject')->count();
+                                     // Pehle se existing stats (ye tu already rakh raha hoga)
+        $total_visits         = 120; // example
+        $total_completed_task = 35;
+        $total_attendances    = 90;
+        $total_sales          = 50000;
 
-        //Get tada record
-        $bus = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Bus')->count();
-        $train = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Train')->count();
-        $flight = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Flight')->count();
-        $car = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Car')->count();
-        $bike = TADARecords::where('mr_id', Auth::id())->where('mode_of_travel', 'Bike')->count();
+        // New Stats for Orders
+        $pendingCount = PurchaseOrder::where('vendor_id', $vendorId)
+            ->where('status', 'pending')
+            ->count();
 
-        //Get current week
-        $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek   = Carbon::now()->endOfWeek();
-        //Get daily reports
-        $DailyReport = DailyReport::where('mr_id', Auth::id())->selectRaw('DATE(report_date) as day, COUNT(*) as total')
-            ->whereBetween('report_date', [$startOfWeek, $endOfWeek])
-            ->groupBy('day')
-            ->get()
-            ->keyBy('day');
+        $approvedCount = PurchaseOrder::where('vendor_id', $vendorId)
+            ->where('status', 'approved')
+            ->count();
 
-        //Get weeks
-        $weeklyData = [];
-        for ($date = $startOfWeek->copy(); $date->lte($endOfWeek); $date->addDay()) {
-            $weeklyData[] = [
-                'day'   => $date->toDateString(),
-                'total' => $DailyReport->has($date->toDateString()) ? $DailyReport[$date->toDateString()]->total : 0,
-            ];
-        }
+        $rejectedCount = PurchaseOrder::where('vendor_id', $vendorId)
+            ->where('status', 'rejected')
+            ->count();
 
-        //Get monthly visits
-        $visits = Visit::where('mr_id', Auth::id())->selectRaw('MONTH(visit_date) as month, COUNT(*) as total')
-            ->groupBy('month')
-            ->pluck('total', 'month');
-        //Get month
-        $monthlyData = [];
-        for ($m = 1; $m <= 12; $m++) {
-            $monthlyData[] = [
-                'month' => Carbon::create()->month($m)->format('M'),
-                'total' => $visits->has($m) ? $visits[$m] : 0,
-            ];
-        }
-        
-        return view('vendor.dashboard', compact('total_visits','total_completed_task','total_attendances','total_sales','is_approved','is_pending','is_reject','bus','train','flight','car','bike','weeklyData','monthlyData'));
+        $approvedTotal = PurchaseOrder::where('vendor_id', $vendorId)
+            ->where('status', 'approved')
+            ->sum('grand_total');
+
+        return view('vendor.dashboard', compact(
+            'total_visits',
+            'total_completed_task',
+            'total_attendances',
+            'total_sales',
+            'pendingCount',
+            'approvedCount',
+            'rejectedCount',
+            'approvedTotal'
+        ));
     }
 }

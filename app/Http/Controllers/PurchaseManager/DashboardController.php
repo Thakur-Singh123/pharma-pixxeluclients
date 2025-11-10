@@ -71,6 +71,6 @@ class DashboardController extends Controller
             ];
         }
         
-        return view('purchase-manager.dashboard', compact('total_visits','total_completed_task','total_attendances','total_sales','is_approved','is_pending','is_reject','bus','train','flight','car','bike','weeklyData','monthlyData'));
+        return view('purchase_manager.dashboard', compact('total_visits','total_completed_task','total_attendances','total_sales','is_approved','is_pending','is_reject','bus','train','flight','car','bike','weeklyData','monthlyData'));
     }
 }

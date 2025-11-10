@@ -16,7 +16,7 @@ class ProfileController extends Controller
         $is_login_id = Auth::user()->id;
         //Get user detail
         $user_profile = User::where('id', $is_login_id)->first();
-        return view('purchase-manager.profiles.profile', compact('user_profile'));
+        return view('purchase_manager.profiles.profile', compact('user_profile'));
     }
 
     //Function for edit profile
@@ -25,7 +25,7 @@ class ProfileController extends Controller
         $is_login_id = Auth::user()->id;
         //Get user detail
         $user_profile = User::where('id', $is_login_id)->first();
-        return view('purchase-manager.profiles.edit-profile', compact('user_profile'));
+        return view('purchase_manager.profiles.edit-profile', compact('user_profile'));
     } 
 
     //Function for update profile
@@ -95,7 +95,7 @@ class ProfileController extends Controller
         $is_login_id = Auth::user()->id;
         //Get user detail
         $user_profile = User::where('id', $is_login_id)->first();
-        return view('purchase-manager.profiles.change-password', compact('user_profile'));
+        return view('purchase_manager.profiles.change-password', compact('user_profile'));
     }
 
     //Function for submit changed password 

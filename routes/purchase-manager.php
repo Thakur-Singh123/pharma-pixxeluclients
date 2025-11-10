@@ -12,5 +12,13 @@ Route::prefix('purchase-manager')->name('purchase-manager.')->middleware(['web',
   Route::post('/submit-password/{id}', [App\Http\Controllers\PurchaseManager\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
   //Dashboard
   Route::get('/dashboard', [App\Http\Controllers\PurchaseManager\DashboardController::class, 'dashboard']);
+
+  Route::get('purchase-orders/create', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
+  Route::post('purchase-orders', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
+  // (optional) index/show routes
+  Route::get('purchase-orders', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
+  Route::get('purchase-orders/{id}/edit', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'edit'])->name('purchase-orders.edit');
+  Route::put('purchase-orders/{id}', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'update'])->name('purchase-orders.update');
+  Route::delete('purchase-orders/{id}', [\App\Http\Controllers\PurchaseManager\PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
 });
 

@@ -18,7 +18,7 @@ class Vendor
         //Get auth detail
         $user_detail = Auth::user();
         //Check if user type vendor exits or not
-        if ($user_detail->user_type == 'Vendor') {
+        if ($user_detail->user_type == 'vendor') {
             return $next($request);
         } else {
            return redirect('login');

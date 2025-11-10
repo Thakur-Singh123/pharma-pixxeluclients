@@ -8,8 +8,10 @@ use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\DB;
+use App\Notifications\PurchaseOrderNotification;
+use App\Notifications\PurchaseOrderUpdatedNotification;
 
 class PurchaseOrderController extends Controller
 {
@@ -95,6 +97,13 @@ class PurchaseOrderController extends Controller
                 'discount_total' => $discountTotal,
                 'grand_total'    => $subtotal - $discountTotal,
             ]);
+            //Get manager detail
+            $manager = User::find($managerId);
+            //Check if manager exists or not
+            if ($manager) {
+                //Send notification
+                $manager->notify(new PurchaseOrderNotification($po));
+            }
         });
 
         return redirect()->route('purchase-manager.purchase-orders.index')
@@ -155,7 +164,7 @@ class PurchaseOrderController extends Controller
         $validated = $request->validate([
             'vendor_id'              => 'required|exists:users,id',
             'order_date'             => 'required|date',
-            'nature_of_vendor'       => 'nullable|required',
+            'nature_of_vendor'       => 'nullable|string',
             'notes'                  => 'nullable|string|max:1000',
             'items'                  => 'required|array|min:1',
             'items.*.product_name'   => 'required|string|max:255',
@@ -169,6 +178,10 @@ class PurchaseOrderController extends Controller
         $order = PurchaseOrder::where('purchase_manager_id', $pmId)->findOrFail($id);
 
         DB::transaction(function () use ($order, $validated) {
+            if ($order->status === 'approved') {
+                $order->status = 'pending';
+            }
+
             // Update header
             $order->update([
                 'vendor_id'  => $validated['vendor_id'],
@@ -217,6 +230,14 @@ class PurchaseOrderController extends Controller
                 'discount_total' => $discountTotal,
                 'grand_total'    => $subtotal - $discountTotal,
             ]);
+            //Get manager detail
+            $manager = User::find($order->manager_id);
+            // echo "<pre>"; print_r($manager->toArray());exit;
+            //Check if manager exists or not
+            if ($manager) {
+                //Send notification
+                $manager->notify(new PurchaseOrderUpdatedNotification($order));
+            }
         });
 
         return redirect()->route('purchase-manager.purchase-orders.index')

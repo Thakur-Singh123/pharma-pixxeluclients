@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\PurchaseOrderApprovedNotification;
 
 class PurchaseOrderController extends Controller
 {
@@ -41,6 +42,21 @@ class PurchaseOrderController extends Controller
 
         $po = PurchaseOrder::where('manager_id', $managerId)->findOrFail($id);
         $po->update(['status' => 'approved']);
+
+        //Get purchaseManager detail
+        $purchaseManager = User::find($po->purchase_manager_id);
+        //echo "<pre>"; print_r($purchaseManager->toArray());exit;
+        //Check if manager exists or not
+        if ($purchaseManager) {
+            //Send notification
+            $purchaseManager->notify(new PurchaseOrderApprovedNotification($po, 'purchase_manager'));
+        }
+
+        //Get vendor detail
+        $vendor = User::find($po->vendor_id);
+        if ($vendor) {
+            $vendor->notify(new PurchaseOrderApprovedNotification($po, 'vendor'));
+        }
 
         return back()->with('success', "PO #{$po->id} approved.");
     }
@@ -82,6 +98,7 @@ class PurchaseOrderController extends Controller
         $validated = $request->validate([
             'vendor_id'              => 'required|exists:users,id',
             'order_date'             => 'required|date',
+            'nature_of_vendor'       => 'nullable|string',
             'notes'                  => 'nullable|string|max:1000',
             'items'                  => 'required|array|min:1',
             'items.*.product_name'   => 'required|string|max:255',
@@ -98,6 +115,7 @@ class PurchaseOrderController extends Controller
             $order->update([
                 'vendor_id'  => $validated['vendor_id'],
                 'order_date' => $validated['order_date'],
+                'nature_of_vendor' => $validated['nature_of_vendor'],
                 'notes'      => $validated['notes'] ?? null,
             ]);
 

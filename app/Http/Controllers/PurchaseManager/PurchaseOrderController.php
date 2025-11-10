@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\PurchaseOrderNotification;
 use App\Notifications\PurchaseOrderUpdatedNotification;
+use App\Mail\PurchaseOrderCreatedMail;
+use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
 {
@@ -103,6 +105,12 @@ class PurchaseOrderController extends Controller
             if ($manager) {
                 //Send notification
                 $manager->notify(new PurchaseOrderNotification($po));
+            }
+
+            //Send Email to Vendor
+            $vendor = User::find($validated['vendor_id']);
+            if ($vendor && $vendor->email) {
+                Mail::to($vendor->email)->send(new PurchaseOrderCreatedMail($po));
             }
         });
 

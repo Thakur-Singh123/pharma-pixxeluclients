@@ -19,7 +19,7 @@
 </head>
 <body>
     <div class="wrapper">
-        @include('purchase-manager.sidebar.sidebar')
+        @include('purchase_manager.sidebar.sidebar')
         <div class="main-panel">
             <div class="main-header">
                 <div class="main-header-logo">

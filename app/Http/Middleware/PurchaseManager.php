@@ -18,7 +18,7 @@ class PurchaseManager
         //Get auth detail
         $user_detail = Auth::user();
         //Check if user type purchase manager exits or not
-        if ($user_detail->user_type == 'Purchase Manager') {
+        if ($user_detail->user_type == 'purchase_manager') {
             return $next($request);
         } else {
            return redirect('login');

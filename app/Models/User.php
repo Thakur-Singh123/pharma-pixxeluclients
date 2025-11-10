@@ -92,5 +92,26 @@ class User extends Authenticatable
     public function attendance(){
         return $this->hasMany(MRAttendance::class, 'user_id');
     }
+    
+    // Vendor relationship
+    public function vendors()
+    {
+        return $this->belongsToMany(User::class, 'manager_vendors', 'manager_id', 'vendor_id')
+            ->where('status', 'Active');
+    }
+
+    // Purchase Manager relationship
+    public function purchaseManagers()
+    {
+        return $this->belongsToMany(User::class, 'manager_purchase_managers', 'manager_id', 'purchase_manager_id')
+            ->where('status', 'Active');
+    }
+
+    // Counsellor relationship
+    public function counsellors()
+    {
+        return $this->belongsToMany(User::class, 'manager_counsellors', 'manager_id', 'counsellor_id')
+            ->where('status', 'Active');
+    }
 
 }

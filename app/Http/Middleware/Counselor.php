@@ -18,7 +18,7 @@ class Counselor
         //Get auth detail
         $user_detail = Auth::user();
         //Check if user type counselor exits or not
-        if ($user_detail->user_type == 'Counselor') {
+        if ($user_detail->user_type == 'counsellor') {
             return $next($request);
         } else {
            return redirect('login');

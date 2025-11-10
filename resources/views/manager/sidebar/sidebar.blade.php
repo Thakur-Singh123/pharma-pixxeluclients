@@ -83,7 +83,7 @@
                         class="{{ request()->is('manager/pending-users') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('manager/pending-users') ? 'true' : 'false' }}">
                         <i class="fas fa-users"></i>
-                        <p>MR User Requests</p>
+                        <p>All Users Requests</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse {{ request()->is('manager/active-users') || request()->is('manager/pending-users') || request()->is('manager/suspend-users') ? 'show' : '' }}" id="collapseUser">
@@ -289,6 +289,14 @@
                         class="nav-link {{ request()->is('manager/sales') || request()->is('manager/sales/*/edit') ? 'active' : '' }}">
                         <i class="fas fa-handshake"></i>
                         <p>All Sales</p>
+                    </a>
+                </li>
+                <!--sales section-->
+                <li class="nav-item {{ request()->is('manager/purchase-manager') || request()->is('manager/purchase-manager/*/edit') ? 'active' : '' }}">
+                    <a href="{{ url('manager/purchase-manager') }}"
+                        class="nav-link {{ request()->is('manager/purchase-manager') || request()->is('manager/purchase-manager/*/edit') ? 'active' : '' }}">
+                        <i class="fas fa-handshake"></i>
+                        <p>All Purchase Manager</p>
                     </a>
                 </li>
                 <!--logout section-->

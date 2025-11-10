@@ -3,7 +3,7 @@
     <div class="sidebar-logo">
         <!--header section-->
         <div class="logo-header" data-background-color="dark">
-            <a href="{{ url('counselor/dashboard') }}" class="logo">
+            <a href="{{ url('vendor/dashboard') }}" class="logo">
                 <img src="{{ asset('public/admin/images/Ad People Logo.svg') }}" alt="navbar brand" class="navbar-brand"
                     height="20" />
             </a>
@@ -24,35 +24,33 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <!--dashboard section-->
-                <li class="nav-item {{ Request::is('counselor/dashboard') ? 'active' : '' }}">
-                    <a href="{{ url('counselor/dashboard') }}">
+                <li class="nav-item {{ Request::is('vendor/dashboard') ? 'active' : '' }}">
+                    <a href="{{ url('vendor/dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <!--add patient-->
-                <!-- Patient Management -->
-                <li class="nav-item {{ request()->is('counselor/bookings*') ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#collapsePatient"
-                        class="{{ request()->is('counselor/bookings*') ? '' : 'collapsed' }}"
-                        aria-expanded="{{ request()->is('counselor/bookings*') ? 'true' : 'false' }}">
-                        <i class="fas fa-user-plus"></i>
-                        <p>Patient Management</p>
+                <!-- Purchase Orders -->
+                <li class="nav-item {{ request()->is('purchase-manager/purchase-orders*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapsePO"
+                        class="{{ request()->is('purchase-manager/purchase-orders*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('purchase-manager/purchase-orders*') ? 'true' : 'false' }}">
+                        <i class="fas fa-file-invoice"></i>
+                        <p>Purchase Orders</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ request()->is('counselor/bookings*') ? 'show' : '' }}"
-                        id="collapsePatient">
+                    <div class="collapse {{ request()->is('purchase-manager/purchase-orders*') ? 'show' : '' }}" id="collapsePO">
                         <ul class="nav nav-collapse">
-                            <li class="{{ request()->is('counselor/bookings/create') ? 'active' : '' }}">
-                                <a href="{{ route('counselor.bookings.create') }}">
-                                    <span class="sub-item">Add Patient</span>
+                            <li class="{{ request()->is('purchase-manager/purchase-orders/create') ? 'active' : '' }}">
+                                <a href="{{ route('purchase-manager.purchase-orders.create') }}">
+                                    <span class="sub-item">Create PO</span>
                                 </a>
                             </li>
                             <li
-                                class="{{ request()->is('counselor/bookings') || request()->is('counselor/bookings/*/edit') ? 'active' : '' }}">
-                                <a href="{{ route('counselor.bookings.index') }}">
-                                    <span class="sub-item">All Patients</span>
+                                class="{{ request()->is('purchase-manager/purchase-orders') || (request()->is('purchase-manager/purchase-orders/*') && !request()->is('purchase-manager/purchase-orders/create')) ? 'active' : '' }}">
+                                <a href="{{ route('purchase-manager.purchase-orders.index') }}">
+                                    <span class="sub-item">All Purchase Orders</span>
                                 </a>
                             </li>
                         </ul>

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('referred_patients', function (Blueprint $table) {
-            $table->string('attachment')->before('status')->nullable();
+        Schema::table('counselor_patients', function (Blueprint $table) {
+            $table->string('counselor_id')->nullable();
         });
     }
 
@@ -21,8 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('referred_patients', function (Blueprint $table) {
+        Schema::table('counselor_patients', function (Blueprint $table) {
             //
+            $table->dropColumn('counselor_id');
         });
     }
 };

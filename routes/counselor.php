@@ -12,5 +12,10 @@ Route::prefix('counselor')->name('counselor.')->middleware(['web','auth','counse
   Route::post('/submit-password/{id}', [App\Http\Controllers\Counselor\ProfileController::class, 'submit_change_password'])->name('submit.change.password');
   //Dashboard
   Route::get('/dashboard', [App\Http\Controllers\Counselor\DashboardController::class, 'dashboard']);
+
+  //Patient Booking Routes
+  Route::resource('bookings', App\Http\Controllers\Counselor\PatientController::class);
+  Route::patch('bookings/{patient}/status', [\App\Http\Controllers\Counselor\PatientController::class, 'updateStatus'])
+        ->name('bookings.status');
 });
 

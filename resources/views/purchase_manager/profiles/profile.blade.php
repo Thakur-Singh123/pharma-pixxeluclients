@@ -1,4 +1,4 @@
-@extends('purchase-manager.layouts.master')
+@extends('purchase_manager.layouts.master')
 @section('content')
 <style>
 .card-title {

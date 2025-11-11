@@ -18,4 +18,9 @@ class CounselorPatient extends Model
         'counselor_id',
         'remark',
     ];
+
+    //Fucntion for get counsellor
+    public function counsellor() {
+        return $this->belongsTo(User::class, 'counselor_id');
+    }
 }

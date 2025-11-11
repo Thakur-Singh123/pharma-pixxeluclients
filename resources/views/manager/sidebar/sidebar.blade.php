@@ -295,8 +295,16 @@
                 <li class="nav-item {{ request()->is('manager/purchase-manager') || request()->is('manager/purchase-manager/*/edit') ? 'active' : '' }}">
                     <a href="{{ url('manager/purchase-manager') }}"
                         class="nav-link {{ request()->is('manager/purchase-manager') || request()->is('manager/purchase-manager/*/edit') ? 'active' : '' }}">
-                        <i class="fas fa-handshake"></i>
+                        <i class="fas fa-shopping-cart"></i>
                         <p>All Purchase Manager Orders</p>
+                    </a>
+                </li>
+                <!--sales section-->
+                <li class="nav-item {{ request()->is('manager/counsellor-patients') || request()->is('manager/counsellor-booking-edit/*') ? 'active' : '' }}">
+                    <a href="{{ url('manager/counsellor-patients') }}"
+                        class="nav-link {{ request()->is('manager/counsellor-patients') || request()->is('manager/counsellor-booking-edit/*') ? 'active' : '' }}">
+                        <i class="fas fa-user-friends"></i>
+                        <p>All Counsellor Patients</p>
                     </a>
                 </li>
                 <!--logout section-->

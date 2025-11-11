@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use App\Notifications\PurchaseOrderApprovedNotification;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PurchaseOrdersExport;
+use App\Mail\PurchaseOrderApprovedMail;
+use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
 {
@@ -90,8 +92,18 @@ class PurchaseOrderController extends Controller
 
         //Get vendor detail
         $vendor = User::find($po->vendor_id);
+        //Send notification
         if ($vendor) {
             $vendor->notify(new PurchaseOrderApprovedNotification($po, 'vendor'));
+        }
+
+        //Send email to both
+        if ($purchaseManager) {
+            Mail::to($purchaseManager->email)->send(new PurchaseOrderApprovedMail($po, 'purchase_manager'));
+        }
+
+        if ($vendor) {
+            Mail::to($vendor->email)->send(new PurchaseOrderApprovedMail($po, 'vendor'));
         }
 
         return back()->with('success', "PO #{$po->id} approved.");

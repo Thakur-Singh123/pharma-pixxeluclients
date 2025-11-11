@@ -1,4 +1,4 @@
-@extends('counselor.layouts.master')
+@extends('manager.layouts.master')
 @section('content')
     @php
         // Extract "Other" department note if saved like "Others (Cardiology)"
@@ -24,10 +24,9 @@
                             <div class="card-title">Edit Patient Booking</div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('counselor.bookings.update', $patient->id) }}" method="POST"
+                            <form action="{{ route('manager.update.booking', $patient->id) }}" method="POST"
                                 autocomplete="off">
                                 @csrf
-                                @method('PUT')
                                 <div class="row">
 
                                     <!-- Patient Name -->

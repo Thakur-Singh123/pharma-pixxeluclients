@@ -109,20 +109,19 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::resource('sales', App\Http\Controllers\Manager\SalesController::class);
     Route::post('/sale/{id}/approve', [App\Http\Controllers\Manager\SalesController::class, 'sale_approve'])->name('sale.approve');
     Route::post('/sale/{id}/reject', [App\Http\Controllers\Manager\SalesController::class, 'sale_reject'])->name('sale.reject');
-
     //Purchase Manager
     Route::get('purchase-manager', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'index'])->name('purchase-manager.index');
     Route::get('purchase-manager/{id}/edit', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'edit'])->name('purchase-manager.edit');
     Route::put('purchase-manager/{id}', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'update'])->name('purchase-manager.update');
     Route::delete('purchase-manager/{id}', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'destroy'])->name('purchase-manager.destroy');
-
-
-    Route::patch('purchase-manager/{id}/approve', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'approve'])
-        ->name('purchase-manager.approvals.approve');
-    Route::patch('purchase-manager/{id}/reject', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'reject'])
-        ->name('purchase-manager.approvals.reject');
-    Route::get('purchase-orders/export', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'export'])
-    ->name('purchase-orders.export');    
+    Route::patch('purchase-manager/{id}/approve', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'approve'])->name('purchase-manager.approvals.approve');
+    Route::patch('purchase-manager/{id}/reject', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'reject'])->name('purchase-manager.approvals.reject');
+    Route::get('purchase-orders/export', [App\Http\Controllers\Manager\PurchaseOrderController::class, 'export'])->name('purchase-orders.export');
+    //Counsellor Booking
+    Route::get('counsellor-patients', [App\Http\Controllers\Manager\CounsellorController::class, 'all_cpatients'])->name('all.cpatients');  
+    Route::get('counsellor-booking-edit/{id}', [App\Http\Controllers\Manager\CounsellorController::class, 'edit_booking']);   
+    Route::post('counsellor-booking-update/{id}', [App\Http\Controllers\Manager\CounsellorController::class, 'update_booking'])->name('update.booking'); 
+    Route::get('counsellor-booking-delete/{id}', [App\Http\Controllers\Manager\CounsellorController::class, 'delete_booking']);   
     //Camp reports
     Route::get('export-camp-report', [App\Http\Controllers\Manager\CampReportExportController::class, 'export_campReport']);
 });

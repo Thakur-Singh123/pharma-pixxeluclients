@@ -24,8 +24,8 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <!--dashboard section-->
-                <li class="nav-item {{ Request::is('vendor/dashboard') ? 'active' : '' }}">
-                    <a href="{{ url('vendor/dashboard') }}">
+                <li class="nav-item {{ Request::is('purchase-manager/dashboard') ? 'active' : '' }}">
+                    <a href="{{ url('purchase-manager/dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>

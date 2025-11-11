@@ -126,6 +126,7 @@
         <div class="email-footer">
             © {{ date('Y') }} <strong>Hospital</strong>. All Rights Reserved.
         </div>
+
     </div>
 </body>
 </html>

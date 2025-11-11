@@ -15,6 +15,7 @@ use App\Notifications\PurchaseOrderUpdatedNotification;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PurchaseOrdersExport;
 use App\Mail\PurchaseOrderCreatedMail;
+use App\Mail\PurchaseOrderUpdatedMail;
 use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
@@ -108,7 +109,6 @@ class PurchaseOrderController extends Controller
                 //Send notification
                 $manager->notify(new PurchaseOrderNotification($po));
             }
-
             //Send Email to Vendor
             $vendor = User::find($validated['vendor_id']);
             if ($vendor && $vendor->email) {
@@ -275,8 +275,13 @@ class PurchaseOrderController extends Controller
                 //Send notification
                 $manager->notify(new PurchaseOrderUpdatedNotification($order));
             }
+             //Send Email to Vendor
+            $vendor = User::find($validated['vendor_id']);
+            if ($vendor && $vendor->email) {
+                Mail::to($vendor->email)->send(new PurchaseOrderUpdatedMail($order));
+            }
         });
-
+        
         return redirect()->route('purchase-manager.purchase-orders.index')
             ->with('success', 'Purchase Order updated successfully.');
     }

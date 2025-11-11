@@ -47,7 +47,7 @@
               </div>
             </div>
 
-            <!-- Order Date -->
+            <!-- Nature Of Vendor -->
             <div class="col-md-6 col-lg-4">
               <div class="form-group">
                 <label for="nature_of_vendor">Nature Of Vendor</label>
@@ -77,9 +77,6 @@
                   <th style="min-width: 200px;">Product</th>
                   <th style="min-width: 120px;">Type</th>
                   <th style="min-width: 100px;">Qty</th>
-                  <th style="min-width: 120px;">Price</th>
-                  <th style="min-width: 160px;">Discount</th>
-                  <th style="min-width: 140px;">Line Total</th>
                   <th style="width: 60px;">
                     <button type="button" class="btn btn-sm btn-success" id="addRow">
                       + Add
@@ -88,7 +85,7 @@
                 </tr>
               </thead>
               <tbody id="itemsBody">
-                <!-- one default row -->
+                <!-- Default Row -->
                 <tr>
                   <td>
                     <input type="text" name="items[0][product_name]" class="form-control" placeholder="Product name" required>
@@ -99,38 +96,11 @@
                   <td>
                     <input type="number" step="1" min="1" name="items[0][quantity]" class="form-control qty" value="1" required>
                   </td>
-                  <td>
-                    <input type="number" step="0.01" min="0" name="items[0][price]" class="form-control price" value="0" required>
-                  </td>
-                  <td>
-                    <div class="d-flex gap-2">
-                      <select name="items[0][discount_type]" class="form-control discount-type" style="max-width: 90px;">
-                        <option value="flat">₹</option>
-                        <option value="percent">%</option>
-                      </select>
-                      <input type="number" step="0.01" min="0" name="items[0][discount_value]" class="form-control discount-val" value="0">
-                    </div>
-                  </td>
-                  <td>
-                    <input type="text" class="form-control line-total" value="0.00" readonly>
-                  </td>
                   <td class="text-center">
                     <button type="button" class="btn btn-sm btn-danger removeRow">&times;</button>
                   </td>
                 </tr>
               </tbody>
-              <tfoot>
-                <tr>
-                  <th colspan="5" class="text-end">Subtotal</th>
-                  <th><input type="text" id="subtotal" class="form-control" value="0.00" readonly></th>
-                  <th></th>
-                </tr>
-                <tr>
-                  <th colspan="5" class="text-end">Grand Total</th>
-                  <th><input type="text" id="grand_total" class="form-control" value="0.00" readonly></th>
-                  <th></th>
-                </tr>
-              </tfoot>
             </table>
           </div>
 
@@ -145,59 +115,22 @@
   </div>
 </div>
 
-{{-- JS for dynamic rows & totals --}}
+{{-- JS for dynamic rows --}}
 <script>
 (function(){
   let rowIndex = 1;
   const body = document.getElementById('itemsBody');
 
-  function recalcRow(tr) {
-    const qty   = parseFloat(tr.querySelector('.qty')?.value || 0);
-    const price = parseFloat(tr.querySelector('.price')?.value || 0);
-    const dType = tr.querySelector('.discount-type')?.value || 'flat';
-    const dVal  = parseFloat(tr.querySelector('.discount-val')?.value || 0);
-
-    let gross = qty * price;
-    let discount = 0;
-
-    if (dType === 'percent') {
-      discount = gross * (dVal / 100.0);
-    } else {
-      discount = dVal;
-    }
-    if (discount > gross) discount = gross;
-
-    const lineTotal = (gross - discount);
-    tr.querySelector('.line-total').value = lineTotal.toFixed(2);
-  }
-
-  function recalcTotals() {
-    let subtotal = 0;
-    document.querySelectorAll('#itemsBody .line-total').forEach(input => {
-      subtotal += parseFloat(input.value || 0);
-    });
-    document.getElementById('subtotal').value = subtotal.toFixed(2);
-    document.getElementById('grand_total').value = subtotal.toFixed(2);
-  }
-
   function bindRowEvents(tr) {
-    ['input', 'change'].forEach(evt=>{
-      tr.querySelectorAll('.qty,.price,.discount-type,.discount-val').forEach(inp=>{
-        inp.addEventListener(evt, () => { recalcRow(tr); recalcTotals(); });
-      });
-    });
     tr.querySelector('.removeRow')?.addEventListener('click', ()=>{
       if (document.querySelectorAll('#itemsBody tr').length > 1) {
         tr.remove();
-        recalcTotals();
       }
     });
   }
 
-  // first row
+  // First row
   bindRowEvents(body.querySelector('tr'));
-  recalcRow(body.querySelector('tr'));
-  recalcTotals();
 
   document.getElementById('addRow').addEventListener('click', ()=>{
     const tr = document.createElement('tr');
@@ -205,23 +138,10 @@
       <td><input type="text" name="items[${rowIndex}][product_name]" class="form-control" placeholder="Product name" required></td>
       <td><input type="text" name="items[${rowIndex}][type]" class="form-control" placeholder="Type (e.g., pack, unit)"></td>
       <td><input type="number" step="1" min="1" name="items[${rowIndex}][quantity]" class="form-control qty" value="1" required></td>
-      <td><input type="number" step="0.01" min="0" name="items[${rowIndex}][price]" class="form-control price" value="0" required></td>
-      <td>
-        <div class="d-flex gap-2">
-          <select name="items[${rowIndex}][discount_type]" class="form-control discount-type" style="max-width: 90px;">
-            <option value="flat">₹</option>
-            <option value="percent">%</option>
-          </select>
-          <input type="number" step="0.01" min="0" name="items[${rowIndex}][discount_value]" class="form-control discount-val" value="0">
-        </div>
-      </td>
-      <td><input type="text" class="form-control line-total" value="0.00" readonly></td>
       <td class="text-center"><button type="button" class="btn btn-sm btn-danger removeRow">&times;</button></td>
     `;
     body.appendChild(tr);
     bindRowEvents(tr);
-    recalcRow(tr);
-    recalcTotals();
     rowIndex++;
   });
 })();

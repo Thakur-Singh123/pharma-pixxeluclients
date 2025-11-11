@@ -59,9 +59,9 @@
                                             <th class="text-end">Vendor Name</th>
                                             <th class="text-end">Vendor Email</th>
                                             {{-- <th class="text-end">Items</th> --}}
-                                            <th class="text-end">Subtotal</th>
+                                            <!-- <th class="text-end">Subtotal</th>
                                             <th class="text-end">Discount</th>
-                                            <th class="text-end">Grand Total</th>
+                                            <th class="text-end">Grand Total</th> -->
                                             <th>Delivery</th>
                                             {{-- <th style="width:120px;">Action</th> --}}
                                         </tr>
@@ -79,10 +79,10 @@
                                                 </td>
                                                 {{-- <td class="text-end">{{ $po->items_count ?? ($po->items->count() ?? 0) }} --}}
                                                 </td>
-                                                <td class="text-end">₹{{ number_format($po->subtotal, 2) }}</td>
+                                                <!-- <td class="text-end">₹{{ number_format($po->subtotal, 2) }}</td>
                                                 <td class="text-end">₹{{ number_format($po->discount_total, 2) }}</td>
                                                 <td class="text-end fw-semibold">₹{{ number_format($po->grand_total, 2) }}
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <form
                                                         action="{{ route('vendor.purchase-orders.update.delivery', $po->id) }}"

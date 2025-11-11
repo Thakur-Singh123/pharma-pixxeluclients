@@ -79,9 +79,6 @@
                                                                 <th>Vendor Name</th>
                                                                 <th>Vendor Email</th>
                                                                 <th>Nature Of Vendor</th>
-                                                                <th class="text-end">Subtotal</th>
-                                                                <th class="text-end">Discount</th>
-                                                                <th class="text-end">Grand Total</th>
                                                                 <th>Status</th>
                                                                 <th style="width:120px;">Action</th>
                                                             </tr>
@@ -95,13 +92,6 @@
                                                                     <td> {{ $po->vendor?->name ?? '—' }}</td>
                                                                     <td> {{ $po->vendor?->email ?? '—' }}</td>
                                                                     <td>{{ $po->nature_of_vendor }}</td>
-                                                                    <td class="text-end">
-                                                                        ₹{{ number_format($po->subtotal, 2) }}</td>
-                                                                    <td class="text-end">
-                                                                        ₹{{ number_format($po->discount_total, 2) }}</td>
-                                                                    <td class="text-end fw-semibold">
-                                                                        ₹{{ number_format($po->grand_total, 2) }}
-                                                                    </td>
                                                                     <td>
                                                                         <span
                                                                             class="status-badge

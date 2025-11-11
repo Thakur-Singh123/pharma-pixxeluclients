@@ -82,9 +82,6 @@
                                                                 <th>Vendor Name</th>
                                                                 <th>Vendor Email</th>
                                                                 <th style="width: 220px;">Nature Of Vendor</th>
-                                                                <th style="width: 140px;" class="text-end">Subtotal</th>
-                                                                <th style="width: 140px;" class="text-end">Discount</th>
-                                                                <th style="width: 160px;" class="text-end">Grand Total</th>
                                                                 <th style="width: 180px;">Purchase Manager Name</th>
                                                                 <th style="width: 180px;">Purchase Manager Email</th>
                                                                 <th style="width: 120px;">Status</th>
@@ -103,12 +100,6 @@
                                                                     <td> {{ $po->vendor?->name ?? '—' }}</td>
                                                                     <td> {{ $po->vendor?->email ?? '—' }}</td>
                                                                     <td>{{ $po->nature_of_vendor }}</td>
-                                                                    <td class="text-end">
-                                                                        ₹{{ number_format($po->subtotal, 2) }}</td>
-                                                                    <td class="text-end">
-                                                                        ₹{{ number_format($po->discount_total, 2) }}</td>
-                                                                    <td class="text-end fw-semibold">
-                                                                        ₹{{ number_format($po->grand_total, 2) }}</td>
                                                                     <td> {{ $po->purchaseManager?->name ?? '—' }}</td>
                                                                     <td> {{ $po->purchaseManager?->email ?? '—' }}</td>
                                                                     <td>

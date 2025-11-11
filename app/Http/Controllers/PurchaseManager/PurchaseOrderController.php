@@ -45,9 +45,9 @@ class PurchaseOrderController extends Controller
             'items.*.product_name'   => 'required|string|max:255',
             'items.*.type'           => 'nullable|string|max:100',
             'items.*.quantity'       => 'required|numeric|min:1',
-            'items.*.price'          => 'required|numeric|min:0',
-            'items.*.discount_type'  => 'nullable|in:flat,percent',
-            'items.*.discount_value' => 'nullable|numeric|min:0',
+            // 'items.*.price'          => 'required|numeric|min:0',
+            // 'items.*.discount_type'  => 'nullable|in:flat,percent',
+            // 'items.*.discount_value' => 'nullable|numeric|min:0',
         ]);
 
         DB::transaction(function () use ($validated) {
@@ -64,44 +64,44 @@ class PurchaseOrderController extends Controller
                 'grand_total'         => 0,
             ]);
 
-            $subtotal      = 0;
-            $discountTotal = 0;
+            // $subtotal      = 0;
+            // $discountTotal = 0;
 
             foreach ($validated['items'] as $item) {
                 $qty   = (float) $item['quantity'];
-                $price = (float) $item['price'];
-                $gross = $qty * $price;
+                // $price = (float) $item['price'];
+                // $gross = $qty * $price;
 
-                $dtype = $item['discount_type'] ?? 'flat';
-                $dval  = (float) ($item['discount_value'] ?? 0);
+                // $dtype = $item['discount_type'] ?? 'flat';
+                // $dval  = (float) ($item['discount_value'] ?? 0);
 
-                $disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
-                if ($disc > $gross) {
-                    $disc = $gross;
-                }
+                // $disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
+                // if ($disc > $gross) {
+                //     $disc = $gross;
+                // }
 
-                $lineTotal = $gross - $disc;
+                // $lineTotal = $gross - $disc;
 
                 PurchaseOrderItem::create([
                     'purchase_order_id' => $po->id,
                     'product_name'      => $item['product_name'],
                     'type'              => $item['type'] ?? null,
                     'quantity'          => $qty,
-                    'price'             => $price,
-                    'discount_type'     => $dtype,
-                    'discount_value'    => $dval,
-                    'line_total'        => $lineTotal,
+                    // 'price'             => $price,
+                    // 'discount_type'     => $dtype,
+                    // 'discount_value'    => $dval,
+                    // 'line_total'        => $lineTotal,
                 ]);
 
-                $subtotal += $gross;
-                $discountTotal += $disc;
+                // $subtotal += $gross;
+                // $discountTotal += $disc;
             }
 
-            $po->update([
-                'subtotal'       => $subtotal,
-                'discount_total' => $discountTotal,
-                'grand_total'    => $subtotal - $discountTotal,
-            ]);
+            // $po->update([
+            //     'subtotal'       => $subtotal,
+            //     'discount_total' => $discountTotal,
+            //     'grand_total'    => $subtotal - $discountTotal,
+            // ]);
             //Get manager detail
             $manager = User::find($managerId);
             //Check if manager exists or not
@@ -207,9 +207,6 @@ class PurchaseOrderController extends Controller
             'items.*.product_name'   => 'required|string|max:255',
             'items.*.type'           => 'nullable|string|max:100',
             'items.*.quantity'       => 'required|numeric|min:1',
-            'items.*.price'          => 'required|numeric|min:0',
-            'items.*.discount_type'  => 'nullable|in:flat,percent',
-            'items.*.discount_value' => 'nullable|numeric|min:0',
         ]);
 
         $order = PurchaseOrder::where('purchase_manager_id', $pmId)->findOrFail($id);
@@ -230,43 +227,43 @@ class PurchaseOrderController extends Controller
             // Rebuild items
             $order->items()->delete();
 
-            $subtotal      = 0;
-            $discountTotal = 0;
+            // $subtotal      = 0;
+            // $discountTotal = 0;
 
             foreach ($validated['items'] as $item) {
                 $qty   = (float) $item['quantity'];
-                $price = (float) $item['price'];
-                $gross = $qty * $price;
+                // $price = (float) $item['price'];
+                // $gross = $qty * $price;
 
-                $dtype = $item['discount_type'] ?? 'flat';
-                $dval  = (float) ($item['discount_value'] ?? 0);
+                // $dtype = $item['discount_type'] ?? 'flat';
+                // $dval  = (float) ($item['discount_value'] ?? 0);
 
-                $disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
-                if ($disc > $gross) {
-                    $disc = $gross;
-                }
+                // $disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
+                // if ($disc > $gross) {
+                //     $disc = $gross;
+                // }
 
-                $lineTotal = $gross - $disc;
+                // $lineTotal = $gross - $disc;
 
                 $order->items()->create([
                     'product_name'   => $item['product_name'],
                     'type'           => $item['type'] ?? null,
                     'quantity'       => $qty,
-                    'price'          => $price,
-                    'discount_type'  => $dtype,
-                    'discount_value' => $dval,
-                    'line_total'     => $lineTotal,
+                    // 'price'          => $price,
+                    // 'discount_type'  => $dtype,
+                    // 'discount_value' => $dval,
+                    // 'line_total'     => $lineTotal,
                 ]);
 
-                $subtotal += $gross;
-                $discountTotal += $disc;
+                // $subtotal += $gross;
+                // $discountTotal += $disc;
             }
 
-            $order->update([
-                'subtotal'       => $subtotal,
-                'discount_total' => $discountTotal,
-                'grand_total'    => $subtotal - $discountTotal,
-            ]);
+            // $order->update([
+            //     'subtotal'       => $subtotal,
+            //     'discount_total' => $discountTotal,
+            //     'grand_total'    => $subtotal - $discountTotal,
+            // ]);
             //Get manager detail
             $manager = User::find($order->manager_id);
             // echo "<pre>"; print_r($manager->toArray());exit;

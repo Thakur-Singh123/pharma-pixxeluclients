@@ -113,7 +113,10 @@
       <div class="details-box">
         <p><span class="highlight">Purchase Order ID:</span> #{{ $po->id }}</p>
         <p><span class="highlight">Order Date:</span> {{ \Carbon\Carbon::parse($po->order_date)->format('d M Y') }}</p>
-        <p><span class="highlight">Status:</span> <span class="status">Approved</span></p>
+        <p><span class="highlight">Subtotal:</span> ₹{{ number_format($po->subtotal, 2) }}</p>
+        <p><span class="highlight">Discount:</span> ₹{{ number_format($po->discount_total, 2) }}</p>
+        <p><span class="highlight">Grand Total:</span> ₹{{ number_format($po->grand_total, 2) }}</p>
+        <p><span class="highlight">Status:</span>Approved</p>
       </div>
 
       <p>Thank you for your continued partnership with <strong>Hospital Purchase Panel</strong>.  

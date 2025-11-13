@@ -10,24 +10,77 @@ use App\Models\Events;
 
 class CalendarController extends BaseController
 {
-    //Function to show tasks calendar
-    public function all_tasks() {
-        //Get approved MonthlyTasks
-        $monthlyTasks = MonthlyTask::with('task_detail','doctor_detail')
+    /**
+     * Return calendar data for tasks, events, or both based on the requested type.
+     */
+    public function calendar(Request $request, ?string $type = null)
+    {
+        $type = $type ?? $request->query('type');
+        $type = $type ? strtolower($type) : null;
+
+        if ($type && !in_array($type, ['task', 'event'])) {
+            return response()->json([
+                'status' => 422,
+                'message' => 'Invalid type provided. Allowed values: task, event.',
+                'data' => [],
+            ], 422);
+        }
+
+        $responseData = [];
+        $hasData = false;
+
+        if (!$type || $type === 'task') {
+            $tasks = $this->buildTaskCalendarData();
+            $responseData['calendar_tasks'] = $tasks;
+            $hasData = $hasData || !empty($tasks);
+        }
+
+        if (!$type || $type === 'event') {
+            $events = $this->buildEventCalendarData();
+            $responseData['calendar_events'] = $events;
+            $hasData = $hasData || !empty($events);
+        }
+
+        if (!$hasData) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No calendar data found.',
+                'data' => $responseData,
+            ], 404);
+        }
+
+        $message = match ($type) {
+            'task' => 'Calendar tasks retrieved successfully.',
+            'event' => 'Calendar events retrieved successfully.',
+            default => 'Calendar data retrieved successfully.',
+        };
+
+        return response()->json([
+            'status' => 200,
+            'message' => $message,
+            'data' => $responseData,
+        ], 200);
+    }
+
+    /**
+     * Prepare calendar data for MR tasks.
+     */
+    private function buildTaskCalendarData(): array
+    {
+        $formattedTasks = [];
+
+        $monthlyTasks = MonthlyTask::with(['task_detail', 'doctor_detail'])
             ->where('mr_id', auth()->id())
             ->where('is_approval', '1')
             ->get();
-            
-        //Get manager active Tasks
-        $tasks = Task::with('doctor')->where('mr_id', auth()->id())
-            ->where('is_active', '1')
-            ->get();
-        //Format task
-        $formattedTasks = [];
-        //Get MonthlyTasks
+
         foreach ($monthlyTasks as $task) {
             $detail = $task->task_detail;
-            //Task format
+
+            if (!$detail) {
+                continue;
+            }
+
             $formattedTasks[] = [
                 'id'          => $detail->id,
                 'title'       => $detail->title,
@@ -41,7 +94,12 @@ class CalendarController extends BaseController
                 'type'        => 'task',
             ];
         }
-        //Get Tasks
+
+        $tasks = Task::with('doctor')
+            ->where('mr_id', auth()->id())
+            ->where('is_active', '1')
+            ->get();
+
         foreach ($tasks as $task) {
             $formattedTasks[] = [
                 'id'          => $task->id,
@@ -56,31 +114,22 @@ class CalendarController extends BaseController
                 'type'        => 'task',
             ];
         }
-        //Check if tasks exists or not
-        if($formattedTasks) {
-            $success['status'] = 200;
-            $success['message'] = "Calendar tasks get successfully.";
-            $success['data'] = [
-                'calendar_tasks' => $formattedTasks,
-            ];
-            return response()->json($success, 200);
-        } else {
-            $error['status'] = 404;
-            $error['message'] = "No calendar tasks found.";
-            $error['data'] = [];
-            return response()->json($error, 404);
-        }
+
+        return $formattedTasks;
     }
 
-    //Function to show events calendar
-    public function all_events() {
-        //Get approved events
-        $events = Events::where('mr_id', auth()->id())->where('is_active', '1')->select('id', 'title', 'start_datetime as start',
-            'end_datetime as end', 'status', 'location')
+    /**
+     * Prepare calendar data for MR events.
+     */
+    private function buildEventCalendarData(): array
+    {
+        $events = Events::where('mr_id', auth()->id())
+            ->where('is_active', '1')
+            ->select('id', 'title', 'start_datetime as start', 'end_datetime as end', 'status', 'location')
             ->get();
-        //Format Events
+
         $formattedEvents = [];
-        //Get events
+
         foreach ($events as $event) {
             $formattedEvents[] = [
                 'id'       => $event->id,
@@ -92,19 +141,7 @@ class CalendarController extends BaseController
                 'type'     => 'event',
             ];
         }
-        //Check if events exists or not
-        if ($formattedEvents) {
-            $success['status'] = 200;
-            $success['message'] = "Calendar events get successfully.";
-            $success['data'] = [
-                'calendar_events' => $formattedEvents,
-            ];
-            return response()->json($success, 200);
-        } else {
-            $error['status'] = 404;
-            $error['message'] = "No calendar events  found.";
-            $error['data'] = [];
-            return response()->json($error, 404);
-        }
+
+        return $formattedEvents;
     }
 }

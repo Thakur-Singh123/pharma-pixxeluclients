@@ -17,14 +17,14 @@ class PurchaseOrderApprovedMail extends Mailable
     public $po;
     public $receiverType;
 
-     public function __construct(PurchaseOrder $po, $receiverType)
-    {
+    //Function for construct
+    public function __construct(PurchaseOrder $po, $receiverType) {
         $this->po = $po;
         $this->receiverType = $receiverType;
     }
 
-    public function build()
-    {
+    //Function for build
+    public function build() {
         return $this->subject('Purchase Order Approved - #' . $this->po->id)
             ->view('emails.purchase-order-approved');
     }

@@ -9,24 +9,24 @@
             <div class="card-body">
                 {{-- Basic Info --}}
                 <div class="row mb-4">
-                <div class="col-md-4 mb-2">
-                    <h6 class="text-muted">Vendor</h6>
-                    <p class="fw-bold">
-                        {{ $order->vendor->name }}{{ $order->vendor->email ? ' - '.$order->vendor->email : '' }}
-                    </p>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <h6 class="text-muted">Order Date</h6>
-                    <p class="fw-bold">{{ \Carbon\Carbon::parse($order->order_date)->format('d M, Y') }}</p>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <h6 class="text-muted">Nature of Vendor</h6>
-                    <p class="fw-bold">{{ $order->nature_of_vendor ?? '-' }}</p>
-                </div>
-                <div class="col-12 mb-2">
-                    <h6 class="text-muted">Notes</h6>
-                    <p class="fw-bold">{{ $order->notes ?? 'No notes available.' }}</p>
-                </div>
+                    <div class="col-md-4 mb-2">
+                        <h6 class="text-muted">Vendor</h6>
+                        <p class="fw-bold">
+                            {{ $order->vendor->name }}{{ $order->vendor->email ? ' - '.$order->vendor->email : '' }}
+                        </p>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <h6 class="text-muted">Order Date</h6>
+                        <p class="fw-bold">{{ \Carbon\Carbon::parse($order->order_date)->format('d M, Y') }}</p>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <h6 class="text-muted">Nature of Vendor</h6>
+                        <p class="fw-bold">{{ $order->nature_of_vendor ?? '-' }}</p>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <h6 class="text-muted">Notes</h6>
+                        <p class="fw-bold">{{ $order->notes ?? 'No notes available.' }}</p>
+                    </div>
                 </div>
                 <hr>
                 {{-- Items Table --}}

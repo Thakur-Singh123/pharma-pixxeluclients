@@ -65,4 +65,21 @@ class PurchaseOrderController extends Controller
         return Excel::download(new PurchaseOrdersExport($filters), 'purchase_orders.csv');
     }
 
+    //Function for signle vendor detail
+ public function single_detail($id)
+{
+    // echo "yes"; exit;
+    $vendorId = Auth::id(); 
+
+    // Order must belong to this vendor
+    $order = PurchaseOrder::with(['items', 'vendor'])
+        ->where('vendor_id', $vendorId)
+        ->findOrFail($id);
+
+        // echo "<pre>"; print_r($order->toArray());exit;
+
+    return view('vendor.purchase_orders.single-detail', compact('order'));
+}
+
+
 }

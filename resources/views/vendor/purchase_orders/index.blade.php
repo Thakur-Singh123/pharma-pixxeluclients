@@ -67,9 +67,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        
                                         @forelse ($orders as $po)
                                             <tr>
-                                                <td>#{{ $po->id }}</td>
+                                               <td>
+                                                    <a href="{{ url('vendor/purchase-orders/single-detail/' . $po->id) }}" class="text-decoration-none text-primary fw-bold">
+                                                        #{{ $po->id }}
+                                                    </a>
+                                                </td>
                                                 <td>{{ \Carbon\Carbon::parse($po->order_date)->format('d M, Y') }}</td>
                                                 <td>
                                                     {{ $po->vendor?->name ?? '—' }}

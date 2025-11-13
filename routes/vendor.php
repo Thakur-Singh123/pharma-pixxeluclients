@@ -13,11 +13,9 @@ Route::prefix('vendor')->name('vendor.')->middleware(['web','auth','vendor'])->g
   //Dashboard
   Route::get('/dashboard', [App\Http\Controllers\Vendor\DashboardController::class, 'dashboard'])->name('dashboard');
   //Purchase Order
-   Route::get('purchase-orders', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
-   Route::post('purchase-orders/{id}/update-delivery', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'updateDelivery'])
-    ->name('purchase-orders.update.delivery');
-  Route::get('purchase-orders/export', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'export'])
-    ->name('purchase-orders.export');
-
+  Route::get('purchase-orders', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
+  Route::post('purchase-orders/{id}/update-delivery', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'updateDelivery'])->name('purchase-orders.update.delivery');
+  Route::get('purchase-orders/export', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'export'])->name('purchase-orders.export');
+  Route::get('purchase-orders/single-detail/{id}', [App\Http\Controllers\Vendor\PurchaseOrderController::class, 'single_detail']);
 });
 

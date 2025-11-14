@@ -120,7 +120,7 @@ class TADAController extends BaseController
         if ($is_create_tada) {
             $is_create_tada->refresh();
             $is_create_tada->image_url = $is_create_tada->attachment
-                ? asset('uploads/ta_da/' . $is_create_tada->attachment)
+                ? asset('public/uploads/ta_da/' . $is_create_tada->attachment)
                 : null;
 
             $success['status'] = 200;
@@ -206,7 +206,7 @@ class TADAController extends BaseController
 
         $tada->refresh();
         $tada->image_url = $tada->attachment
-            ? asset('uploads/ta_da/' . $tada->attachment)
+            ? asset('public/uploads/ta_da/' . $tada->attachment)
             : null;
 
         return response()->json([

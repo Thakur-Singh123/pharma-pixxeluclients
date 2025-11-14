@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 //Admin api
 Route::middleware(['ensure.token', 'auth:sanctum', 'admin'])->group(function () {
     //Dashboard 

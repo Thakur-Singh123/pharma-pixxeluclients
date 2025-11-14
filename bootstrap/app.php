@@ -11,6 +11,7 @@ use App\Http\Middleware\CanSaleMiddleware;
 use App\Http\Middleware\Vendor;
 use App\Http\Middleware\PurchaseManager;
 use App\Http\Middleware\Counselor;
+use App\Http\Middleware\EnsureValidAccessToken;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(

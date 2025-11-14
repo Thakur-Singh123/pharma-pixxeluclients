@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class LoginController extends Controller
@@ -48,16 +47,16 @@ class LoginController extends Controller
         }
 
         //Expiry time
-       $expiryTime = now()->addHours(7); 
+        $expiryTime = now()->addHours(7); 
 
-        //Create token
-        $accessToken  = $user->createToken('API Token')->plainTextToken;
-        $refreshToken = $user->createToken('Refresh Token', ['refresh'])->plainTextToken;
+        //Create tokens
+        $accessTokenResult  = $user->createToken('Access Token', ['access']);
+        $refreshTokenResult = $user->createToken('Refresh Token', ['refresh']);
 
-        //Save expiry time
-        $token = $user->tokens()->latest()->first();
-        $token->expires_at = $expiryTime;
-        $token->save();
+        //Save expiry time for access token
+        $accessTokenModel = $accessTokenResult->accessToken;
+        $accessTokenModel->expires_at = $expiryTime;
+        $accessTokenModel->save();
 
         
         $userPayload = UserResponseHelper::format($user);
@@ -67,8 +66,8 @@ class LoginController extends Controller
         $success['message'] = "Login successfully.";
         $success['data'] = [
             'data' => $userPayload,
-            'access_token' => $accessToken,
-            'refresh_token' => $refreshToken,
+            'access_token' => $accessTokenResult->plainTextToken,
+            'refresh_token' => $refreshTokenResult->plainTextToken,
             'token_type' => 'Bearer',
             'expires_at' => $expiryTime->toDateTimeString(),
         ];
@@ -143,21 +142,21 @@ class LoginController extends Controller
         $user->tokens()->where('name', 'Access Token')->delete();
 
         //Create new access token
-        $newAccessToken = $user->createToken('Access Token', ['access'])->plainTextToken;
+        $newAccessTokenResult = $user->createToken('Access Token', ['access']);
 
         //expiry time
         $expiryTime = now()->addHours(7); 
 
-       //Save expiry time
-        $token = $user->tokens()->latest()->first();
-        $token->expires_at = $expiryTime;
-        $token->save();
+        //Save expiry time
+        $newAccessTokenModel = $newAccessTokenResult->accessToken;
+        $newAccessTokenModel->expires_at = $expiryTime;
+        $newAccessTokenModel->save();
 
         //Response
         $success['status'] = 200;
         $success['message'] = "Access token refreshed successfully.";
         $success['data'] = [
-            'access_token' => $newAccessToken,
+            'access_token' => $newAccessTokenResult->plainTextToken,
             'token_type' => 'Bearer',
             'expires_at' => $expiryTime->toDateTimeString(),
         ];

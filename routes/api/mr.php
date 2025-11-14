@@ -15,8 +15,8 @@ Route::prefix('mr')->middleware(['auth:sanctum', 'mr'])->group(function () {
     //Calander
     Route::get('/calendar/{type?}', [App\Http\Controllers\Api\MR\CalendarController::class, 'calendar']);
     //TADA
-    Route::get('/tada', [App\Http\Controllers\Api\MR\TADAController::class, 'all_tada']);
-    Route::post('/tada-create', [App\Http\Controllers\Api\MR\TADAController::class, 'create_tada']);
-    Route::post('/tada-update', [App\Http\Controllers\Api\MR\TADAController::class, 'update_tada']);
-    Route::post('/tada-delete', [App\Http\Controllers\Api\MR\TADAController::class, 'delete_tada']);
+    Route::get('/tada', [App\Http\Controllers\Api\MR\TADAController::class, 'index']);
+    Route::post('/tada', [App\Http\Controllers\Api\MR\TADAController::class, 'store']);
+    Route::post('/tada/{id}', [App\Http\Controllers\Api\MR\TADAController::class, 'update']);
+    Route::delete('/tada/{id}', [App\Http\Controllers\Api\MR\TADAController::class, 'destroy']);
 });

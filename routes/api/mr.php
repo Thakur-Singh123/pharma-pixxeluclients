@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 //Mr Api's
-Route::prefix('mr')->middleware(['auth:sanctum', 'mr'])->group(function () {
+Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(function () {
     //Dashboard
     Route::get('/dashboard', [App\Http\Controllers\Api\MR\DashboardController::class, 'dashboard']);
     //Attendances

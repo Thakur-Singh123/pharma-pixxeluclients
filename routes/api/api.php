@@ -14,6 +14,6 @@ Route::post('/refresh-token', [App\Http\Controllers\Api\Auth\LoginController::cl
 Route::post('/expire-token', [App\Http\Controllers\Api\Auth\LoginController::class, 'expire_token']);
 
 //Profile
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['ensure.token','auth:sanctum'])->group(function () {
   Route::post('/update-account', [App\Http\Controllers\Api\ProfileController::class, 'update']);
 });

@@ -41,6 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'vendor' => Vendor::class,
             'purchase-manager' => PurchaseManager::class,
             'counselor' => Counselor::class,
+            'ensure.token' => EnsureValidAccessToken::class,
         ]); 
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -26,6 +26,12 @@ Route::prefix('mr')->middleware(['auth:sanctum', 'mr'])->group(function () {
     Route::post('/events/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'update']);
     Route::delete('/events/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'destroy']);
 
+    //Problems / challenges
+    Route::get('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'index']);
+    Route::post('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'store']);
+    Route::post('/problems/{id}', [App\Http\Controllers\Api\MR\ProblemController::class, 'update']);
+    Route::delete('/problems/{id}', [App\Http\Controllers\Api\MR\ProblemController::class, 'destroy']);
+
     //Referred patients
     Route::get('/referred-patients', [App\Http\Controllers\Api\MR\ReferredPatientController::class, 'index']);
     Route::post('/referred-patients', [App\Http\Controllers\Api\MR\ReferredPatientController::class, 'store']);

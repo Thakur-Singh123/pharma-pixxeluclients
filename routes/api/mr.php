@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('mr')->middleware(['auth:sanctum', 'mr'])->group(function () {
     //Dashboard
     Route::get('/dashboard', [App\Http\Controllers\Api\MR\DashboardController::class, 'dashboard']);
-    //Profile
-    Route::get('/account', [App\Http\Controllers\Api\MR\ProfileController::class, 'account']);
-    Route::post('/update-account', [App\Http\Controllers\Api\MR\ProfileController::class, 'update_account']);
+
     //Attendances
     Route::get('/attendance/{type?}', [App\Http\Controllers\Api\MR\AttendanceController::class, 'index']);
     Route::post('/attendance', [App\Http\Controllers\Api\MR\AttendanceController::class, 'mark']);

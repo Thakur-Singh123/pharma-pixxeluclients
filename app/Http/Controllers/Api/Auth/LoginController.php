@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Helpers\UserResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -59,11 +60,13 @@ class LoginController extends Controller
         $token->save();
 
         
+        $userPayload = UserResponseHelper::format($user);
+
         //Response
         $success['status'] = 200;
         $success['message'] = "Login successfully.";
         $success['data'] = [
-            'data' => $user,
+            'data' => $userPayload,
             'access_token' => $accessToken,
             'refresh_token' => $refreshToken,
             'token_type' => 'Bearer',

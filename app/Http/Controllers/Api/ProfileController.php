@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\UserResponseHelper;
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class ProfileController extends BaseController
+class ProfileController extends Controller
 {
     /**
      * Update the authenticated user's account information.

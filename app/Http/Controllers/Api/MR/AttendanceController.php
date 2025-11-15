@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\MRAttendance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AttendanceController extends BaseController
+class AttendanceController extends Controller
 {
     /**
      * Retrieve attendance details (daily or monthly) for the authenticated MR.

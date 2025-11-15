@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\EventUser;
 use App\Models\Events;
 use App\Models\MangerMR;
@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class EventController extends BaseController
+class EventController extends Controller
 {
     /**
      * Ensure the current request is authenticated.

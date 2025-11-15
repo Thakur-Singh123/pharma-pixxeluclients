@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-class CommonController extends BaseController
+class CommonController extends Controller
 {
     private function ensureAuthenticated(): ?JsonResponse
     {

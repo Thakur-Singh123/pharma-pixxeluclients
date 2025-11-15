@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\MangerMR;
 use App\Models\ReferredPatient;
 use Illuminate\Http\JsonResponse;
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ReferredPatientController extends BaseController
+class ReferredPatientController extends Controller
 {
     /**
      * Ensure the authenticated MR context exists.

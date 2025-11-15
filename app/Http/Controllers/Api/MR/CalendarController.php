@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\MonthlyTask;
 use App\Models\Events;
 
-class CalendarController extends BaseController
+class CalendarController extends Controller
 {
     /**
      * Return calendar data for tasks, events, or both based on the requested type.

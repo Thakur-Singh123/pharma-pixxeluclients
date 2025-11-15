@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\MR;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Visit;
 use App\Models\Task; 
@@ -14,7 +14,7 @@ use App\Models\DailyReport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends BaseController
+class DashboardController extends Controller
 {
     //Function for show dashboard
     public function dashboard() {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\MangerMR;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class MRController extends BaseController
+class MRController extends Controller
 {
     /**
      * Display a listing of the manager's MRs.

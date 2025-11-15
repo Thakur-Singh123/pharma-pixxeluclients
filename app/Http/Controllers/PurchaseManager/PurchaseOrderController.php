@@ -112,6 +112,7 @@ class PurchaseOrderController extends Controller
             //Send Email to Vendor
             $vendor = User::find($validated['vendor_id']);
             if ($vendor && $vendor->email) {
+                $po->load('items', 'vendor');
                 Mail::to($vendor->email)->send(new PurchaseOrderCreatedMail($po));
             }
         });

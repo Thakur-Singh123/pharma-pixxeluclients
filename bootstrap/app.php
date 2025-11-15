@@ -1,17 +1,18 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 use App\Http\Middleware\Admin;
+use App\Http\Middleware\EnsureValidAccessToken;
 use App\Http\Middleware\Manager;
 use App\Http\Middleware\MR;
 use App\Http\Middleware\CanSaleMiddleware;
 use App\Http\Middleware\Vendor;
 use App\Http\Middleware\PurchaseManager;
 use App\Http\Middleware\Counselor;
-use App\Http\Middleware\EnsureValidAccessToken;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -46,5 +47,20 @@ return Application::configure(basePath: dirname(__DIR__))
         ]); 
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->renderable(function (AuthenticationException $exception, $request) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                $message = $exception->getMessage();
+
+                if (!$message || $message === 'Unauthenticated.') {
+                    $message = $request->bearerToken()
+                        ? 'Invalid token. Please login again.'
+                        : 'Unauthorized access. Please login first.';
+                }
+
+                return response()->json([
+                    'status' => 401,
+                    'message' => $message,
+                ], 401);
+            }
+        });
     })->create();

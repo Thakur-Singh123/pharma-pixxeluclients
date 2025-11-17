@@ -74,8 +74,9 @@ class RegisterController extends Controller
                 'joining_date' => $request->joining_date,
                 'status' => 'Pending',
                 'file_attachement' => $filename,
-                'user_type' => 'MR',
+                'user_type' => $request->user_type ?? 'MR',
                 'can_sale' => $request->can_sale ?? 0,
+                'nature_work' => $request->nature_work,
             ]);
 
             //Check if register is created is not

@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Validator;
 
 class TourPlanController extends Controller
 {
-      private function ensureAuthenticated(): ?JsonResponse
-    {
+    private function ensureAuthenticated(): ?JsonResponse {
         if (!Auth::check()) {
             return response()->json([
                 'status' => 401,
@@ -28,52 +27,50 @@ class TourPlanController extends Controller
         return null;
     }
 
-    // Get all tasks for tomorrow
-    public function index()
-    {
-          if ($response = $this->ensureAuthenticated()) {
+    //Function for all tasks for tomorrow
+    public function index() {
+        if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //Get tasks
         $tasks = Task::with('doctor')
             ->where('mr_id', Auth::id())
             ->whereDate('start_date', Carbon::now()->addDays(1))
             ->orderBy('id', 'DESC')
             ->paginate(5);
-
+        //response
         return response()->json([
             'status' => 200,
-            'message' => $tasks->count() ? 'Tour plans fetched successfully.' : 'No tasks found.',
+            'message' => $tasks->count() ? 'Tour plans fetched successfully.' : 'No Tour plan found.',
             'data' => $tasks->count() ? $tasks : null
         ]);
     }
 
-    // Create or update tour plan
-    public function update(Request $request)
-    {
-          if ($response = $this->ensureAuthenticated()) {
+    //Function for create or update tour plan
+    public function update(Request $request) {
+        if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //validate input fileds
         $validator = Validator::make($request->all(), [
             'title'      => 'required|string|max:255',
         ]);
 
-         //If validation fails
+        //If validation fails
         if ($validator->fails()) {
             $error['status'] = 400;
             $error['message'] =  $validator->errors()->first();
             $error['data'] = null;
             return response()->json($error, 400);
         }
-
+        //Get auth login detail
         $mrId = Auth::id();
         $managerId = MangerMR::where('mr_id', $mrId)->value('manager_id');
-
+        //Get existing plan
         $existingPlan = TaskTourPlan::where('task_id', $request->task_id)
             ->where('mr_id', $mrId)
             ->first();
-
+        //Check plan
         if ($existingPlan) {
             if ($existingPlan->approval_status === 'Approved') {
                 return response()->json([
@@ -90,7 +87,7 @@ class TourPlanController extends Controller
                 ], 409);
             }
         }
-
+        //create or update tour plan
         $tourPlan = TaskTourPlan::updateOrCreate(
             ['task_id' => $request->task_id, 'mr_id' => $mrId],
             [
@@ -106,10 +103,10 @@ class TourPlanController extends Controller
             ]
         );
 
-        // Notify manager
+        //Notify manager
         $manager = User::find($managerId);
         if ($manager) $manager->notify(new TourPlanNotification($tourPlan));
-
+        //response
         return response()->json([
             'status' => 200,
             'message' => 'Tour plan sent for manager approval.',
@@ -117,13 +114,12 @@ class TourPlanController extends Controller
         ]);
     }
 
-    // Delete tour plan
-    public function destroy($id)
-    {
-         if ($response = $this->ensureAuthenticated()) {
+    //Function for delete tour plan
+    public function destroy($id) {
+        if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //Get all tour plans
         $tourPlan = TaskTourPlan::find($id);
         if (!$tourPlan) {
             return response()->json([
@@ -132,10 +128,11 @@ class TourPlanController extends Controller
                 'data' => null
             ]);
         }
-
+        //Get task
         $task = Task::find($tourPlan->task_id);
+        //Delete tour plan
         $isDeleted = $tourPlan->delete();
-
+        //Check
         if ($isDeleted) {
             if ($task) $task->update(['is_approval' => 'Pending']);
             return response()->json([
@@ -144,7 +141,7 @@ class TourPlanController extends Controller
                 'data' => null
             ]);
         }
-
+        //response
         return response()->json([
             'status' => 500,
             'message' => 'Something went wrong!',
@@ -152,19 +149,18 @@ class TourPlanController extends Controller
         ]);
     }
 
-    // Get updated tour plans for tomorrow
-    public function updatedTourPlans()
-    {
-          if ($response = $this->ensureAuthenticated()) {
+    //Function for get updated tour plans 
+    public function updatedTourPlans() {
+        if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //Get task plans
         $plans = TaskTourPlan::with('doctor')
             ->where('mr_id', Auth::id())
             ->whereDate('start_date', Carbon::now()->addDays(1))
             ->orderBy('id', 'DESC')
             ->paginate(5);
-
+        //response
         return response()->json([
             'status' => 200,
             'message' => $plans->count() ? 'Updated tour plans fetched successfully.' : 'No updated tour plans found.',

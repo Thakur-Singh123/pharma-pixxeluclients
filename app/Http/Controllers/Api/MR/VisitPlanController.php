@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class VisitPlanController extends Controller
 {
-    /**
-     * Ensure the authenticated MR context exists.
-     */
+    //Function Ensure the authenticated MR context exists
     private function ensureAuthenticated(): ?JsonResponse {
         //Check if auth login or not
         if (!Auth::check()) {

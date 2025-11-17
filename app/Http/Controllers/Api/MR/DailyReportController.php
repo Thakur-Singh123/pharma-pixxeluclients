@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Auth;
 
 class DailyReportController extends Controller
 {
-    /**
-     * Ensure authenticated
-     */
-    private function ensureAuthenticated(): ?JsonResponse
-    {
+    
+    //Function for ensure authenticated
+    private function ensureAuthenticated(): ?JsonResponse {
         if (!Auth::check()) {
             return response()->json([
                 'status' => 401,
@@ -27,17 +25,13 @@ class DailyReportController extends Controller
         }
         return null;
     }
-
-
-    /**
-     * Get all daily reports
-     */
-    public function index()
-    {
+    
+    //Function for all reports
+    public function index() {
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //all reports
         $reports = DailyReport::where('mr_id', Auth::id())
             ->orderBy('id', 'DESC')
             ->paginate(10);
@@ -57,23 +51,19 @@ class DailyReportController extends Controller
         ]);
     }
 
-
-    /**
-     * Store daily report
-     */
-    public function store(Request $request)
-    {
+    //Function for submit daily report
+    public function store(Request $request) {
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //Validate input fields
         $validator = Validator::make($request->all(), [
             'report_date' => 'required|date',
             'doctor_id' => 'required|array',
             'area_name' => 'required|array',
             'total_visits' => 'required|array',
         ]);
-
+        //response
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
@@ -81,16 +71,16 @@ class DailyReportController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-
+        //Get manager
         $manager_id = MangerMR::where('mr_id', Auth::id())->value('manager_id');
-
+        //Create report
         $report = DailyReport::create([
             'mr_id' => Auth::id(),
             'manager_id' => $manager_id,
             'report_date' => $request->report_date,
             'staus' => 'Pending',
         ]);
-
+        //create deaily report detail
         foreach ($request->doctor_id as $i => $doctor_id) {
             DailyReportDetail::create([
                 'report_id' => $report->id,
@@ -109,55 +99,24 @@ class DailyReportController extends Controller
         ]);
     }
 
-
-    /**
-     * Fetch single report
-     */
-    public function show($id)
-    {
+    //Function for update report
+    public function update(Request $request, $id) {
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
-        $report = DailyReport::with('report_details')->find($id);
-
-        if (!$report) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Daily report not found.',
-                'data' => null
-            ]);
-        }
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'Daily report fetched successfully.',
-            'data' => $report
-        ]);
-    }
-
-
-    /**
-     * Update daily report
-     */
-    public function update(Request $request, $id)
-    {
-        if ($response = $this->ensureAuthenticated()) {
-            return $response;
-        }
-
+        //Validate inputs
         $validator = Validator::make($request->all(), [
             'report_date' => 'required|date',
         ]);
-
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error.',
                 'errors' => $validator->errors()
-            ]);
+            ], 422);
         }
 
+        //Get report
         $report = DailyReport::find($id);
 
         if (!$report) {
@@ -165,15 +124,18 @@ class DailyReportController extends Controller
                 'status' => 404,
                 'message' => 'Daily report not found.',
                 'data' => null
-            ]);
+            ], 404);
         }
 
+        //Update report
         $report->update([
             'report_date' => $request->report_date,
         ]);
 
+        //Remove old details
         DailyReportDetail::where('report_id', $id)->delete();
 
+        //Insert new details
         foreach ($request->doctor_id as $i => $doctor_id) {
             DailyReportDetail::create([
                 'report_id' => $id,
@@ -184,26 +146,21 @@ class DailyReportController extends Controller
                 'notes' => $request->notes[$i] ?? null,
             ]);
         }
-
         return response()->json([
             'status' => 200,
             'message' => 'Daily report updated successfully.',
             'data' => $report
-        ]);
+        ], 200);
     }
 
-
-    /**
-     * Delete daily report
-     */
-    public function destroy($id)
-    {
+    //Function for delete report
+    public function destroy($id) {
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //get report detail
         $report = DailyReport::find($id);
-
+        //response
         if (!$report) {
             return response()->json([
                 'status' => 404,
@@ -211,10 +168,10 @@ class DailyReportController extends Controller
                 'data' => null
             ]);
         }
-
+        //delete report
         $report->delete();
         DailyReportDetail::where('report_id', $id)->delete();
-
+        //response
         return response()->json([
             'status' => 200,
             'message' => 'Daily report deleted successfully.',

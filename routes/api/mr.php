@@ -54,5 +54,7 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::get('/tour-plans/updated', [App\Http\Controllers\Api\MR\TourPlanController::class, 'updatedTourPlans']);
     //Daily visit
     Route::get('/visits', [App\Http\Controllers\Api\MR\VisitController::class, 'index']);
-
+    Route::get('/visits', [App\Http\Controllers\Api\MR\VisitController::class, 'index']);
+    Route::get('/visits', [App\Http\Controllers\Api\MR\VisitController::class, 'index']);
+    Route::get('/visits', [App\Http\Controllers\Api\MR\VisitController::class, 'index']);
 });

@@ -21,7 +21,20 @@ class CanSaleMiddleware
         if ($user && $user->user_type === 'MR' && $user->can_sale) {
             return $next($request);
         }
-        return redirect()->route('login')->with('error', 'You are not authorized to access sales routes.');
+ 
+        $errorMessage = 'You must be an MR to access this page AND have sales permissions.';
+        if ($user_detail && $user_detail->user_type) {
+            $errorMessage = 'You are currently logged in as '.$user_detail->user_type.' With sales permission. Please login with other account. ';
+        }
+
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json([
+                'status' => 403,
+                'message' => $errorMessage,
+            ], 403);
+        }
+
+        return redirect()->route('login')->with('error', $errorMessage);
     }
 
 }

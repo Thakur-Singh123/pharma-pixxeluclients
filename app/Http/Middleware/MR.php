@@ -22,7 +22,20 @@ class MR
             return $next($request);
         }
 
-        return redirect()->route('login')->with('error', 'You must be an MR to access this page.');
+        $errorMessage = 'You must be an MR to access this page.';
+
+        if ($user && $user->user_type) {
+            $errorMessage = 'You are currently logged in as '.$user->user_type.'. Please login with an MR account.';
+        }
+
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json([
+                'status' => 403,
+                'message' => $errorMessage,
+            ], 403);
+        }
+
+        return redirect()->route('login')->with('error', $errorMessage);
     }
 
 }

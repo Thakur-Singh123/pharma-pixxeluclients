@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\MR;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use App\Models\Visit;
 use App\Models\Doctor;
 use App\Models\DoctorMrAssignement;
@@ -13,14 +14,16 @@ use Illuminate\Support\Facades\Validator;
 class VisitController extends Controller
 {
     //Function for ensure user is authenticated
-    private function ensureAuthenticated() {
+    private function ensureAuthenticated(): ?JsonResponse {
+        //Check if auth login or not
         if (!Auth::check()) {
             return response()->json([
                 'status' => 401,
                 'message' => 'Unauthorized access. Please login first.',
-                'data' => null
+                'data' => null,
             ], 401);
         }
+
         return null;
     }
     

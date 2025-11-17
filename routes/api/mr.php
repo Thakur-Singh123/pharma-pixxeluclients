@@ -52,4 +52,7 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::post('/tour-plans', [App\Http\Controllers\Api\MR\TourPlanController::class, 'update']);
     Route::delete('/tour-plans/{id}', [App\Http\Controllers\Api\MR\TourPlanController::class, 'destroy']);
     Route::get('/tour-plans/updated', [App\Http\Controllers\Api\MR\TourPlanController::class, 'updatedTourPlans']);
+    //Daily visit
+    Route::get('/visits', [App\Http\Controllers\Api\MR\VisitController::class, 'index']);
+
 });

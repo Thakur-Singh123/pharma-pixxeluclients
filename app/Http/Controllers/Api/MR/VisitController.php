@@ -29,11 +29,11 @@ class VisitController extends Controller
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //all visits
         $visits = Visit::where('mr_id', Auth::id())
             ->orderBy('id', 'DESC')
             ->paginate(10);
-
+        //check
         if ($visits->total() == 0) {
             return response()->json([
                 'status' => 200,
@@ -41,7 +41,7 @@ class VisitController extends Controller
                 'data' => null
             ]);
         }
-
+        //response
         return response()->json([
             'status' => 200,
             'message' => 'Visits fetched successfully.',
@@ -63,8 +63,7 @@ class VisitController extends Controller
             'pin_code' => 'required|string',
             'visit_date' => 'required|string',
             'comments' => 'required|string',
-            'visit_type' =>
-                'required|in:doctor,bams_rmp_dental,asha_workers,health_workers,anganwadi,school,villages,city,societies,ngo,religious_places,other',
+            'visit_type' =>'required|in:doctor,bams_rmp_dental,asha_workers,health_workers,anganwadi,school,villages,city,societies,ngo,religious_places,other',
             'doctor_id' => 'required_if:visit_type,doctor',
             'religious_place_name' => 'required_if:visit_type,religious_places',
             'school_type' => 'required_if:visit_type,school',
@@ -74,7 +73,7 @@ class VisitController extends Controller
             'ngo' => 'required_if:visit_type,ngo',
             'other_visit_details' => 'required_if:visit_type,other',
         ]);
-
+        //Check
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
@@ -82,7 +81,7 @@ class VisitController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-
+        //Create visit
         $visit = Visit::create([
             'area_name' => $request->area_name,
             'area_block' => $request->area_block,
@@ -103,21 +102,20 @@ class VisitController extends Controller
             'ngo' => $request->ngo ?? null,
             'other_visit' => $request->other_visit_details ?? null,
         ]);
-
+        //respnse
         return response()->json([
             'status' => 200,
             'message' => 'Visit created successfully.',
             'data' => $visit
         ]);
     }
-
-    // ================================
-    // 3. Update Visit
-    // ================================
-    public function update(Request $request, $id)
-    {
-        if ($response = $this->ensureAuthenticated()) return $response;
-
+    
+    //Function for update visit
+    public function update(Request $request, $id) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //Validate input fields
         $validator = Validator::make($request->all(), [
             'area_name' => 'required|string',
             'area_block' => 'required|string',
@@ -126,11 +124,17 @@ class VisitController extends Controller
             'pin_code' => 'required|string',
             'visit_date' => 'required|string',
             'comments' => 'required|string',
-            'visit_type' =>
-                'required|in:doctor,bams_rmp_dental,asha_workers,health_workers,anganwadi,school,villages,city,societies,ngo,religious_places,other',
+            'visit_type' =>'required|in:doctor,bams_rmp_dental,asha_workers,health_workers,anganwadi,school,villages,city,societies,ngo,religious_places,other',
             'doctor_id' => 'required_if:visit_type,doctor',
+            'religious_place_name' => 'required_if:visit_type,religious_places',
+            'school_type' => 'required_if:visit_type,school',
+            'villages' => 'required_if:visit_type,villages',
+            'city' => 'required_if:visit_type,city',
+            'societies' => 'required_if:visit_type,societies',
+            'ngo' => 'required_if:visit_type,ngo',
+            'other_visit_details' => 'required_if:visit_type,other',
         ]);
-
+        //check
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
@@ -138,9 +142,9 @@ class VisitController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-
+        //Get visit
         $visit = Visit::find($id);
-
+        //check
         if (!$visit) {
             return response()->json([
                 'status' => 404,
@@ -148,7 +152,7 @@ class VisitController extends Controller
                 'data' => null
             ]);
         }
-
+        //update
         $visit->update([
             'area_name' => $request->area_name,
             'area_block' => $request->area_block,
@@ -167,7 +171,7 @@ class VisitController extends Controller
             'ngo' => $request->visit_type == 'ngo' ? $request->ngo : null,
             'other_visit' => $request->visit_type == 'other' ? $request->other_visit_details : null,
         ]);
-
+        //response
         return response()->json([
             'status' => 200,
             'message' => 'Visit updated successfully.',
@@ -175,15 +179,14 @@ class VisitController extends Controller
         ]);
     }
 
-    // ================================
-    // 4. Delete Visit
-    // ================================
-    public function destroy($id)
-    {
-        if ($response = $this->ensureAuthenticated()) return $response;
-
+    //Function for delete visit
+    public function destroy($id) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //get visit
         $visit = Visit::find($id);
-
+        //check
         if (!$visit) {
             return response()->json([
                 'status' => 404,
@@ -191,9 +194,9 @@ class VisitController extends Controller
                 'data' => null
             ]);
         }
-
+        //delete visit
         $visit->delete();
-
+        //response
         return response()->json([
             'status' => 200,
             'message' => 'Visit deleted successfully.',

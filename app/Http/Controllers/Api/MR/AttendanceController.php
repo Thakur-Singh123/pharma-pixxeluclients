@@ -108,25 +108,26 @@ class AttendanceController extends Controller
             ->first();
 
         if ($type === 'checkin') {
-            if ($attendance && $attendance->check_in) {
-                $error['status'] = 409;
-                $error['message'] = "Already checked in for today.";
-                return response()->json($error, 409);
-            }
+            $attendance = MRAttendance::firstOrCreate(
+                [
+                    'user_id' => $userId,
+                    'date' => $today,
+                ],
+                [
+                    'check_in' => Carbon::now()->toTimeString(),
+                    'status' => 'half',
+                ]
+            );
 
-            if (!$attendance) {
-                $attendance = new MRAttendance();
-                $attendance->user_id = $userId;
-                $attendance->date = $today;
+            if (!$attendance->check_in) {
+                $attendance->check_in = Carbon::now()->toTimeString();
+                $attendance->status = 'half';
+                $attendance->save();
             }
-
-            $attendance->check_in = Carbon::now()->toTimeString();
-            $attendance->status = 'half';
-            $attendance->save();
 
             $success['status'] = 200;
             $success['message'] = "Check-in successful.";
-            $success['data'] = $attendance;
+            $success['data'] = $attendance->fresh();
             return response()->json($success, 200);
         }
 

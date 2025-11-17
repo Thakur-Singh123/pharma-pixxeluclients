@@ -57,4 +57,9 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::post('/visits', [App\Http\Controllers\Api\MR\VisitController::class, 'store']);
     Route::post('/visits/{id}', [App\Http\Controllers\Api\MR\VisitController::class, 'update']);
     Route::delete('/visits/{id}', [App\Http\Controllers\Api\MR\VisitController::class, 'destroy']);
+    //Clients
+    Route::get('/clients', [App\Http\Controllers\Api\MR\ClientController::class, 'index']);
+    Route::post('/clients', [App\Http\Controllers\Api\MR\ClientController::class, 'store']);
+    Route::post('/clients/{id}', [App\Http\Controllers\Api\MR\ClientController::class, 'update']);
+    Route::delete('/clients/{id}', [App\Http\Controllers\Api\MR\ClientController::class, 'destroy']);
 });

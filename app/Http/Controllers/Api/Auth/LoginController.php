@@ -106,7 +106,15 @@ class LoginController extends Controller
     //Function for refresh token
     public function refreshToken(Request $request) {
         //Get refresh token
-        $refreshToken = $request->bearerToken();
+        $refreshToken = $request->input('refresh_token');
+
+        if (!$refreshToken) {
+            $refreshToken = $request->bearerToken();
+        }
+
+        if (is_string($refreshToken)) {
+            $refreshToken = trim($refreshToken);
+        }
 
         //Check if refresh token exists
         if (!$refreshToken) {

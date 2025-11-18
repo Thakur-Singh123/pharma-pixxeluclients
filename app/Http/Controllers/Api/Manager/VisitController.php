@@ -4,25 +4,41 @@ namespace App\Http\Controllers\Api\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Models\User; 
 use App\Models\Doctor;
 use App\Models\DoctorMrAssignement;
 use App\Models\Visit;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class VisitController extends Controller
 {
-    // =====================================================
-    // 1️⃣ Get All Visits (Listing + Search)
-    // =====================================================
-    public function index(Request $request)
-    {
-        $mrs = auth()->user()->mrs->pluck('id');
+    //Function for Ensure authenticated
+    private function ensureAuthenticated() {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 401,
+                'message' => "Unauthorized access. Please login first.",
+                'data' => null,
+            ], 401);
+        }
 
+        return null;
+    }
+    
+    //Function for all visits
+    public function index(Request $request) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //all mrs
+        $mrs = auth()->user()->mrs->pluck('id');
+        //query
         $query = Visit::whereIn('mr_id', $mrs)
             ->with('mr', 'doctor')
             ->orderBy('id', 'DESC');
-
+        //filter
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -38,82 +54,80 @@ class VisitController extends Controller
                     });
             });
         }
-
+        //all visits
         $visits = $query->paginate(10);
-
+        //response
         return response()->json([
             'status' => true,
             'message' => 'Visits fetched successfully',
             'data' => $visits
         ]);
     }
-
-    // =====================================================
-    // 3️⃣ Approve Visit
-    // =====================================================
-    public function approve($id)
-    {
+    
+    //Function for approve visit
+    public function approve($id) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //visit detail
         $visit = Visit::find($id);
-
+        //check if visit not found
         if (!$visit) {
             return response()->json([
                 'status' => false, 'message' => 'Visit not found'
             ], 404);
         }
-
-        
+        //check if status approved or not
         if ($visit->status == 'Approved') {
             return response()->json([
                 'status' => false,
                 'message' => 'This visit is already approved. Reject it first to approve again.'
             ], 400);
         }
-
+        //save 
         $visit->status = 'Approved';
         $visit->save();
-
+        //response
         return response()->json([
             'status' => true,
             'message' => 'Visit approved successfully'
         ]);
     }
-
-    // =====================================================
-    // 4️⃣ Reject Visit
-    // =====================================================
-    public function reject($id)
-    {
+    
+    //Function for reject visit
+    public function reject($id) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //visit detail
         $visit = Visit::find($id);
-
+        //check if visit found or not
         if (!$visit) {
             return response()->json([
                 'status' => false, 
                 'message' => 'Visit not found'
             ], 404);
         }
-
+        //check if status reject or not
         if ($visit->status == 'Reject') {
             return response()->json([
                 'status' => false,
                 'message' => 'This visit is already rejected. Approve it first to reject again.'
             ], 400);
         }
-
+        //save
         $visit->status = 'Reject';
         $visit->save();
-
+        //response
         return response()->json([
             'status' => true,
             'message' => 'Visit rejected successfully'
         ]);
     }
 
-    // =====================================================
-    // 5️⃣ Update Visit
-    // =====================================================
-    public function update(Request $request, $id)
-    {
-       if ($response = $this->ensureAuthenticated()) {
+    //Function for update visit
+    public function update(Request $request, $id) {
+        if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
         //Validation inputs fields
@@ -142,16 +156,16 @@ class VisitController extends Controller
             $error['data'] = null;
             return response()->json($error, 400);
         }
-
+        //get visit detail
         $visit = Visit::find($id);
-
+        //check if visit found r not
         if (!$visit) {
             return response()->json([
                 'status' => false,
                 'message' => 'Visit not found'
             ], 404);
         }
-
+        //update visit
         $visit->update([
             'mr_id' => $request->mr_id,
             'area_name' => $request->area_name,
@@ -171,7 +185,7 @@ class VisitController extends Controller
             'ngo' => $request->visit_type == 'ngo' ? $request->ngo : null,
             'other_visit' => $request->visit_type == 'other' ? $request->other_visit_details : null,
         ]);
-
+        //response
         return response()->json([
             'status' => true,
             'message' => 'Visit updated successfully',
@@ -179,22 +193,23 @@ class VisitController extends Controller
         ]);
     }
 
-    // =====================================================
-    // 6️⃣ Delete Visit
-    // =====================================================
-    public function delete($id)
-    {
+    //Function for delete visit
+    public function destroy($id) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //get visit detail
         $visit = Visit::find($id);
-
+        //if check visit found or not
         if (!$visit) {
             return response()->json([
                 'status' => false,
                 'message' => 'Visit not found'
             ], 404);
         }
-
+        //delete visit
         $visit->delete();
-
+        //response
         return response()->json([
             'status' => true,
             'message' => 'Visit deleted successfully'

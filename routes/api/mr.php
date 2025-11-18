@@ -25,6 +25,7 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::post('/events', [App\Http\Controllers\Api\MR\EventController::class, 'store']);
     Route::post('/events/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'update']);
     Route::delete('/events/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'destroy']);
+    Route::post('/events/status/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'updateStatus']);
     //Problems / challenges
     Route::get('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'index']);
     Route::post('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'store']);

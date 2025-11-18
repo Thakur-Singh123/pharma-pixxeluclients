@@ -21,7 +21,7 @@ class CommonController extends Controller
 
         return null;
     }
-    //function for mr doctor listing
+    //Function for mr doctor listing
     public function mr_doctor_listing(Request $request)
     {
         if($response = $this->ensureAuthenticated()) {

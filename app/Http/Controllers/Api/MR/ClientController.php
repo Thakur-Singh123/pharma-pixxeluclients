@@ -26,17 +26,18 @@ class ClientController extends Controller
         return null;
     }
 
-    // GET ALL CLIENTS
+    //Function for all clients
     public function index() {
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
+        //Get auth login detail
         $mr_id = Auth::id();
-
+        //Get clients
         $clients = Client::where('mr_id', $mr_id)
             ->orderBy('id', 'DESC')
             ->paginate(10);
-
+        //Response
         return response()->json([
             'status' => true,
             'message' => 'Clients fetched successfully.',
@@ -44,16 +45,15 @@ class ClientController extends Controller
         ], 200);
     }
 
-    // CREATE CLIENT
+    //Function for create client
     public function store(Request $request) {
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
-
+        //Validate input fields
         $validator = Validator::make($request->all(), [
             'category_type' => 'required|string',
         ]);
-
         //If validation fails
         if ($validator->fails()) {
             $error['status'] = 400;
@@ -61,11 +61,11 @@ class ClientController extends Controller
             $error['data'] = null;
             return response()->json($error, 400);
         }
-
+        //details
         $details = $this->prepareDetails($request);
-
+        //Get manager
         $manager_id = MangerMR::where('mr_id', Auth::id())->value('manager_id');
-
+        //create client
         $client = Client::create([
             'mr_id' => Auth::id(),
             'manager_id' => $manager_id,
@@ -73,7 +73,7 @@ class ClientController extends Controller
             'details' => json_encode($details),
             'status' => 'Pending',
         ]);
-
+        //respnse
         return response()->json([
             'status' => true,
             'message' => 'Client created successfully.',
@@ -81,31 +81,39 @@ class ClientController extends Controller
         ], 201);
     }
 
-    // UPDATE CLIENT
+    //Function for update client
     public function update(Request $request, $id) {
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
+        //Get client detail
         $client = Client::find($id);
-
+        //Check if client not fond
         if (!$client) {
             return response()->json([
                 'status' => false,
                 'message' => 'Client not found.'
             ], 404);
         }
-
-        $request->validate([
+        //Validate input fields
+        $validator = Validator::make($request->all(), [
             'category_type' => 'required|string',
         ]);
-
+        //If validation fails
+        if ($validator->fails()) {
+            $error['status'] = 400;
+            $error['message'] =  $validator->errors()->first();
+            $error['data'] = null;
+            return response()->json($error, 400);
+        }
+        //details
         $details = $this->prepareDetails($request);
-
+        //update client
         $client->update([
             'category_type' => $request->category_type,
             'details' => json_encode($details),
         ]);
-
+        //response
         return response()->json([
             'status' => true,
             'message' => 'Client updated successfully.',
@@ -113,30 +121,30 @@ class ClientController extends Controller
         ], 200);
     }
 
-    // DELETE CLIENT
+    //Function for delete client
     public function destroy($id) {
         if ($response = $this->ensureAuthenticated()) {
             return $response;
         }
+        //Get client detail
         $client = Client::find($id);
-
+        //Check if client not found
         if (!$client) {
             return response()->json([
                 'status' => false,
                 'message' => 'Client not found.'
             ], 404);
         }
-
+        //delete client
         $client->delete();
-
+        //response
         return response()->json([
             'status' => true,
             'message' => 'Client deleted successfully.'
         ], 200);
     }
 
-
-    // PRIVATE FUNCTION TO SET DETAILS
+    //PRIVATE FUNCTION TO SET DETAILS
     private function prepareDetails($request)
     {
         return match ($request->category_type) {

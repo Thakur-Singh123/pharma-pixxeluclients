@@ -389,4 +389,50 @@ class EventController extends Controller
             'data' => $participations,
         ], 200);
     }
+
+     /**
+     * Update event meta status (pending, completed, etc.).
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 400,
+                'message' => $validator->errors()->first(),
+                'data'    => null,
+            ], 400);
+        }
+
+        $event = Events::where('id', $id)
+            ->where('mr_id', auth()->id())
+            ->first();
+
+        if (!$event) {
+            return response()->json([
+                'status'  => 404,
+                'message' => 'Event not found.',
+                'data'    => null,
+            ], 404);
+        }
+
+        $event->status = $request->status;
+        $event->save();
+
+        $this->appendQrCode($event);
+
+        return response()->json([
+            'status'  => 200,
+            'message' => 'Event status updated successfully.',
+            'data'    => $event,
+        ], 200);
+    }
+
 }

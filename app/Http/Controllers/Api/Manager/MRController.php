@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\MangerMR;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,13 +18,11 @@ class MRController extends Controller
      */
     public function index()
     {
-        $userId = Auth::id();
-
-        if (!$userId) {
-            $error['status'] = 401;
-            $error['message'] = "Unauthorized access. Please login first.";
-            return response()->json($error, 401);
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
         }
+
+        $userId = Auth::id();
 
         $manager = User::find($userId);
 
@@ -47,13 +46,11 @@ class MRController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = Auth::id();
-
-        if (!$userId) {
-            $error['status'] = 401;
-            $error['message'] = "Unauthorized access. Please login first.";
-            return response()->json($error, 401);
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
         }
+
+        $userId = Auth::id();
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -121,13 +118,11 @@ class MRController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $userId = Auth::id();
-
-        if (!$userId) {
-            $error['status'] = 401;
-            $error['message'] = "Unauthorized access. Please login first.";
-            return response()->json($error, 401);
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
         }
+
+        $userId = Auth::id();
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -195,14 +190,11 @@ class MRController extends Controller
      */
     public function destroy($id)
     {
-        //echo $id;exit;
-        $userId = Auth::id();
-
-        if (!$userId) {
-            $error['status'] = 401;
-            $error['message'] = "Unauthorized access. Please login first.";
-            return response()->json($error, 401);
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
         }
+
+        $userId = Auth::id();
 
         $mr = User::find($id);
 
@@ -230,6 +222,19 @@ class MRController extends Controller
         $success['message'] = 'MR deleted successfully.';
         $success['data'] = null;
         return response()->json($success, 200);
+    }
+
+    private function ensureAuthenticated(): ?JsonResponse
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'status'  => 401,
+                'message' => 'Unauthorized access. Please login first.',
+                'data'    => null,
+            ], 401);
+        }
+
+        return null;
     }
 }
 

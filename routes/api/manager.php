@@ -76,4 +76,14 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
         Route::post('/approve/{id}', [App\Http\Controllers\Api\Manager\EventController::class, 'approve']);
         Route::post('/reject/{id}', [App\Http\Controllers\Api\Manager\EventController::class, 'reject']);
     });
+
+    //Task management
+    Route::prefix('tasks')->group(function () {
+        Route::get('/', [App\Http\Controllers\Api\Manager\TaskController::class, 'index']);
+        Route::post('/', [App\Http\Controllers\Api\Manager\TaskController::class, 'store']);
+        Route::post('/status/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'updateStatus']);
+        Route::post('/approve/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'approve']);
+        Route::post('/reject/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'reject']);
+        Route::post('/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'update']);
+    });
 });

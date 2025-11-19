@@ -139,24 +139,24 @@ class TaskController extends Controller
         }
     }
 
-    //Function for manager assgin tasks
     public function assign_manger() {
         //Get manager tasks
-        $manager_tasks = Task::OrderBy('ID','DESC')->where('created_by', 'Manager')->paginate(5);
+        $manager_id = auth()->user()->managers->pluck('id')->first();
+        $manager_tasks = Task::OrderBy('ID','DESC')->where('manager_id', auth()->id())->where('created_by', 'Manager')->paginate(5);
         return view('mr.tasks.all-tasks-manager', compact('manager_tasks'));
     }
 
     //Function for himself tasks
     public function himself() {
         //Get himself tasks
-        $himself_tasks = Task::OrderBy('ID','DESC')->where('created_by', 'mr')->paginate(5);
+        $himself_tasks = Task::OrderBy('ID','DESC')->where('mr_id', auth()->id())->where('created_by', 'mr')->paginate(5);
         return view('mr.tasks.all-tasks-mr', compact('himself_tasks'));
     }
 
     //function for pending approval
     public function pending_approval() {
         //Get pending tasks
-        $pending_tasks = Task::OrderBy('ID','DESC')->where('created_by', 'mr')->where('is_active', 0)->paginate(5);
+        $pending_tasks = Task::OrderBy('ID','DESC')->where('mr_id', auth()->id())->where('created_by', 'mr')->where('is_active', 0)->paginate(5);
         return view('mr.tasks.pending-approval', compact('pending_tasks'));
     }
 

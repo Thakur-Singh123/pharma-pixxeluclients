@@ -12,8 +12,24 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Visit Plans</h4>
+                                <form method="GET" action="{{ route('manager.visit-plans.index') }}">
+                                    <select name="status" class="form-control" onchange="this.form.submit()">
+                                        <option value="">Filter by Status</option>
+                                        <option value="open" {{ request('open') == 'open' ? 'selected' : '' }}>
+                                            Open</option>
+                                        <option value="interested"
+                                            {{ request('status') == 'interested' ? 'selected' : '' }}>
+                                            Interested</option>
+                                        <option value="assigned"
+                                            {{ request('status') == 'assigned' ? 'selected' : '' }}>
+                                            Assigned</option>
+                                        <option value="completed"
+                                            {{ request('completed') == 'assigned' ? 'selected' : '' }}>
+                                            Completed</option>
+                                    </select>
+                                </form>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

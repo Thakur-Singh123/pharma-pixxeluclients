@@ -102,7 +102,7 @@
                                                                                 Approve
                                                                             </button>
                                                                         </form>
-                                                                        <form
+                                                                        <!-- <form
                                                                             action="{{ route('manager.visit-plans.action', $intrested_mr->id) }}"
                                                                             method="POST" style="display:inline;">
                                                                             @csrf
@@ -113,7 +113,7 @@
                                                                                 >
                                                                                 Reject
                                                                             </button>
-                                                                        </form>
+                                                                        </form> -->
                                                                     </td>
                                                                 </tr>
                                                             @empty

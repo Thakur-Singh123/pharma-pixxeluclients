@@ -1,245 +1,244 @@
 <?php
 
-namespace App\Http\Controllers\Api\Manager;
+namespace App\Http\Controllers\Api\MR;
 
 use App\Http\Controllers\Controller;
 use App\Models\MRAttendance;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades/Auth;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
+    /**
+     * Retrieve attendance details (daily or monthly) for the authenticated MR.
+     */
     public function index(Request $request, ?string $type = null)
     {
-        if ($response = $this->ensureAuthenticated()) {
-            return $response;
-        }
-
         $userId = Auth::id();
 
-        $manager = User::with('mrs')->find($userId);
-
-        if (!$manager) {
-            return response()->json([
-                'status'  => 404,
-                'message' => 'Manager not found.',
-            ], 404);
+        if (!$userId) {
+            $error['status'] = 401;
+            $error['message'] = "Unauthorized access. Please login first.";
+            return response()->json($error, 401);
         }
 
-        $mrs          = $manager->mrs;
-        $resolvedType = $this->normalizeType($type ?? $request->query('type'));
+        $typeInput = strtolower(str_replace(['-', '_', ' '], '', $type ?? $request->input('type', 'daily')));
+        $type = match ($typeInput) {
+            'daily', 'today', 'day' => 'daily',
+            'monthly', 'month' => 'monthly',
+            default => null,
+        };
 
-        if (!$resolvedType) {
-            return response()->json([
-                'status'  => 422,
-                'message' => 'Invalid type. Allowed: daily, monthly.',
-            ], 422);
+        if (!$type) {
+            $error['status'] = 422;
+            $error['message'] = "Invalid attendance type provided. Allowed values: daily, monthly.";
+            return response()->json($error, 422);
         }
 
-        // DAILY
-        if ($resolvedType === 'daily') {
+        if ($type === 'daily') {
             $dateInput = $request->query('date');
 
             try {
                 $date = $dateInput ? Carbon::parse($dateInput) : Carbon::today();
-            } catch (\Exception $e) {
-                return response()->json([
-                    'status'  => 422,
-                    'message' => 'Invalid date format. Use YYYY-MM-DD.',
-                ], 422);
+            } catch (\Exception $exception) {
+                $error['status'] = 422;
+                $error['message'] = "Invalid date format. Please use a valid ISO date (YYYY-MM-DD).";
+                return response()->json($error, 422);
             }
 
-            $payload = $this->dailyPayload($mrs, $date);
+            $payload = $this->buildDailyAttendancePayload($userId, $date);
+            $message = "Daily attendance retrieved successfully.";
+        } else {
+            $month = $request->query('month', now()->month);
+            $year = $request->query('year', now()->year);
 
-            return response()->json([
-                'status'  => 200,
-                'message' => 'Daily attendance retrieved.',
-                'data'    => $payload,
-            ]);
+            if (!filter_var($month, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 12]])) {
+                $error['status'] = 422;
+                $error['message'] = "Invalid month provided. Month must be between 1 and 12.";
+                return response()->json($error, 422);
+            }
+
+            if (!filter_var($year, FILTER_VALIDATE_INT)) {
+                $error['status'] = 422;
+                $error['message'] = "Invalid year provided.";
+                return response()->json($error, 422);
+            }
+
+            try {
+                $month = (int) $month;
+                $year = (int) $year;
+                $payload = $this->buildMonthlyAttendancePayload($userId, $month, $year);
+            } catch (\Exception $exception) {
+                $error['status'] = 422;
+                $error['message'] = "Invalid month/year combination provided.";
+                return response()->json($error, 422);
+            }
+
+            $message = "Monthly attendance retrieved successfully.";
         }
 
-        // MONTHLY
-        $month = (int) $request->query('month', now()->month);
-        $year  = (int) $request->query('year', now()->year);
+        $success['status'] = 200;
+        $success['message'] = $message;
+        $success['data'] = $payload;
 
-        if ($month < 1 || $month > 12) {
-            return response()->json([
-                'status'  => 422,
-                'message' => 'Month must be between 1–12.',
-            ], 422);
-        }
+        return response()->json($success, 200);
+    }
 
-        if (!is_numeric($year)) {
-            return response()->json([
-                'status'  => 422,
-                'message' => 'Invalid year.',
-            ], 422);
-        }
-
-        try {
-            Carbon::create($year, $month, 1);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => 422,
-                'message' => 'Invalid month/year.',
-            ], 422);
-        }
-
-        $payload = $this->monthlyPayload($mrs, $month, $year);
-
-        return response()->json([
-            'status'  => 200,
-            'message' => 'Monthly attendance retrieved.',
-            'data'    => $payload,
+    //Function for handle check-in and check-out attendance
+    public function mark(Request $request) {
+        $request->validate([
+            'type' => 'required|string',
         ]);
+
+        $type = strtolower(str_replace(['-', '_'], '', $request->input('type')));
+
+        //Get auth login detail
+        $userId = Auth::id();
+        //check if auth exists or not
+        if (!$userId) {
+            $error['status'] = 401;
+            $error['message'] = "Unauthorized access.";
+            return response()->json($error, 401);
+        }
+        //Get current day
+        $today = Carbon::today()->toDateString();
+        $attendance = MRAttendance::where('user_id', $userId)
+            ->whereDate('date', $today)
+            ->first();
+
+        if ($type === 'checkin') {
+            if ($attendance && $attendance->check_in) {
+                $error['status'] = 409;
+                $error['message'] = "Already checked in for today.";
+                return response()->json($error, 409);
+            }
+
+            if (!$attendance) {
+                $attendance = new MRAttendance();
+                $attendance->user_id = $userId;
+                $attendance->date = $today;
+            }
+
+            $attendance->check_in = Carbon::now()->toTimeString();
+            $attendance->status = 'half';
+            $attendance->save();
+
+            $success['status'] = 200;
+            $success['message'] = "Check-in successful.";
+            $success['data'] = $attendance;
+            return response()->json($success, 200);
+        }
+
+        if ($type === 'checkout') {
+            if (!$attendance || !$attendance->check_in) {
+                $error['status'] = 404;
+                $error['message'] = "No check-in found for today.";
+                return response()->json($error, 404);
+            }
+
+            if ($attendance->check_out) {
+                $error['status'] = 409;
+                $error['message'] = "Already checked out for today.";
+                return response()->json($error, 409);
+            }
+
+            $attendance->check_out = Carbon::now()->toTimeString();
+
+            $checkIn = Carbon::parse($attendance->check_in);
+            $checkOut = Carbon::parse($attendance->check_out);
+            $hoursWorked = $checkIn->diffInHours($checkOut);
+
+            if ($hoursWorked >= 8) {
+                $attendance->status = 'present';
+            } elseif ($hoursWorked >= 4) {
+                $attendance->status = 'half';
+            } else {
+                $attendance->status = 'absent';
+            }
+
+            $attendance->save();
+
+            $success['status'] = 200;
+            $success['message'] = "Check-out successful.";
+            $success['data'] = $attendance;
+            return response()->json($success, 200);
+        }
+
+        $error['status'] = 422;
+        $error['message'] = "Invalid attendance type provided.";
+        return response()->json($error, 422);
     }
 
-    // ----------------------------------------------------------
-    // TYPE NORMALIZER
-    // ----------------------------------------------------------
-
-    private function normalizeType(?string $type): ?string
+    private function buildDailyAttendancePayload(int $userId, Carbon $date): array
     {
-        if (!$type) return 'daily';
-
-        $t = strtolower(str_replace(['-', '_', ' '], '', $type));
-
-        return match ($t) {
-            'daily', 'day', 'today' => 'daily',
-            'monthly', 'month'      => 'monthly',
-            default                 => null,
-        };
-    }
-
-    // ----------------------------------------------------------
-    // DAILY PAYLOAD
-    // ----------------------------------------------------------
-
-    private function dailyPayload($mrs, Carbon $date): array
-    {
-        $mrIds      = $mrs->pluck('id')->all();
         $dateString = $date->toDateString();
+        $attendance = MRAttendance::where('user_id', $userId)
+            ->whereDate('date', $dateString)
+            ->first();
 
-        $attendances = empty($mrIds)
-            ? collect()
-            : MRAttendance::whereIn('user_id', $mrIds)
-                ->whereDate('date', $dateString)
-                ->get()
-                ->keyBy('user_id');
-
-        $records = $mrs->map(function ($mr) use ($attendances, $dateString) {
-            $attendance = $attendances->get($mr->id);
-
-            return [
-                'mr'        => $this->formatMr($mr),
-                'attendance' => [
-                    'date'        => $dateString,
-                    'status'      => $attendance->status ?? 'absent',
-                    'check_in'    => $attendance->check_in ?? null,
-                    'check_out'   => $attendance->check_out ?? null,
-                    'is_recorded' => (bool) $attendance,
-                ],
-            ];
-        })->values()->all();
+        $record = [
+            'date' => $dateString,
+            'check_in' => $attendance?->check_in,
+            'check_out' => $attendance?->check_out,
+            'status' => $attendance?->status ?? 'absent',
+            'is_recorded' => (bool) $attendance,
+        ];
 
         return [
-            'type'    => 'daily',
-            'filters' => ['date' => $dateString],
-            'records' => $records,
+            'type' => 'daily',
+            'filters' => [
+                'date' => $dateString,
+            ],
+            'records' => [$record],
+            'summary' => [
+                'status' => $record['status'],
+                'is_recorded' => $record['is_recorded'],
+            ],
         ];
     }
 
-    // ----------------------------------------------------------
-    // MONTHLY PAYLOAD
-    // ----------------------------------------------------------
-
-    private function monthlyPayload($mrs, int $month, int $year): array
+    private function buildMonthlyAttendancePayload(int $userId, int $month, int $year): array
     {
-        $mrIds = $mrs->pluck('id')->all();
-
-        $attendanceList = empty($mrIds)
-            ? collect()
-            : MRAttendance::whereIn('user_id', $mrIds)
-                ->whereMonth('date', $month)
-                ->whereYear('date', $year)
-                ->get();
-
-        // Indexing by MR + DATE
-        $index = [];
-        foreach ($attendanceList as $att) {
-            $date = Carbon::parse($att->date)->toDateString();
-            $index[$att->user_id][$date] = $att;
-        }
+        $attendances = MRAttendance::where('user_id', $userId)
+            ->whereMonth('date', $month)
+            ->whereYear('date', $year)
+            ->get()
+            ->keyBy(fn ($attendance) => Carbon::parse($attendance->date)->toDateString());
 
         $daysInMonth = Carbon::create($year, $month, 1)->daysInMonth;
+        $records = [];
+        $summary = [];
 
-        $records = $mrs->map(function ($mr) use ($index, $daysInMonth, $month, $year) {
-            $days = [];
-            $summary = [];
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $date = Carbon::create($year, $month, $day)->toDateString();
+            $attendance = $attendances[$date] ?? null;
+            $status = $attendance?->status ?? 'absent';
 
-            for ($day = 1; $day <= $daysInMonth; $day++) {
-                $date       = Carbon::create($year, $month, $day)->toDateString();
-                $attendance = $index[$mr->id][$date] ?? null;
-                $status     = $attendance->status ?? 'absent';
-
-                $summary[$status] = ($summary[$status] ?? 0) + 1;
-
-                $days[] = [
-                    'date'        => $date,
-                    'status'      => $status,
-                    'check_in'    => $attendance->check_in ?? null,
-                    'check_out'   => $attendance->check_out ?? null,
-                    'is_recorded' => (bool) $attendance,
-                ];
-            }
-
-            ksort($summary);
-
-            return [
-                'mr' => $this->formatMr($mr),
-                'attendance' => [
-                    'days'    => $days,
-                    'summary' => array_merge(['total_days' => $daysInMonth], $summary),
-                ],
+            $records[] = [
+                'date' => $date,
+                'check_in' => $attendance?->check_in,
+                'check_out' => $attendance?->check_out,
+                'status' => $status,
+                'is_recorded' => (bool) $attendance,
             ];
-        })->values()->all();
 
-        return [
-            'type'    => 'monthly',
-            'filters' => ['month' => $month, 'year' => $year],
-            'records' => $records,
-        ];
-    }
-
-    private function ensureAuthenticated(): ?JsonResponse
-    {
-        if (!Auth::check()) {
-            return response()->json([
-                'status'  => 401,
-                'message' => 'Unauthorized access. Please login first.',
-                'data'    => null,
-            ], 401);
+            $summary[$status] = ($summary[$status] ?? 0) + 1;
         }
 
-        return null;
-    }
+        ksort($summary);
 
-    // ----------------------------------------------------------
-    // FORMAT MR DATA
-    // ----------------------------------------------------------
-
-    private function formatMr($mr): array
-    {
         return [
-            'id'            => $mr->id,
-            'name'          => $mr->name,
-            'employee_code' => $mr->employee_code,
-            'territory'     => $mr->territory,
-            'city'          => $mr->city,
-            'state'         => $mr->state,
+            'type' => 'monthly',
+            'filters' => [
+                'month' => $month,
+                'year' => $year,
+            ],
+            'records' => $records,
+            'summary' => array_merge(
+                ['total_days' => $daysInMonth],
+                $summary
+            ),
         ];
     }
 }

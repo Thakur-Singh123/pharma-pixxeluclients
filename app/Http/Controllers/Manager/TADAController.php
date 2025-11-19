@@ -85,6 +85,7 @@ class TADAController extends Controller
                 'da_amount' => $request->da_amount,
                 'total_amount' => $total_amount,
                 'mode_of_travel' => $request->mode_of_travel,
+                'outstation_stay' => $request->outstation_stay,
                 'purpose_of_visit' => $request->purpose,
                 'remarks' => $request->remarks,
                 'attachment' => $attachmentPath,

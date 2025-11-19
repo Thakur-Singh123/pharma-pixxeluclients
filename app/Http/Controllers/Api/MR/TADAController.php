@@ -79,7 +79,7 @@ class TADAController extends Controller
             'outstation_stay' => 'required|string',
             'purpose' => 'required|string',
             'remarks' => 'nullable|string',
-            'attachment' => 'required|file',
+            //'attachment' => 'required|file',
         ]);
         //If validation fails
         if ($validator->fails()) {
@@ -152,7 +152,7 @@ class TADAController extends Controller
             'outstation_stay' => 'required|string',
             'purpose' => 'required|string',
             'remarks' => 'nullable|string',
-            'attachment' => 'nullable|file',
+            //'attachment' => 'nullable|file',
         ]);
 
         if ($validator->fails()) {

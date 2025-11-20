@@ -101,7 +101,7 @@ class VisitPlanController extends Controller
                 'status' => true,
                 'message' => 'Visit plan created successfully.',
                 'data' => $plan
-            ], 201);
+            ], 200);
         }
         //response
         return response()->json([
@@ -186,7 +186,7 @@ class VisitPlanController extends Controller
             'status' => true,
             'message' => 'Comment added successfully.',
             'data' => $comment
-        ], 201);
+        ], 200);
     }
 
     //Function for update visit plan

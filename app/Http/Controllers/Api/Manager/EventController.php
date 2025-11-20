@@ -255,10 +255,10 @@ class EventController extends Controller
         $this->appendQrCode($event);
 
         return response()->json([
-            'status'  => 201,
+            'status'  => 200,
             'message' => 'Event created successfully.',
             'data'    => $event,
-        ], 201);
+        ], 200);
     }
 
     /**

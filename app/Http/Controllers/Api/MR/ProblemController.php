@@ -74,10 +74,10 @@ class ProblemController extends Controller
         $problem = Problem::create($this->buildPayload($request));
 
         return response()->json([
-            'status' => 201,
+            'status' => 200,
             'message' => 'Problem challenge created successfully.',
             'data' => $problem,
-        ], 201);
+        ], 200);
     }
 
 

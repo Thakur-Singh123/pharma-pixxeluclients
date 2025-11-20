@@ -78,7 +78,7 @@ class ClientController extends Controller
             'status' => true,
             'message' => 'Client created successfully.',
             'data' => $client
-        ], 201);
+        ], 200);
     }
 
     //Function for update client

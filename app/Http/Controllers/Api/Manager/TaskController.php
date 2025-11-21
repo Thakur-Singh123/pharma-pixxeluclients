@@ -181,8 +181,7 @@ class TaskController extends Controller
             'end_date'    => $request->end_date,
             'pin_code'    => $request->pin_code,
             'created_by'  => 'manager',
-            'status'      => 'Pending',
-            'is_approval' => 'Pending',
+            'status'      => 'pending',
             'is_active'   => 1,
         ]);
 
@@ -345,7 +344,6 @@ class TaskController extends Controller
         }
 
         $task->is_active = 1;
-        $task->is_approval = 'Approved';
         $updated = $task->save();
         if($updated) {
             $tasks = MonthlyTask::where('task_id', $id)->update(['is_approval' => true]);
@@ -379,7 +377,6 @@ class TaskController extends Controller
         }
 
         $task->is_active = 0;
-        $task->is_approval = 'Rejected';
         $updated = $task->save();
         if($updated) {
         $tasks = MonthlyTask::where('task_id', $id)->update(['is_approval' => false]);

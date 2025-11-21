@@ -87,7 +87,6 @@ class TaskController extends Controller
             'pin_code' => $request->pin_code,
             'created_by' => 'manager',
             'status' => 'Pending',
-            'is_approval' => 'Pending',
             'is_active' => 1,
         ]);
 
@@ -244,6 +243,7 @@ class TaskController extends Controller
         if($tasks->isEmpty()) {
             return back()->with('error', 'Tasks already approved');
         }
+        $taskIds = $tasks->pluck('task_id')->filter();
         //Approve all tasks
         $tasks->each(function($task) {
             $task->update([
@@ -251,6 +251,12 @@ class TaskController extends Controller
                 'updated_at'  => now(),
             ]);
         });
+        if ($taskIds->isNotEmpty()) {
+            Task::whereIn('id', $taskIds)->update([
+                'is_active'  => 1,
+                'updated_at' => now(),
+            ]);
+        }
 
         return back()->with('success', 'All tasks approved successfully');
     }
@@ -264,6 +270,7 @@ class TaskController extends Controller
         if ($tasks->isEmpty()) {
             return back()->with('error', 'Tasks already reject!');
         }
+        $taskIds = $tasks->pluck('task_id')->filter();
         //Check if tasks already rejected or not
         $tasks->each(function($task) {
             $task->update([
@@ -271,6 +278,12 @@ class TaskController extends Controller
                 'updated_at'  => now(),
             ]);
         });
+        if ($taskIds->isNotEmpty()) {
+            Task::whereIn('id', $taskIds)->update([
+                'is_active'  => 0,
+                'updated_at' => now(),
+            ]);
+        }
         
         return back()->with('success', 'Tasks rejected successfully.');
     }

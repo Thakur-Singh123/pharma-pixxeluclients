@@ -88,4 +88,13 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
         Route::post('/reject/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'reject']);
         Route::post('/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'update']);
     });
+
+    //Daily MR reports
+    Route::prefix('daily-reports')->group(function () {
+        Route::get('/', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'index']);
+        Route::get('/export', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'export']);
+        Route::post('/{id}', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'update']);
+        Route::post('/approve/{id}', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'approve']);
+        Route::post('/reject/{id}', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'reject']);
+    });
 });

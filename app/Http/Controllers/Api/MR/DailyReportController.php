@@ -33,6 +33,7 @@ class DailyReportController extends Controller
         }
         //all reports
         $reports = DailyReport::where('mr_id', Auth::id())
+            ->with('report_details')
             ->orderBy('id', 'DESC')
             ->paginate(10);
 

@@ -74,17 +74,17 @@ class TourPlanController extends Controller
         if ($existingPlan) {
             if ($existingPlan->approval_status === 'Approved') {
                 return response()->json([
-                    'status' => 409,
+                    'status' => 400,
                     'message' => 'This tour plan is already approved. Delete to modify.',
                     'data' => null
-                ], 409);
+                ], 400);
             }
             if ($existingPlan->approval_status === 'Pending') {
                 return response()->json([
-                    'status' => 409,
+                    'status' => 400,
                     'message' => 'This tour plan is pending manager approval.',
                     'data' => null
-                ], 409);
+                ], 400);
             }
         }
         //create or update tour plan
@@ -123,7 +123,7 @@ class TourPlanController extends Controller
         $tourPlan = TaskTourPlan::find($id);
         if (!$tourPlan) {
             return response()->json([
-                'status' => 404,
+                'status' => 400,
                 'message' => 'Tour plan not found.',
                 'data' => null
             ]);
@@ -143,7 +143,7 @@ class TourPlanController extends Controller
         }
         //response
         return response()->json([
-            'status' => 500,
+            'status' => 400,
             'message' => 'Something went wrong!',
             'data' => null
         ]);

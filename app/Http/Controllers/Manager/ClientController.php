@@ -161,4 +161,16 @@ class ClientController extends Controller
             return back()->with('error', 'Opps something went wrong!');
         }
     }
+
+    //Function for delete client
+    public function destroy($id) {
+        //delete client
+        $is_delete_client = Client::where('id', $id)->delete();
+        //Check if client deleted or not
+        if ($is_delete_client) {
+            return redirect()->route('manager.clients.index')->with('success', 'Client deleted successfully.');
+        } else {
+            return back()->with('error', 'Opps something went wrong!');
+        }
+    }
 }

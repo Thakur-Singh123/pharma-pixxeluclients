@@ -37,15 +37,33 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
     //Common listings
     Route::get('/mrs', [App\Http\Controllers\Api\Manager\CommonController::class, 'mrListing']);
     Route::get('/doctors', [App\Http\Controllers\Api\Manager\CommonController::class, 'doctorListing']);
-    //ReferredPatient
+    //ReferredPatients
     Route::get('/referred-patients', [App\Http\Controllers\Api\Manager\PatientController::class, 'index']);
     Route::post('/referred-patient-approve/{id}', [App\Http\Controllers\Api\Manager\PatientController::class, 'approve_patient']);
     Route::post('/referred-patient-reject/{id}', [App\Http\Controllers\Api\Manager\PatientController::class, 'reject_patient']);
     Route::post('/referred-patient/{id}', [App\Http\Controllers\Api\Manager\PatientController::class, 'update']);
     Route::delete('/referred-patient/{id}', [App\Http\Controllers\Api\Manager\PatientController::class, 'destroy']);
-
-
-
+    //Clients
+    Route::get('/clients', [App\Http\Controllers\Api\Manager\ClientController::class, 'index']);
+    Route::post('/client/approve/{id}', [App\Http\Controllers\Api\Manager\ClientController::class, 'approve']);
+    Route::post('/client/reject/{id}', [App\Http\Controllers\Api\Manager\ClientController::class, 'reject']);
+    Route::post('/client/{id}', [App\Http\Controllers\Api\Manager\ClientController::class, 'update']);
+    Route::delete('/client/{id}', [App\Http\Controllers\Api\Manager\ClientController::class, 'destroy']);
+    //VisitPlans
+    Route::post('/visit-plan', [App\Http\Controllers\Api\Manager\VisitPlanController::class, 'store']);
+    Route::get('/visit-plans', [App\Http\Controllers\Api\Manager\VisitPlanController::class, 'index']);
+    Route::post('/visit-plan/status/{id}', [App\Http\Controllers\Api\Manager\VisitPlanController::class, 'updateStatus']);
+    Route::post('/visit-plan/comment', [App\Http\Controllers\Api\Manager\VisitPlanController::class, 'addComment']);
+    Route::post('/visit-plan/{id}', [App\Http\Controllers\Api\Manager\VisitPlanController::class, 'update']);
+    Route::delete('/visit-plan/{id}', [App\Http\Controllers\Api\Manager\VisitPlanController::class, 'destroy']);
+    Route::get('/visit-plans/interested', [App\Http\Controllers\Api\Manager\VisitPlanController::class, 'interestedMRS']);
+    Route::post('/visit-plan/interest/{id}', [App\Http\Controllers\Api\Manager\VisitPlanController::class, 'approveInterest']);
+    //TourPlans
+    Route::get('/tour-plans', [App\Http\Controllers\Api\Manager\TourPlanController::class, 'index']);
+    Route::post('/tour-plan/{id}', [App\Http\Controllers\Api\Manager\TourPlanController::class, 'update']);
+    Route::post('/tour-plan/approve/{id}', [App\Http\Controllers\Api\Manager\TourPlanController::class, 'approve_tour_plan']);
+    Route::post('/tour-plan/reject/{id}', [App\Http\Controllers\Api\Manager\TourPlanController::class, 'reject_tour_plan']);
+    
     //Event management
     Route::prefix('events')->group(function () {
         Route::get('/', [App\Http\Controllers\Api\Manager\EventController::class, 'index']);

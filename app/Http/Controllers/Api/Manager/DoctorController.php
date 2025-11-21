@@ -125,7 +125,7 @@ class DoctorController extends Controller
             'status' => true,
             'message' => 'Doctor created successfully.',
             'data' => $doctor,
-        ], 201);
+        ], 200);
     }
 
     //Function for update doctor

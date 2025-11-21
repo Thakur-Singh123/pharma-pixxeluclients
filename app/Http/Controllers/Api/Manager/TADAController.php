@@ -84,7 +84,8 @@ class TADAController extends Controller
         //response
         return response()->json([
             'status' => true,
-            'message' => 'TADA approved successfully'
+            'message' => 'TADA approved successfully',
+            'data' => 'null'
         ]);
     }
 
@@ -117,7 +118,8 @@ class TADAController extends Controller
         //response
         return response()->json([
             'status' => true,
-            'message' => 'TADA rejected successfully'
+            'message' => 'TADA rejected successfully',
+            'data' => 'null'
         ]);
     }
 
@@ -173,6 +175,7 @@ class TADAController extends Controller
             'total_amount' => $total,
             'mode_of_travel' => $request->mode_of_travel,
             'purpose_of_visit' => $request->purpose,
+            'outstation_stay' => $request->outstation_stay,
             'remarks' => $request->remarks,
             'attachment' => $filename,
             'approved_by' => null,

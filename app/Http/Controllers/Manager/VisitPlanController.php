@@ -14,9 +14,17 @@ use Illuminate\Http\Request;
 class VisitPlanController extends Controller
 {
     //Function for show all visit plans   
-    public function index() {
-        //Get visit plans
-        $visit_plans = VisitPlan::OrderBy('ID', 'DESC')->where('created_by', auth()->id())->with('comments')->paginate(10);
+    public function index(Request $request) {
+        //query
+        $query = VisitPlan::OrderBy('ID', 'DESC')
+            ->where('created_by', auth()->id())
+            ->with('comments');
+            //filter
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+        //Get visits
+        $visit_plans = $query->paginate(10);
         return view('manager.visit_plans.index', compact('visit_plans'));
     }
 

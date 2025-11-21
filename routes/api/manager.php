@@ -8,6 +8,8 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
     Route::get('/dashboard', [App\Http\Controllers\Api\Manager\DashboardController::class, 'dashboard']); 
     //Attendance
     Route::get('/attendance/{type?}', [App\Http\Controllers\Api\Manager\AttendanceController::class, 'index']);
+    //Calendar
+    Route::get('/calendar/{type?}', [App\Http\Controllers\Api\Manager\CalendarController::class, 'calendar']);
     //MR management
     Route::get('/mrs', [App\Http\Controllers\Api\Manager\MRController::class, 'index']);
     Route::post('/mrs', [App\Http\Controllers\Api\Manager\MRController::class, 'store']);
@@ -85,5 +87,14 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
         Route::post('/approve/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'approve']);
         Route::post('/reject/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'reject']);
         Route::post('/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'update']);
+    });
+
+    //Daily MR reports
+    Route::prefix('daily-reports')->group(function () {
+        Route::get('/', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'index']);
+        Route::get('/export', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'export']);
+        Route::post('/{id}', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'update']);
+        Route::post('/approve/{id}', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'approve']);
+        Route::post('/reject/{id}', [App\Http\Controllers\Api\Manager\MRDailyReportController::class, 'reject']);
     });
 });

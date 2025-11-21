@@ -76,7 +76,6 @@ class TaskController extends Controller
             'end_date' => $request->end_date,
             'created_by' => 'mr',
             'status' => 'Pending',
-            'is_approval' => 'Pending',
             'is_active' => 0,
         ]);
         //Check if task created or not
@@ -139,10 +138,11 @@ class TaskController extends Controller
         }
     }
 
+    //Function for manager assgin tasks
     public function assign_manger() {
         //Get manager tasks
         $manager_id = auth()->user()->managers->pluck('id')->first();
-        $manager_tasks = Task::OrderBy('ID','DESC')->where('manager_id', auth()->id())->where('created_by', 'Manager')->paginate(5);
+        $manager_tasks = Task::OrderBy('ID','DESC')->where('manager_id', $manager_id)->where('created_by', 'Manager')->where('mr_id', auth()->id())->paginate(5);
         return view('mr.tasks.all-tasks-manager', compact('manager_tasks'));
     }
 

@@ -8,6 +8,8 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
     Route::get('/dashboard', [App\Http\Controllers\Api\Manager\DashboardController::class, 'dashboard']); 
     //Attendance
     Route::get('/attendance/{type?}', [App\Http\Controllers\Api\Manager\AttendanceController::class, 'index']);
+    //Calendar
+    Route::get('/calendar/{type?}', [App\Http\Controllers\Api\Manager\CalendarController::class, 'calendar']);
     //MR management
     Route::get('/mrs', [App\Http\Controllers\Api\Manager\MRController::class, 'index']);
     Route::post('/mrs', [App\Http\Controllers\Api\Manager\MRController::class, 'store']);

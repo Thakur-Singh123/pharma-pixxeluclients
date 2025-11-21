@@ -26,6 +26,16 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::post('/events/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'update']);
     Route::delete('/events/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'destroy']);
     Route::post('/events/status/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'updateStatus']);
+
+    //Tasks
+    Route::get('/tasks', [App\Http\Controllers\Api\MR\TaskController::class, 'index']);
+    Route::get('/tasks/pending-approval', [App\Http\Controllers\Api\MR\TaskController::class, 'pendingForApproval']);
+    Route::get('/tasks/manager', [App\Http\Controllers\Api\MR\TaskController::class, 'assign_manger']);
+    Route::get('/tasks/self', [App\Http\Controllers\Api\MR\TaskController::class, 'himself']);
+    Route::post('/tasks', [App\Http\Controllers\Api\MR\TaskController::class, 'store']);
+    Route::post('/tasks/{id}', [App\Http\Controllers\Api\MR\TaskController::class, 'update']);
+    Route::post('/tasks/status/{id}', [App\Http\Controllers\Api\MR\TaskController::class, 'updateStatus']);
+
     //Problems / challenges
     Route::get('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'index']);
     Route::post('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'store']);

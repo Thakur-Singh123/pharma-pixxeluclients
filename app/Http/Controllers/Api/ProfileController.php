@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\UserResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -75,6 +76,49 @@ class ProfileController extends Controller
         $success['data'] = UserResponseHelper::format($user);
 
         return response()->json($success, 200);
+    }
+
+    //Function for change password
+    public function change_password(Request $request) {
+        //Validate input fields
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:6',
+        ]);
+        //Validation error response
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 400,
+                'message' => $validator->errors()->first(),
+                'data'    => null
+            ], 400);
+        }
+        //Get Auth User
+        $user = Auth::user();
+        //Check auth exists or not
+        if (!$user) {
+            return response()->json([
+                'status'  => 401,
+                'message' => 'Unauthorized user',
+                'data'    => null
+            ], 401);
+        }
+        //Check if confirm password match password
+        if ($request->password !== $request->confirm_password) {
+            return response()->json([
+                'status'  => 400,
+                'message' => 'New password and confirm password do not match.',
+                'data'    => null
+            ], 400);
+        }
+        //Update Password
+        $user->password = Hash::make($request->password);
+        $user->save();
+        //response
+        return response()->json([
+            'status'  => 200,
+            'message' => 'Password changed successfully.',
+            'data'    => null
+        ], 200);
     }
 
     /**

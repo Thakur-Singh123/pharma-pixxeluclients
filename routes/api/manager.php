@@ -65,6 +65,12 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
     Route::post('/tour-plan/{id}', [App\Http\Controllers\Api\Manager\TourPlanController::class, 'update']);
     Route::post('/tour-plan/approve/{id}', [App\Http\Controllers\Api\Manager\TourPlanController::class, 'approve_tour_plan']);
     Route::post('/tour-plan/reject/{id}', [App\Http\Controllers\Api\Manager\TourPlanController::class, 'reject_tour_plan']);
+    //Sales
+    Route::get('/sales', [App\Http\Controllers\Api\Manager\SalesController::class, 'index']);
+    Route::post('/sale/approve/{id}', [App\Http\Controllers\Api\Manager\SalesController::class, 'approve']);
+    Route::post('/sale/reject/{id}', [App\Http\Controllers\Api\Manager\SalesController::class, 'reject']);
+    Route::post('/sale/{id}', [App\Http\Controllers\Api\Manager\SalesController::class, 'update']);
+    Route::delete('/sale/{id}', [App\Http\Controllers\Api\Manager\SalesController::class, 'destroy']);
     
     //Event management
     Route::prefix('events')->group(function () {

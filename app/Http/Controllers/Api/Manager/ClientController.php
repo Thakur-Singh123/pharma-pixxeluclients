@@ -120,7 +120,7 @@ class ClientController extends Controller
             return response()->json($error, 400);
         }
         //ATEGORY DETAILS CREATION
-        $details = $this->prepareCategoryDetails($request);
+        $details = $this->prepareDetails($request);
         //get client detail
         $client = Client::find($id);
         if (!$client) {
@@ -165,94 +165,67 @@ class ClientController extends Controller
     }
 
     //Function for category details
-    private function prepareCategoryDetails($request) {
-        //get category
-        switch ($request->category_type) {
-            case 'doctor':
-                return [
-                    'doctor_name' => $request->doctor_name,
-                    'hospital_name' => $request->hospital_name,
-                    'hospital_type' => $request->hospital_type,
-                    'specialist' => $request->specialist,
-                    'contact' => $request->hospital_contact,
-                    'address' => $request->hospital_address,
-                    'particulars' => $request->hospital_particulars,
-                    'remarks' => $request->hospital_remarks,
-                ];
-            case 'nurse':
-                return [
-                    'nurse_name' => $request->nurse_name,
-                    'contact' => $request->nurse_contact,
-                    'address' => $request->nurse_address,
-                    'particulars' => $request->nurse_particulars,
-                    'remarks' => $request->nurse_remarks,
-                ];
-            case 'lab_technician':
-                return [
-                    'lab_name' => $request->lab_name,
-                    'contact' => $request->lab_contact,
-                    'address' => $request->lab_address,
-                    'particulars' => $request->lab_particulars,
-                    'remarks' => $request->lab_remarks,
-                ];
-            case 'chemist':
-                return [
-                    'chemist_name' => $request->chemist_name,
-                    'contact' => $request->chemist_contact,
-                    'address' => $request->chemist_address,
-                    'particulars' => $request->chemist_particulars,
-                    'remarks' => $request->chemist_remarks,
-                ];
-            case 'asha_worker':
-                return [
-                    'asha_name' => $request->asha_name,
-                    'contact' => $request->asha_contact,
-                    'address' => $request->asha_address,
-                    'particulars' => $request->asha_particulars,
-                    'remarks' => $request->asha_remarks,
-                ];
-            case 'sarpanch':
-                return [
-                    'sarpanch_name' => $request->sarpanch_name,
-                    'contact' => $request->sarpanch_contact,
-                    'address' => $request->sarpanch_address,
-                    'particulars' => $request->sarpanch_particulars,
-                    'remarks' => $request->sarpanch_remarks,
-                ];
-            case 'mc':
-                return [
-                    'mc_ward' => $request->mc_ward,
-                    'contact' => $request->mc_contact,
-                    'address' => $request->mc_address,
-                    'particulars' => $request->mc_particulars,
-                    'remarks' => $request->mc_remarks,
-                ];
-            case 'franchisee':
-                return [
-                    'franchisee_name' => $request->franchisee_name,
-                    'contact' => $request->franchisee_contact,
-                    'address' => $request->franchisee_address,
-                    'particulars' => $request->franchisee_particulars,
-                    'remarks' => $request->franchisee_remarks,
-                ];
-            case 'healthcare_worker':
-                return [
-                    'health_worker_name' => $request->health_worker_name,
-                    'contact' => $request->health_contact,
-                    'address' => $request->health_address,
-                    'particulars' => $request->health_particulars,
-                    'remarks' => $request->health_remarks,
-                ];
-            case 'others':
-                return [
-                    'name' => $request->others_name,
-                    'contact' => $request->others_contact,
-                    'address' => $request->others_address,
-                    'particulars' => $request->others_particulars,
-                    'remarks' => $request->others_remarks,
-                ];
-            default:
-                return [];
-        }
+    private function prepareDetails($request)
+    {
+        // COMMON FIELDS (same for all categories)
+        $common = [
+            'contact'     => $request->contact,
+            'address'     => $request->address,
+            'particulars' => $request->particulars,
+            'remarks'     => $request->remarks,
+        ];
+
+        return match ($request->category_type) {
+
+            'doctor'            => [
+                'doctor_name'   => $request->name,
+                'hospital_name' => $request->hospital_name,
+                'hospital_type' => $request->hospital_type,
+                'specialist'    => $request->specialist,
+                'contact'       => $request->contact,
+                'address'       => $request->address,
+                'particulars'   => $request->particulars,
+                'remarks'       => $request->remarks,
+            ],
+
+            'nurse'             => array_merge($common, [
+                'nurse_name' => $request->name,
+            ]),
+
+            'lab_technician'    => array_merge($common, [
+                'lab_name' => $request->name,
+            ]),
+
+            'chemist'           => array_merge($common, [
+                'chemist_name' => $request->name,
+            ]),
+
+            'asha_worker'       => array_merge($common, [
+                'asha_name' => $request->name,
+            ]),
+
+            'sarpanch'          => array_merge($common, [
+                'sarpanch_name' => $request->name,
+            ]),
+
+            'mc'                => array_merge($common, [
+                'mc_ward' => $request->name,
+            ]),
+
+            'franchisee'        => array_merge($common, [
+                'franchisee_name' => $request->name,
+            ]),
+
+            'healthcare_worker' => array_merge($common, [
+                'health_worker_name' => $request->name,
+            ]),
+
+            'others'            => array_merge($common, [
+                'name' => $request->name,
+            ]),
+
+            default             => [],
+
+        };
     }
 }

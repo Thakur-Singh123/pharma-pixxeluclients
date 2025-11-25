@@ -213,10 +213,21 @@ class PurchaseOrderController extends Controller
             ->with('success', 'Purchase Order updated successfully.');
     }
 
-    // Export Purchase Orders
+    //Export Purchase Orders
     public function export(Request $request)
     {
         $filters = $request->only(['is_delivered', 'date_range', 'status', 'purchase_manager_id']);
         return Excel::download(new PurchaseOrdersExport($filters), 'purchase_orders.csv');
+    }
+
+    //Function for delete purchase order
+    public function destroy($id) {
+        //Get auth login detail
+        $managerId = Auth::id();
+        //Find purchase order
+        $order = PurchaseOrder::where('manager_id', $managerId)->findOrFail($id);
+        //Delete order
+        $order->delete();
+        return back()->with('success', 'Purchase Order deleted successfully.');
     }
 }

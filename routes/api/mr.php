@@ -26,7 +26,6 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::post('/events/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'update']);
     Route::delete('/events/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'destroy']);
     Route::post('/events/status/{id}', [App\Http\Controllers\Api\MR\EventController::class, 'updateStatus']);
-
     //Tasks
     Route::get('/tasks', [App\Http\Controllers\Api\MR\TaskController::class, 'index']);
     Route::get('/tasks/pending-approval', [App\Http\Controllers\Api\MR\TaskController::class, 'pendingForApproval']);
@@ -35,7 +34,6 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::post('/tasks', [App\Http\Controllers\Api\MR\TaskController::class, 'store']);
     Route::post('/tasks/{id}', [App\Http\Controllers\Api\MR\TaskController::class, 'update']);
     Route::post('/tasks/status/{id}', [App\Http\Controllers\Api\MR\TaskController::class, 'updateStatus']);
-
     //Problems / challenges
     Route::get('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'index']);
     Route::post('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'store']);
@@ -73,4 +71,9 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::post('/clients', [App\Http\Controllers\Api\MR\ClientController::class, 'store']);
     Route::post('/clients/{id}', [App\Http\Controllers\Api\MR\ClientController::class, 'update']);
     Route::delete('/clients/{id}', [App\Http\Controllers\Api\MR\ClientController::class, 'destroy']);
+    //Sales
+    Route::get('/sales', [App\Http\Controllers\Api\MR\SalesController::class, 'index']);
+    Route::post('/sale', [App\Http\Controllers\Api\MR\SalesController::class, 'store']);
+    Route::post('/sale/{id}', [App\Http\Controllers\Api\MR\SalesController::class, 'update']);
+    Route::delete('/sale/{id}', [App\Http\Controllers\Api\MR\SalesController::class, 'destroy']);
 });

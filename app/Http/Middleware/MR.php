@@ -18,7 +18,8 @@ class MR
     {
         $user = Auth::user();
 
-        if ($user && $user->user_type === 'MR' && !$user->can_sale) {
+        // if ($user && $user->user_type === 'MR' && !$user->can_sale) {
+        if ($user && $user->user_type === 'MR') {
             return $next($request);
         }
 

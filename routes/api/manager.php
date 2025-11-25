@@ -71,7 +71,18 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
     Route::post('/sale/reject/{id}', [App\Http\Controllers\Api\Manager\SalesController::class, 'reject']);
     Route::post('/sale/{id}', [App\Http\Controllers\Api\Manager\SalesController::class, 'update']);
     Route::delete('/sale/{id}', [App\Http\Controllers\Api\Manager\SalesController::class, 'destroy']);
-    
+    //Purchase orders
+    Route::get('/purchase-orders', [App\Http\Controllers\Api\Manager\PurchaseOrderController::class, 'index']);
+    Route::post('/purchase-order/approve/{id}', [App\Http\Controllers\Api\Manager\PurchaseOrderController::class, 'approve']);
+    Route::post('/purchase-order/reject/{id}', [App\Http\Controllers\Api\Manager\PurchaseOrderController::class, 'reject']);
+    Route::post('/purchase-order/{id}', [App\Http\Controllers\Api\Manager\PurchaseOrderController::class, 'update']);
+    Route::delete('/purchase-order/{id}', [App\Http\Controllers\Api\Manager\PurchaseOrderController::class, 'destroy']);
+    Route::get('/vendor', [App\Http\Controllers\Api\Manager\PurchaseOrderController::class, 'all_vendors']);
+    //Counsellor patients
+    Route::get('/patients', [App\Http\Controllers\Api\Manager\CounsellorController::class, 'index']);
+    Route::post('/patient/{id}', [App\Http\Controllers\Api\Manager\CounsellorController::class, 'update']);
+    Route::delete('/patient/{id}', [App\Http\Controllers\Api\Manager\CounsellorController::class, 'destroy']);
+   
     //Event management
     Route::prefix('events')->group(function () {
         Route::get('/', [App\Http\Controllers\Api\Manager\EventController::class, 'index']);

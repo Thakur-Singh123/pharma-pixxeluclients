@@ -77,7 +77,7 @@ class SalesController extends Controller
         if ($sale->status == 'Approved') {
             return response()->json([
                 'status' => 400,
-                'message' => 'This sale is already approved. Please reject it first.',
+                'message' => 'This sale is already approved. Please reject it first to re-approve.',
                 'data' => null
             ]);
         }
@@ -114,7 +114,7 @@ class SalesController extends Controller
         if ($sale->status == 'Reject') {
             return response()->json([
                 'status' => 400,
-                'message' => 'This sale is already rejected. Please approve it first.',
+                'message' => 'This sale is already rejected. Please approve it first before rejecting again.',
                 'data' => null
             ]);
         }

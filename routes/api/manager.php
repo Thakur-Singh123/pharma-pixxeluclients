@@ -82,7 +82,6 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
     Route::get('/patients', [App\Http\Controllers\Api\Manager\CounsellorController::class, 'index']);
     Route::post('/patient/{id}', [App\Http\Controllers\Api\Manager\CounsellorController::class, 'update']);
     Route::delete('/patient/{id}', [App\Http\Controllers\Api\Manager\CounsellorController::class, 'destroy']);
-   
     //Event management
     Route::prefix('events')->group(function () {
         Route::get('/', [App\Http\Controllers\Api\Manager\EventController::class, 'index']);
@@ -95,7 +94,6 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
         Route::post('/approve/{id}', [App\Http\Controllers\Api\Manager\EventController::class, 'approve']);
         Route::post('/reject/{id}', [App\Http\Controllers\Api\Manager\EventController::class, 'reject']);
     });
-
     //Task management
     Route::prefix('tasks')->group(function () {
         Route::get('/', [App\Http\Controllers\Api\Manager\TaskController::class, 'index']);
@@ -104,6 +102,7 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
         Route::post('/approve/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'approve']);
         Route::post('/reject/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'reject']);
         Route::post('/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'update']);
+        Route::delete('/{id}', [App\Http\Controllers\Api\Manager\TaskController::class, 'destroy']);
     });
 
     //Daily MR reports

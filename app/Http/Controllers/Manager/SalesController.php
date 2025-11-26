@@ -140,11 +140,11 @@ class SalesController extends Controller
         //Get sale detail
         $sale = Sale::findOrFail($id);
         //Check if prescription file exists or not
-        if($sale && $sale->prescription_file){
+        if($sale && $sale->prescription_file) {
             unlink(public_path('prescriptions/'.$sale->prescription_file));
         }
         //Delete sale item
-        if($sale->items){
+        if($sale->items) {
             foreach($sale->items as $item){
                 $item->delete();
             }

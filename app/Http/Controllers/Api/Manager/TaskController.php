@@ -390,4 +390,27 @@ class TaskController extends Controller
             'data'    => $task,
         ], 200);
     }
+
+    //Function for delete task
+    public function destroy($id) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //Get task detail
+        $task = Task::find($id);
+        //Check task found or not
+        if (!$task) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Task not found'
+            ], 404);
+        }
+        //Delete task
+        $task->delete();
+        //Response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Task deleted successfully'
+        ], 200);
+    }
 }

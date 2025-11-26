@@ -34,6 +34,7 @@ Route::prefix('mr')->middleware(['ensure.token','auth:sanctum', 'mr'])->group(fu
     Route::post('/tasks', [App\Http\Controllers\Api\MR\TaskController::class, 'store']);
     Route::post('/tasks/{id}', [App\Http\Controllers\Api\MR\TaskController::class, 'update']);
     Route::post('/tasks/status/{id}', [App\Http\Controllers\Api\MR\TaskController::class, 'updateStatus']);
+    Route::delete('/tasks/{id}', [App\Http\Controllers\Api\MR\TaskController::class, 'destroy']);
     //Problems / challenges
     Route::get('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'index']);
     Route::post('/problems', [App\Http\Controllers\Api\MR\ProblemController::class, 'store']);

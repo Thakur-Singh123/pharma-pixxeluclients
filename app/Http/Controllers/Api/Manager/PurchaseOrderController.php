@@ -179,6 +179,7 @@ class PurchaseOrderController extends Controller
             $error['data'] = null;
             return response()->json($error, 400);
         }
+        
         $validatedData = $validated->validated();
     
         //Find purchase order
@@ -235,8 +236,7 @@ class PurchaseOrderController extends Controller
             ->map(function ($item) {
                 return $item->vendor;
             });
-
-        // Response
+        //Response
         return response()->json([
             'status' => 200,
             'message' => 'Vendors fetched successfully.',

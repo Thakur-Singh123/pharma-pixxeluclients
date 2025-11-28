@@ -90,6 +90,13 @@ class PurchaseOrderController extends Controller
         }
         //Get purchase orders
         $po = PurchaseOrder::where('vendor_id', Auth::id())->findOrFail($id);
+        //Check purchase order found or not 
+        if (!$po) { 
+            return response()->json([ 
+                'status' => 404, 
+                'message' => 'Purchase order not found' ], 
+            404); 
+        }
         //Get is delivered
         $po->is_delivered = $request->is_delivered;
         //Save

@@ -29,13 +29,6 @@ class DashboardController extends Controller
         }
         //Get auth detail
         $cId = Auth::id();
-        //Check patient found or not
-        if (!$cId) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Dashboard not found'
-            ], 404);
-        }
         //Total bookings
         $total_bookings = CounselorPatient::where('counselor_id', $cId)->count();
         //Pending bookings

@@ -89,7 +89,9 @@ class PurchaseOrderController extends Controller
             return response()->json($error, 400);
         }
         //Get purchase orders
-        $po = PurchaseOrder::where('vendor_id', Auth::id())->findOrFail($id);
+        $po = PurchaseOrder::where('vendor_id', Auth::id()) 
+            ->where('id', $id)
+            ->first();
         //Check purchase order found or not 
         if (!$po) { 
             return response()->json([ 

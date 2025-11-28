@@ -35,7 +35,7 @@ class PatientController extends Controller
             ->paginate(5);
         //Response
         return response()->json([
-            'status' => true,
+            'status' => 200,
             'message' => 'Patients fetched successfully',
             'data' => $patients
         ], 200);
@@ -77,7 +77,7 @@ class PatientController extends Controller
         $patient = CounselorPatient::create($data);
         //Create
         return response()->json([
-            'status' => true,
+            'status' => 200,
             'message' => 'Patient created successfully.',
             'data' => $patient
         ], 200);
@@ -114,7 +114,7 @@ class PatientController extends Controller
         ]);
         //Response
         return response()->json([
-            'status' => true,
+            'status' => 200,
             'message' => 'Booking status updated successfully',
             'data' => Null
         ], 200);
@@ -162,7 +162,7 @@ class PatientController extends Controller
         $patient->update($data);
         //Response
         return response()->json([
-            'status' => true,
+            'status' => 200,
             'message' => 'Patient updated successfully',
             'data' => $patient
         ], 200);
@@ -186,7 +186,7 @@ class PatientController extends Controller
         $patient->delete();
         //Response
         return response()->json([
-            'status' => true,
+            'status' => 200,
             'message' => 'Patient deleted successfully'
         ], 200);
     }

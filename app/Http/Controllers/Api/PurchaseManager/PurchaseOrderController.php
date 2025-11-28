@@ -181,10 +181,10 @@ class PurchaseOrderController extends Controller
         });
         //Response
         return response()->json([
-            'status' => true,
-            'message' => 'Purchase Order created successfully.',
+            'status' => 200,
+            'message' => 'Purchase order created successfully.',
             'data' => $po->load('items')
-        ], 201);
+        ], 200);
     }
 
     //Function for update po

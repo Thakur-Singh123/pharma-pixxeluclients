@@ -104,7 +104,7 @@ class PatientController extends Controller
         //Check patient found or not
         if (!$patient) {
             return response()->json([
-                'status' => false,
+                'status' => 404,
                 'message' => 'Patient not found'
             ], 404);
         }

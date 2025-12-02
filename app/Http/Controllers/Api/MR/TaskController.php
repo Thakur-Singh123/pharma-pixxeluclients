@@ -205,7 +205,7 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'location'    => 'nullable|string|max:255',
             'pin_code'    => 'nullable|string|max:20',
-            'doctor_id'   => 'nullable|exists:doctors,id',
+            'doctor_id'   => 'required|exists:doctors,id',
             'start_date'  => 'nullable|date',
             'end_date'    => 'nullable|date|after_or_equal:start_date',
         ]);
@@ -246,10 +246,10 @@ class TaskController extends Controller
         $task->load(['mr', 'doctor']);
 
         return response()->json([
-            'status'  => 201,
+            'status'  => 200,
             'message' => 'Task created successfully.',
             'data'    => $task,
-        ], 201);
+        ], 200);
     }
 
     /**

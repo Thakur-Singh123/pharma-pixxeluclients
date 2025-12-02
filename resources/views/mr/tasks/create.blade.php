@@ -49,7 +49,7 @@
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label>Assign Doctor</label>
-                                                    <select name="doctor_id" id="doctor_id" class="form-control">
+                                                    <select name="doctor_id" id="doctor_id" class="form-control" required>
                                                         <option value="" disabled selected>Select</option>
                                                         @foreach($all_doctors as $doctor)
                                                             <option value="{{ $doctor->id }}">

@@ -11,8 +11,11 @@ Route::post('/login', [App\Http\Controllers\Api\Auth\LoginController::class, 'lo
 Route::post('/logout', [App\Http\Controllers\Api\Auth\LoginController::class, 'logout']); 
 //Refresh token
 Route::post('/refresh-token', [App\Http\Controllers\Api\Auth\LoginController::class, 'refreshToken']); 
-//expire token
+//Expire token
 Route::post('/expire-token', [App\Http\Controllers\Api\Auth\LoginController::class, 'expire_token']);
+//Forgot password
+Route::post('/forgot-password', [App\Http\Controllers\Api\Auth\LoginController::class, 'forgot']);
+Route::post('/reset-password', [App\Http\Controllers\Api\Auth\LoginController::class, 'reset']);
 
 //Profile
 Route::middleware(['ensure.token','auth:sanctum'])->group(function () {

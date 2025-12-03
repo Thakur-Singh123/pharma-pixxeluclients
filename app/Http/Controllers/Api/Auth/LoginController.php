@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Helpers\UserResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\User; 
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPasswordMail; 
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -202,5 +207,100 @@ class LoginController extends Controller
             $success['message'] = "Token is valid.";
             $success['data'] = [$accessToken->tokenable];
             return response()->json($success, 200);
+    }
+    
+    //Function for forgot password
+    public function forgot(Request $req) {
+        //Validate input fields
+        $validator = Validator::make($req->all(), [
+            'email' => 'required|email'
+        ]);
+        //Respnse
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        //Get email
+        $email = $req->email;
+        $user = User::where('email', $email)->first();
+        //User exists or not
+        if (!$user) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Email not found. Please enter correct email.'
+            ], 400);
+        }
+        //Generate OTP
+        $otp = rand(100000, 999999);
+        //Save OTP
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $email],
+            ['token' => $otp, 'created_at' => now()]
+        );
+        //Send email
+        Mail::to($email)->send(new ResetPasswordMail($otp));
+        //Response
+        return response()->json([
+            'status' => 200,
+            'message' => "We’ve sent a verification code to your email. Enter the code to reset your password."
+        ]);
+    }
+
+    //Function for reset password
+    public function reset(Request $req) {
+        //Validate input fields
+        $validator = Validator::make($req->all(), [
+            'email' => 'required|email',
+            'otp' => 'required',
+            'password' => 'required|min:6|confirmed'
+        ]);
+        //Response
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->errors()->first()
+            ], 400);
+        }
+        //Get email
+        $email = $req->email;
+        //Check if user fond or not
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Email not found. Please enter correct email.'
+            ], 400);
+        }
+        //Verify OTP
+        $check = DB::table('password_reset_tokens')
+            ->where('email', $email)
+            ->where('token', $req->otp)
+            ->first();
+        //Check if otp fond or not
+        if (!$check) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Invalid OTP. Please enter the correct code.'
+            ], 400);
+        }
+        //Check otp expire or not
+        $otpTime = \Carbon\Carbon::parse($check->created_at);
+        if ($otpTime->diffInMinutes(now()) >= 5) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'OTP has expired. Please request a new one.'
+            ], 400);
+        }
+        //Reset password
+        $user->password = Hash::make($req->password);
+        $user->save();
+        //Delete OTP
+        DB::table('password_reset_tokens')->where('email', $email)->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Password reset successfully.'
+        ], 200);
     }
 }

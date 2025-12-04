@@ -7,6 +7,7 @@ use App\Models\TADARecords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\MobilePusher;
 
 class TADAController extends Controller
 {
@@ -122,6 +123,20 @@ class TADAController extends Controller
             $is_create_tada->image_url = $is_create_tada->attachment
                 ? asset('public/uploads/ta_da/' . $is_create_tada->attachment)
                 : null;
+
+            // Manager find
+            $managerId = auth()->user()->managers->pluck('id')->first();
+            //REAL TIME PUSHER NOTIFICATION
+         MobilePusher::send(
+    $managerId,
+    "New TADA Created",
+    auth()->user()->name . " has created a new TADA with amount of INR: " . $is_create_tada->total_amount,
+    "tada",
+    $is_create_tada->id
+);
+
+
+
 
             $success['status'] = 200;
             $success['message'] = "TADA created successfully.";

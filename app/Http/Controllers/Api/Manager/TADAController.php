@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\MobilePusher;
 
 class TADAController extends Controller
 {
@@ -81,6 +82,24 @@ class TADAController extends Controller
         $record->approved_by = auth()->id();
         $record->approved_at = now();
         $record->save();
+
+$managerName = auth()->user()->name;
+$amount = $record->total_amount;
+
+// fetch MR properly
+$mr = User::find($record->mr_id);
+
+if ($mr) {
+    MobilePusher::send(
+        $mr->id,
+        "TADA Approved",
+        "Your TADA claim of INR {$amount} has been approved successfully by Manager {$managerName}.",
+        "tada",
+        $record->id     // <-- 5th param: item id
+    );
+}
+
+
         //response
         return response()->json([
             'status' => true,
@@ -110,11 +129,29 @@ class TADAController extends Controller
                 'message' => 'This TADA is already rejected. Approve it first to reject again.'
             ], 400);
         }
+        $managerName = auth()->user()->name;
+$amount = $record->total_amount;
+
+// fetch MR
+$mr = User::find($record->mr_id);
+
+if ($mr) {
+    MobilePusher::send(
+        $mr->id,
+        "TADA Rejected",
+        "Your TADA claim of INR {$amount} has been rejected by Manager {$managerName}.",
+        "tada",
+        $record->id     // <-- 5th param
+    );
+}
+
         //save tada
         $record->status = 'rejected';
         $record->approved_by = auth()->id();
         $record->approved_at = now();
         $record->save();
+
+        
         //response
         return response()->json([
             'status' => true,

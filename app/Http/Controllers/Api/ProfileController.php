@@ -156,4 +156,87 @@ class ProfileController extends Controller
 
         return $filename;
     }
+
+    //Function for delete account
+    public function deleteAccount() {
+        //Check logged in user
+        $user = auth()->user();
+        //Check auth found or not
+        if (!$user) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Authentication failed. Please login first.'
+            ], 401);
+        }
+        //Get role
+        $role = trim($user->user_type);
+        $user_id = $user->id;
+        $roleColumn = match ($role) { 
+            'Manager' => 'manager_id',
+            'MR' => 'mr_id',
+            'vendor' => 'vendor_id', 
+            'purchase_manager' => 'purchase_manager_id',
+            'counsellor' => 'counsellor_id',
+            default => 'user_id'
+        };
+        //Get all tables list
+        $tables = [
+            'visit_plan_interests',
+            'visit_plan_comment',
+            'visit_plan_assignments',
+            'visit_plans',
+            'ta_da_records',
+            'task_tour_plans',
+            'tasks',
+            'sales_items',
+            'sales',
+            'referred_patients',
+            'purchase_order_items',
+            'purchase_orders',
+            'problems',
+            'patients',
+            'mr_daily_reports',
+            'notifications',
+            'mr_attendances',
+            'monthly_tasks',
+            'manager_vendors',
+            'manager_purchase_managers',
+            'manager_mr',
+            'manager_counsellors',
+            'event_users',
+            'events',
+            'doctor_mr_assignments',
+            'doctors',
+            'daily_visits',
+            'daily_report_details',
+            'daily_reports',
+            'counselor_patients',
+            'clients',
+        ];
+        //Get tables
+        foreach ($tables as $table) {
+            //Check if table mathc or not
+            if (
+                !\Schema::hasColumn($table, $roleColumn) &&
+                !\Schema::hasColumn($table, 'user_id')
+            ) {
+                continue;
+            }
+            //Delete column
+            if (\Schema::hasColumn($table, $roleColumn)) {
+                \DB::table($table)->where($roleColumn, $user_id)->delete();
+            }
+            //Delete based on user_id
+            if ($roleColumn !== 'user_id' && \Schema::hasColumn($table, 'user_id')) {
+                \DB::table($table)->where('user_id', $user_id)->delete();
+            }
+        }
+        //Delete account
+        $user->delete();
+        //Response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Account deleted successfully'
+        ], 200);
+    }
 }

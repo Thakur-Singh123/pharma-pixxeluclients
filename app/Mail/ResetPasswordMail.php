@@ -18,7 +18,6 @@ class ResetPasswordMail extends Mailable
         $this->otp = $otp;
         $this->email = $email;
     }
-
     //Function for build email
     public function build() {
         return $this->subject('Your OTP to reset password')

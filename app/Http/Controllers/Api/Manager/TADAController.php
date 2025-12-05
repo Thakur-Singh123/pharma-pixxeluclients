@@ -129,29 +129,26 @@ if ($mr) {
                 'message' => 'This TADA is already rejected. Approve it first to reject again.'
             ], 400);
         }
+        //Get auth name
         $managerName = auth()->user()->name;
-$amount = $record->total_amount;
-
-// fetch MR
-$mr = User::find($record->mr_id);
-
-if ($mr) {
-    MobilePusher::send(
-        $mr->id,
-        "TADA Rejected",
-        "Your TADA claim of INR {$amount} has been rejected by Manager {$managerName}.",
-        "tada",
-        $record->id     // <-- 5th param
-    );
-}
-
+        $amount = $record->total_amount;
+        //Get mr
+        $mr = User::find($record->mr_id);
+        //Check if mr exists or not
+        if ($mr) {
+            MobilePusher::send(
+                $mr->id,
+                "TADA Rejected",
+                "Your TADA claim of INR {$amount} has been rejected by Manager {$managerName}.",
+                "tada",
+                $record->id
+            );
+        }
         //save tada
         $record->status = 'rejected';
         $record->approved_by = auth()->id();
         $record->approved_at = now();
         $record->save();
-
-        
         //response
         return response()->json([
             'status' => true,
@@ -159,7 +156,6 @@ if ($mr) {
             'data' => 'null'
         ]);
     }
-
     //Function for update tada
     public function update(Request $request, $id) {
         if ($response = $this->ensureAuthenticated()) {

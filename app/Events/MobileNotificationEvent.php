@@ -14,24 +14,20 @@ class MobileNotificationEvent implements ShouldBroadcast
     public $userId;
     public $payload;
 
-    public function __construct($userId, $payload)
-    {
+    public function __construct($userId, $payload) {
         $this->userId  = $userId;
         $this->payload = $payload;
     }
 
-    public function broadcastOn()
-    {
+    public function broadcastOn() {
         return new PrivateChannel('mobile.user.' . $this->userId);
     }
 
-    public function broadcastAs()
-    {
+    public function broadcastAs() {
         return 'mobile-notify';
     }
 
-    public function broadcastWith()
-    {
+    public function broadcastWith() {
         return $this->payload;
     }
 }

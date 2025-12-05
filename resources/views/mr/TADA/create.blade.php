@@ -52,12 +52,12 @@
                                     <div class="form-group">
                                         <label class="form-label">Mode of Travel</label>
                                         <select name="mode_of_travel" class="form-control">
-                                            <option value="">Select Mode</option>
-                                            <option value="Bus">Bus</option>
-                                            <option value="Train">Train</option>
-                                            <option value="Flight">Flight</option>
-                                            <option value="Car">Car</option>
-                                            <option value="Bike">Bike</option>
+                                            <option value="" disabled selected>Select Mode</option>
+                                            <option value="Bus" {{ old('mode_of_travel') == 'Bus' ? 'selected' : '' }}>Bus</option>
+                                            <option value="Train" {{ old('mode_of_travel') == 'Train' ? 'selected' : '' }}>Train</option>
+                                            <option value="Flight" {{ old('mode_of_travel') == 'Flight' ? 'selected' : '' }}>Flight</option>
+                                            <option value="Bike" {{ old('mode_of_travel') == 'Bike' ? 'selected' : '' }}>Bike</option>
+                                            <option value="Car" {{ old('mode_of_travel') == 'Car' ? 'selected' : '' }}>Car</option>
                                         </select>
                                         @error('mode_of_travel')
                                             <small class="text-danger">{{ $message }}</small>

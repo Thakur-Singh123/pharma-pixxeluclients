@@ -14,6 +14,10 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
+     <script>
+    window.user_id = {{ auth()->id() }};
+</script>
+
 
 </head>
 <body>

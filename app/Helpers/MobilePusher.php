@@ -8,17 +8,15 @@ use App\Notifications\MobileAppNotification;
 
 class MobilePusher
 {
-    public static function send($userId, $title, $message, $type, $itemId)
-    {
+    //Function for details
+    public static function send($userId, $title, $message, $type, $itemId) {
+        //Get user
         $user = User::find($userId);
         if (!$user) return;
-
+        //Icon
         $icon = \App\Helpers\NotificationIcon::get($type);
-
-        // AUTO URL FOR WEB + MOBILE (LIST PAGE ONLY)
         $url = self::makeUrl($user, $type);
-
-        // Save in DB
+        //Save in DB
         $user->notify(new MobileAppNotification(
             $title,
             $message,
@@ -29,8 +27,7 @@ class MobilePusher
                 "icon" => $icon
             ]
         ));
-
-        // Real-time event
+        //Real-time event
         event(new MobileNotificationEvent($userId, [
             "title"   => $title,
             "message" => $message,
@@ -41,11 +38,11 @@ class MobilePusher
         ]));
     }
 
-    // 🔥 FINAL URL MAPPING LOGIC
-    protected static function makeUrl($user, $type)
-    {
+    //Function for maping
+    protected static function makeUrl($user, $type) {
+        //Get role
         $role = strtolower($user->user_type ?? 'mr');
-
+        //url
         $map = [
             'mr' => [
                 'tada'  => 'mr/tada',
@@ -58,11 +55,10 @@ class MobilePusher
                 'daily' => 'manager/daily-reports',
             ],
         ];
-
+        //Check if type exists or not
         if (isset($map[$role][$type])) {
             return url($map[$role][$type]);
         }
-
         return url("$role/$type");
     }
 }

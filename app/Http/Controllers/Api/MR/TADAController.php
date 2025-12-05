@@ -124,20 +124,17 @@ class TADAController extends Controller
                 ? asset('public/uploads/ta_da/' . $is_create_tada->attachment)
                 : null;
 
-            // Manager find
+            //Get Manager
             $managerId = auth()->user()->managers->pluck('id')->first();
-            //REAL TIME PUSHER NOTIFICATION
-         MobilePusher::send(
-    $managerId,
-    "New TADA Created",
-    auth()->user()->name . " has created a new TADA with amount of INR: " . $is_create_tada->total_amount,
-    "tada",
-    $is_create_tada->id
-);
-
-
-
-
+            //Notification
+            MobilePusher::send(
+                $managerId,
+                "New TADA Created",
+                auth()->user()->name . " has created a new TADA with amount of INR: " . $is_create_tada->total_amount,
+                "tada",
+                $is_create_tada->id
+            );
+            //Response
             $success['status'] = 200;
             $success['message'] = "TADA created successfully.";
             $success['data'] = $is_create_tada;

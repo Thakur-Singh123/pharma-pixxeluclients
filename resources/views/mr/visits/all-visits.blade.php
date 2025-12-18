@@ -14,11 +14,37 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Visits</h4>
-                                <input type="text" 
+                                  <div class="d-flex align-items-center" style="gap: 10px;">
+                                    
+                                    <input
+                                        type="text"
+                                        id="visitSearch"
+                                        class="custom-search-input"
+                                        placeholder="Search"
+                                        value="{{ request('search') }}"
+                                    >
+                                    <form method="GET" action="{{ route('mr.visits') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                        <input type="text" name="search" value="{{ request('search') }}">
+                                        <input
+                                            type="date"
+                                            id="visitDateFilter"
+                                            name="visit_date"
+                                            class="form-control"
+                                            value="{{ request('visit_date') }}"
+                                            onchange="handleFilterChange(this)"
+                                        >
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary btn-sm"
+                                            formaction="{{ route('mr.visits.export') }}"
+                                        >Export</button>
+                                    </form>
+                                </div>
+                                {{-- <input type="text" 
                                     id="visitSearch" 
                                     class="custom-search-input"
                                     placeholder="Search"
-                                >
+                                > --}}
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -172,4 +198,13 @@
         </div>
     </div>
 </div>
+<script>
+function handleFilterChange(select) {
+    if (select.value === "") {
+        window.location.href = "{{ route('mr.visits') }}";
+    } else {
+        select.form.submit();
+    }
+}
+</script>
 @endsection

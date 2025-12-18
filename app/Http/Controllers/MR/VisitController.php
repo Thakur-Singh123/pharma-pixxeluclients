@@ -8,6 +8,8 @@ use App\Models\Visit;
 use App\Models\Doctor;
 use App\Models\DoctorMrAssignement;
 use Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\VisitsExport;
 
 class VisitController extends Controller
 {
@@ -93,6 +95,10 @@ class VisitController extends Controller
     public function all_visits(Request $request) {
         //Get visit
         $query = Visit::where('mr_id', auth()->id())->with('doctor');
+        //Filter by visit date (optional)
+        if ($request->filled('visit_date')) {
+            $query->where('visit_date', $request->visit_date);
+        }
         //searc visit
         if ($request->filled('search')) {
             $search = $request->search;
@@ -117,6 +123,19 @@ class VisitController extends Controller
         return view('mr.visits.all-visits', compact('all_visits'));
     }
 
+    //Function for export visits report (excel)
+    public function export(Request $request) {
+        $request->validate([
+            'visit_date' => 'nullable|date',
+        ]);
+
+        $visitDate = $request->get('visit_date');
+        $mrId = auth()->id();
+
+        $fileName = $visitDate ? "visits_{$visitDate}.xlsx" : 'visits_all.xlsx';
+
+        return Excel::download(new VisitsExport($visitDate, [$mrId]), $fileName);
+    }
     //Function for areas served
     public function areas_served(Request $request) {
         $query = Visit::where('mr_id', auth()->id())->with('doctor');

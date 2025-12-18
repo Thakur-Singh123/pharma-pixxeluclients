@@ -30,6 +30,7 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/visit-approve/{id}', [App\Http\Controllers\Manager\VisitController::class, 'approve'])->name('visit.approve');
     Route::post('/visit-reject/{id}', [App\Http\Controllers\Manager\VisitController::class, 'reject'])->name('visit.reject');
     Route::get('/visit-filter', [App\Http\Controllers\Manager\VisitController::class, 'visitFilter']);
+    Route::get('visits-export', [App\Http\Controllers\Manager\VisitController::class, 'export'])->name('visits.export');
     //Task management
     Route::resource('tasks', App\Http\Controllers\Manager\TaskController::class);
     Route::post('/task-update-status/{id}', [App\Http\Controllers\Manager\TaskController::class,'update_task_status'])->name('tasks.update.status');

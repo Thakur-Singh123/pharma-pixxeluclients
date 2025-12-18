@@ -14,11 +14,35 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Visits</h4>
-                                <input type="text" 
+                                 <div class="d-flex align-items-center" style="gap: 10px;">
+                                    <input
+                                        type="text"
+                                        id="visitSearch"
+                                        class="custom-search-input"
+                                        placeholder="Search"
+                                        value="{{ request('search') }}"
+                                    >
+                                    <form method="GET" action="{{ route('manager.visits.index') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                        <input type="hidden" name="search" value="{{ request('search') }}">
+                                        <input
+                                            type="date"
+                                            id="visitDateFilter"
+                                            name="visit_date"
+                                            class="form-control"
+                                            value="{{ request('visit_date') }}" onchange="handleFilterChange(this)"
+                                        >
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary btn-sm"
+                                            formaction="{{ route('manager.visits.export') }}"
+                                        >Export</button>
+                                    </form>
+                                </div>
+                                {{-- <input type="text" 
                                     id="visitSearch" 
                                     class="custom-search-input"
                                     placeholder="Search"
-                                >
+                                > --}}
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -65,15 +89,26 @@
                                                                 colspan="1"
                                                                 style="width: 184.234px;">Visit Date
                                                             </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 184.234px;">Comments
-                                                            </th>
+                                                            
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 style="width: 184.234px;">Visit Type
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Clinic/Hospital Name
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Mobile No.
+                                                            </th>
+                                                             <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Remarks
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
@@ -114,7 +149,6 @@
                                                             <td>{{ $visit->state }}</td>
                                                             <td>{{ $visit->pin_code }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($visit->visit_date)->format('d M, Y') }}</td>
-                                                            <td>{{ $visit->comments }}</td>
                                                             <td>
                                                                 <!--Check if visit type exits or not-->
                                                                 @if($visit->visit_type == 'other') Other Visit -
@@ -139,6 +173,9 @@
                                                                     ({{ $visit->ngo ?? 'N/A' }})
                                                                 @endif
                                                             </td>
+                                                            <td>{{ $visit->clinic_hospital_name ?? 'N/A' }}</td>
+                                                            <td>{{ $visit->mobile_no ?? 'N/A' }}</td>
+                                                            <td>{{ $visit->comments ?? 'N/A' }}</td>
                                                             <td>{{ $visit->mr['name'] }}</td>
                                                             <!--<td>
                                                                 @if($visit->visit_type == 'other')
@@ -234,4 +271,13 @@
         </div>
     </div>
 </div>
+<script>
+function handleFilterChange(select) {
+    if (select.value === "") {
+        window.location.href = "{{ route('manager.visits.index') }}";
+    } else {
+        select.form.submit();
+    }
+}
+</script>
 @endsection

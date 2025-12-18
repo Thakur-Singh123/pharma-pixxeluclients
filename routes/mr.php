@@ -21,7 +21,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     //Daily visits
     Route::get('/visits/create', [App\Http\Controllers\MR\VisitController::class, 'add_visit']);
     Route::post('/submit-visit', [App\Http\Controllers\MR\VisitController::class, 'submit_visit'])->name('submit.visit');
-    Route::get('/visits', [App\Http\Controllers\MR\VisitController::class, 'all_visits']);
+    Route::get('/visits', [App\Http\Controllers\MR\VisitController::class, 'all_visits'])->name('visits');
+    Route::get('/visits-export', [App\Http\Controllers\MR\VisitController::class, 'export'])->name('visits.export');
     Route::get('/areas-served', [App\Http\Controllers\MR\VisitController::class, 'areas_served']);
     Route::get('/visit-filter', [App\Http\Controllers\MR\VisitController::class, 'visitFilter']);
     Route::get('/visits/edit/{id}', [App\Http\Controllers\MR\VisitController::class, 'edit_visit']);

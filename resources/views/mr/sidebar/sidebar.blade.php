@@ -369,7 +369,7 @@
                     </div>
                 </li>
                 <!--report section-->
-                <li class="nav-item {{ request()->is('mr/daily-reports*') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ request()->is('mr/daily-reports*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseDailyReport"
                         class="{{ request()->is('mr/daily-reports*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/daily-reports*') ? 'true' : 'false' }}">
@@ -391,7 +391,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 <!--logout section-->
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

@@ -8,9 +8,11 @@ use App\Models\User;
 use App\Models\Doctor;
 use App\Models\DoctorMrAssignement;
 use App\Models\Visit;
+use App\Exports\VisitsExport;
 use Auth;
 use App\Notifications\VisitApprovedNotification;
 use App\Notifications\VisitRejectedNotification;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VisitController extends Controller
 {
@@ -19,6 +21,10 @@ class VisitController extends Controller
         //Get MR IDs
         $mrs = auth()->user()->mrs->pluck('id');
         $query = Visit::whereIn('mr_id', $mrs)->with('mr', 'doctor')->orderBy('id', 'DESC');
+        //Filter by visit date (optional)
+        if ($request->filled('visit_date')) {
+            $query->where('visit_date', $request->visit_date);
+        }
         //Get search request for inputs
         if ($request->filled('search')) {
             $search = $request->search;
@@ -42,6 +48,22 @@ class VisitController extends Controller
         }
         return view('manager.daily-visits.all-visits', compact('all_visits'));
     }
+
+    
+    //Function for export visits report (excel)
+    public function export(Request $request) {
+        $request->validate([
+            'visit_date' => 'nullable|date',
+        ]);
+
+        $visitDate = $request->get('visit_date');
+        $mrs = auth()->user()->mrs->pluck('id')->toArray();
+
+        $fileName = $visitDate ? "visits_{$visitDate}.xlsx" : 'visits_all.xlsx';
+
+        return Excel::download(new VisitsExport($visitDate, $mrs), $fileName);
+    }
+
 
     //Function for filter visits
     public function visitFilter(Request $request) {

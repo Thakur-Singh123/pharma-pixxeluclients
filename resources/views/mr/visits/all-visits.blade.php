@@ -24,7 +24,7 @@
                                         value="{{ request('search') }}"
                                     >
                                     <form method="GET" action="{{ route('mr.visits') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
-                                        <input type="text" name="search" value="{{ request('search') }}">
+                                        <input type="hidden" name="search" value="{{ request('search') }}">
                                         <input
                                             type="date"
                                             id="visitDateFilter"

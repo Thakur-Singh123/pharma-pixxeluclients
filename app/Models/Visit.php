@@ -8,7 +8,29 @@ class Visit extends Model
 {
     //Call migration
     protected $table = 'daily_visits';
-    protected $fillable = ['area_name','area_block','district','state','area_code','pin_code','visit_date','comments','status','mr_id','doctor_id','visit_type','religious_place','school_type','villages','city','societies','ngo','other_visit'];
+    protected $fillable = [
+        'area_name',
+        'area_block',
+        'district',
+        'state',
+        'area_code',
+        'pin_code',
+        'visit_date',
+        'clinic_hospital_name',
+        'mobile',
+        'comments',
+        'status',
+        'mr_id',
+        'doctor_id',
+        'visit_type',
+        'religious_place',
+        'school_type',
+        'villages',
+        'city',
+        'societies',
+        'ngo',
+        'other_visit',
+    ];
 
     //Get the mr that owns the visit
     public function mr() {

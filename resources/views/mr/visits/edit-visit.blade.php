@@ -82,6 +82,28 @@
                               @enderror
                            </div>
                         </div>
+                        <!--Clinic / Hospital Name-->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="clinic_hospital_name">Clinic / Hospital Name</label>
+                              <input type="text" class="form-control" id="clinic_hospital_name" name="clinic_hospital_name"
+                                 value="{{ old('clinic_hospital_name', $visit_detail->clinic_hospital_name) }}" placeholder="Enter clinic/hospital name">
+                              @error('clinic_hospital_name')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
+                        <!--Mobile-->
+                        <div class="col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="mobile">Mobile</label>
+                              <input type="tel" class="form-control" id="mobile" name="mobile"
+                                 value="{{ old('mobile', $visit_detail->mobile) }}" placeholder="Enter mobile number">
+                              @error('mobile')
+                                 <small class="text-danger">{{ $message }}</small>
+                              @enderror
+                           </div>
+                        </div>
                         <!--Status-->
                         <!--<div class="col-md-6 col-lg-4">
                            <div class="form-group">

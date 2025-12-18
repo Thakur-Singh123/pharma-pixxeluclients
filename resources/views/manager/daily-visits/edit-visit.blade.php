@@ -99,7 +99,7 @@
                         <div class="col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="mobile">Mobile</label>
-                              <input type="tel" class="form-control" id="mobile" name="mobile"
+                              <input type="number" class="form-control" id="mobile" name="mobile"
                                  value="{{ old('mobile', $visit_detail->mobile) }}" placeholder="Enter mobile number">
                               @error('mobile')
                                  <small class="text-danger">{{ $message }}</small>
@@ -124,9 +124,9 @@
                         </div>-->
                         <div class="col-md-12">
                            <div class="form-group">
-                              <label>Comments</label>
+                              <label>Remarks</label>
                               <textarea name="comments" class="form-control" rows="4"
-                                 placeholder="Enter comments">{{ old('comments', $visit_detail->comments) }}</textarea>
+                                 placeholder="Enter Remarks">{{ old('comments', $visit_detail->comments) }}</textarea>
                               @error('comments')
                                  <small class="text-danger">{{ $message }}</small>
                               @enderror

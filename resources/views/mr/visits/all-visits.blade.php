@@ -64,15 +64,26 @@
                                                                 colspan="1"
                                                                 style="width: 184.234px;">Visit Date
                                                             </th>
-                                                            <th class="sorting" tabindex="0"
-                                                                aria-controls="basic-datatables" rowspan="1"
-                                                                colspan="1"
-                                                                style="width: 184.234px;">Comments
-                                                            </th>
+                                                    
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 style="width: 184.234px;">Visit Type
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Clinic/Hospital Name
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Mobile No.
+                                                            </th>
+                                                             <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                style="width: 184.234px;">Remarks
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
@@ -99,7 +110,6 @@
                                                             <td>{{ $visit->state }}</td>
                                                             <td>{{ $visit->pin_code }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($visit->visit_date)->format('d M, Y') }}</td>
-                                                            <td>{{ $visit->comments }}</td>
                                                             <td>
                                                                 <!--Check if visit type exits or not-->
                                                                 @if($visit->visit_type == 'other') Other Visit -
@@ -124,6 +134,9 @@
                                                                     ({{ $visit->ngo ?? 'N/A' }})
                                                                 @endif
                                                             </td>
+                                                            <td>{{ $visit->clinic_hospital_name ?? 'N/A' }}</td>
+                                                            <td>{{ $visit->mobile ?? 'N/A' }}</td>
+                                                            <td>{{ $visit->comments }}</td>
                                                             <td>
                                                                 <span class="status-badge 
                                                                     {{ $visit->status == 'Pending' ? 'status-pending' : '' }}

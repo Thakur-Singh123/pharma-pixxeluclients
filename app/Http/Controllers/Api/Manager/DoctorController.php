@@ -236,4 +236,102 @@ class DoctorController extends Controller
             'message' => 'Doctor deleted successfully.'
         ], 200);
     }
+
+    //Function for doctor waiting for approval
+    public function waitingForApproval(Request $request) {
+        //Check auth exists or not
+            if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //Get doctors
+        $doctors = Doctor::orderBy('id', 'desc')
+            ->whereIn('approval_status', ['Pending', 'Reject'])
+            ->paginate(5);
+
+        // Check if doctor exists or not
+        if ($doctors->total() == 0) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'No doctors waiting for approval.',
+                'data' => []
+            ], 400);
+        }
+        //Response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Waiting for approval doctors fetched successfully.',
+            'data' => $doctors
+        ], 200);
+    }
+
+    //Function for approve doctor
+    public function approveDoctor($id) {
+        //Check auth exists or not
+            if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //Get doctor
+        $doctor = Doctor::find($id);
+        //Check if doctor fond or not
+        if (!$doctor) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Doctor not found.',
+                'data' => null
+            ], 404);
+        }
+        //Check if already approved 
+        if ($doctor->approval_status === 'Approved') {
+            return response()->json([
+                'status' => 400,
+                'message' => 'This doctor is already approved. Please reject first, then approve again.',
+                'data' => null
+            ], 400);
+        }
+        //Approve doctor
+        $doctor->approval_status = 'Approved';
+        $doctor->status = 'Active';
+        $doctor->save();
+        //Response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Doctor approved successfully.',
+            'data' => $doctor
+        ], 200);
+    }
+
+    //Function for reject doctor
+    public function rejectDoctor($id) {
+        //Check auth exists or not
+            if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //Get doctor detail
+        $doctor = Doctor::find($id);
+        //Check if doctor found or not
+        if (!$doctor) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Doctor not found.',
+                'data' => null
+            ], 404);
+        }
+        //Check if already rejected
+        if ($doctor->approval_status === 'Reject') {
+            return response()->json([
+                'status' => 400,
+                'message' => 'This doctor is already rejected. Please approve first, then reject again.',
+                'data' => null
+            ], 400);
+        }
+        //Reject doctor
+        $doctor->approval_status = 'Reject';
+        $doctor->save();
+        //Response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Doctor rejected successfully.',
+            'data' => $doctor
+        ], 200);
+    }
 }

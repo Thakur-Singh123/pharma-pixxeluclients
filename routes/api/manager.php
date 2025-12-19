@@ -36,6 +36,9 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
     Route::post('/doctors', [App\Http\Controllers\Api\Manager\DoctorController::class, 'store']);
     Route::post('/doctors/{id}', [App\Http\Controllers\Api\Manager\DoctorController::class, 'update']);
     Route::delete('/doctors/{id}', [App\Http\Controllers\Api\Manager\DoctorController::class, 'destroy']);
+    Route::get('/doctor/waiting-for-approval', [App\Http\Controllers\Api\Manager\DoctorController::class, 'waitingForApproval']);
+    Route::post('/doctor/approve/{id}', [App\Http\Controllers\Api\Manager\DoctorController::class, 'approveDoctor']);
+    Route::post('/doctor/reject/{id}', [App\Http\Controllers\Api\Manager\DoctorController::class, 'rejectDoctor']);
     //Common listings
     Route::get('/mrs', [App\Http\Controllers\Api\Manager\CommonController::class, 'mrListing']);
     Route::get('/doctors', [App\Http\Controllers\Api\Manager\CommonController::class, 'doctorListing']);

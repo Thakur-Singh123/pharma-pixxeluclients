@@ -30,11 +30,19 @@ class DoctorController extends Controller
         }
         //Validate input fields
         $validator = Validator::make($request->all(), [
-            'doctor_name' => 'required|string',
-            'doctor_contact' => 'required|string',
-            'location' => 'required|string',
-            'remarks' => 'required|string',
-            'picture' => 'required'
+            'hospital_name' =>'required|string',
+            'hospital_type' =>'required|string',
+            'area_name' =>'required|string',
+            'area_block' =>'required|string',
+            'district' =>'required|string',
+            'state' =>'required|string',
+            'area_code' =>'required|string',
+            'doctor_name' =>'required|string',
+            'specialist' =>'required|string',
+            'doctor_contact' =>'required|string',
+            'location' =>'required|string',
+            'remarks' =>'required|string',
+            'picture' => 'nullable|image|max:2048'
         ]);
         //If validation fails
         if ($validator->fails()) {
@@ -63,15 +71,19 @@ class DoctorController extends Controller
         }
         //Create Doctor
         $doctor = Doctor::create([
-            'user_id'          => $manager->id,
-            'hospital_name'    => $request->hospital_name,
-            'hospital_type'    => $request->hospital_type,
-            'doctor_name'      => $request->doctor_name,
-            'specialist'       => $request->specialist,
-            'doctor_contact'   => $request->doctor_contact,
-            'location'         => $request->location,
-            'area_code'        => $request->area_code,
-            'remarks'          => $request->remarks,
+            'user_id'    => $manager->id,
+            'hospital_name' => $request->hospital_name,
+            'hospital_type' => $request->hospital_type,
+            'area_name' => $request->area_name,
+            'area_block' => $request->area_block,
+            'district' => $request->district,
+            'state' => $request->state,
+            'area_code' => $request->area_code,
+            'doctor_name' => $request->doctor_name,
+            'specialist' => $request->specialist,
+            'doctor_contact' => $request->doctor_contact,
+            'location' => $request->location,
+            'remarks' => $request->remarks,
             'created_by'       => 'mr',
             'picture'          => $filename,
             'status'           => 'Pending',

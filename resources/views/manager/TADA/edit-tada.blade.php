@@ -53,11 +53,11 @@
                                         <label class="form-label">Mode of Travel</label>
                                         <select name="mode_of_travel" class="form-control">
                                             <option value="">Select Mode</option>
-                                            <option value="Bus" @if('mode_of_travel', $tada_detail->mode_of_travel == 'Bus') selected @endif>Bus</option>
-                                            <option value="Train" @if('mode_of_travel', $tada_detail->mode_of_travel == 'Train') selected @endif>Train</option>
-                                            <option value="Flight" @if('mode_of_travel', $tada_detail->mode_of_travel == 'Flight') selected @endif>Flight</option>
-                                            <option value="Car" @if('mode_of_travel', $tada_detail->mode_of_travel == 'Car') selected @endif>Car</option>
-                                            <option value="Bike" @if('mode_of_travel', $tada_detail->mode_of_travel == 'Bike') selected @endif>Bike</option>
+                                            <option value="Bus" @if(old('mode_of_travel', $tada_detail->mode_of_travel) == 'Bus') selected @endif>Bus</option>
+                                            <option value="Train" @if(old('mode_of_travel', $tada_detail->mode_of_travel) == 'Train') selected @endif>Train</option>
+                                            <option value="Flight" @if(old('mode_of_travel', $tada_detail->mode_of_travel) == 'Flight') selected @endif>Flight</option>
+                                            <option value="Car" @if(old('mode_of_travel', $tada_detail->mode_of_travel) == 'Car') selected @endif>Car</option>
+                                            <option value="Bike" @if(old('mode_of_travel', $tada_detail->mode_of_travel) == 'Bike') selected @endif>Bike</option>
                                         </select>
                                         @error('mode_of_travel')
                                             <small class="text-danger">{{ $message }}</small>

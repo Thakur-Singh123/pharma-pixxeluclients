@@ -286,31 +286,31 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Hospital Name</label>
-                            <input type="text" name="hospital_name" class="form-control" required>
+                            <input type="text" name="hospital_name" class="form-control" placeholder="Enter hospital name" required>
                         </div>
                         <div class="col-md-6">
                             <label>Hospital Type</label>
-                            <input type="text" name="hospital_type" class="form-control" required>
+                            <input type="text" name="hospital_type" class="form-control" placeholder="Enter hospital type" required>
                         </div>
                         <div class="col-md-6">
                             <label>Doctor Name</label>
-                            <input type="text" name="doctor_name" class="form-control" required>
+                            <input type="text" name="doctor_name" class="form-control" placeholder="Enter doctor name" required>
                         </div>
                         <div class="col-md-6">
                             <label>Speciality</label>
-                            <input type="text" name="specialist" class="form-control" required>
+                            <input type="text" name="specialist" class="form-control" placeholder="Enter specialist" required>
                         </div>
                         <div class="col-md-6">
                             <label>Contact Number</label>
-                            <input type="number" name="doctor_contact" class="form-control" required>
+                            <input type="number" name="doctor_contact" class="form-control" placeholder="Enter contact" required>
                         </div>
                         <div class="col-md-6">
                             <label>Location</label>
-                            <input type="text" name="location" class="form-control" required>
+                            <input type="text" name="location" class="form-control" placeholder="Enter location" required>
                         </div>
                         <div class="col-md-6">
                             <label>Area Pin Code</label>
-                            <input type="number" name="area_code" class="form-control" required>
+                            <input type="number" name="area_code" class="form-control" placeholder="Enter area code" required>
                         </div>
                         <div class="col-md-6">
                             <label>Picture (Clinic Visit)</label>
@@ -318,7 +318,7 @@
                         </div>
                         <div class="col-md-12 mt-3">
                             <label>Conversation Remarks</label>
-                            <textarea name="remarks" rows="3" class="form-control"></textarea>
+                            <textarea name="remarks" rows="3" class="form-control" placeholder="Enter any remarks"></textarea>
                         </div>
                     </div>
                 </div>

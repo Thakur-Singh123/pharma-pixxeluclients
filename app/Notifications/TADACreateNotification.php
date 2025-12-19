@@ -25,7 +25,6 @@ class TADACreateNotification extends Notification
         return ['database']; 
     }
 
-
     public function toArray(object $notifiable): array
     {
         return [

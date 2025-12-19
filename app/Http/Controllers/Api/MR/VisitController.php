@@ -61,6 +61,8 @@ class VisitController extends Controller
         $validator = Validator::make($request->all(), [
             'area_name' => 'required|string',
             'area_block' => 'required|string',
+            'clinic_hospital_name' => 'required|string',
+            'mobile' => 'required|string',
             'district' => 'required|string',
             'state' => 'required|string',
             'pin_code' => 'required|string',
@@ -88,6 +90,8 @@ class VisitController extends Controller
         $visit = Visit::create([
             'area_name' => $request->area_name,
             'area_block' => $request->area_block,
+            'clinic_hospital_name' => $request->clinic_hospital_name,
+            'mobile' => $request->mobile,
             'district' => $request->district,
             'state' => $request->state,
             'pin_code' => $request->pin_code,

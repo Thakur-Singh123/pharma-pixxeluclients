@@ -18,12 +18,13 @@ use App\Services\FirebaseService;
 
 class VisitPlanController extends Controller
 {
-    //Firebase service
-    protected $firebaseService;
-    //Constructor
-    public function __construct(FirebaseService $firebaseService) {
-        $this->firebaseService = $firebaseService;
+    Protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
     }
+
     //Function for ensure user is authenticated
     private function ensureAuthenticated(): ?JsonResponse {
         //Check if auth login or not
@@ -103,7 +104,7 @@ class VisitPlanController extends Controller
                     //send notification
                     $user->notify(new VisitPlanNotification($plan));
                     //fcm notification
-                    $fcmResponses[] = $this->firebaseService->sendToUser($user, [
+                    $fcmResponses[] = $this->fcmService->sendToUser($user, [
                         'id' => $plan->id,
                         'title' => $plan->title,
                         'message' => 'New visit plan created.',
@@ -111,22 +112,16 @@ class VisitPlanController extends Controller
                         'is_read' => 'false',
                         'created_at' => now()->toDateTimeString(),
                     ]);
-
                 }
             }
             //response
             return response()->json([
-                'status' => true,
+                'status' => 200,
                 'message' => 'Visit plan created successfully.',
-                'data' => $plan,
-                'fcm_responses' => $fcmResponses
+                'fcm_responses' => $fcmResponses,
+                'data' => $plan
             ], 200);
         }
-        //response
-        return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong.'
-        ], 500);
     }
 
     //Function for interested mrs

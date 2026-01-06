@@ -133,7 +133,7 @@ class TADAController extends Controller
             $is_create_tada->image_url = $is_create_tada->attachment
                 ? asset('public/uploads/ta_da/' . $is_create_tada->attachment)
                 : null;
-
+            $fcmResponse = [];
             //Get Manager
             $managerId = auth()->user()->managers->pluck('id')->first();
             //Notification

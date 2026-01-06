@@ -157,8 +157,6 @@ class PurchaseOrderController extends Controller
             ]);
         }
 
-
-
         //Response
         return response()->json([
             'status' => 200,

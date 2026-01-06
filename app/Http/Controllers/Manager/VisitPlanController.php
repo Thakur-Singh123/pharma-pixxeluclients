@@ -10,9 +10,17 @@ use App\Models\VisitPlanComment;
 use App\Models\User;
 use App\Notifications\VisitPlanNotification;
 use Illuminate\Http\Request;
+use App\Services\FirebaseService;
 
 class VisitPlanController extends Controller
 {
+    Protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
+
     //Function for show all visit plans   
     public function index(Request $request) {
         //query

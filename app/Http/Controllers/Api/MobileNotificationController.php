@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Services\FirebaseService;
+use App\Models\DeviceToken;
 
 class MobileNotificationController extends Controller
 {
@@ -29,9 +31,9 @@ class MobileNotificationController extends Controller
                 "id" => $n->id,
                 "title" => $n->data['title'] ?? "",
                 "message" => $n->data['message'] ?? "",
-                "type" => $n->data['type'] ?? "",
+                // "type" => $n->data['type'] ?? "",
                 "icon" => $n->data['icon'] ?? "fas fa-bell",
-                "url" => $n->data['url'] ?? "",
+                // "url" => $n->data['url'] ?? "",
                 "is_read" => $n->read_at ? true : false,
                 "created_at" => $n->created_at->format("Y-m-d H:i:s"),
                 "time_ago" => $n->created_at->diffForHumans(),
@@ -91,4 +93,47 @@ class MobileNotificationController extends Controller
             "message" => "All notifications marked as read."
         ]);
     }
+
+
+    //test notification
+    public function test(Request $request, FirebaseService $firebase)
+    {
+        //ECHO "test";EXIT;
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'title'   => 'nullable|string',
+            'body'    => 'nullable|string',
+            'data'    => 'nullable|array',
+        ]);
+
+        //  DB se user ke saare device tokens nikalo
+        $tokens = DeviceToken::where('user_id', $request->user_id)
+                    ->pluck('token');
+         
+        if ($tokens->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No device tokens found for this user'
+            ], 404);
+        }
+
+        $responses = [];
+
+        // Har device token par notification bhejo
+        foreach ($tokens as $token) {
+            $responses[] = $firebase->sendNotification(
+                $token,
+                $request->title ?? 'Test Notification',
+                $request->body  ?? 'Laravel Firebase notification working 🚀',
+                $request->data  ?? []
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'sent_to_tokens' => $tokens->count(),
+            'firebase_response' => $responses
+        ]);
+    }
+
 }

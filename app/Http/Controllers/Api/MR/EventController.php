@@ -13,9 +13,17 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Services\FirebaseService;
 
 class EventController extends Controller
 {
+    Protected  $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
     /**
      * Ensure the current request is authenticated.
      */
@@ -247,10 +255,26 @@ class EventController extends Controller
 
         $event->load('doctor_detail');
         $this->appendQrCode($event);
+
+        $fcmResponses = [];
+        $user = User::find(auth()->id());
+        if ($user) {
+            $user->notify(new EventAssignedNotification($event));
+            //fcm notification
+            $fcmResponses = $this->fcmService->sendToUser($user, [
+                'id'         => $event->id,
+                'title'      => $event->title, 
+                'message'    => 'You have been assigned a new event: ' . $event->title,
+                'type'       => 'event',
+                'is_read'    => 'false',
+                'created_at'=> now()->toDateTimeString(),
+            ]);
+        }
         return response()->json([
             'status' => 200,
             'message' => 'Event created successfully.',
             'data' => $event,
+            'fcm_responses' => $fcmResponses
         ], 200);
     }
 

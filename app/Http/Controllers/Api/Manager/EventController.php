@@ -14,9 +14,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Services\FirebaseService;
 
 class EventController extends Controller
 {
+
+    Protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
     /**
      * Ensure the user is authenticated.
      */
@@ -247,8 +255,18 @@ class EventController extends Controller
         $this->generateAndStoreQrCode($event);
 
         $user = User::find($request->mr_id);
+        $fcmResponses = [];
         if ($user) {
             $user->notify(new EventAssignedNotification($event));
+            //mobile notification
+            $fcmResponses = $this->fcmService->sendToUser($user, [
+                'id'         => $event->id,
+                'title'      => $event->title, 
+                'message'    => 'You have been assigned a new event: ' . $event->title,
+                'type'       => 'event',
+                'is_read'    => 'false',
+                'created_at'=> now()->toDateTimeString(),
+            ]);
         }
 
         $event->load(['mr', 'doctor_detail']);
@@ -258,6 +276,7 @@ class EventController extends Controller
             'status'  => 200,
             'message' => 'Event created successfully.',
             'data'    => $event,
+            'fcm_response' => $fcmResponses,
         ], 200);
     }
 
@@ -364,10 +383,21 @@ class EventController extends Controller
             ]);
         }
 
+        //Send notification
+        $fcmResponses = [];
         if ($oldMrId !== (int) $request->mr_id) {
             $user = User::find($request->mr_id);
             if ($user) {
                 $user->notify(new EventAssignedNotification($event));
+
+                $fcmResponses = $this->fcmService->sendToUser($user, [
+                    'id'         => $event->id,
+                    'title'      => $event->title, 
+                    'message'    => 'You have been assigned a new event: ' . $event->title,
+                    'type'       => 'event',
+                    'is_read'    => 'false',
+                    'created_at'=> now()->toDateTimeString(),
+                ]);
             }
         }
 
@@ -378,6 +408,7 @@ class EventController extends Controller
             'status'  => 200,
             'message' => 'Event updated successfully.',
             'data'    => $event,
+            'fcm_response' => $fcmResponses,
         ], 200);
     }
 

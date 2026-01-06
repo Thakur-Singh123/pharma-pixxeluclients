@@ -11,9 +11,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\PurchaseOrderApprovedNotification;
+use App\Mail\PurchaseOrderApprovedMail;
+use Illuminate\Support\Facades\Mail;
+use App\Services\FirebaseService;
+
 
 class PurchaseOrderController extends Controller
 {
+    protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
     //Function for authentication
     private function ensureAuthenticated(): ?JsonResponse {
         if (!Auth::check()) {
@@ -108,11 +119,53 @@ class PurchaseOrderController extends Controller
             'status' => 'approved',
             'manager_id'  => Auth::id(),
         ]);
+
+        //Get purchaseManager detail
+        $purchaseManager = User::find($po->purchase_manager_id);
+        $purchaseManagerFcm = [];
+        $vendorFcm = [];
+        //Check if manager exists or not
+        if ($purchaseManager) {
+            //Send notification
+            $purchaseManager->notify(new PurchaseOrderApprovedNotification($po, 'purchase_manager'));
+            Mail::to($purchaseManager->email)->send(new PurchaseOrderApprovedMail($po, 'purchase_manager'));
+            //fcm notification
+            $purchaseManagerFcm = $this->fcmService->sendToUser($purchaseManager, [
+                'id' => $po->id,
+                'title' => 'Purchase Order Approved',
+                'message' => 'Your purchase order (ID: ' . $po->id . ') has been successfully approved by Manager ' . auth()->user()->name . '.',
+                'type' => 'purchase_order_approved',
+                'is_read' => false,
+                'created_at' => now()->toDateTimeString(),
+            ]);
+        }
+
+        //Get vendor detail
+        $vendor = User::find($po->vendor_id);
+        //Send notification
+        if ($vendor) {
+            $vendor->notify(new PurchaseOrderApprovedNotification($po, 'vendor'));
+            Mail::to($vendor->email)->send(new PurchaseOrderApprovedMail($po, 'vendor'));
+            //fcm notification
+            $vendorFcm = $this->fcmService->sendToUser($vendor, [
+                'id' => $po->id,
+                'title' => 'Purchase Order Approved',
+                'message' => 'Your purchase order (ID: ' . $po->id . ') has been successfully approved by Manager ' . auth()->user()->name . '.',
+                'type' => 'purchase_order_approved',
+                'is_read' => false,
+                'created_at' => now()->toDateTimeString(),
+            ]);
+        }
+
+
+
         //Response
         return response()->json([
             'status' => 200,
             'message' => "PO #{$po->id} approved successfully.",
-            'data' => $po
+            'data' => $po,
+            'fcm' => $purchaseManagerFcm,
+            'vendor_fcm' => $vendorFcm
         ]);
     }
 

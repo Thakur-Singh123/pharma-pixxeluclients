@@ -88,6 +88,7 @@ class PurchaseOrderController extends Controller
         if ($purchaseManager) {
             //Send notification
             $purchaseManager->notify(new PurchaseOrderApprovedNotification($po, 'purchase_manager'));
+            Mail::to($purchaseManager->email)->send(new PurchaseOrderApprovedMail($po, 'purchase_manager'));
         }
 
         //Get vendor detail
@@ -95,14 +96,6 @@ class PurchaseOrderController extends Controller
         //Send notification
         if ($vendor) {
             $vendor->notify(new PurchaseOrderApprovedNotification($po, 'vendor'));
-        }
-
-        //Send email to both
-        if ($purchaseManager) {
-            Mail::to($purchaseManager->email)->send(new PurchaseOrderApprovedMail($po, 'purchase_manager'));
-        }
-
-        if ($vendor) {
             Mail::to($vendor->email)->send(new PurchaseOrderApprovedMail($po, 'vendor'));
         }
 

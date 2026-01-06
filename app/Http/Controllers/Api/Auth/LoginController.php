@@ -6,6 +6,7 @@ use App\Helpers\UserResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User; 
+use App\Models\DeviceToken;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,8 @@ class LoginController extends Controller
         $validator = \Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:6',
+            'device_token' => 'required|string',
+            'platform' => 'required|string'
         ]);
 
         //If validation fails
@@ -50,6 +53,17 @@ class LoginController extends Controller
             $error['message'] = "Your request is still pending for approval. Please wait until it is approved!";
             return response()->json($error, 400);
         }
+
+        //SAVE / UPDATE DEVICE TOKEN (MAIN ADDITION)
+        DeviceToken::updateOrCreate(
+            [
+                'token' => $request->device_token,
+            ],
+            [
+                'user_id'  => $user->id,
+                'platform' => $request->platform ?? null,
+            ]
+        );
 
         //Expiry time
         $expiryTime = now()->addHours(7); 

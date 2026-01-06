@@ -13,9 +13,16 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use App\services\FirebaseService;
 class TaskController extends Controller
 {
+
+    private $firebaseService;
+
+    public function __construct(FirebaseService $firebaseService)
+    {
+        $this->firebaseService = $firebaseService;
+    }
     /**
      * Ensure the user is authenticated.
      */
@@ -192,9 +199,21 @@ class TaskController extends Controller
             ]);
         }
 
+        $fcmResponses = [];
         $user = User::find($request->mr_id);
         if ($user) {
             $user->notify(new TaskAssignedNotification($task));
+
+            //fcm notification
+           $fcmResponses = $this->firebaseService->sendToUser($user, [
+                'id'         => $task->id,
+                'title'      => $task->title, 
+                'message'    => 'You have been assigned a new task: ' . $task->title,
+                'type'       => 'task',
+                'is_read'    => 'false',
+                'created_at'=> now()->toDateTimeString(),
+            ]);
+
         }
 
         $task->load(['mr', 'doctor']);
@@ -203,6 +222,7 @@ class TaskController extends Controller
             'status'  => 200,
             'message' => 'Task created successfully.',
             'data'    => $task,
+            'fcm_responses' => $fcmResponses
         ], 200);
     }
 
@@ -265,10 +285,22 @@ class TaskController extends Controller
             ]);
         }
 
+        //send notification
+        $fcmResponses = [];
         if ($oldMrId !== (int) $request->mr_id) {
             $user = User::find($request->mr_id);
             if ($user) {
                 $user->notify(new TaskAssignedNotification($task));
+
+                //fcm notification
+                $fcmResponses = $this->firebaseService->sendToUser($user, [
+                    'id'         => $task->id,
+                    'title'      => $task->title,
+                    'message'    => 'You have been assigned a new task: ' . $task->title,
+                    'type'       => 'task',
+                    'is_read'    => 'false',
+                    'created_at'=> now()->toDateTimeString(),
+                ]);
             }
         }
 
@@ -278,6 +310,7 @@ class TaskController extends Controller
             'status'  => 200,
             'message' => 'Task updated successfully.',
             'data'    => $task,
+            'fcm_responses' => $fcmResponses
         ], 200);
     }
 

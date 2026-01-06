@@ -28,4 +28,8 @@ Route::middleware(['ensure.token','auth:sanctum'])->group(function () {
   Route::post('/change-password', [App\Http\Controllers\Api\ProfileController::class, 'change_password']);
   //Delete account
   Route::post('/delete-account', [App\Http\Controllers\Api\ProfileController::class, 'deleteAccount']);
+
+  // notification
+  Route::get('/notifications', [App\Http\Controllers\Api\MobileNotificationController::class, 'list']);
+  Route::post('/test-notification', [App\Http\Controllers\Api\MobileNotificationController::class, 'test']);
 });

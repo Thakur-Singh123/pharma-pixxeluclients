@@ -13,7 +13,10 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h4 class="card-title">All Tour Plans</h4>
+                                <h4 class="card-title mb-0">All Tour Plans</h4>
+                                <a href="{{ url('manager/tasks/create') }}" 
+                                    class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> Add Tour Plan
+                                </a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

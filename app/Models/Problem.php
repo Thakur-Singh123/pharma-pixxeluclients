@@ -14,4 +14,9 @@ class Problem extends Model
     public function visit_details() {
         return $this->belongsTo(Visit::class, 'visit_id');
     }
+ 
+    //Function mr details
+    public function mr_detail() {
+        return $this->belongsTo(User::class, 'mr_id'); 
+    }
 }

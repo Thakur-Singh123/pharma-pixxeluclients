@@ -226,13 +226,13 @@ class PurchaseOrderController extends Controller
             'items.*.quantity' => 'required|numeric',
         ]);
         //If validation fails
-        if ($validation->fails()) {
+        if ($validation->fails()) {  
             $error['status'] = 400;
             $error['message'] =  $validation->errors()->first();
             $error['data'] = null;
             return response()->json($error, 400);
         }
-        //Validated
+        //Validated 
         $validated = $validation->validated();
         //Get po
         $order = PurchaseOrder::where('purchase_manager_id', $pmId)->find($id);

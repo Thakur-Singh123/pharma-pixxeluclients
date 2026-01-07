@@ -14,7 +14,7 @@ class ProblemController extends Controller
     //Function for all problems
     public function index() {
         //Get problems
-        $all_problems = Problem::with('visit_details')->OrderBy('ID', 'DESC')->paginate(5);
+        $all_problems = Problem::with('visit_details')->where('mr_id', auth()->id())->OrderBy('ID', 'DESC')->paginate(5);
         //echo "<pre>"; print_r($all_problems->toArray());exit;
         return view('mr.problems-challenges.all-problems', compact('all_problems'));
     }

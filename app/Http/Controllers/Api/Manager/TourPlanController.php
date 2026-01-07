@@ -13,9 +13,16 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\TourStatusNotification;
 use Illuminate\Support\Facades\Validator;
+use App\Services\FirebaseService;
 
 class TourPlanController extends Controller
 {
+    protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
     //Function for Ensure authenticated
     private function ensureAuthenticated() {
         if (!Auth::check()) {
@@ -127,14 +134,25 @@ class TourPlanController extends Controller
             'approval_status' => 'Approved',
         ]);
         //get mr id
+        $fcmResponses = [];
         $mr = User::find($tour_plan->mr_id);
         if ($mr) {
             $mr->notify(new TourStatusNotification($tour_plan));
+            //fcm notification
+            $fcmResponses = $this->fcmService->sendToUser($mr, [
+                'id' => $tour_plan->id,
+                'title' => $tour_plan->title,
+                'message' => 'Your tour plan has been approved.',
+                'type' => 'tour_plan',
+                'is_read' => 'false',
+                'created_at' => now()->toDateTimeString(),
+            ]);
         }
         //response
         return response()->json([
             'status' => true,
-            'message' => 'Tour plan approved successfully.'
+            'message' => 'Tour plan approved successfully.',
+            'fcm_response' => $fcmResponses,
         ], 200);
     }
 
@@ -170,14 +188,25 @@ class TourPlanController extends Controller
             'is_approval' => 'Rejected',
         ]);
         //get mr id
+        $fcmResponses = [];
         $mr = User::find($tour_plan->mr_id);
         if ($mr) {
             $mr->notify(new TourStatusNotification($tour_plan));
+            //fcm notification
+            $fcmResponses = $this->fcmService->sendToUser($mr, [
+                'id' => $tour_plan->id,
+                'title' => $tour_plan->title,
+                'message' => 'Your tour plan has been rejected.',
+                'type' => 'tour_plan',
+                'is_read' => 'false',
+                'created_at' => now()->toDateTimeString(),
+            ]);
         }
         //response
         return response()->json([
             'status' => true,
-            'message' => 'Tour plan rejected successfully.'
+            'message' => 'Tour plan rejected successfully.',
+            'fcm_response' => $fcmResponses,
         ], 200);
     }
 }

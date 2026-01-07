@@ -7,7 +7,7 @@ use App\Models\EventUser;
 use App\Models\MangerMR;
 use App\Models\User;
 use App\Models\Doctor;
-use App\Notifications\EventAssignedNotification;
+use App\Notifications\MrEventCreatedNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -86,12 +86,12 @@ class EventController extends Controller
         $event->status         = 'pending';
         $event->created_by     = 'mr';
         $event->save();
-
-        $user = User::find(auth()->id());
         //Notification
-        if ($user) {
-            $user->notify(new EventAssignedNotification($event));
+        $manager = User::find($manager_id);
+        if ($manager) {
+            $manager->notify(new MrEventCreatedNotification($event));
         }
+
         return redirect()->route('mr.events.index')->with('success', 'Event created successfully.');
     }
 

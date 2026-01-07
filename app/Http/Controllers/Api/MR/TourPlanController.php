@@ -13,9 +13,17 @@ use App\Notifications\TourPlanNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Services\FirebaseService;
 
 class TourPlanController extends Controller
 {
+    Protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
+
     private function ensureAuthenticated(): ?JsonResponse {
         if (!Auth::check()) {
             return response()->json([
@@ -102,14 +110,26 @@ class TourPlanController extends Controller
                 'approval_status'=> 'Pending',
             ]
         );
-
+        $fcmResponse = [];
         //Notify manager
         $manager = User::find($managerId);
-        if ($manager) $manager->notify(new TourPlanNotification($tourPlan));
+        if ($manager){
+            $manager->notify(new TourPlanNotification($tourPlan));
+            //FCM Notification
+            $fcmResponses = $this->fcmService->sendToUser($manager, [
+                'id' => $tourPlan->id,
+                'title' => 'Tour Plan Created',
+                'message'    => auth()->user()->name . " has submitted a new tour plan titled \"{$tourPlan->title}\" for your review and approval. Please check the details and take action.",
+                'type' => 'tour_plan',
+                'is_read' => 'false',
+                'created_at' => now()->toDateTimeString(),
+            ]);
+        }
         //response
         return response()->json([
             'status' => 200,
             'message' => 'Tour plan sent for manager approval.',
+            'fcm_response'  => $fcmResponses,
             'data' => $tourPlan
         ]);
     }

@@ -7,15 +7,23 @@ use App\Models\EventUser;
 use App\Models\Events;
 use App\Models\MangerMR;
 use App\Models\User;
-use App\Notifications\EventAssignedNotification;
+use App\Notifications\MrEventCreatedNotification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Services\FirebaseService;
 
 class EventController extends Controller
 {
+    Protected  $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
     /**
      * Ensure the current request is authenticated.
      */
@@ -247,10 +255,26 @@ class EventController extends Controller
 
         $event->load('doctor_detail');
         $this->appendQrCode($event);
+
+        $fcmResponses = [];
+        $user = User::find($managerId);
+        if ($user) {
+            $user->notify(new MrEventCreatedNotification($event));
+            //fcm notification
+            $fcmResponses = $this->fcmService->sendToUser($user, [
+                'id'         => $event->id,
+                'title'      => $event->title, 
+                'message'    => auth()->user()->name  . ' has submitted a new event for approval: '  . $event->title,
+                'type'       => 'event',
+                'is_read'    => 'false',
+                'created_at'=> now()->toDateTimeString(),
+            ]);
+        }
         return response()->json([
             'status' => 200,
             'message' => 'Event created successfully.',
             'data' => $event,
+            'fcm_responses' => $fcmResponses
         ], 200);
     }
 

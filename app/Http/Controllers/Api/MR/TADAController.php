@@ -8,9 +8,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Helpers\MobilePusher;
+use App\Notifications\TADACreateNotification;
+use App\Models\User;
+use App\Services\FirebaseService;
 
 class TADAController extends Controller
 {
+    Protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
+
     /**
      * Ensure the current request is authenticated.
      */
@@ -123,28 +133,35 @@ class TADAController extends Controller
             $is_create_tada->image_url = $is_create_tada->attachment
                 ? asset('public/uploads/ta_da/' . $is_create_tada->attachment)
                 : null;
-
+            $fcmResponse = [];
             //Get Manager
             $managerId = auth()->user()->managers->pluck('id')->first();
             //Notification
-            MobilePusher::send(
-                $managerId,
-                "New TADA Created",
-                auth()->user()->name . " has created a new TADA with amount of INR: " . $is_create_tada->total_amount,
-                "tada",
-                $is_create_tada->id
-            );
-            //Response
-            $success['status'] = 200;
-            $success['message'] = "TADA created successfully.";
-            $success['data'] = $is_create_tada;
-            return response()->json($success, 200);
+            $manager = User::find($managerId);
+            if($manager){
+                $manager->notify(new TADACreateNotification($is_create_tada));
+                //FCM Notification
+                $fcmResponses = $this->fcmService->sendToUser($manager, [
+                    'id' => $is_create_tada->id,
+                    'title' => 'TADA Created',
+                    'message' => 'A new TADA has been created. with amount of INR: ' . $is_create_tada->total_amount,
+                    'type' => 'tada',
+                    'is_read' => 'false',
+                    'created_at' => now()->toDateTimeString(),
+                ]);
+            }
+                //Response
+                $success['status'] = 200;
+                $success['message'] = "TADA created successfully.";
+                $success['data'] = $is_create_tada;
+                $success['fcm_response'] = $fcmResponses;
+                return response()->json($success, 200);
+        } else {
+            $error['status'] = 400;
+            $error['message'] = "Oops! Something went wrong.";
+            $error['data'] = null;
+            return response()->json($error, 400);
         }
-
-        $error['status'] = 400;
-        $error['message'] = "Oops! Something went wrong.";
-        $error['data'] = null;
-        return response()->json($error, 400);
     }
 
     //Function for update tada

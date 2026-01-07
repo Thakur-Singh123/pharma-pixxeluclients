@@ -18,9 +18,17 @@ use App\Mail\PurchaseOrderCreatedMail;
 use App\Mail\PurchaseOrderUpdatedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Services\FirebaseService;
 
 class PurchaseOrderController extends Controller
 {
+    Protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
+
     //Function for authentication
     private function ensureAuthenticated(): ?JsonResponse {
         if (!Auth::check()) {
@@ -144,7 +152,9 @@ class PurchaseOrderController extends Controller
         }
         // Get validated data as ARRAY
         $validated = $validator->validated();
-        DB::transaction(function () use ($validated, &$po) {
+        $po  = null;
+        $managerFcm  = [];
+        DB::transaction(function () use ($validated, &$po, &$managerFcm) {
             //Get manager
             $managerId = ManagerPurchaseManager::where('purchase_manager_id', Auth::id())->value('manager_id');
             //Create po
@@ -171,6 +181,15 @@ class PurchaseOrderController extends Controller
             $manager = User::find($managerId);
             if ($manager) {
                 $manager->notify(new PurchaseOrderNotification($po));
+                //fcm notification
+                $managerFcm = $this->fcmService->sendToUser($manager, [
+                    'id'         => $po->id,
+                    'title'      => 'Purchase Order Created',
+                    'message'    => auth()->user()->name . ' has created a new Purchase Order (#'. $po->id . ') for your review and approval.',
+                    'type'       => 'purchase_order',
+                    'is_read'    => false,
+                    'created_at' => now()->toDateTimeString(),
+                ]);
             }
             //Send vendor notification
             $vendor = User::find($validated['vendor_id']);
@@ -183,6 +202,7 @@ class PurchaseOrderController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Purchase order created successfully.',
+            'fcm_response'  => $managerFcm,
             'data' => $po->load('items')
         ], 200);
     }

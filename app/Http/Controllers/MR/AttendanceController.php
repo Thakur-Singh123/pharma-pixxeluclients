@@ -21,12 +21,12 @@ class AttendanceController extends Controller
         $today = Carbon::today();
         $attendance = MRAttendance::firstOrCreate(
             ['user_id' => Auth::id(), 'date' => $today],
-            ['check_in' => Carbon::now()->toTimeString(), 'status' => 'half']
+            ['check_in' => Carbon::now()->toTimeString(), 'status' => 'present']
         );
         //If record existed (already checked-in before), only update check_in if not set, and status if both times not available
         if (! $attendance->check_in) {
             $attendance->check_in = Carbon::now()->toTimeString();
-            $attendance->status   = 'half';
+            $attendance->status   = 'present';
             $attendance->save();
         }
         //If already checked in (and checked out, don't change status here)
@@ -47,10 +47,12 @@ class AttendanceController extends Controller
 
                 $hoursWorked = $checkIn->diffInHours($checkOut);
 
-                if ($hoursWorked >= 8) {
+                if ($hoursWorked >= 10) {
                     $attendance->status = 'present';
-                } elseif ($hoursWorked >= 4) {
-                    $attendance->status = 'half-day';
+                } elseif ($hoursWorked >= 5) {
+                    $attendance->status = 'half';
+                } elseif($hoursWorked >= 2){
+                    $attendance->status = 'short_leave';
                 } else {
                     $attendance->status = 'absent';
                 }
@@ -80,6 +82,7 @@ class AttendanceController extends Controller
                 'date'      => $date,
                 'check_in'  => $att->check_in ?? null,
                 'check_out' => $att->check_out ?? null,
+                'status'    => $att->status ?? null
             ];
         }
         return view('mr.attendance.month', compact('days'));

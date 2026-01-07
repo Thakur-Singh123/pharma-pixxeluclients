@@ -10,9 +10,17 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Services\FirebaseService;
+use App\Models\User;
 
 class TaskController extends Controller
 {
+    protected $fcmService;
+
+    public function __construct(FirebaseService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
     /**
      * Ensure the current request is authenticated.
      */
@@ -245,10 +253,24 @@ class TaskController extends Controller
 
         $task->load(['mr', 'doctor']);
 
+        $fcmResponse = [];
+        $manager = User::find($managerId);
+        if($manager) {
+            $fcmResponse = $this->fcmService->sendToUser($manager, [
+                'id'         => $task->id,
+                'title'      => $task->title, 
+                'message'    => 'New task is sent by MR for approval: ' . $task->title,
+                'type'       => 'task',
+                'is_read'    => 'false',
+                'created_at'=> now()->toDateTimeString(),
+            ]);
+        }
+
         return response()->json([
             'status'  => 200,
             'message' => 'Task created successfully.',
             'data'    => $task,
+            'fcmResponse' => $fcmResponse
         ], 200);
     }
 

@@ -35,7 +35,7 @@ class VisitPlanController extends Controller
         //Get mrs
         $managerIds = auth()->user()->managers->pluck('id')->toArray();
         //all plans
-        $plans = VisitPlan::whereIn('created_by', $managerIds)
+        $plans = VisitPlan::with('myInterest')->whereIn('created_by', $managerIds)
             ->whereDoesntHave('assignments')
             ->orderByDesc('id')
             ->paginate(10);
@@ -49,6 +49,10 @@ class VisitPlanController extends Controller
             ], 200);
         }
 
+        $plans->map(function ($plan) {
+            $plan->is_interested = $plan->myInterest ? 'yes' : 'no';
+            return $plan;
+        });
         //If plans found
         return response()->json([
             'status' => 200,

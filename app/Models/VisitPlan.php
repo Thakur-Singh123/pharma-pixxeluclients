@@ -31,4 +31,9 @@ class VisitPlan extends Model
     public function comments(){
        return $this->hasMany(VisitPlanComment::class, 'visit_plan_id','id');
     } 
+
+    public function myInterest(){
+        return $this->hasOne(VisitPlanInterest::class, 'visit_plan_id')
+            ->where('mr_id', auth()->id());   
+    }
 }

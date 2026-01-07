@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
+use App\Notifications\TaskAssignedNotification;
 use App\Models\Doctor;
+use App\Models\DoctorMrAssignement;
 use App\Models\Task;
 use App\Models\TaskTourPlan;
 use Carbon\Carbon;
@@ -207,6 +209,80 @@ class TourPlanController extends Controller
             'status' => true,
             'message' => 'Tour plan rejected successfully.',
             'fcm_response' => $fcmResponses,
+        ], 200);
+    }
+
+    //Function for tour plan craete
+    public function store(Request $request) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //Create tour plan
+        $validator = Validator::make($request->all(), [
+            'mr_id'      => 'required|exists:users,id',
+            'doctor_id'  => 'required|exists:doctors,id',
+            'title'      => 'required|string|max:255',
+            'description'=> 'nullable|string',
+            'location'   => 'nullable|string|max:255',
+            'start_date' => 'nullable|date',
+            'end_date'   => 'nullable|date|after_or_equal:start_date',
+            'pin_code'   => 'nullable|string|max:20',
+        ]);
+        //Validate input fields
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 400,
+                'message' => $validator->errors()->first(),
+                'data'    => null,
+            ], 400);
+        }
+        //Create task
+        $task = Task::create([
+            'mr_id'       => $request->mr_id,
+            'manager_id'  => Auth::id(),
+            'doctor_id'   => $request->doctor_id,
+            'title'       => $request->title,
+            'description' => $request->description,
+            'location'    => $request->location,
+            'start_date'  => $request->start_date,
+            'end_date'    => $request->end_date,
+            'pin_code'    => $request->pin_code,
+            'created_by'  => 'manager',
+            'status'      => 'pending',
+            'is_active'   => 1,
+        ]);
+
+        if ($request->filled('doctor_id')) {
+            DoctorMrAssignement::firstOrCreate([
+                'doctor_id' => $request->doctor_id,
+                'mr_id'     => $request->mr_id,
+            ]);
+        }
+
+        $fcmResponses = [];
+        $user = User::find($request->mr_id);
+        if ($user) {
+            $user->notify(new TaskAssignedNotification($task));
+
+            //fcm notification
+           $fcmResponses = $this->fcmService->sendToUser($user, [
+                'id'         => $task->id,
+                'title'      => $task->title, 
+                'message'    => 'You have been assigned a new task: ' . $task->title,
+                'type'       => 'task',
+                'is_read'    => 'false',
+                'created_at'=> now()->toDateTimeString(),
+            ]);
+
+        }
+
+        $task->load(['mr', 'doctor']);
+
+        return response()->json([
+            'status'  => 200,
+            'message' => 'Tour plan created successfully.',
+            'data'    => $task,
+            'fcm_responses' => $fcmResponses
         ], 200);
     }
 }

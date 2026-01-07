@@ -245,6 +245,14 @@
                         <p>Referred Patients</p>
                     </a>
                 </li>
+                <!--problems & challenges faced section-->
+                <li class="nav-item {{ request()->is('manager/problems') || request()->is('manager/problems/*/edit') ? 'active' : '' }}">
+                    <a href="{{ url('manager/problems') }}"
+                        class="nav-link {{ request()->is('manager/problems') ? 'active' : '' }}">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Problem & Challenges</p>
+                    </a>
+                </li>
                 <!--event section-->
                 <!--visit plan section-->
                 <li class="nav-item {{ request()->is('manager/visit-plans*') || request()->is('manager/edit-visit-plan*') ? 'active' : '' }}">

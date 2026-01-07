@@ -32,8 +32,8 @@ class TaskAssignedNotification extends Notification
             'task_id'   => $this->task->id,
             'title'     => $this->task->title,
             'assigned_by' => auth()->user()->name,
-            'message'   => "You have been assigned a new task: {$this->task->title}",
-            'url'       => url('mr/tasks'),
+            'message' => 'You have been assigned a new tour plan task by Manager ' . auth()->user()->name . ': ' . $this->task->title,
+            'url'       => url('mr/assigned-tour-plans'),
             'icon' => 'fas fa-tasks',
         ];
     }

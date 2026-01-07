@@ -7,7 +7,7 @@ use App\Models\EventUser;
 use App\Models\Events;
 use App\Models\MangerMR;
 use App\Models\User;
-use App\Notifications\EventAssignedNotification;
+use App\Notifications\MrEventCreatedNotification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -257,14 +257,14 @@ class EventController extends Controller
         $this->appendQrCode($event);
 
         $fcmResponses = [];
-        $user = User::find(auth()->id());
+        $user = User::find($managerId);
         if ($user) {
-            $user->notify(new EventAssignedNotification($event));
+            $user->notify(new MrEventCreatedNotification($event));
             //fcm notification
             $fcmResponses = $this->fcmService->sendToUser($user, [
                 'id'         => $event->id,
                 'title'      => $event->title, 
-                'message'    => 'You have been assigned a new event: ' . $event->title,
+                'message'    => auth()->user()->name  . ' has submitted a new event for approval: '  . $event->title,
                 'type'       => 'event',
                 'is_read'    => 'false',
                 'created_at'=> now()->toDateTimeString(),

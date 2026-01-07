@@ -32,8 +32,8 @@ class EventAssignedNotification extends Notification
             'task_id'   => $this->event->id,
             'title'     => $this->event->title,
             'assigned_by' => auth()->user()->name,
-            'message'   => "You have been assigned a new event: {$this->event->title}",
-            'url'       => url('mr/events'),
+            'message' => 'You have been assigned a new event by Manager ' . auth()->user()->name . ': ' . $this->event->title,
+            'url'       => url('mr/events-assigned-by-manager'),
             'icon' => 'fas fa-calendar-check',
         ];
     }

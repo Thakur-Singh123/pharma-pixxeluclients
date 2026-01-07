@@ -79,6 +79,140 @@
         box-shadow: 0 4px 24px rgba(44,62,80,0.09), 0 1.5px 5px rgba(44,62,80,.025);
         border-radius: 16px;
     }
+    /* ===== GLOBAL WRAPPER ===== */
+.container.month_att {
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+/* ===== CARD ===== */
+.card-shadow {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+/* ===== HEADER ===== */
+.attendance-hero {
+    background: linear-gradient(135deg, #1f2937, #111827);
+    color: #fff;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.attendance-hero .fs-5 {
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+.attendance-hero .small {
+    font-size: 13px;
+    opacity: .8;
+}
+
+/* ===== STATUS BADGE ===== */
+.status-big {
+    font-size: 13px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+}
+
+/* ===== CHECK IN / OUT BOX ===== */
+.attendence_indox {
+    gap: 14px;
+    padding: 12px 0;
+}
+
+.attendence_indox .col {
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: #f9fafb;
+    transition: .2s ease;
+}
+
+.attendence_indox .col:hover {
+    background: #f3f4f6;
+}
+
+/* time badge */
+.attendence_indox .badge {
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 999px;
+}
+
+.attendence_indox .small {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+/* ===== BUTTONS ===== */
+.free_del {
+    margin-top: 10px;
+}
+
+.free_del .btn {
+    padding: 10px 22px;
+    font-size: 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    width: 135px;
+}
+.free_del .btn-success {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border: none;
+}
+
+.free_del .btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border: none;
+}
+
+.free_del .btn:disabled {
+    opacity: .6;
+}
+
+/* ===== FOOTER INFO ===== */
+.text-muted {
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: 18px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+    .attendance-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .attendence_indox {
+        flex-direction: column;
+    }
+
+    .attendence_indox .col {
+        width: 100%;
+    }
+}
+
     @media (max-width: 600px) {
         .attendance-hero {padding:18px 0;}
         .attendance-avatar {width:55px;height:55px;font-size:26px;}
@@ -94,7 +228,7 @@
             </div> -->
             <div class=" fs-5 fw-bold">{{ auth()->user()->name }}</div>
             <div class="attendance_single">
-                @if($attendance)
+                {{-- @if($attendance)
                     @if($attendance->status === 'present')
                         <span class="status-big stat-present">
                             <i class="bi bi-patch-check-fill me-1"></i> Present
@@ -116,7 +250,7 @@
                     <span class="status-big stat-absent">
                         <i class="bi bi-x-circle me-1"></i> Absent
                     </span>
-                @endif
+                @endif --}}
             </div>
             <div class="small opacity-75">{{ \Carbon\Carbon::today()->format('d F, Y') }}</div>
         </div>

@@ -22,5 +22,5 @@ Route::post('/join-event/{id}', [App\Http\Controllers\MR\EventController::class,
 Route::get('/privacy-policy', [App\Http\Controllers\PrivacyController::class, 'privacy_policy']);
 
 //Delete Account
-Route::get('/account/delete', [App\Http\Controllers\DeleteAccountController::class, 'destroy'])->name('account.delete');
+Route::get('/account/delete/{id}', [App\Http\Controllers\DeleteAccountController::class, 'destroy']);
 

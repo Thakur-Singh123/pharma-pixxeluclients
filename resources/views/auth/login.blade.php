@@ -59,6 +59,32 @@
    transform: scale(1.1);
    transition: 0.2s;
 }
+/* ===== Forgot Password Custom CSS ===== */
+
+.forgot-password-wrap {
+    display: block;
+    text-align: right;
+}
+
+.forgot-password-link {
+    font-size: 12px;
+    color: #ff0013;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+
+.account-delete-alert {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 12px;
+    margin-bottom: 100px;
+    color: green;
+}
+
 
 
    </style>
@@ -84,6 +110,14 @@
          <div class="forms">
             <div class="form-content">
                <div class="login-form">
+                  @if (session('account_deleted'))
+                     <div class="alert alert-success account-delete-alert">
+                        <span>
+                           Your account has been permanently deleted.
+                           You can create a new account anytime by signing up again.
+                        </span>
+                     </div>
+                  @endif
                   <div class="title">Login</div>
                   <form method="POST" action="{{ route('login') }}">
                      @csrf
@@ -102,6 +136,14 @@
                               <small class="text-danger">{{ $message }}</small>
                            @enderror
                         </div>
+                                    <!--Forgot Password-->
+<div class="text-end mb-3 forgot-password-wrap">
+    <a href="{{ route('password.request') }}" class="forgot-password-link">
+        Forgot Password?
+    </a>
+</div>
+
+
                         <!--<div class="text"><a href="#">Forgot password?</a></div>-->
                         <div class="button input-box">
                            <input type="submit" value="Sumbit">
@@ -420,6 +462,14 @@ window.addEventListener("load", function() {
 });
 </script>
 
+<script>
+   setTimeout(() => {
+      const alertBox = document.querySelector('.account-delete-alert');
+      if(alertBox){
+         alertBox.style.display = 'none';
+      }
+   }, 8000);
+</script>
 
 
 </html>

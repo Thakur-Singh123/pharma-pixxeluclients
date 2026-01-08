@@ -18,3 +18,9 @@ Route::get('/notifications/read-all', [App\Http\Controllers\NotificationControll
 Route::get('/join-event/{id}', [App\Http\Controllers\MR\EventController::class, 'showJoinForm']);
 Route::post('/join-event/{id}', [App\Http\Controllers\MR\EventController::class, 'submitJoinForm']);
 
+//Privacy policy
+Route::get('/privacy-policy', [App\Http\Controllers\PrivacyController::class, 'privacy_policy']);
+
+//Delete Account
+Route::get('/account/delete', [App\Http\Controllers\DeleteAccountController::class, 'destroy'])->name('account.delete');
+

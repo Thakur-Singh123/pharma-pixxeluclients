@@ -1,135 +1,144 @@
 @extends('manager.layouts.master')
 <style>
-    body, html {
-        background: #f6f7fb;
-    }
-    .attendance-container {
-        background: #fff;
-        border-radius: 14px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.09), 0 1.5px 5px rgba(44,62,80,.025);
-        padding: 30px 22px 24px 22px;
-        margin-top: 36px;
-    }
-    .attendance-title {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #15447c;
-        margin-bottom: 4px;
-    }
-    .attendance-subtitle {
-        color: #888;
-        margin-bottom: 28px;
-        font-size: 1.08rem;
-    }
-    .attendance-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        background: #fff;
-        border-radius: 12px;
-        overflow: auto;
-        margin-bottom: 0;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.06);
-        white-space: nowrap;
-    }
-    .attendance-table th, .attendance-table td {
-        border: none;
-        padding: 8px 7px !important;
-        text-align: center;
-        font-size: 1rem;
-    }
-    .attendance-table th {
-        background: #f2f7fa;
-        color: #446081;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        border-bottom: 2px solid #dee8f3;
-    }
-    .attendance-table tbody tr {
-        transition: background 0.2s;
-    }
-    .attendance-table tbody tr:hover {
-        background: #f7faff;
-    }
-    td.employee {
-        text-align: left;
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        font-weight: 500;
-        color: #233753;
-        background: #fafdff;
-        border-radius: 13px;
-        margin-left: 6px;
-        min-width: 180px;
-    }
-    td.employee img {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #e0e5ec;
-        box-shadow: 0 1px 7px rgba(21,68,124,0.11);
-    }
-    .badge-att {
-        display: inline-block;
-        min-width: 25px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 1.05em;
-        padding: 2px 4px;
-        line-height: 1.1;
-    }
-    .att-present {
-        background: #e4fbe6;
-        color: #0db81f;
-        border-radius: 50%;
-        height: 30px;
-        line-height: 26px;
-        font-size: 13px;
-        min-width: 30px;
-    }
-    table.attendance-table td {
-        border: 1px solid #ebebeb;
-        border-radius: 0 !important;
-    }
-    .att-half {
-        background: #fffdea;
-        color: #bca200;
-        border-radius: 50%;
-        height: 30px;
-        line-height: 26px;
-        font-size: 13px;
-        min-width: 30px;
-    }
-    .att-leave {
-        background: #e6f3fc;
-        color: #2471c1;
-        border-radius: 50%;
-        height: 30px;
-        line-height: 26px;
-        font-size: 13px;
-        min-width: 30px;
-    }
-
-
-    .att-absent {
-    background: #fff2ee;
-    color: #e04a34;
-    border-radius: 50%;
-    height: 30px;
-    line-height: 26px;
-    font-size: 13px;
-    min-width: 30px;
+body, html {
+    background: #f4f6fb;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.attendance-container {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+    padding: 26px 26px 22px;
+    margin-top: 30px;
+}
+.attendance-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #1f3b64;
+    margin-bottom: 18px;
+    position: relative;
+}
+.attendance-title::after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 3px;
+    background: linear-gradient(90deg, #4270fa, #6b8cff);
+    border-radius: 3px;
+    margin-top: 6px;
+}
+.table-responsive {
+    border-radius: 14px;
+    overflow: auto;
+}
+.attendance-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    white-space: nowrap;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border-radius: 14px;
+}
+.attendance-table thead th {
+    background: linear-gradient(135deg, #1f2a44, #2f3e66);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 11px 8px !important;
+    border-right: 1px solid rgba(255,255,255,0.15);
+}
+.attendance-table thead th:first-child {
+    border-top-left-radius: 14px;
 }
 
-    .tot-title {background: #f2f7fa; color: #7e8fa9; font-size: 0.85em;}
-    @media (max-width: 700px) {
-        .attendance-container {padding: 12px 4px 6px 4px;}
-        .attendance-table th, .attendance-table td {font-size: 12px;padding: 3px 2px !important;}
-        .attendance-title {font-size: 1.1rem;}
-        td.employee img {width: 24px; height:24px;}
+.attendance-table thead th:last-child {
+    border-top-right-radius: 14px;
+}
+.attendance-table td {
+    border: 1px solid #eef1f6;
+    padding: 9px 7px !important;
+    font-size: 14px;
+    color: #2b2b2b;
+}
+.attendance-table tbody tr {
+    transition: background 0.18s ease-in-out;
+}
+.attendance-table tbody tr:hover {
+    background: #f7faff;
+}
+td.employee {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    color: #243a5e;
+    background: #f9fbff;
+    min-width: 190px;
+    padding-left: 12px !important;
+}
+td.employee img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #dfe6f1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.badge-att {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 13px;
+}
+.att-present {
+    background: #e7f8eb;
+    color: #1ea84a;
+    box-shadow: inset 0 0 0 1px #b7ebc6;
+}
+.att-half {
+    background: #fff8dc;
+    color: #b89400;
+    box-shadow: inset 0 0 0 1px #ffe28a;
+}
+
+.att-leave {
+    background: #eaf4ff;
+    color: #2f6fd6;
+    box-shadow: inset 0 0 0 1px #c5dcff;
+}
+.att-absent {
+    background: #fff0ed;
+    color: #e04a34;
+    box-shadow: inset 0 0 0 1px #ffc1b6;
+}
+.tot-title {
+    background: linear-gradient(135deg, #eef3fb, #f7f9fd) !important;
+    color: #6c7f99 !important;
+    font-size: 11px;
+}
+@media (max-width: 768px) {
+    .attendance-container {
+        padding: 14px 8px;
     }
+    .attendance-title {
+        font-size: 1.2rem;
+    }
+    .attendance-table th,
+    .attendance-table td {
+        font-size: 12px;
+        padding: 5px 4px !important;
+    }
+    td.employee img {
+        width: 26px;
+        height: 26px;
+    }
+}
 </style>
 @section('content')
     <div class="container attendance-container">

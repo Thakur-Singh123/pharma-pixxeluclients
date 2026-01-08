@@ -16,11 +16,11 @@ class DeleteAccountController extends Controller
         $user = User::find($id);
         //Check if user found or not
         if (!$user) {
-        return response()->json([
-            'status' => false,
-            'message' => 'User not found.'
-        ], 404);
-    }
+            return response()->json([
+                'status' => 400,
+                'message' => 'User not found.'
+            ], 400);
+        }
         //Get role & user id
         $role = trim($user->user_type);
         $user_id = $user->id;
@@ -88,16 +88,16 @@ class DeleteAccountController extends Controller
             $is_delete_account = User::where('id', $id)->delete();
             DB::commit();
             //Check if account deleted or not
-       return response()->json([
-            'status' => true,
-            'message' => 'Your account has been permanently deleted. You may sign up again anytime.'
-        ]);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Your account has been permanently deleted. You may sign up again anytime.'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
- return response()->json([
-            'status' => false,
-            'message' => 'Oops! Something went wrong.'
-        ], 500);
+            return response()->json([
+                'status' => 400,
+                'message' => 'Oops! Something went wrong.'
+            ], 400);
         }
     }
 }

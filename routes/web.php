@@ -20,7 +20,8 @@ Route::post('/join-event/{id}', [App\Http\Controllers\MR\EventController::class,
 
 //Privacy policy
 Route::get('/privacy-policy', [App\Http\Controllers\PrivacyController::class, 'privacy_policy']);
+Route::get('/delete-account', [App\Http\Controllers\PrivacyController::class, 'delete_account']);
 
 //Delete Account
-Route::get('/account/delete/{id}', [App\Http\Controllers\DeleteAccountController::class, 'destroy']);
+//Route::get('/account/delete/{id}', [App\Http\Controllers\DeleteAccountController::class, 'destroy']);
 

@@ -44,7 +44,7 @@
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->is('purchase-manager/purchase-orders/create') ? 'active' : '' }}">
                                 <a href="{{ route('purchase-manager.purchase-orders.create') }}">
-                                    <span class="sub-item">Create PO</span>
+                                    <span class="sub-item">Create Purchase Order</span>
                                 </a>
                             </li>
                             <li

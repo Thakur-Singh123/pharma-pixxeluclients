@@ -8,7 +8,7 @@ class Problem extends Model
 {
     //Call migration
     protected $table = 'problems';
-    protected $fillable = ['mr_id','visit_id','title','description','camp_type','visit_name','doctor_name','start_date','end_date'];
+    protected $fillable = ['mr_id','visit_id','title','description','camp_type','visit_name','doctor_name','start_date','end_date','status'];
 
     //Get visit detail
     public function visit_details() {

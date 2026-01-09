@@ -28,6 +28,26 @@ class ProblemController extends Controller
         return view('manager.problems-challenges.edit-problem', compact('problem_detail','all_visits'));
     }
 
+    //Function for approve problem
+    public function approve_problem($id) {
+        //Get problem
+        $problem = Problem::findOrFail($id);
+        //update problem
+        $problem->status = 'approved'; 
+        $problem->save();
+        return back()->with('success', 'Problem challenge approved successfully.');
+    }
+
+    //Function for reject problem
+    public function reject_problem($id) {
+        //Get patient
+        $problem = Problem::findOrFail($id);
+        //update problem
+        $problem->status = 'rejected'; 
+        $problem->save();
+        return back()->with('success', 'Problem challeng reject successfully.');
+    }
+
     //Function for update
     public function update(Request $request, $id) {
         //Validate input fields

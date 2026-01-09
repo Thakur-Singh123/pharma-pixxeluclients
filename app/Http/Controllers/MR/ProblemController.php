@@ -47,6 +47,7 @@ class ProblemController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'description' => $request->description,
+            'status' => 'pending',
         ]);
         //Check if problem created or not
         if ($is_create_problem) {
@@ -87,6 +88,7 @@ class ProblemController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'description' => $request->description,
+            'status' => 'pending',
         ]);
         //Check if problem updated or not
         if ($is_update_problem) {

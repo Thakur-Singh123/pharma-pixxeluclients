@@ -72,7 +72,7 @@
                                                 <thead>
                                                     <tr role="row">
                                                         <th style="width: 80px;">Sr No.</th>
-                                                        <th style="width: 120px;">PO #</th>
+                                                        <th style="width: 120px;">Purchase Order No #</th>
                                                         <th style="width: 140px;">Date</th>
                                                         <th>Vendor Name</th>
                                                         <th>Vendor Email</th>

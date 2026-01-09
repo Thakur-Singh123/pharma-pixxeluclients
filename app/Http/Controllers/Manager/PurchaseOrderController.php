@@ -99,7 +99,7 @@ class PurchaseOrderController extends Controller
             Mail::to($vendor->email)->send(new PurchaseOrderApprovedMail($po, 'vendor'));
         }
 
-        return back()->with('success', "PO #{$po->id} approved.");
+        return back()->with('success', "Purchase Order No #{$po->id} approved successfully.");
     }
 
     // Reject Order
@@ -110,7 +110,7 @@ class PurchaseOrderController extends Controller
         $po = PurchaseOrder::where('manager_id', $managerId)->findOrFail($id);
         $po->update(['status' => 'rejected']);
 
-        return back()->with('success', "PO #{$po->id} rejected.");
+        return back()->with('success', "Purchase Order No #{$po->id} rejected successfully.");
     }
 
     // Edit page (includes vendor list)

@@ -50,6 +50,8 @@ Route::prefix('manager')->middleware(['ensure.token', 'auth:sanctum', 'manager']
     Route::delete('/referred-patient/{id}', [App\Http\Controllers\Api\Manager\PatientController::class, 'destroy']);
     //Problems Challenge
     Route::get('/problems', [App\Http\Controllers\Api\Manager\ProblemController::class, 'index']);
+    Route::post('/problem-approve/{id}', [App\Http\Controllers\Api\Manager\ProblemController::class, 'approve_problem']);
+    Route::post('/problem-reject/{id}', [App\Http\Controllers\Api\Manager\ProblemController::class, 'reject_problem']);
     Route::post('/problems/{id}', [App\Http\Controllers\Api\Manager\ProblemController::class, 'update']);
     Route::delete('/problems/{id}', [App\Http\Controllers\Api\Manager\ProblemController::class, 'destroy']);
     //Clients

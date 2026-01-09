@@ -72,6 +72,16 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Status
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1" style="width: 366.578px;">Approval
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
                                                                 style="width: 156.312px;">Action
                                                             </th>
                                                         </tr>
@@ -90,6 +100,52 @@
                                                             <td>{{ \Carbon\Carbon::parse($problem->end_date)->format('d M, Y') }}</td>
                                                             <td>{{ $problem->description }}</td>
                                                             <td>{{ $problem->mr_detail->name }}</td>
+                                                            <td>
+                                                                <span class="status-badge 
+                                                                    {{ $problem->status == 'pending' ? 'status-pending' : '' }}
+                                                                    {{ $problem->status == 'rejected' ? 'status-suspend' : '' }}
+                                                                    {{ $problem->status == 'approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($problem->status) }}
+                                                                </span>
+                                                            </td>
+                                                            <td style="display: flex; gap: 5px;">
+                                                                @if ($problem->status == 'pending')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.problem.approve', $problem->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-success btn-sm">
+                                                                            Approve
+                                                                        </button>
+                                                                    </form>
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.problem.reject', $problem->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm">
+                                                                            Reject
+                                                                        </button>
+                                                                    </form>
+                                                                @elseif($problem->status == 'approved')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.problem.reject', $problem->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm">
+                                                                            Reject
+                                                                        </button>
+                                                                    </form>
+                                                                @elseif($problem->status == 'rejected')
+                                                                    <form method="POST"
+                                                                        action="{{ route('manager.problem.approve', $problem->id) }}">
+                                                                        @csrf
+                                                                        <button
+                                                                            class="btn btn-success btn-sm">
+                                                                            Approve
+                                                                        </button>
+                                                                    </form>
+                                                                @endif
+                                                            </td>
                                                             <td>
                                                                 <div class="form-button-action"> 
                                                                     <a href="{{ route('manager.problems.edit', $problem->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>

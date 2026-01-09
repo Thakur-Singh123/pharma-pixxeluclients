@@ -24,7 +24,7 @@ class VisitPlanController extends Controller
     //Function for show all visit plans   
     public function index(Request $request) {
         //query
-        $query = VisitPlan::OrderBy('ID', 'DESC')
+        $query = VisitPlan::OrderBy('ID','DESC')
             ->where('created_by', auth()->id())
             ->with('comments');
             //filter
@@ -94,7 +94,7 @@ class VisitPlanController extends Controller
         //Get mrs
         $mrs = auth()->user()->mrs->pluck('id')->toArray();
         //Get interested mrs
-        $intrested_mrs = VisitPlanInterest::whereIn('mr_id', $mrs)->with('mr','visitPlan')->paginate(10);
+        $intrested_mrs = VisitPlanInterest::OrderBy('ID', 'DESC')->whereIn('mr_id', $mrs)->with('mr','visitPlan')->paginate(10);
         return view('manager.visit_plans.interested_mrs', compact('intrested_mrs'));
     }
 
@@ -214,7 +214,6 @@ class VisitPlanController extends Controller
         $visit->status = $request->status;
         //Update
         $visit->save();
-
         return redirect()->back()->with('success', 'Visit plan status updated successfully.');
     }
 }

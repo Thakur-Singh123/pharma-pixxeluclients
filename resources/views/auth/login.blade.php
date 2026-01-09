@@ -79,6 +79,13 @@
          margin-bottom: 100px;
          color: green;
       }
+      .success-alert {
+         padding: 12px 15px;
+         font-size: 12px;
+         text-align: center;*/
+         color: green;
+         margin: 0px 0px 190px 0px;
+      }
    </style>
    <body>
       <div class="container">
@@ -102,12 +109,9 @@
          <div class="forms">
             <div class="form-content">
                <div class="login-form">
-                  @if (session('account_deleted'))
-                     <div class="alert alert-success account-delete-alert">
-                        <span>
-                           Your account has been permanently deleted.
-                           You can create a new account anytime by signing up again.
-                        </span>
+                  @if(session('success'))
+                     <div class="success-alert account-delete-alert">
+                        {{ session('success') }}
                      </div>
                   @endif
                   <div class="title">Login</div>
@@ -427,7 +431,6 @@ window.addEventListener("load", function() {
    }
 });
 </script>
-
 <script>
    setTimeout(() => {
       const alertBox = document.querySelector('.account-delete-alert');
@@ -436,6 +439,4 @@ window.addEventListener("load", function() {
       }
    }, 8000);
 </script>
-
-
 </html>

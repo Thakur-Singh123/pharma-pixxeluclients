@@ -87,13 +87,13 @@
                                                                     </td>
                                                                     <td>
                                                                         @if ($visit_plan->user_interest)
-                                                                            <span class="badge bg-success">Already Interested</span>
+                                                                            <span class="badge bg-success border-0">Already Interested</span>
                                                                         @else
                                                                             <form method="POST"
                                                                             action="{{ route('mr.visit-plan.interested', $visit_plan->id) }}">
                                                                             @csrf
                                                                             <button type="submit"
-                                                                                class="badge bg-success">
+                                                                                class="badge bg-danger border-0">
                                                                                 I am Interested
                                                                             </button>
                                                                         </form>

@@ -16,7 +16,7 @@ class VisitPlanController extends Controller
     public function index()
     {
         $manager = auth()->user()->managers->pluck('id')->toArray();
-        $visit_plans = VisitPlan::where('created_by', $manager)
+        $visit_plans = VisitPlan::OrderBy('ID', 'DESC')->where('created_by', $manager)
         ->whereDoesntHave('assignments')
          ->paginate(10);
 
@@ -47,14 +47,14 @@ class VisitPlanController extends Controller
     //function for mr to view their interested visit plans
     public function myInterestedPlans()
     {
-        $interests = VisitPlanInterest::where('mr_id', auth()->id())->with('visitPlan')->paginate();
+        $interests = VisitPlanInterest::OrderBy('ID', 'DESC')->where('mr_id', auth()->id())->with('visitPlan')->paginate();
         return view('mr.visit_plans.intrestedplan', compact('interests'));
     }
 
     //function for mr to view their assigned visit plans
     public function myAssignedPlans()
     {
-        $assignments = VisitPlanAssignement::where('mr_id', auth()->id())->with('visitPlan')->paginate();
+        $assignments = VisitPlanAssignement::OrderBy('ID', 'DESC')->where('mr_id', auth()->id())->with('visitPlan')->paginate();
         return view('mr.visit_plans.assignedplan', compact('assignments'));
     }
 }

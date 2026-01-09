@@ -137,7 +137,7 @@
                                                             @if ($pending->status == 'Pending')
                                                                 <form method="POST" action="{{ route('manager.user.approve', $pending->id) }}">
                                                                     @csrf
-                                                                    <button class="btn btn-success btn-sm">Approved</button>
+                                                                    <button class="btn btn-success btn-sm">Approve</button>
                                                                 </form>
                                                                 <form method="POST" action="{{ route('manager.user.reject', $pending->id) }}">
                                                                     @csrf

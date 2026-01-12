@@ -1,5 +1,10 @@
 @extends('mr.layouts.master')
 @section('content')
+<style>
+
+</style>
+
+
 <div class="container">
     <div class="page-inner">
         <div class="row">

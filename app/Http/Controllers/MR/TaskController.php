@@ -92,7 +92,7 @@ class TaskController extends Controller
         $mr = auth()->user();
         $all_doctors = $mr->doctors()->where('status', 'active')->get();
         //Get Task
-        $task_detail = Task::find($id);
+        $task_detail = Task::findOrFail($id);
         return view('mr.tasks.edit-task', compact('all_doctors','task_detail'));
     }
 

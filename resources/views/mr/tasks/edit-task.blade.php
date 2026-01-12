@@ -109,8 +109,10 @@
                                 </div> -->
                             </div>
                             <div class="card-action">
-                                <button type="submit" class="btn btn-success">Update</button>
-                                <a href="{{ route('mr.tasks.index') }}" class="btn btn-danger">Cancel</a>
+                                @if($task_detail->is_active != '1')
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                    <a href="{{ route('mr.tasks.index') }}" class="btn btn-danger">Cancel</a>
+                                @endif
                             </div>
                         </form>
                     </div>

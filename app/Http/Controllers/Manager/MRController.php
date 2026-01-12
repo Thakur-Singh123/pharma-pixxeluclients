@@ -15,7 +15,7 @@ class MRController extends Controller
     public function index() {
         //Get mrs
         $manager = User::find(auth()->id());
-        $mrs = $manager->mrs()->OrderBy('ID', 'DESC')->paginate(10);
+        $mrs = $manager->mrs()->OrderBy('ID', 'DESC')->paginate(5);
         return view('manager.mr-management.index', compact('mrs'));
     }
 

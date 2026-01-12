@@ -22,13 +22,13 @@ class UserStatusController extends Controller
 
         // agar user_type select kiya gaya hai
         if ($type == 'MR') {
-            $active_users = $manager->mrs()->where('status', 'Active')->orderBy('id', 'DESC')->paginate(10);
+            $active_users = $manager->mrs()->where('status', 'Active')->orderBy('id', 'DESC')->paginate(5);
         } elseif ($type == 'vendor') {
-            $active_users = $manager->vendors()->where('status', 'Active')->orderBy('id', 'DESC')->paginate(10);
+            $active_users = $manager->vendors()->where('status', 'Active')->orderBy('id', 'DESC')->paginate(5);
         } elseif ($type == 'purchase_manager') {
-            $active_users = $manager->purchaseManagers()->where('status', 'Active')->orderBy('id', 'DESC')->paginate(10);
+            $active_users = $manager->purchaseManagers()->where('status', 'Active')->orderBy('id', 'DESC')->paginate(5);
         } elseif ($type == 'counsellor') {
-            $active_users = $manager->counsellors()->where('status', 'Active')->orderBy('id', 'DESC')->paginate(10);
+            $active_users = $manager->counsellors()->where('status', 'Active')->orderBy('id', 'DESC')->paginate(5);
         } else {
             // agar koi specific type select nahi kiya gaya
             $mrs = $manager->mrs()->where('status', 'Active')->get();

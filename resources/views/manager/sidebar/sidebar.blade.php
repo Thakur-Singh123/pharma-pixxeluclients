@@ -278,12 +278,12 @@
                     </div>
                 </li>
                 <!--tour-plans section-->
-                <li class="nav-item {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-tour-plan*') ? 'active' : '' }}">
+                <!-- <li class="nav-item {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-tour-plan*') ? 'active' : '' }}">
                     <a href="{{ url('manager/tour-plans') }}" class="nav-link {{ request()->is('manager/tour-plans*') || request()->is('manager/edit-tour-plan*') ? 'active' : '' }}">
                         <i class="fas fa-map-marked-alt"></i>
                         <p>Tour Plans</p>
                     </a>
-                </li>
+                </li> -->
                 <!--daily mr report section-->
                 {{-- <li class="nav-item {{ request()->is('manager/daily-mr-reports*') || request()->is('manager/edit-report*') ? 'active' : '' }}">
                     <a href="{{ url('manager/daily-mr-reports') }}" class="nav-link {{ request()->is('manager/daily-mr-reports*') || request()->is('manager/edit-report*') ? 'active' : '' }}">

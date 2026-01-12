@@ -1,11 +1,173 @@
 @extends('manager.layouts.master')
 @section('content')
+<style>
+    /* =========================
+   PAGE + CARD
+========================= */
+.page-inner {
+    background: #f5f6fa;
+}
+
+.calendar-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+/* =========================
+   TITLE (same as MR)
+========================= */
+.calendar-title {
+    margin: 0 0 14px 0;
+    padding-bottom: 10px;
+    color: #2a2f5b;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.6;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* =========================
+   FULLCALENDAR HEADER
+========================= */
+.fc-header-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.fc-toolbar-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* =========================
+   BUTTONS (Month + Arrows)
+========================= */
+.fc-button {
+    background: #6c757d !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+    font-weight: 500;
+}
+
+.fc-button:hover {
+    background: #5a6268 !important;
+}
+
+.fc-button:focus,
+.fc-button:active {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.fc-toolbar-chunk {
+    display: flex;
+    gap: 6px;
+}
+
+/* =========================
+   DAY HEADER
+========================= */
+.fc-col-header-cell-cushion {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563eb;
+}
+
+/* =========================
+   DAY CELLS
+========================= */
+.fc-daygrid-day-frame {
+    min-height: 80px;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.fc-daygrid-day-number {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* =========================
+   EVENTS
+========================= */
+.fc-event {
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 3px 6px;
+    border: none !important;
+}
+
+/* =========================
+   REMOVE RIGHT SCROLLER
+========================= */
+.fc-scroller,
+.fc-scroller-liquid-absolute {
+    overflow: visible !important;
+}
+
+.fc-daygrid-body {
+    overflow: visible !important;
+}
+
+#calendar {
+    overflow: hidden !important;
+}
+
+/* =========================
+   MODALS (same as MR)
+========================= */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+}
+
+.modal-header {
+    background: #0d6efd;
+    color: #ffffff;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.modal-body p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #374151;
+}
+
+.modal-body strong {
+    color: #111827;
+}
+
+.badge {
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 12px;
+    text-transform: capitalize;
+}
+</style>
 <div class="container">
     <div class="page-inner">
-        <h2 class="mb-3">My Calendar</h2>
-        <div id="calendar"></div>
+        <div class="calendar-card">
+            <h4 class="calendar-title">My Calendar</h4>
+            <div id="calendar"></div>
+        </div>
     </div>
 </div>
+
 <!--Task Modal-->
 <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -51,54 +213,7 @@
         </div>
     </div>
 </div>
-<style>
-#calendar {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-.fc-toolbar-title { 
-    font-size: 20px; 
-    font-weight: 600; 
-    color: #2c3e50; 
-}
-.fc-button {
-    background: #3498db !important;
-    border: none !important;
-    border-radius: 6px !important;
-    padding: 5px 12px !important;
-    font-size: 14px !important;
-    color: #fff !important;
-    transition: 0.3s;
-}
-.fc-button:hover {
-    background: #2980b9 !important; 
-}
-.fc-daygrid-day-frame {
-    min-height: 70px !important;
-    padding: 4px !important;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-.fc-daygrid-day-frame:hover {
-    background: #f1f8ff;
-    transform: scale(1.02);
-    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.05);
-}
-.fc-daygrid-day-number { 
-    font-size: 13px; 
-    font-weight: 600; 
-    color: #34495e; 
-}
-.fc-event { 
-    font-size: 12px; 
-    border-radius: 6px; 
-    padding: 2px 6px; 
-    font-weight: 500; 
-    border: none !important; 
-}
-</style>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -107,7 +222,10 @@
         const eventModalEl = document.getElementById('eventModal');
         const eventModalInstance = new bootstrap.Modal(eventModalEl);
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'timeGridWeek',
+            initialView: 'dayGridMonth',     
+            eventDisplay: 'block',             
+            height: 'auto',                     
+        fixedWeekCount: false,    
             initialDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
             contentHeight: 550,
             expandRows: true,
@@ -124,10 +242,14 @@
                 }
             ],
             headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                left: 'title',
+                center: '',
+                right: 'dayGridMonth prev,next'
             },
+            buttonText: {
+                dayGridMonth: 'Month'
+            },
+
             eventClick: function(info) { 
                 if(info.event.extendedProps.type === 'task' || info.event.extendedProps.type === 'monthly_task') {
                     document.getElementById('taskTitle').innerText = info.event.title;

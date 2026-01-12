@@ -69,6 +69,11 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Is Approval
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Status
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
@@ -91,6 +96,17 @@
                                                                     <td>{{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                                     <td>{{ $task->created_by }}</td>
+                                                                    <td>
+                                                                        @if($task->is_active == 1)
+                                                                            <span class="status-badge status-approved">
+                                                                                Approved
+                                                                            </span>
+                                                                        @else
+                                                                            <span class="status-badge status-pending">
+                                                                                Pending
+                                                                            </span>
+                                                                        @endif
+                                                                    </td>
                                                                     <td>
                                                                         <form action="{{ route('mr.tasks.update.status', $task->id) }}" method="POST" class="status-form">
                                                                             @csrf

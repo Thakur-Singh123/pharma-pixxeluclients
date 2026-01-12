@@ -82,7 +82,7 @@ class TADAController extends Controller
     //Function for edit TADA
     public function edit($id) {
         //Get tada detail
-        $tada_detail = TADARecords::find($id);
+        $tada_detail = TADARecords::findOrFail($id);
         return view('mr.TADA.edit-tada', compact('tada_detail'));
     }
 

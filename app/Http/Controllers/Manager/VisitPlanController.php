@@ -32,7 +32,7 @@ class VisitPlanController extends Controller
             $query->where('status', $request->status);
         }
         //Get visits
-        $visit_plans = $query->paginate(10);
+        $visit_plans = $query->paginate(5);
         return view('manager.visit_plans.index', compact('visit_plans'));
     }
 
@@ -94,7 +94,7 @@ class VisitPlanController extends Controller
         //Get mrs
         $mrs = auth()->user()->mrs->pluck('id')->toArray();
         //Get interested mrs
-        $intrested_mrs = VisitPlanInterest::OrderBy('ID', 'DESC')->whereIn('mr_id', $mrs)->with('mr','visitPlan')->paginate(10);
+        $intrested_mrs = VisitPlanInterest::OrderBy('ID', 'DESC')->whereIn('mr_id', $mrs)->with('mr','visitPlan')->paginate(5);
         return view('manager.visit_plans.interested_mrs', compact('intrested_mrs'));
     }
 

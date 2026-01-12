@@ -180,7 +180,7 @@ class VisitController extends Controller
     //Function for edit visit
     public function edit_visit($id) {
         //Get visit detail
-        $visit_detail = Visit::find($id);
+        $visit_detail = Visit::findOrFail($id);
         //Get auth login
         $auth_login = Auth::id();
         //Get Assign doctor

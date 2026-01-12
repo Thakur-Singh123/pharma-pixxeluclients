@@ -345,7 +345,7 @@
                     </div>
                 </li>
                 <!--Tour Plan Section-->
-                <li class="nav-item {{ request()->is('mr/assigned-tour-plans*') || request()->is('mr/updated-tour-plans*') ? 'active' : '' }}">
+                <!-- <li class="nav-item {{ request()->is('mr/assigned-tour-plans*') || request()->is('mr/updated-tour-plans*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseTourPlan"
                         class="nav-link {{ request()->is('mr/assigned-tour-plans*') || request()->is('mr/updated-tour-plans*') ? '' : 'collapsed' }}"
                         aria-expanded="{{ request()->is('mr/assigned-tour-plans*') || request()->is('mr/updated-tour-plansn*') ? 'true' : 'false' }}">
@@ -367,7 +367,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> -->
                 <!--report section-->
                 {{-- <li class="nav-item {{ request()->is('mr/daily-reports*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#collapseDailyReport"

@@ -40,3 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.fc-button').forEach(function (btn) {
+        btn.removeAttribute('title');
+    });
+});

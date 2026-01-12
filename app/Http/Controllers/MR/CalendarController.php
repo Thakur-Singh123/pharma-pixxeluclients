@@ -24,7 +24,7 @@ class CalendarController extends Controller
             ->get();
             
         //Get manager active Tasks
-        $tasks = Task::with('doctor')->where('mr_id', auth()->id())
+        $tasks = Task::with('doctor')->where('mr_id', auth()->id())->where('created_by', 'manager')
             ->where('is_active', '1')
             ->get();
         //Format tasks

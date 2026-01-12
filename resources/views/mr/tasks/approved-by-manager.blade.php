@@ -26,10 +26,10 @@
                 <div class="modal fade" id="taskModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Task Details</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title">Task Details</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
                             <div class="modal-body">
                                 <p><strong>Title:</strong> <span id="taskTitle"></span></p>
                                 <p><strong>Description:</strong> <span id="taskDescription"></span></p>

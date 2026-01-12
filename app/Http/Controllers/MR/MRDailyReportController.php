@@ -60,7 +60,7 @@ class MRDailyReportController extends Controller
     //Function for edit daily report
     public function edit($id) {
         //Get report detail
-        $report_detail = DailyReport::with('report_details')->find($id);
+        $report_detail = DailyReport::with('report_details')->findOrFail($id);
        //Get doctors
         $mr = auth()->user();
         $assignedDoctors = $mr->doctors()->where('status', 'active')->get();

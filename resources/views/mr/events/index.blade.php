@@ -86,6 +86,11 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                style="width: 156.312px;">Is Approval
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -113,6 +118,17 @@
                                                                         ? '<img src="' . asset('public/qr_codes/' . $event->qr_code_path) . '" alt="qr code" width="100" height="100">' 
                                                                         : 'N/A' 
                                                                     !!}
+                                                                </td>
+                                                                <td>
+                                                                    @if($event->is_active == 1)
+                                                                        <span class="status-badge status-approved">
+                                                                            Approved
+                                                                        </span>
+                                                                    @else
+                                                                        <span class="status-badge status-pending">
+                                                                            Pending
+                                                                        </span>
+                                                                    @endif
                                                                 </td>
                                                                 <td>
                                                                     <form action="{{ route('mr.event.update.status', $event->id) }}" method="POST" class="status-form">

@@ -127,8 +127,10 @@
                                 </div> -->
                             </div>
                             <div class="card-action">
-                                <button type="submit" class="btn btn-success">Update</button>
-                                <a href="{{ route('manager.tasks.index') }}" class="btn btn-danger">Cancel</a>
+                                @if($task_detail->is_active != '1')
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                    <a href="{{ route('manager.tasks.index') }}" class="btn btn-danger">Cancel</a>
+                                @endif
                             </div>
                         </form>
                     </div>
@@ -140,19 +142,13 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     let today = new Date().toISOString().split("T")[0];
-
     let start = document.getElementById("start_date");
     let end = document.getElementById("end_date");
-
-    // Agar value DB se aayi hai, min current date se kam na ho
     if(!start.value) start.min = today;
     if(!end.value) end.min = today;
-
-    // End date should always be >= start date
     start.addEventListener("change", function() {
         end.min = this.value;
     });
 });
 </script>
-
 @endsection

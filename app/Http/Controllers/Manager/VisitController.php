@@ -182,10 +182,10 @@ class VisitController extends Controller
         ]);
 
         //Assign new doctor MR
-        DoctorMrAssignement::firstOrCreate([
-            'doctor_id' => $request->doctor_id,
-            'mr_id'     => $request->mr_id,
-        ]);
+        // DoctorMrAssignement::firstOrCreate([
+        //     'doctor_id' => $request->doctor_id,
+        //     'mr_id'     => $request->mr_id,
+        // ]);
 
         //Check if visit updated or not
         if ($is_update_visit) {

@@ -1104,3 +1104,26 @@ h5.details-heading {
 .modal-header .btn-close:hover {
     opacity: 1;
 }
+.modal-body span:not(.badge) {
+    display: inline-block;  
+    text-transform: lowercase;
+}
+
+
+.modal-body span:not(.badge)::first-letter {
+    text-transform: uppercase;
+}
+
+.modal-body .badge {
+    text-transform: none !important;
+}
+/* VIEW ICON */
+.view-btn {
+    background: #e6f7f5; 
+    color: #0d9488;               
+    border-radius: 6px;
+}
+.view-btn i {
+    color: #0d9488;
+}
+

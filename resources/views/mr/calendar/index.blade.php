@@ -150,9 +150,13 @@
             </div>
             <div class="modal-body">
                 <p><strong>Name:</strong> <span id="eventName"></span></p>
-                <p><strong>Start:</strong> <span id="eventStart"></span></p>
-                <p><strong>End:</strong> <span id="eventEnd"></span></p>
+                <p><strong>Description:</strong> <span id="eventDescription"></span></p>
+                <p><strong>Doctor:</strong> <span id="eventDoctor"></span></p>
                 <p><strong>Location:</strong> <span id="eventLocation"></span></p>
+                <p><strong>Pin Code:</strong> <span id="eventPin"></span></p>
+                <p><strong>Start Date:</strong> <span id="eventStart"></span></p>
+                <p><strong>End Date:</strong> <span id="eventEnd"></span></p>
+                <p><strong>Status:</strong> <span id="eventStatus" class="badge"></span></p>
             </div>
         </div>
     </div>
@@ -167,7 +171,7 @@
             initialView: 'dayGridMonth',
             eventDisplay: 'block',          
             height: 'auto',                      
-        fixedWeekCount: false,    
+            fixedWeekCount: false,    
             initialDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
             height: 550,
             headerToolbar: {
@@ -214,10 +218,38 @@
                 }
     
                 if (info.event.extendedProps.type === 'event') {
-                    document.getElementById('eventName').innerText = info.event.title;
-                    document.getElementById('eventStart').innerText = info.event.start.toLocaleString();
-                    document.getElementById('eventEnd').innerText = info.event.end ? info.event.end.toLocaleString() : 'N/A';
-                    document.getElementById('eventLocation').innerText = info.event.extendedProps.location ?? 'N/A';
+
+                    document.getElementById('eventName').innerText =
+                        info.event.title;
+
+                    document.getElementById('eventDescription').innerText =
+                        info.event.extendedProps.description ?? 'N/A';
+
+                    document.getElementById('eventDoctor').innerText =
+                        info.event.extendedProps.doctor ?? 'N/A';
+
+                    document.getElementById('eventLocation').innerText =
+                        info.event.extendedProps.location ?? 'N/A';
+
+                    document.getElementById('eventPin').innerText =
+                        info.event.extendedProps.pin_code ?? 'N/A';
+
+                    document.getElementById('eventStart').innerText =
+                        info.event.start ? info.event.start.toLocaleString() : 'N/A';
+
+                    document.getElementById('eventEnd').innerText =
+                        info.event.end ? info.event.end.toLocaleString() : 'N/A';
+
+                    let statusEl = document.getElementById('eventStatus');
+                    let status = info.event.extendedProps.status ?? 'N/A';
+                    statusEl.innerText = status.replace('_', ' ');
+                    statusEl.className = 'badge';
+
+                    if (status === 'completed') statusEl.classList.add('bg-success');
+                    else if (status === 'in_progress') statusEl.classList.add('bg-primary');
+                    else if (status === 'pending') statusEl.classList.add('bg-danger');
+                    else statusEl.classList.add('bg-secondary');
+
                     eventModal.show();
                 }
             }

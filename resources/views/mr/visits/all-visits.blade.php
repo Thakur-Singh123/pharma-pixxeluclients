@@ -173,8 +173,16 @@
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">
-                                                                <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
-                                                                <a href="{{ url('mr/delete-visit', $visit->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete"><i class="fa fa-trash"></i></a>
+                                                                    @if($visit->status != 'Approved')
+                                                                        <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                            <i class="fa fa-edit"></i>
+                                                                        </a>
+                                                                    @else
+                                                                        <a href="{{ url('mr/visits/edit', $visit->id) }}" class="icon-button  view-btn custom-tooltip" data-tooltip="View">
+                                                                            <i class="fa fa-eye"></i>
+                                                                        </a>
+                                                                    @endif
+                                                                        <a href="{{ url('mr/delete-visit', $visit->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete"><i class="fa fa-trash"></i></a>
                                                                 </div>
                                                             </td>
                                                         </tr>

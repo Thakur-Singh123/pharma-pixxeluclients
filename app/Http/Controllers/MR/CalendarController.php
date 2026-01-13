@@ -65,25 +65,29 @@ class CalendarController extends Controller
     }
 
     //Function to show event calendar
-    public function getEvents() {
-        //Get approved events
-        $events = Events::where('mr_id', auth()->id())->where('is_active', '1')->select('id', 'title', 'start_datetime as start',
-            'end_datetime as end', 'status', 'location')
+    public function getEvents()  {
+        $events = Events::with('doctor_detail')
+            ->where('mr_id', auth()->id())
+            ->where('is_active', '1')
             ->get();
-        //Format Events
+
         $formattedEvents = [];
-        //Get events
+
         foreach ($events as $event) {
             $formattedEvents[] = [
-                'id'       => $event->id,
-                'title'    => $event->title,
-                'start'    => $event->start,
-                'end'      => $event->end,
-                'location' => $event->location,
-                'status'   => $event->status,
-                'type'     => 'event',
+                'id'    => $event->id,
+                'title' => $event->title,
+                'start' => $event->start_datetime,
+                'end'   => $event->end_datetime,
+                'description' => $event->description,
+                'location'    => $event->location,
+                'pin_code'    => $event->pin_code,
+                'doctor'      => $event->doctor_detail->doctor_name ?? 'N/A',
+                'status'      => $event->status,
+                'type'        => 'event',
             ];
         }
+
         return response()->json($formattedEvents);
     }
 }

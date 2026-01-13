@@ -127,8 +127,10 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                                <button type="submit" class="btn btn-success">Update</button>
-                                <a href="{{ route('manager.events.index') }}" class="btn btn-danger">Cancel</a>
+                                @if($event_detail->is_active != '1')
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                    <a href="{{ route('manager.events.index') }}" class="btn btn-danger">Cancel</a>
+                                @endif
                             </div>
                         </form>
                     </div>

@@ -253,8 +253,10 @@
                         </div>
                      </div>
                      <div class="card-action">
-                        <button type="submit" class="btn btn-success">Update</button>
-                        <button type="reset" class="btn btn-danger">Cancel</button>
+                        @if($visit_detail->status != 'Approved')
+                           <button type="submit" class="btn btn-success">Update</button>
+                           <button type="reset" class="btn btn-danger">Cancel</button>
+                        @endif
                      </div>
                   </form>
                </div>

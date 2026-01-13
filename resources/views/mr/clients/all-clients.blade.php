@@ -91,9 +91,15 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-button-action">
-                                                                <a href="{{ route('mr.clients.edit', $client->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                    <i class="fa fa-edit"></i>
-                                                                </a>
+                                                                @if($client->status != 'Approved')
+                                                                    <a href="{{ route('mr.clients.edit', $client->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </a>
+                                                                @else
+                                                                    <a href="{{ route('mr.clients.edit', $client->id) }}" class="icon-button  view-btn custom-tooltip" data-tooltip="View">
+                                                                        <i class="fa fa-eye"></i>
+                                                                    </a>
+                                                                @endif
                                                                 <form action="{{ route('mr.clients.destroy', $client->id) }}" method="POST" style="display:inline;">
                                                                     @csrf
                                                                     @method('DELETE')

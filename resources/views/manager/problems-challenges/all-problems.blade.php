@@ -148,7 +148,9 @@
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action"> 
-                                                                    <a href="{{ route('manager.problems.edit', $problem->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
+                                                                    <a href="{{ route('manager.problems.edit', $problem->id) }}" class="icon-button view-btn custom-tooltip" data-tooltip="View">
+                                                                        <i class="fa fa-eye"></i>
+                                                                    </a>
                                                                    <form action="{{ route('manager.problems.destroy', $problem->id) }}" method="POST" style="display:inline;">
                                                                         @csrf
                                                                         @method('DELETE')

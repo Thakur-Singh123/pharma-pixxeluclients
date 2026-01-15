@@ -80,7 +80,7 @@ class ReferredPatientController extends Controller
         //Get doctors
         $all_doctors = $mr->doctors()->where('status', 'active')->get();
         //Get patient detail
-        $patient_detail = ReferredPatient::find($id);
+        $patient_detail = ReferredPatient::findOrFail($id);
         return view('mr.referred-patients.edit-patient', compact('all_doctors','patient_detail'));
     }
 

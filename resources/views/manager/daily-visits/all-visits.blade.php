@@ -238,9 +238,15 @@
                                                             </td>
                                                             <td>
                                                                 <div class="form-button-action">
-                                                                    <a href="{{ route('manager.visits.edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                        <i class="fa fa-edit"></i>
-                                                                    </a>
+                                                                    @if($visit->status != 'Approved')
+                                                                        <a href="{{ route('manager.visits.edit', $visit->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                            <i class="fa fa-edit"></i>
+                                                                        </a>
+                                                                    @else
+                                                                        <a href="{{ route('manager.visits.edit', $visit->id) }}" class="icon-button view-btn custom-tooltip" data-tooltip="View">
+                                                                            <i class="fa fa-eye"></i>
+                                                                        </a>
+                                                                    @endif
                                                                     <form action="{{ route('manager.visits.destroy', $visit->id) }}" method="POST" style="display:inline;">
                                                                         @csrf
                                                                         @method('DELETE')

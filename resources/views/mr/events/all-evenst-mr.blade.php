@@ -67,7 +67,13 @@
                                                                  <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
-                                                                    style="width: 156.312px;">QR Code</th>
+                                                                    style="width: 156.312px;">QR Code
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Is Approval
+                                                                </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
@@ -101,6 +107,17 @@
                                                                             : 'N/A' 
                                                                         !!}
                                                                     </td>
+                                                                    <td>
+                                                                        @if($event->is_active == 1)
+                                                                            <span class="status-badge status-approved">
+                                                                                Approved
+                                                                            </span>
+                                                                        @else
+                                                                            <span class="status-badge status-pending">
+                                                                                Pending
+                                                                            </span>
+                                                                        @endif
+                                                                    </td>
                                                                    <td>
                                                                         <form action="{{ route('mr.event.update.status', $event->id) }}" method="POST" class="status-form">
                                                                             @csrf
@@ -113,9 +130,15 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-button-action">
-                                                                            <a href="{{ route('mr.events.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                                <i class="fa fa-edit"></i>
-                                                                            </a>
+                                                                            @if($event->is_active != '1')
+                                                                                <a href="{{ route('mr.events.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                                    <i class="fa fa-edit"></i>
+                                                                                </a>
+                                                                            @else
+                                                                                <a href="{{ route('mr.events.edit', $event->id) }}" class="icon-button  view-btn custom-tooltip" data-tooltip="View">
+                                                                                    <i class="fa fa-eye"></i>
+                                                                                </a>
+                                                                            @endif
                                                                             <form action="{{ route('mr.events.destroy', $event->id) }}" method="POST" style="display:inline;">
                                                                                 @csrf
                                                                                 @method('DELETE')

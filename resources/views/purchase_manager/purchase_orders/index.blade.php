@@ -74,7 +74,8 @@
                                                     <table class="table table-striped table-hover align-middle">
                                                         <thead>
                                                             <tr>
-                                                                <th>PO #</th>
+                                                                <th style="width: 80px;">Sr No.</th>
+                                                                <th style="width: 120px;">Purchase Order No #</th>
                                                                 <th>Date</th>
                                                                 <th>Vendor Name</th>
                                                                 <th>Vendor Email</th>
@@ -84,8 +85,10 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            @php $count = ($orders->currentPage() - 1) * $orders->perPage() + 1; @endphp
                                                             @forelse ($orders as $po)
                                                                 <tr>
+                                                                    <td>{{ $count++ }}.</td>
                                                                     <td>#{{ $po->id }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($po->order_date)->format('d M, Y') }}
                                                                     </td>

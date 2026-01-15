@@ -409,8 +409,10 @@
                                 </div>
                             </div>
                             <div class="card-action mt-3">
-                                <button type="submit" class="btn btn-success">Update</button>
-                                <button type="reset" class="btn btn-danger">Cancel</button>
+                                @if($client_detail->status != 'Approved')
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                    <button type="reset" class="btn btn-danger">Cancel</button>
+                                @endif
                             </div>
                         </form>
                     </div>

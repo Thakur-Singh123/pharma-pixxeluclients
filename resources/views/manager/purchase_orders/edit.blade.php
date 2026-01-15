@@ -110,8 +110,10 @@
               </table>
             </div>
             <div class="card-action">
-              <button type="submit" class="btn btn-success">Update</button>
-              <a href="{{ route('purchase-manager.purchase-orders.index') }}" class="btn btn-danger">Cancel</a>
+              @if($order->status != 'approved')
+                <button type="submit" class="btn btn-success">Update</button>
+                <a href="{{ route('purchase-manager.purchase-orders.index') }}" class="btn btn-danger">Cancel</a>
+              @endif
             </div>
         </form>
       </div>

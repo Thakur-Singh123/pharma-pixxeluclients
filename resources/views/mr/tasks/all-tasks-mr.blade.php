@@ -69,6 +69,11 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Is Approval
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1" style="width: 187.688px;">Status
                                                                 </th>
                                                                 <th class="sorting" tabindex="0"
@@ -92,6 +97,17 @@
                                                                     <td>{{ \Carbon\Carbon::parse($task->end_date)->format('d M, Y') }}</td>
                                                                     <td>{{ $task->created_by }}</td>
                                                                     <td>
+                                                                        @if($task->is_active == 1)
+                                                                            <span class="status-badge status-approved">
+                                                                                Approved
+                                                                            </span>
+                                                                        @else
+                                                                            <span class="status-badge status-pending">
+                                                                                Pending
+                                                                            </span>
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>
                                                                         <form action="{{ route('mr.tasks.update.status', $task->id) }}" method="POST" class="status-form">
                                                                             @csrf
                                                                             <select name="status" class="custom-status-dropdown" onchange="this.form.submit()">
@@ -103,9 +119,15 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-button-action">
-                                                                            <a href="{{ route('mr.tasks.edit', $task->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                                <i class="fa fa-edit"></i>
-                                                                            </a>
+                                                                            @if($task->is_active != '1')
+                                                                                <a href="{{ route('mr.tasks.edit', $task->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                                    <i class="fa fa-edit"></i>
+                                                                                </a>
+                                                                            @else
+                                                                                <a href="{{ route('mr.tasks.edit', $task->id) }}" class="icon-button  view-btn custom-tooltip" data-tooltip="View">
+                                                                                    <i class="fa fa-eye"></i>
+                                                                                </a>
+                                                                            @endif
                                                                             <form action="{{ route('mr.tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
                                                                                 @csrf
                                                                                 @method('DELETE')

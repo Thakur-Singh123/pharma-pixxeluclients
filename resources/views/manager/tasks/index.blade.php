@@ -132,11 +132,17 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-button-action">
-                                                                            <a href="{{ route('manager.tasks.edit', $task->id) }}"
-                                                                                class="icon-button edit-btn custom-tooltip"
-                                                                                data-tooltip="Edit">
-                                                                                <i class="fa fa-edit"></i>
-                                                                            </a>
+                                                                            @if($task->is_active != '1')
+                                                                                <a href="{{ route('manager.tasks.edit', $task->id) }}"
+                                                                                    class="icon-button edit-btn custom-tooltip"
+                                                                                    data-tooltip="Edit">
+                                                                                    <i class="fa fa-edit"></i>
+                                                                                </a>
+                                                                            @else
+                                                                                <a href="{{ route('manager.tasks.edit', $task->id) }}" class="icon-button view-btn custom-tooltip" data-tooltip="View">
+                                                                                    <i class="fa fa-eye"></i>
+                                                                                </a>
+                                                                            @endif
                                                                             <form
                                                                                 action="{{ route('manager.tasks.destroy', $task->id) }}"
                                                                                 method="POST" style="display:inline;">

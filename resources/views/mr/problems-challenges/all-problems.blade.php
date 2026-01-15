@@ -69,6 +69,12 @@
                                                                 colspan="1"
                                                                 style="width: 156.312px;">Action
                                                             </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Status
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -84,9 +90,25 @@
                                                             <td>{{ \Carbon\Carbon::parse($problem->start_date)->format('d M, Y') }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($problem->end_date)->format('d M, Y') }}</td>
                                                             <td>{{ $problem->description }}</td>
+                                                            <td> 
+                                                                <span class="status-badge 
+                                                                {{ $problem->status == 'pending' ? 'status-pending' : '' }}
+                                                                {{ $problem->status == 'rejected' ? 'status-suspend' : '' }}
+                                                                {{ $problem->status == 'approved' ? 'status-approved' : '' }}">
+                                                                    {{ ucfirst($problem->status) }}
+                                                                </span>
+                                                            </td>
                                                             <td>
                                                                 <div class="form-button-action"> 
-                                                                    <a href="{{ route('mr.problems.edit', $problem->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit"><i class="fa fa-edit"></i></a>
+                                                                    @if($problem->status != 'approved')
+                                                                        <a href="{{ route('mr.problems.edit', $problem->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                            <i class="fa fa-edit"></i>
+                                                                        </a>
+                                                                    @else
+                                                                        <a href="{{ route('mr.problems.edit', $problem->id) }}" class="icon-button  view-btn custom-tooltip" data-tooltip="View">
+                                                                            <i class="fa fa-eye"></i>
+                                                                        </a>
+                                                                    @endif
                                                                    <form action="{{ route('mr.problems.destroy', $problem->id) }}" method="POST" style="display:inline;">
                                                                         @csrf
                                                                         @method('DELETE')

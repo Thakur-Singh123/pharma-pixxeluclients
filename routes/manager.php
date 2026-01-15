@@ -60,6 +60,8 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/patient/{id}/reject', [App\Http\Controllers\Manager\PatientController::class, 'reject_patient'])->name('patient.reject');
     //Problem challenges
     Route::resource('/problems', App\Http\Controllers\Manager\ProblemController::class);
+    Route::post('/problem/{id}/approve', [App\Http\Controllers\Manager\ProblemController::class, 'approve_problem'])->name('problem.approve');
+    Route::post('/problem/{id}/reject', [App\Http\Controllers\Manager\ProblemController::class, 'reject_problem'])->name('problem.reject');
     //Doctor
     Route::get('/doctors/create', [App\Http\Controllers\Manager\DoctorController::class, 'add_doctor']);
     Route::post('/submit-doctor', [App\Http\Controllers\Manager\DoctorController::class, 'submit_doctor'])->name('submit.doctor');

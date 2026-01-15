@@ -101,7 +101,7 @@ class EventController extends Controller
         //Get doctors
         $all_doctors = $mr->doctors()->orderBy('ID', 'DESC')->get();
         //Get event 
-        $event_detail = Events::find($id);
+        $event_detail = Events::findOrFail($id);
 
         return view('mr.events.edit-event', compact('event_detail','all_doctors'));
     }

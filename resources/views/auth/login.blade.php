@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Created by CodingLab |www.youtube.com/c/CodingLabYT-->
+<!--Created by CodingLab |www.youtube.com/c/CodingLabYT-->
 <html lang="en" dir="ltr">
    <head>
       <meta charset="UTF-8">
@@ -41,26 +41,51 @@
          font-size: 14px;
       }
       input[type="file"], select {
-   width: 100%;
-   font-size: 14px;
-   color: #333;
-   background-color: #fff;
-}
+         width: 100%;
+         font-size: 14px;
+         color: #333;
+         background-color: #fff;
+      }
+      .input-box label {
+         font-weight: 500;
+         margin-bottom: 5px;
+         color: #444;
+      }.signup-header h3 {
+         font-weight: 600;
+      }
+      #backToSignup:hover {
+         color: #0056b3;
+         transform: scale(1.1);
+         transition: 0.2s;
+      }
+      .forgot-password-wrap {
+         display: block;
+         text-align: right;
+      }
 
-.input-box label {
-   font-weight: 500;
-   margin-bottom: 5px;
-   color: #444;
-}.signup-header h3 {
-   font-weight: 600;
-}
-#backToSignup:hover {
-   color: #0056b3;
-   transform: scale(1.1);
-   transition: 0.2s;
-}
-
-
+      .forgot-password-link {
+         font-size: 12px;
+         color: #ff0013;
+         text-decoration: none;
+         font-weight: 500;
+      }
+      .account-delete-alert {
+         display: flex;
+         gap: 10px;
+         align-items: flex-start;
+         border-radius: 10px;
+         padding: 14px 16px;
+         font-size: 12px;
+         margin-bottom: 100px;
+         color: green;
+      }
+      .success-alert {
+         padding: 12px 15px;
+         font-size: 12px;
+         text-align: center;*/
+         color: green;
+         margin: 0px 0px 190px 0px;
+      }
    </style>
    <body>
       <div class="container">
@@ -84,6 +109,11 @@
          <div class="forms">
             <div class="form-content">
                <div class="login-form">
+                  @if(session('success'))
+                     <div class="success-alert account-delete-alert">
+                        {{ session('success') }}
+                     </div>
+                  @endif
                   <div class="title">Login</div>
                   <form method="POST" action="{{ route('login') }}">
                      @csrf
@@ -102,7 +132,11 @@
                               <small class="text-danger">{{ $message }}</small>
                            @enderror
                         </div>
-                        <!--<div class="text"><a href="#">Forgot password?</a></div>-->
+                        <div class="text-end mb-3 forgot-password-wrap">
+                           <a href="{{ route('password.request') }}" class="forgot-password-link">
+                              Forgot Password?
+                           </a>
+                        </div>
                         <div class="button input-box">
                            <input type="submit" value="Sumbit">
                         </div>
@@ -116,15 +150,12 @@
                   </form>
                </div>
                <div class="signup-form">
-       
-<div class="signup-header" style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 10px;">
-   <h3 id="signupRoleTitle" style="font-size:18px; color:#333; margin:0;">Signup</h3>
-   <span id="backToSignup" style="cursor:pointer; font-size:20px; color:#007bff; display:none;">
-      <i class="fas fa-arrow-left"></i>
-   </span>
-</div>
-
-
+                  <div class="signup-header" style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 10px;">
+                     <h3 id="signupRoleTitle" style="font-size:18px; color:#333; margin:0;">Signup</h3>
+                     <span id="backToSignup" style="cursor:pointer; font-size:20px; color:#007bff; display:none;">
+                        <i class="fas fa-arrow-left"></i>
+                     </span>
+                  </div>
                   <form id="signupForm" method="POST" action="{{ route('register') }}" enctype="multipart/form-data" autocomplete="off">
                      @csrf
                      <div class="form-row">
@@ -188,81 +219,62 @@
                            @enderror
                         </div>
                      </div>
-
-<!-- Vendor Fields -->
-<div class="vendor-fields" style="display:none;">
-   <div class="form-row">
-      <div class="input-box">
-         <i class="fas fa-briefcase"></i>
-         <input type="text" name="nature_work" placeholder="Enter nature of work" value="{{ old('nature_work') }}">
-        
-      </div>
-   </div>
-</div>
-
-
-
-
-
-
-
+                     <!--Vendor Fields-->
+                     <div class="vendor-fields" style="display:none;">
+                        <div class="form-row">
+                           <div class="input-box">
+                              <i class="fas fa-briefcase"></i>
+                              <input type="text" name="nature_work" placeholder="Enter nature of work" value="{{ old('nature_work') }}">
+                           
+                           </div>
+                        </div>
+                     </div>
                    <div class="form-row">
-                     <!-- File Upload -->
                      <div class="input-box">
-                        
                            <input type="file" id="document_file" name="document_file" accept=".jpg,.jpeg,.png,.pdf" style="padding: 10px; border-radius: 5px;">
                            @error('document_file', 'register')
                               <small class="text-danger">{{ $message }}</small>
                            @enderror
+                     </div>
+                     <div class="form-row role-row">
+                        <div class="input-box" style="flex: 1;">
+                           <select id="can_sale" name="can_sale" style="height: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                              <option value="" disabled selected>Select type</option>
+                              <option value="0" {{ old('can_sale') == '0' ? 'selected' : '' }}>Visit</option>
+                              <option value="1" {{ old('can_sale') == '1' ? 'selected' : '' }}>Sales</option>
+                           </select>
+                           @error('can_sale', 'register')
+                              <small class="text-danger">{{ $message }}</small>
+                           @enderror
                         </div>
-
-                        <!-- Role Selection -->
-<!-- Role Selection (will hide dynamically) -->
-<div class="form-row role-row">
-   <div class="input-box" style="flex: 1;">
-      <select id="can_sale" name="can_sale" style="height: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-         <option value="" disabled selected>Select type</option>
-         <option value="0" {{ old('can_sale') == '0' ? 'selected' : '' }}>Visit</option>
-         <option value="1" {{ old('can_sale') == '1' ? 'selected' : '' }}>Sales</option>
-      </select>
-      @error('can_sale', 'register')
-         <small class="text-danger">{{ $message }}</small>
-      @enderror
-   </div>
-</div>
-
-
                      </div>
-
-
-                     <div class="form-row">
-   <div class="input-box">
-      <select id="user_type" name="user_type" style="height: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-         <option value="">Choose role</option>
-         <option value="vendor">Vendor</option>
-         <option value="purchase_manager">Purchase Manager</option>
-         <option value="counsellor">Counsellor</option>
-      </select>
-      @error('user_type', 'register')
-         <small class="text-danger">{{ $message }}</small>
-      @enderror
-   </div>
-</div>
-
-
-                     <div class="loaderss com_ajax_loader" style="display:none;">
-                        <img src="{{ asset('public/admin/images/200w.gif') }}">
+                  </div>
+                  <div class="form-row">
+                     <div class="input-box">
+                        <select id="user_type" name="user_type" style="height: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                           <option value="">Choose role</option>
+                           <option value="vendor">Vendor</option>
+                           <option value="purchase_manager">Purchase Manager</option>
+                           <option value="counsellor">Counsellor</option>
+                        </select>
+                        @error('user_type', 'register')
+                           <small class="text-danger">{{ $message }}</small>
+                        @enderror
                      </div>
-                     <div class="button input-box">
-                        <input type="submit" id="submitBtn" value="Submit">
-                     </div>
-                     @if(session('success'))
-                     <div id="successMsg" style="display:none; color: green; margin-top: 30px;">
-                        {{ session('success') }}
-                     </div>
-                     @endif
-                     <div class="text sign-up-text">Already have an account? <label for="flip">Login now</label></div>
-                  </form>
+                  </div>
+                  <div class="loaderss com_ajax_loader" style="display:none;">
+                     <img src="{{ asset('public/admin/images/200w.gif') }}">
+                  </div>
+                  <div class="button input-box">
+                     <input type="submit" id="submitBtn" value="Submit">
+                  </div>
+                  @if(session('success'))
+                  <div id="successMsg" style="display:none; color: green; margin-top: 30px;">
+                     {{ session('success') }}
+                  </div>
+                  @endif
+                  <div class="text sign-up-text">Already have an account? <label for="flip">Login now</label></div>
+               </form>
                </div>
             </div>
          </div>
@@ -419,7 +431,12 @@ window.addEventListener("load", function() {
    }
 });
 </script>
-
-
-
+<script>
+   setTimeout(() => {
+      const alertBox = document.querySelector('.account-delete-alert');
+      if(alertBox){
+         alertBox.style.display = 'none';
+      }
+   }, 8000);
+</script>
 </html>

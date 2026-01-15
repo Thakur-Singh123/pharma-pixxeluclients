@@ -44,6 +44,68 @@ class ProblemController extends Controller
         ], 200);
     }
 
+    //Function for approve problem
+    public function approve_problem($id) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //get problem
+        $problem = Problem::find($id);
+        //check problem not found
+        if (!$problem) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Problem not found'
+            ], 400);
+        }
+        //check already approved or not
+        if ($problem->status === 'approved') {
+            return response()->json([
+                'status' => 400,
+                'message' => 'This problem challenge is already approved. First reject then approve again.'
+            ], 400);
+        }
+        //save status
+        $problem->status = 'approved';
+        $problem->save();
+        //response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Problem challenge approved successfully.'
+        ], 200);
+    }
+
+    //Function for reject problem
+    public function reject_problem($id) {
+        if ($response = $this->ensureAuthenticated()) {
+            return $response;
+        }
+        //get problem detail
+        $problem = Problem::find($id);
+        //check problem fonnd or not
+        if (!$problem) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Problem not found'
+            ], 400);
+        }
+        //check already rejected or not
+        if ($problem->status === 'rejected') {
+            return response()->json([
+                'status' => 400,
+                'message' => 'This problem challenge is already rejected. First approve then reject again.'
+            ], 400);
+        }
+        //save status
+        $problem->status = 'rejected';
+        $problem->save();
+        //response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Problem challenge rejected successfully.'
+        ], 200);
+    }
+
     //Function for update problem
     public function update(Request $request, $id) {
         if ($response = $this->ensureAuthenticated()) {

@@ -40,4 +40,32 @@ $(document).ready(function() {
         $('#visitSearch').val(search);
         fetchVisits(page, search);
     };
+
+    //Delete acount parmanent
+    $('#deleteAccountBtn').on('click', function (e) {
+        e.preventDefault();
+        let user_id = $(this).data('user_id');
+        Swal.fire({
+            title: 'Are you sure?',
+            html: `
+                <div style="font-size:14px;color:#4b5563;line-height:1.6;">
+                    Are you sure you want to permanently delete your account?
+                    <div style="margin-top:6px;font-size:13px;color:#6b7280;">
+                        This action cannot be undone.
+                    </div>
+                </div>
+            `,
+            icon: 'warning',
+            showCancelButton: true,
+            showCloseButton: true,
+            confirmButtonText: 'Delete account',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#9ca3af',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = base_url + '/account/delete?user_id=' + user_id;
+            }
+        });
+    });
 });

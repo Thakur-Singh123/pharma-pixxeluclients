@@ -145,6 +145,12 @@
                                                 href="{{ url('mr/change-password') }}">
                                                 Update Password
                                             </a>
+                                            <!--<a class="dropdown-item"
+                                                href="javascript:void(0)"
+                                                id="deleteAccountBtn"
+                                                data-user_id="{{ auth()->id() }}">
+                                                Delete Account
+                                            </a>-->
                                             <a href="{{ route('logout') }}" class="dropdown-item"
                                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                 Sign Out

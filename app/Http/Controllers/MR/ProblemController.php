@@ -47,6 +47,7 @@ class ProblemController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'description' => $request->description,
+            'status' => 'pending',
         ]);
         //Check if problem created or not
         if ($is_create_problem) {
@@ -59,7 +60,7 @@ class ProblemController extends Controller
     //Function for edit
     public function edit($id) {
         //Get problem detail
-        $problem_detail = Problem::find($id);
+        $problem_detail = Problem::findOrFail($id);
         //Get visits
         $all_visits = Visit::OrderBy('ID', 'DESC')->get();
         return view('mr.problems-challenges.edit-problem', compact('problem_detail','all_visits'));
@@ -87,6 +88,7 @@ class ProblemController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'description' => $request->description,
+            'status' => 'pending',
         ]);
         //Check if problem updated or not
         if ($is_update_problem) {

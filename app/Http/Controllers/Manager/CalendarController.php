@@ -22,7 +22,7 @@ class CalendarController extends Controller
             ->get();
 
         //Get manager active Tasks
-        $tasks = Task::with('doctor','mr')->where('manager_id', auth()->id())
+        $tasks = Task::with('doctor','mr')->where('manager_id', auth()->id())->where('created_by','manager')
             ->where('is_active', '1')
             ->get();
 
@@ -56,7 +56,7 @@ class CalendarController extends Controller
                 'doctor'      => $task->doctor->doctor_name ?? 'N/A',
                 'location'    => $task->location ?? 'N/A',
                 'description' => $task->description ?? 'N/A',
-                'assigned_mr'    => $task->mr->name ?? 'N/A',
+                'assigned_mr' => $task->mr->name ?? 'N/A',
                 'pin'         => $task->pin_code ?? 'N/A',
                 'status'      => $task->status,
                 'type'        => 'task',
@@ -65,26 +65,34 @@ class CalendarController extends Controller
         return response()->json($formattedTasks);
     }
 
-    //Function to show event calendar
+    //Function for show event calendar
     public function getEvents() {
-        //Get approved events
-        $events = Events::where('manager_id', auth()->id())->where('is_active', '1')->select('id', 'title', 'start_datetime as start',
-            'end_datetime as end', 'status', 'location')
-            ->get();
-        //Format Events
-        $formattedEvents = [];
         //Get events
+        $events = Events::with('doctor_detail', 'mr')
+            ->where('manager_id', auth()->id())
+            ->where('is_active', '1')
+            ->get();
+
+        //Format event
+        $formattedEvents = [];
+        //Event format
         foreach ($events as $event) {
             $formattedEvents[] = [
-                'id'       => $event->id,
-                'title'    => $event->title,
-                'start'    => $event->start,
-                'end'      => $event->end,
-                'location' => $event->location,
-                'status'   => $event->status,
-                'type'     => 'event',
+                'id'           => $event->id,
+                'title'        => $event->title,
+                'start'        => $event->start_datetime,
+                'end'          => $event->end_datetime,
+                'description'  => $event->description,
+                'location'     => $event->location,
+                'pin_code'     => $event->pin_code,
+                'doctor'       => $event->doctor_detail->doctor_name ?? 'N/A',
+                'mr_name'      => $event->mr->name ?? 'N/A',
+                'assigned_mr'  => $event->mr->name ?? 'N/A',
+                'status'       => $event->status,
+                'type'         => 'event',
             ];
         }
+
         return response()->json($formattedEvents);
     }
 }

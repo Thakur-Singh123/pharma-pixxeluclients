@@ -141,9 +141,15 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-button-action">
-                                                                            <a href="{{ route('mr.sales.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                                <i class="fa fa-edit"></i>
-                                                                            </a>
+                                                                            @if($event->status != 'Approved')
+                                                                                <a href="{{ route('mr.sales.edit', $event->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                                    <i class="fa fa-edit"></i>
+                                                                                </a>
+                                                                            @else
+                                                                                <a href="{{ route('mr.sales.edit', $event->id) }}" class="icon-button view-btn custom-tooltip" data-tooltip="View">
+                                                                                    <i class="fa fa-eye"></i>
+                                                                                </a>
+                                                                            @endif
                                                                         </div>
                                                                     </td>
                                                                 </tr>

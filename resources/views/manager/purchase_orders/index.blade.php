@@ -72,7 +72,7 @@
                                                 <thead>
                                                     <tr role="row">
                                                         <th style="width: 80px;">Sr No.</th>
-                                                        <th style="width: 120px;">PO #</th>
+                                                        <th style="width: 120px;">Purchase Order No #</th>
                                                         <th style="width: 140px;">Date</th>
                                                         <th>Vendor Name</th>
                                                         <th>Vendor Email</th>
@@ -146,12 +146,16 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-button-action">
-                                                            @if (Route::has('manager.purchase-manager.edit'))
-                                                            <a href="{{ route('manager.purchase-manager.edit', $po->id) }}"
-                                                                class="icon-button edit-btn custom-tooltip"
-                                                                data-tooltip="Edit">
-                                                            <i class="fa fa-edit"></i>
-                                                            </a>
+                                                            @if($po->status != 'approved')
+                                                                <a href="{{ route('manager.purchase-manager.edit', $po->id) }}"
+                                                                    class="icon-button edit-btn custom-tooltip"
+                                                                    data-tooltip="Edit">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ route('manager.purchase-manager.edit', $po->id) }}" class="icon-button view-btn custom-tooltip" data-tooltip="View">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </a>
                                                             @endif
                                                             @if (Route::has('manager.purchase-manager.destroy'))
                                                             <form

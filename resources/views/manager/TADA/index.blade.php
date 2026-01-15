@@ -164,9 +164,15 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-button-action">
-                                                                        <a href="{{ url('manager/edit-tada', $tada_record->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
-                                                                            <i class="fa fa-edit"></i>
-                                                                        </a>
+                                                                        @if($tada_record->status != 'approved')
+                                                                            <a href="{{ url('manager/edit-tada', $tada_record->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">
+                                                                                <i class="fa fa-edit"></i>
+                                                                            </a>
+                                                                        @else
+                                                                            <a href="{{ url('manager/edit-tada', $tada_record->id) }}" class="icon-button view-btn custom-tooltip" data-tooltip="View">
+                                                                                <i class="fa fa-eye"></i>
+                                                                            </a>
+                                                                        @endif
                                                                         <a href="{{ url('manager/delete-tada', $tada_record->id) }}" class="icon-button delete-btn custom-tooltip" data-tooltip="Delete">
                                                                             <i class="fa fa-trash"></i>
                                                                         </a>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\MR;
+namespace App\Http\Controllers\Api\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\MRAttendance;

@@ -36,6 +36,9 @@ class EventController extends Controller
         }
         //Get events
         $events = $query->with('mr','doctor_detail')->orderBy('ID', 'DESC')->where('is_active', 0)->paginate(5);
+        // echo "<pre>";
+        // print_r($events->toArray());
+        // echo "</pre>";die;
 
         return view('manager.events.waiting-for-approval', compact('events'));
     }

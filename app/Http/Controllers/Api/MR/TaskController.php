@@ -97,6 +97,7 @@ class TaskController extends Controller
             'status'  => 200,
             'message' => $message,
             'data'    => $tasks,
+            'count'    => count($tasks),
         ], 200);
     }
 

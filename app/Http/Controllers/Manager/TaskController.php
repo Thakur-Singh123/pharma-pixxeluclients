@@ -31,7 +31,7 @@ class TaskController extends Controller
     //Function for waiting for approval
     public function waitingForApproval() {
         //Get tasks
-        $tasks = Task::OrderBy('ID','DESC')->where('manager_id', auth()->id())->where('is_active', 0)->with('mr')->paginate(10);
+        $tasks = Task::OrderBy('ID','DESC')->where('manager_id', auth()->id())->where('is_active', 0)->with('mr')->paginate(5);
        
         return view('manager.tasks.waiting-for-approval', compact('tasks'));
     }

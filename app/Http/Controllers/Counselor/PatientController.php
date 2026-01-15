@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\CounselorPatient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdminBookingMail;
+use App\Mail\UserBookingMail;
 
 class PatientController extends Controller
 {
@@ -55,7 +58,29 @@ class PatientController extends Controller
 
         $validated['counselor_id'] = Auth::id();
 
-        CounselorPatient::create($validated);
+        $patient = CounselorPatient::create($validated);
+        
+        //User mail
+        Mail::to($patient->email)->send(new UserBookingMail($patient));
+        //Admin mail
+        Mail::to('kapoorthakur906@gmail.com')->send(new AdminBookingMail($patient));
+
+        //WHATSAPP MESSAGE
+        // if ($patient->booking_done === 'Yes') {
+
+        //     $message = urlencode(
+        //         "Hello {$patient->patient_name},\n\n" .
+        //         "Your booking with *Ad People* has been successfully received ✅\n\n" .
+        //         "Department: {$patient->department}\n" .
+        //         "Booking Amount: ₹{$patient->booking_amount}\n\n" .
+        //         "Our team will contact you shortly.\n\n" .
+        //         "– Team Ad People"
+        //     );
+
+        //     $whatsappUrl = "https://wa.me/91{$patient->mobile_no}?text={$message}";
+
+        //     return redirect()->away($whatsappUrl);
+        // }
 
         return redirect()->route('counselor.bookings.index')->with('success', 'Patient added successfully.');
     }

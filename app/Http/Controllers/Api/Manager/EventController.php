@@ -171,6 +171,7 @@ class EventController extends Controller
             'status'  => 200,
             'message' => $message,
             'data'    => $events,
+            'count'   => count($events),
         ], 200);
     }
 
@@ -199,6 +200,7 @@ class EventController extends Controller
             'status'  => 200,
             'message' => $message,
             'data'    => $events,
+            'count'   => count($events),
         ], 200);
     }
 

@@ -10,7 +10,7 @@ use App\Models\Doctor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class MRDailyReportApiController extends Controller
+class DailyReportController extends Controller
 {
     // Show all daily reports
     public function index(Request $request)

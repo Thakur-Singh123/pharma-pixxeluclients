@@ -115,20 +115,86 @@ const ordersChart = new Chart(ctx, {
     }
 });
 </script>
-
-
 <style>
-.big-card {
-    padding: 40px 25px;
-    font-size: 1.5rem;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease;
+.page-inner{
+    padding:20px;
 }
-.big-card:hover { transform: translateY(-5px); }
-.big-card h2 { font-size: 3rem; margin-bottom:10px; }
-.big-card h5 { font-size: 1.2rem; color: #555; }
-</style>
+.mb-4.d-flex{
+    background:#fff;
+    padding:10px 14px;
+    border-radius:12px;
+    width:fit-content;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+.mb-4.d-flex label{
+    font-size:14px;
+    font-weight:600;
+    color:#222;
+    margin-bottom:0;
+}
+.mb-4.d-flex select{
+    width:160px;
+    height:36px;
+    font-size:14px;
+    border-radius:8px;
+}
+.dashboard-summary{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+.big-card{
+    flex:1;
+    min-height:120px;
+    padding:22px 24px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    background-size:cover;
+    background-position:center;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+    transition: box-shadow .25s ease;
+    transform: none !important; 
+    cursor: default;
+}
+.big-card:hover{
+    transform: none !important;
+    box-shadow:0 14px 32px rgba(0,0,0,0.12);
+}
+.summary-icon{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+}
+.summary-icon img{
+    width:22px;
+    filter:brightness(0) saturate(100%);
+}
+.summary-text h2{
+    font-size:2.3rem;
+    font-weight:700;
+    margin:0;
+    color:#111;
+    line-height:1.1;
+}
+.summary-text h5{
+    margin-top:4px;
+    font-size:0.95rem;
+    font-weight:500;
+    color:#555;
+}
+.mt-4{
+    background:#fff;
+    padding:18px;
+    border-radius:18px;
 
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+</style>
 @endsection

@@ -16,7 +16,7 @@
                         <tr>
                             <td style="padding:20px 30px; text-align:center; border-bottom:1px solid #e6e9f0; background: aliceblue;">
                                 <p style="margin:0; font-size:16px; font-weight:600; color:#32bf3e;">
-                                Ad People – Panel
+                                    Ad People – Panel
                                 </p>
                             </td>
                         </tr>
@@ -49,10 +49,13 @@
                                                 ₹{{ number_format($patient->booking_amount ?? 0) }}
                                             </p>
                                             <p style="margin:0 0 8px;">
-                                                <strong>Booking Status:</strong> {{ $patient->booking_done }}
-                                            </p>
-                                            <p style="margin:0;">
                                                 <strong>Remark:</strong> {{ $patient->remark ?? '-' }}
+                                            </p>
+                                            <p style="margin:0 0 8px;">
+                                                <strong>Booking Confirmed:</strong>
+                                                @if($patient->booking_done == 'Yes')
+                                                    <span style="color:#16a34a; font-weight:600;">Yes</span>
+                                                @endif
                                             </p>
                                         </td>
                                     </tr>

@@ -121,6 +121,33 @@ class ClientController extends Controller
                 'particulars' => $request->others_particulars,
                 'remarks' => $request->others_remarks,
             ];
+        //Check if category type school
+        } elseif ($request->category_type == 'school') {
+            $details = [
+                'school_name' => $request->school_name,
+                'contact' => $request->school_contact,
+                'address' => $request->school_address,
+                'particulars' => $request->school_particulars,
+                'remarks' => $request->school_remarks,
+            ];
+        //Check if category type press reporter
+        } elseif ($request->category_type == 'press_reporter') {
+            $details = [
+                'reporter_name' => $request->reporter_name,
+                'contact' => $request->reporter_contact,
+                'address' => $request->reporter_address,
+                'particulars' => $request->reporter_particulars,
+                'remarks' => $request->reporter_remarks,
+            ];
+        //Check if category type market president
+        } elseif ($request->category_type == 'market_president') {
+            $details = [
+                'president_name' => $request->president_name,
+                'contact' => $request->president_contact,
+                'address' => $request->president_address,
+                'particulars' => $request->president_particulars,
+                'remarks' => $request->president_remarks,
+            ];
         }
         //Get manager id
         $manager_id = MangerMR::where('mr_id', auth()->id())->value('manager_id');
@@ -249,6 +276,33 @@ class ClientController extends Controller
                 'address' => $request->others_address,
                 'particulars' => $request->others_particulars,
                 'remarks' => $request->others_remarks,
+            ];
+        //Check if category type school
+        } elseif ($request->category_type == 'school') {
+            $details = [
+                'school_name' => $request->school_name,
+                'contact' => $request->school_contact,
+                'address' => $request->school_address,
+                'particulars' => $request->school_particulars,
+                'remarks' => $request->school_remarks,
+            ];
+        //Check if category type press reporter
+        } elseif ($request->category_type == 'press_reporter') {
+            $details = [
+                'reporter_name' => $request->reporter_name,
+                'contact' => $request->reporter_contact,
+                'address' => $request->reporter_address,
+                'particulars' => $request->reporter_particulars,
+                'remarks' => $request->reporter_remarks,
+            ];
+        //Check if category type market president
+        } elseif ($request->category_type == 'market_president') {
+            $details = [
+                'president_name' => $request->president_name,
+                'contact' => $request->president_contact,
+                'address' => $request->president_address,
+                'particulars' => $request->president_particulars,
+                'remarks' => $request->president_remarks,
             ];
         }
         //Update client

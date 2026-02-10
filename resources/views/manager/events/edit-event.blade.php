@@ -11,7 +11,11 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Edit Event</div>
+                        @if($event_detail->is_active != '1')
+                            <div class="card-title">Edit Event</div>
+                        @else
+                            <div class="card-title">Event Detail</div>
+                        @endif
                     </div>
                     <div class="card-body">
                         <form action="{{ route('manager.events.update',$event_detail->id) }}" method="POST" autocomplete="off">
@@ -121,6 +125,15 @@
                                             @endforeach
                                         </select>
                                         @error('mr_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="end_datetime">Join WhatsApp Link</label>
+                                        <input type="text" class="form-control" id="whatsapp_link" name="whatsapp_link" value="{{ old('whatsapp_link',$event_detail->whatsapp_link) }}" placeholder="Enter WhatsApp group link">
+                                        @error('whatsapp_link')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>

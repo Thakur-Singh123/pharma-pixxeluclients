@@ -15,6 +15,7 @@ class Events extends Model
         'doctor_id',
         'title',
         'description',
+        'whatsapp_link',
         'location',
         'pin_code',
         'start_datetime',

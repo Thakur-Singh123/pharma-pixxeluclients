@@ -74,6 +74,11 @@
                                                                 style="width: 156.312px;">End Date & Time
                                                             </th>
                                                             <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 156.312px;">Whatsapp Link
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 style="width: 156.312px;">Created By
@@ -112,6 +117,7 @@
                                                                 <td>{{ $event->pin_code }}</td>
                                                                 <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                 <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
+                                                                <td><a href="{{ $event->whatsapp_link }}" target="_blank">{{ $event->whatsapp_link }}</td>
                                                                 <td>{{ $event->created_by }}</td>
                                                                 <td>
                                                                     {!! $event->qr_code_path 

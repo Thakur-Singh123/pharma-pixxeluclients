@@ -27,7 +27,7 @@ class CounsellorController extends Controller
             $query->where('booking_done', $request->booking_done);
         }
         //Get patients
-        $patients = $query->orderBy('id', 'DESC')->paginate(10);
+        $patients = $query->orderBy('id', 'DESC')->paginate(5);
         //All counsellors
         $counsellors = $manager->counsellors()->get();
 

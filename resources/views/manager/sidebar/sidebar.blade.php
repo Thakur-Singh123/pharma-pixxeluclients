@@ -106,6 +106,15 @@
                         </ul>
                     </div>
                 </li>
+                <!---Add client Category section-->
+                <li class="nav-item {{ request()->is('manager/clients/create') || request()->is('manager/clients/*/edit') ? 'active' : '' }}">
+                    <a href="{{ url('manager/clients/create') }}"
+                        class="nav-link {{ request()->is('manager/clients/create') || request()->is('manager/clients/*/edit') ? 'active' : '' }}">
+                       <i class="fas fa-user-plus"></i>
+                        <p>Add Client Category</p>
+                    </a>
+                </li>
+
                 <!--clients section-->
                 <li class="nav-item {{ request()->is('manager/clients') || request()->is('manager/clients/*/edit') ? 'active' : '' }}">
                     <a href="{{ url('manager/clients') }}"

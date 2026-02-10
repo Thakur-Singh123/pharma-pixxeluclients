@@ -91,6 +91,11 @@
                                                                     colspan="1"
                                                                     style="width: 366.578px;">Event Organizer (MR)
                                                                 </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
+                                                                    style="width: 366.578px;">Address
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -109,6 +114,7 @@
                                                                     <td>{{ $participation->disease }}</td>
                                                                     <td>{{ $participation->health_declare == 1 ? 'Yes' : 'No' }}</td>
                                                                     <td>{{ $participation->event_detail->mr->name }}</td>
+                                                                    <td>{{ $participation->address }}</td>
                                                                     <!--<td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ url('mr/edit-participation', $participation->id) }}" class="icon-button edit-btn custom-tooltip" data-tooltip="Edit">

@@ -11,7 +11,11 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Edit Task</div>
+                        @if($task_detail->is_active != '1')
+                            <div class="card-title">Edit Task</div>
+                        @else
+                            <div class="card-title">Task Detail</div>
+                        @endif
                     </div>
                     <div class="card-body">
                         <form action="{{ route('mr.tasks.update', $task_detail->id) }}" method="POST" autocomplete="off">

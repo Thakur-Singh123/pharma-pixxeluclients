@@ -81,6 +81,15 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="end_datetime">Join WhatsApp Link</label>
+                                        <input type="text" class="form-control" id="whatsapp_link" name="whatsapp_link" value="{{ old('whatsapp_link') }}" placeholder="Enter WhatsApp group link">
+                                        @error('whatsapp_link')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <!--Description-->
                                 <div class="col-md-6">
                                     <div class="form-group">

@@ -12,34 +12,36 @@ use App\Mail\UserBookingMail;
 
 class PatientController extends Controller
 {
-    public function index()
-    {
+    //Fucntion for all patients
+    public function index() {
+        //Get patients
         $patients = CounselorPatient::where('counselor_id', Auth::id())
             ->orderBy('id', 'DESC')
-            ->paginate(10);
-
+            ->paginate(5);
         return view('counselor.patients.index', compact('patients'));
     }
 
-    public function updateStatus(Request $request, $id)
-    {
+    //Function for update status
+    public function updateStatus(Request $request, $id) {
+        //Validate input fields
         $validated = $request->validate([
             'booking_done' => 'required|in:Yes,No',
         ]);
-
+        //Get patients
         $patient = CounselorPatient::where('counselor_id', Auth::id())->findOrFail($id);
         $patient->update(['booking_done' => $validated['booking_done']]);
 
         return back()->with('success', 'Booking status updated to ' . $validated['booking_done'] . '.');
     }
 
-    public function create()
-    {
+    //Function for create patient
+    public function create() {
         return view('counselor.patients.create');
     }
 
-    public function store(Request $request)
-    {
+    //Function for store patient
+    public function store(Request $request) {
+        //Validate input fields
         $validated = $request->validate([
             'patient_name'     => 'required|string|max:255',
             'mobile_no'        => 'required|digits_between:8,15',
@@ -60,41 +62,55 @@ class PatientController extends Controller
 
         $patient = CounselorPatient::create($validated);
         
-        //User mail
-        Mail::to($patient->email)->send(new UserBookingMail($patient));
-        //Admin mail
-        Mail::to('kapoorthakur906@gmail.com')->send(new AdminBookingMail($patient));
-
-        //WHATSAPP MESSAGE
-        // if ($patient->booking_done === 'Yes') {
-
-        //     $message = urlencode(
-        //         "Hello {$patient->patient_name},\n\n" .
-        //         "Your booking with *Ad People* has been successfully received ✅\n\n" .
-        //         "Department: {$patient->department}\n" .
-        //         "Booking Amount: ₹{$patient->booking_amount}\n\n" .
-        //         "Our team will contact you shortly.\n\n" .
-        //         "– Team Ad People"
-        //     );
-
-        //     $whatsappUrl = "https://wa.me/91{$patient->mobile_no}?text={$message}";
-
-        //     return redirect()->away($whatsappUrl);
-        // }
-
+        //Send mail ONLY if booking is YES
+        if ($patient->booking_done === 'Yes') {
+            // $adminEmail = 'kapoorthakur906@gmail.com';
+            // $adminWhatsapp = '9418496408';
+            //USER EMAIL
+            Mail::to($patient->email)->send(new UserBookingMail($patient));
+            //ADMIN EMAIL
+            Mail::to('kapoorthakur906@gmail.com')->send(new AdminBookingMail($patient));
+            //ADMIN WHATSAPP MESSAGE
+            // $adminMessage = urlencode(
+            //     "*New Booking Received*\n\n" .
+            //     "Patient: {$patient->patient_name}\n" .
+            //     "Mobile: {$patient->mobile_no}\n" .
+            //     "Department: {$patient->department}\n" .
+            //     "Amount: ₹{$patient->booking_amount}\n\n" .
+            //     "– Ad People Panel"
+            // );
+            //USER WHATSAPP MESSAGE
+            // $userMessage = urlencode(
+            //     "Hello {$patient->patient_name},\n\n" .
+            //     "Your booking with *Ad People* has been confirmed \n\n" .
+            //     "Department: {$patient->department}\n" .
+            //     "Booking Amount: ₹{$patient->booking_amount}\n\n" .
+            //     "Our team will contact you shortly.\n\n" .
+            //     "– Team Ad People"
+            // );
+            // session()->flash(
+            //     'user_whatsapp_link',
+            //     "https://wa.me/91{$patient->mobile_no}?text={$userMessage}"
+            // );
+            // return redirect()->away(
+            //     "https://wa.me/91{$adminWhatsapp}?text={$adminMessage}"
+            // );
+        }
         return redirect()->route('counselor.bookings.index')->with('success', 'Patient added successfully.');
     }
 
-    public function edit($id)
-    {
+    //Function for edit patient
+    public function edit($id) {
+        //Get patient
         $patient = CounselorPatient::where('counselor_id', Auth::id())->findOrFail($id);
         return view('counselor.patients.edit', compact('patient'));
     }
 
-    public function update(Request $request, $id)
-    {
+    //Function for update patient
+    public function update(Request $request, $id) {
+        //Get patient
         $patient = CounselorPatient::where('counselor_id', Auth::id())->findOrFail($id);
-
+        //Validate input fields
         $validated = $request->validate([
             'patient_name'     => 'required|string|max:255',
             'mobile_no'        => 'required|digits_between:8,15',
@@ -116,11 +132,12 @@ class PatientController extends Controller
         return redirect()->route('counselor.bookings.index')->with('success', 'Patient updated successfully.');
     }
 
-    public function destroy($id)
-    {
+    //Function for destory patient
+    public function destroy($id) {
+        //Get patient
         $patient = CounselorPatient::where('counselor_id', Auth::id())->findOrFail($id);
+        //Delete patent
         $patient->delete();
-
         return redirect()->route('counselor.bookings.index')
             ->with('success', 'Patient booking deleted successfully.');
     }

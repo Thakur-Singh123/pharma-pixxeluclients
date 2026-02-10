@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
 {
-    public function create()
-    {
-        // All vendors from users table
+    //Function for create po
+    public function create() {
+        //Get vendors
         $purchase_manager = Auth::id();
         $managerId        = ManagerPurchaseManager::where('purchase_manager_id', $purchase_manager)->value('manager_id');
         $manager_vendor   = ManagerVendor::where('manager_id', $managerId)->pluck('vendor_id')->toArray();
@@ -34,8 +34,9 @@ class PurchaseOrderController extends Controller
         return view('purchase_manager.purchase_orders.create', compact('vendors'));
     }
 
-    public function store(Request $request)
-    {
+    //Function for store po
+    public function store(Request $request) {
+        //Validate input fields
         $validated = $request->validate([
             'vendor_id'              => 'required|exists:users,id',
             'order_date'             => 'required|date',
@@ -49,7 +50,7 @@ class PurchaseOrderController extends Controller
             // 'items.*.discount_type'  => 'nullable|in:flat,percent',
             // 'items.*.discount_value' => 'nullable|numeric|min:0',
         ]);
-
+        //Transaction
         DB::transaction(function () use ($validated) {
             $managerId = ManagerPurchaseManager::where('purchase_manager_id', Auth::id())->value('manager_id');
             $po = PurchaseOrder::create([
@@ -63,45 +64,40 @@ class PurchaseOrderController extends Controller
                 'discount_total'      => 0,
                 'grand_total'         => 0,
             ]);
-
-            // $subtotal      = 0;
-            // $discountTotal = 0;
-
+            //$subtotal      = 0;
+            //$discountTotal = 0;
             foreach ($validated['items'] as $item) {
                 $qty   = (float) $item['quantity'];
-                // $price = (float) $item['price'];
-                // $gross = $qty * $price;
-
-                // $dtype = $item['discount_type'] ?? 'flat';
-                // $dval  = (float) ($item['discount_value'] ?? 0);
-
-                // $disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
-                // if ($disc > $gross) {
-                //     $disc = $gross;
-                // }
-
-                // $lineTotal = $gross - $disc;
-
+                //$price = (float) $item['price'];
+                //$gross = $qty * $price;
+                //$dtype = $item['discount_type'] ?? 'flat';
+                //$dval  = (float) ($item['discount_value'] ?? 0);
+                //$disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
+                //if($disc > $gross) {
+                //$disc = $gross;
+                //}
+                //$lineTotal = $gross - $disc;
+                //Create po
                 PurchaseOrderItem::create([
                     'purchase_order_id' => $po->id,
                     'product_name'      => $item['product_name'],
                     'type'              => $item['type'] ?? null,
                     'quantity'          => $qty,
-                    // 'price'             => $price,
-                    // 'discount_type'     => $dtype,
-                    // 'discount_value'    => $dval,
-                    // 'line_total'        => $lineTotal,
+                    //'price'           => $price,
+                    //'discount_type'   => $dtype,
+                    //'discount_value'  => $dval,
+                    //'line_total'      => $lineTotal,
                 ]);
 
-                // $subtotal += $gross;
-                // $discountTotal += $disc;
+                //$subtotal += $gross;
+                //$discountTotal += $disc;
             }
 
-            // $po->update([
-            //     'subtotal'       => $subtotal,
-            //     'discount_total' => $discountTotal,
-            //     'grand_total'    => $subtotal - $discountTotal,
-            // ]);
+            //$po->update([
+            //'subtotal'       => $subtotal,
+            //'discount_total' => $discountTotal,
+            //'grand_total'    => $subtotal - $discountTotal,
+            //]);
             //Get manager detail
             $manager = User::find($managerId);
             //Check if manager exists or not
@@ -121,24 +117,22 @@ class PurchaseOrderController extends Controller
             ->with('success', 'Purchase Order created successfully.');
     }
 
-    public function index(Request $request)
-    {
+    //Function for all po
+    public function index(Request $request) {
+        //Get auth login detail
         $pmId = Auth::id();
-
+        //Query
         $query = PurchaseOrder::with(['vendor', 'purchaseManager'])
             ->where('purchase_manager_id', $pmId);
-
-        // Status Filter
+        //Status Filter
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
-
-        // Vendor Filter
+        //Vendor Filter
         if ($request->filled('vendor_id')) {
             $query->where('vendor_id', $request->vendor_id);
         }
-
-        // Date Range Filter
+        //Date Range Filter
         if ($request->filled('date_range')) {
             switch ($request->date_range) {
                 case 'today':
@@ -155,14 +149,12 @@ class PurchaseOrderController extends Controller
                     $query->whereYear('order_date', now()->year);
                     break;
                 case 'all':
-                    // no filter
                     break;
             }
         }
-
-        $orders = $query->orderByDesc('id')->paginate(10);
-
-        // Vendors list for dropdown
+        //Get orders
+        $orders = $query->orderByDesc('id')->paginate(5);
+        //Vendors list for dropdown
         $managerId      = ManagerPurchaseManager::where('purchase_manager_id', $pmId)->value('manager_id');
         $manager_vendor = ManagerVendor::where('manager_id', $managerId)->pluck('vendor_id')->toArray();
         $vendors        = User::where('user_type', 'vendor')
@@ -173,17 +165,16 @@ class PurchaseOrderController extends Controller
         return view('purchase_manager.purchase_orders.index', compact('orders', 'vendors'));
     }
 
-
-    public function edit($id)
-    {
+    //Function for edit po
+    public function edit($id) {
+        //Get auth login 
         $pmId = Auth::id();
-
-        // Order must belong to this Purchase Manager
+        //Order must belong to this Purchase Manager
         $order = PurchaseOrder::with(['items', 'vendor'])
             ->where('purchase_manager_id', $pmId)
             ->findOrFail($id);
 
-        // Vendors under the same manager as this PM
+        //Vendors under the same manager as this PM
         $managerId      = ManagerPurchaseManager::where('purchase_manager_id', $pmId)->value('manager_id');
         $managerVendors = ManagerVendor::where('manager_id', $managerId)->pluck('vendor_id')->toArray();
 
@@ -195,10 +186,11 @@ class PurchaseOrderController extends Controller
         return view('purchase_manager.purchase_orders.edit', compact('order', 'vendors'));
     }
 
-    public function update(Request $request, $id)
-    {
+    //Function for update po
+    public function update(Request $request, $id) {
+        //Get auth login detail
         $pmId = Auth::id();
-
+        //Validate input fields
         $validated = $request->validate([
             'vendor_id'              => 'required|exists:users,id',
             'order_date'             => 'required|date',
@@ -209,15 +201,14 @@ class PurchaseOrderController extends Controller
             'items.*.type'           => 'nullable|string|max:100',
             'items.*.quantity'       => 'required|numeric|min:1',
         ]);
-
+        //Get orders
         $order = PurchaseOrder::where('purchase_manager_id', $pmId)->findOrFail($id);
-
+        //DB transaction
         DB::transaction(function () use ($order, $validated) {
             if ($order->status === 'approved') {
                 $order->status = 'pending';
             }
-
-            // Update header
+            //Update po
             $order->update([
                 'vendor_id'  => $validated['vendor_id'],
                 'order_date' => $validated['order_date'],
@@ -225,55 +216,54 @@ class PurchaseOrderController extends Controller
                 'notes'      => $validated['notes'] ?? null,
             ]);
 
-            // Rebuild items
+            //Rebuild items
             $order->items()->delete();
 
-            // $subtotal      = 0;
-            // $discountTotal = 0;
+            //$subtotal      = 0;
+            //$discountTotal = 0;
 
             foreach ($validated['items'] as $item) {
                 $qty   = (float) $item['quantity'];
-                // $price = (float) $item['price'];
-                // $gross = $qty * $price;
+                //$price = (float) $item['price'];
+                //$gross = $qty * $price;
 
-                // $dtype = $item['discount_type'] ?? 'flat';
+                //$dtype = $item['discount_type'] ?? 'flat';
                 // $dval  = (float) ($item['discount_value'] ?? 0);
 
-                // $disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
-                // if ($disc > $gross) {
-                //     $disc = $gross;
-                // }
+                //$disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
+                //if ($disc > $gross) {
+                //$disc = $gross;
+                //}
 
-                // $lineTotal = $gross - $disc;
+                //$lineTotal = $gross - $disc;
 
                 $order->items()->create([
                     'product_name'   => $item['product_name'],
                     'type'           => $item['type'] ?? null,
                     'quantity'       => $qty,
-                    // 'price'          => $price,
-                    // 'discount_type'  => $dtype,
-                    // 'discount_value' => $dval,
-                    // 'line_total'     => $lineTotal,
+                    //'price'          => $price,
+                    //'discount_type'  => $dtype,
+                    //'discount_value' => $dval,
+                    //'line_total'     => $lineTotal,
                 ]);
-
-                // $subtotal += $gross;
-                // $discountTotal += $disc;
+                //$subtotal += $gross;
+                //$discountTotal += $disc;
             }
 
-            // $order->update([
-            //     'subtotal'       => $subtotal,
-            //     'discount_total' => $discountTotal,
-            //     'grand_total'    => $subtotal - $discountTotal,
+            //$order->update([
+            //'subtotal'       => $subtotal,
+            //'discount_total' => $discountTotal,
+            //'grand_total'    => $subtotal - $discountTotal,
             // ]);
             //Get manager detail
             $manager = User::find($order->manager_id);
-            // echo "<pre>"; print_r($manager->toArray());exit;
+            //echo "<pre>"; print_r($manager->toArray());exit;
             //Check if manager exists or not
             if ($manager) {
                 //Send notification
                 $manager->notify(new PurchaseOrderUpdatedNotification($order));
             }
-             //Send Email to Vendor
+            //Send Email to Vendor
             $vendor = User::find($validated['vendor_id']);
             if ($vendor && $vendor->email) {
                 Mail::to($vendor->email)->send(new PurchaseOrderUpdatedMail($order));
@@ -284,20 +274,20 @@ class PurchaseOrderController extends Controller
             ->with('success', 'Purchase Order updated successfully.');
     }
 
-    public function destroy($id)
-    {
+    //Function for delete po
+    public function destroy($id) {
+        //Get auth login
         $pmId = Auth::id();
-
+        //Get orders
         $order = PurchaseOrder::where('purchase_manager_id', $pmId)->findOrFail($id);
-        $order->delete(); // make sure FK is set to cascade for items
-
+        //Delete po
+        $order->delete();
         return back()->with('success', 'Purchase Order deleted successfully.');
     }
 
-    public function export(Request $request)
-    {
+    //Function for export po
+    public function export(Request $request) {
         $filters = $request->only(['is_delivered', 'date_range', 'status', 'purchase_manager_id', 'vendor_id']);
         return Excel::download(new PurchaseOrdersExport($filters), 'purchase_orders.csv');
     }
-
 }

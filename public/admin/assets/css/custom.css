@@ -1126,4 +1126,55 @@ h5.details-heading {
 .view-btn i {
     color: #0d9488;
 }
+    .booking-checkbox-group {
+    display: flex;
+    gap: 18px;
+    margin-top: 6px;
+}
+.booking-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444;
+}
+.booking-checkbox input {
+    display: none;
+}
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cfd4dc;
+    border-radius: 4px;
+    background: #fff;
+    position: relative;
+}
+.checkmark::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 4px;
+    top: 0px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.booking-checkbox.done input:checked + .checkmark {
+    background: #28a745;
+    border-color: #28a745;
+}
 
+.booking-checkbox.done input:checked + .checkmark::after {
+    display: block;
+}
+.booking-checkbox.not-done input:checked + .checkmark {
+    background: #dc3545;
+    border-color: #dc3545;
+}
+.booking-checkbox.not-done input:checked + .checkmark::after {
+    display: block;
+}

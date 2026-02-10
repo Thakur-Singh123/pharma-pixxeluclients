@@ -19,13 +19,17 @@
                     @endif
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">Edit Sale Entry</div>
+                            @if($sale->status != 'Approved')
+                                <div class="card-title">Edit Sale Entry</div>
+                            @else
+                                <div class="card-title">Sale Detail</div>
+                            @endif
                         </div>
                         <div class="card-body">
                             <form method="POST" action="{{ route('mr.sales.update', $sale->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <!-- Customer Info -->
+                                <!--Customer Info -->
                                 <div class="row">
                                     <h4>Customer Details</h4>
                                     <div class="col-md-4 mb-4">
@@ -76,10 +80,12 @@
                                             <th>MRP (Base)</th>
                                             <th>Net Rate (After GST)</th>
                                             <th>Margin</th>
+                                            @if($sale->status != 'Approved')
                                             <th>
                                                 <button type="button" onclick="addRow()"
                                                 class="btn btn-sm btn-primary">+</button>
                                             </th>
+                                            @endif
                                         </thead>
                                         <tbody>
                                             @php
@@ -115,7 +121,13 @@
                                                     <input type="number" name="margin[]" class="form-control margin"
                                                     value="{{ old("margin.$i", $items[$i]->margin ?? '') }}" readonly>
                                                 </td>
-                                                <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">×</button></td>
+                                                @if($sale->status != 'Approved')
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">
+                                                        ×
+                                                    </button>
+                                                </td>
+                                                @endif
                                             </tr>
                                             @endfor
                                         </tbody>
@@ -168,7 +180,13 @@
             <td><input type="number" name="base_price[]" class="form-control base" oninput="calcTotal()"></td>
             <td><input type="number" name="sale_price[]" class="form-control rate" oninput="calcTotal()"></td>
             <td><input type="number" name="margin[]" class="form-control margin" readonly></td>
-            <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">×</button></td>
+            @if($sale->status != 'Approved')
+            <td>
+                <button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">
+                ×
+                </button>
+            </td>
+            @endif
         `;
         table.appendChild(row);
     }

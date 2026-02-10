@@ -11,7 +11,12 @@
                 @endif
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Edit Problem / Challenge</h4>
+                        @if ($problem_detail->status != 'approved')
+                            <h4 class="card-title">Edit Problem / Challenge</h4>
+                        @else
+                            <h4 class="card-title">Problem / Challenge Detail</h4>                         
+                        @endif
+                      </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('mr.problems.update', $problem_detail->id) }}" method="POST" autocomplete="off">
@@ -24,7 +29,9 @@
                                         <label for="title">Title</label>
                                         <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $problem_detail->title) }}" placeholder="Enter title">
                                         @error('title')
-                                        <small class="text-danger">{{ $message }}</small>
+                                            <small class="text-danger">
+                                                {{ $message }}
+                                            </small>
                                         @enderror
                                     </div>
                                 </div>

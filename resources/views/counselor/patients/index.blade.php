@@ -21,9 +21,7 @@
                                             class="dataTables_wrapper container-fluid dt-bootstrap4">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <table id="basic-datatables"
-                                                        class="display table table-striped table-hover dataTable"
-                                                        role="grid">
+                                                    <table id="basic-datatables" class="display table table-striped table-hover dataTable" role="grid">
                                                         <thead>
                                                             <tr role="row">
                                                                 <th>Sr No.</th>
@@ -48,10 +46,10 @@
                                                                     <td>{{ $patient->email ?? '—' }}</td>
                                                                     <td>
                                                                         {{ $patient->department }}
-                                                                        @if ($patient->department == 'Others' && !empty($patient->other_department))
-                                                                            <br>
+                                                                        @if ($patient->department == 'Others' && !empty($patient->other_department))<br>
                                                                             <small
-                                                                                class="text-muted">({{ $patient->other_department }})</small>
+                                                                                class="text-muted">({{ $patient->other_department }})
+                                                                            </small>
                                                                         @endif
                                                                     </td>
                                                                     <td>{{ $patient->uhid_no ?? '—' }}</td>
@@ -72,16 +70,11 @@
                                                                             <select name="booking_done"
                                                                                 class="custom-status-dropdown"
                                                                                 onchange="this.form.submit()">
-                                                                                <option value="Yes"
-                                                                                    {{ $patient->booking_done == 'Yes' ? 'selected' : '' }}>
-                                                                                    Yes</option>
-                                                                                <option value="No"
-                                                                                    {{ $patient->booking_done == 'No' ? 'selected' : '' }}>
-                                                                                    No</option>
+                                                                                <option value="Yes" {{ $patient->booking_done == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                                                                <option value="No" {{ $patient->booking_done == 'No' ? 'selected' : '' }}>No</option>
                                                                             </select>
                                                                         </form>
                                                                     </td>
-
                                                                     <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('counselor.bookings.edit', $patient->id) }}"
@@ -106,23 +99,23 @@
                                                                 </tr>
                                                             @empty
                                                                 <tr>
-                                                                    <td colspan="9" class="text-center">No patient record
-                                                                        found</td>
+                                                                    <td colspan="9" class="text-center">
+                                                                        No patient record found
+                                                                    </td>
                                                                 </tr>
                                                             @endforelse
                                                         </tbody>
                                                     </table>
-
-                                                    <!-- Pagination -->
+                                                    <!--Pagination-->
                                                     {{ $patients->links('pagination::bootstrap-5') }}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> <!-- card-body -->
-                            </div> <!-- card -->
-                        </div> <!-- col -->
-                    </div> <!-- row -->
+                                </div>
+                            </div> 
+                        </div> 
+                    </div> 
                 </div>
             </div>
         </div>

@@ -99,6 +99,7 @@ class EventController extends Controller
             'location' =>'nullable|string|max:255',
             'start_datetime' =>'required|date',
             'end_datetime' =>'required|date|after_or_equal:start_datetime',
+            'whatsapp_link' => 'nullable|url|max:255',
         ]);
         //Create event
         $event = new Events();
@@ -111,6 +112,7 @@ class EventController extends Controller
         $event->pin_code = $request->pin_code;
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime = $request->end_datetime;
+        $event->whatsapp_link = $request->whatsapp_link;
         $event->status = 'pending';
         $event->created_by     = 'manager';
         $event->is_active = 1;
@@ -186,6 +188,7 @@ class EventController extends Controller
             'pin_code' =>'nullable|string|max:255',
             'start_datetime' =>'required|date',
             'end_datetime' =>'required|date|after_or_equal:start_datetime',
+            'whatsapp_link' => 'nullable|url|max:255',
         ]);
         //Find event
         $event = Events::findOrFail($id);
@@ -203,6 +206,7 @@ class EventController extends Controller
             'created_by' => 'manager',
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
+            'whatsapp_link' => $request->whatsapp_link,
         ]);
 
         //Assign new doctor MR

@@ -7,6 +7,9 @@ use Illuminate\Http\JsonResponse;
 use App\Models\CounselorPatient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdminBookingMail;
+use App\Mail\UserBookingMail;
 use Illuminate\Support\Facades\Validator;
 
 class PatientController extends Controller
@@ -75,6 +78,41 @@ class PatientController extends Controller
         $data['counselor_id'] = Auth::id();
         //Create patient
         $patient = CounselorPatient::create($data);
+
+        //Send mail ONLY if booking is YES
+        if ($patient->booking_done === 'Yes') {
+            // $adminEmail = 'kapoorthakur906@gmail.com';
+            // $adminWhatsapp = '9418496408';
+            //USER EMAIL
+            Mail::to($patient->email)->send(new UserBookingMail($patient));
+            //ADMIN EMAIL
+            Mail::to('kapoorthakur906@gmail.com')->send(new AdminBookingMail($patient));
+            //ADMIN WHATSAPP MESSAGE
+            // $adminMessage = urlencode(
+            //     "*New Booking Received*\n\n" .
+            //     "Patient: {$patient->patient_name}\n" .
+            //     "Mobile: {$patient->mobile_no}\n" .
+            //     "Department: {$patient->department}\n" .
+            //     "Amount: ₹{$patient->booking_amount}\n\n" .
+            //     "– Ad People Panel"
+            // );
+            //USER WHATSAPP MESSAGE
+            // $userMessage = urlencode(
+            //     "Hello {$patient->patient_name},\n\n" .
+            //     "Your booking with *Ad People* has been confirmed \n\n" .
+            //     "Department: {$patient->department}\n" .
+            //     "Booking Amount: ₹{$patient->booking_amount}\n\n" .
+            //     "Our team will contact you shortly.\n\n" .
+            //     "– Team Ad People"
+            // );
+            // session()->flash(
+            //     'user_whatsapp_link',
+            //     "https://wa.me/91{$patient->mobile_no}?text={$userMessage}"
+            // );
+            // return redirect()->away(
+            //     "https://wa.me/91{$adminWhatsapp}?text={$adminMessage}"
+            // );
+        }
         //Create
         return response()->json([
             'status' => 200,

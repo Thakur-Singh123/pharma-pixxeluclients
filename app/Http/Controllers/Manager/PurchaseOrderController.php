@@ -17,36 +17,33 @@ use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
 {
-    public function index(Request $request)
-    {
+    //Function for all po
+    public function index(Request $request) {
+        //Get manager
         $managerId = Auth::id();
-
+        //Get purchase manager
         $purchase_manager_ids = ManagerPurchaseManager::where('manager_id', $managerId)
             ->pluck('purchase_manager_id')
             ->toArray();
-
+        //Get users
         $pms = User::where('status', 'Active')
             ->whereIn('id', $purchase_manager_ids)
             ->get();
-
-         // Query purchase orders
+        //Query purchase orders
         $ordersQuery = PurchaseOrder::with(['vendor', 'items', 'purchaseManager'])
             ->withCount('items')
             ->where('manager_id', $managerId)
             ->whereIn('purchase_manager_id', $purchase_manager_ids)
             ->orderByDesc('id');
-
-        // Apply filter if selected
+        //Filter by status
         if ($request->filled('status')) {
             $ordersQuery->where('status', $request->status);
         }
-
-        // Filter by purchase manager
+        //Filter by purchase manager
         if ($request->filled('purchase_manager_id')) {
             $ordersQuery->where('purchase_manager_id', $request->purchase_manager_id);
         }
-
-        // Date range filter
+        //Filter by date range
         if ($request->filled('date_range')) {
             switch ($request->date_range) {
                 case 'today':
@@ -64,23 +61,21 @@ class PurchaseOrderController extends Controller
                     break;
                 case 'all':
                 default:
-                    // No filtering
                     break;
             }
         }
-
-        $orders = $ordersQuery->paginate(10); 
+        //All orders
+        $orders = $ordersQuery->paginate(5); 
         return view('manager.purchase_orders.index', compact('orders', 'pms'));
     }
 
-    // Approve Order
-    public function approve($id)
-    {
+    //Function for approve order
+    public function approve($id) {
+        //Get auth login
         $managerId = Auth::id();
-
+        //Get po
         $po = PurchaseOrder::where('manager_id', $managerId)->findOrFail($id);
         $po->update(['status' => 'approved']);
-
         //Get purchaseManager detail
         $purchaseManager = User::find($po->purchase_manager_id);
         //echo "<pre>"; print_r($purchaseManager->toArray());exit;
@@ -90,7 +85,6 @@ class PurchaseOrderController extends Controller
             $purchaseManager->notify(new PurchaseOrderApprovedNotification($po, 'purchase_manager'));
             Mail::to($purchaseManager->email)->send(new PurchaseOrderApprovedMail($po, 'purchase_manager'));
         }
-
         //Get vendor detail
         $vendor = User::find($po->vendor_id);
         //Send notification
@@ -102,27 +96,26 @@ class PurchaseOrderController extends Controller
         return back()->with('success', "Purchase Order No #{$po->id} approved successfully.");
     }
 
-    // Reject Order
-    public function reject($id)
-    {
+    //Functin for reject order
+    public function reject($id) {
+        //Get auth login
         $managerId = Auth::id();
-
+        //Get po
         $po = PurchaseOrder::where('manager_id', $managerId)->findOrFail($id);
+        //Status
         $po->update(['status' => 'rejected']);
-
         return back()->with('success', "Purchase Order No #{$po->id} rejected successfully.");
     }
 
-    // Edit page (includes vendor list)
-    public function edit($id)
-    {
+    //Function for edit po
+    public function edit($id) {
+        //Get auth login
         $managerId = Auth::id();
-
+        //Get po
         $order = PurchaseOrder::with(['vendor', 'items'])
             ->where('manager_id', $managerId)
             ->findOrFail($id);
-
-        // Only show that vendor
+        //Get vendors
         $vendors = User::where('user_type', 'vendor')
             ->where('status', 'Active')
             ->orderBy('name')
@@ -131,11 +124,11 @@ class PurchaseOrderController extends Controller
         return view('manager.purchase_orders.edit', compact('order', 'vendors'));
     }
 
-    //Update
-    public function update(Request $request, $id)
-    {
+    //Function for update po
+    public function update(Request $request, $id) {
+        //Get auth login
         $managerId = Auth::id();
-
+        //Validate input fields
         $validated = $request->validate([
             'vendor_id'              => 'required|exists:users,id',
             'order_date'             => 'required|date',
@@ -145,13 +138,13 @@ class PurchaseOrderController extends Controller
             'items.*.product_name'   => 'required|string|max:255',
             'items.*.type'           => 'nullable|string|max:100',
             'items.*.quantity'       => 'required|numeric|min:1',
-            // 'items.*.price'          => 'required|numeric|min:0',
-            // 'items.*.discount_type'  => 'nullable|in:flat,percent',
-            // 'items.*.discount_value' => 'nullable|numeric|min:0',
+            //'items.*.price'          => 'required|numeric|min:0',
+            //'items.*.discount_type'  => 'nullable|in:flat,percent',
+            //'items.*.discount_value' => 'nullable|numeric|min:0',
         ]);
-
+        //Get po
         $order = PurchaseOrder::where('manager_id', $managerId)->findOrFail($id);
-
+        //Transaction
         DB::transaction(function () use ($order, $validated) {
             $order->update([
                 'vendor_id'  => $validated['vendor_id'],
@@ -159,56 +152,47 @@ class PurchaseOrderController extends Controller
                 'nature_of_vendor' => $validated['nature_of_vendor'],
                 'notes'      => $validated['notes'] ?? null,
             ]);
-
+            //delete po
             $order->items()->delete();
-
-            // $subtotal = 0;
-            // $discountTotal = 0;
-
+            //$subtotal = 0;
+            //$discountTotal = 0;
             foreach ($validated['items'] as $item) {
                 $qty   = (float) $item['quantity'];
-                // $price = (float) $item['price'];
-                // $gross = $qty * $price;
-
-                // $dtype = $item['discount_type'] ?? 'flat';
-                // $dval  = (float) ($item['discount_value'] ?? 0);
-
-                // $disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
-                // if ($disc > $gross) {
-                //     $disc = $gross;
-                // }
-
-                // $lineTotal = $gross - $disc;
-
+                //$price = (float) $item['price'];
+                //$gross = $qty * $price;
+                //$dtype = $item['discount_type'] ?? 'flat';
+                //$dval  = (float) ($item['discount_value'] ?? 0);
+                //$disc = ($dtype === 'percent') ? ($gross * ($dval / 100)) : $dval;
+                //if ($disc > $gross) {
+                //$disc = $gross;
+                //}
+                //$lineTotal = $gross - $disc;
                 $order->items()->create([
                     'product_name'   => $item['product_name'],
                     'type'           => $item['type'] ?? null,
                     'quantity'       => $qty,
-                    // 'price'          => $price,
-                    // 'discount_type'  => $dtype,
-                    // 'discount_value' => $dval,
-                    // 'line_total'     => $lineTotal,
+                    //'price'          => $price,
+                    //'discount_type'  => $dtype,
+                    //'discount_value' => $dval,
+                    //'line_total'     => $lineTotal,
                 ]);
-
-                // $subtotal += $gross;
-                // $discountTotal += $disc;
+                //$subtotal += $gross;
+                //$discountTotal += $disc;
             }
-
-            // $order->update([
-            //     'subtotal'       => $subtotal,
-            //     'discount_total' => $discountTotal,
-            //     'grand_total'    => $subtotal - $discountTotal,
-            // ]);
+            //$order->update([
+            //'subtotal'       => $subtotal,
+            //'discount_total' => $discountTotal,
+            //'grand_total'    => $subtotal - $discountTotal,
+            //]);
         });
-
-        // Redirect with correct route name (manager prefix)
+        //Redirect with correct route name (manager prefix)
         return redirect()->route('manager.purchase-manager.index')
             ->with('success', 'Purchase Order updated successfully.');
     }
 
-    //Export Purchase Orders
-    public function export(Request $request)
-    {
+    //Function for export po
+    public function export(Request $request) {
+        //Filter
         $filters = $request->only(['is_delivered', 'date_range', 'status', 'purchase_manager_id']);
         return Excel::download(new PurchaseOrdersExport($filters), 'purchase_orders.csv');
     }

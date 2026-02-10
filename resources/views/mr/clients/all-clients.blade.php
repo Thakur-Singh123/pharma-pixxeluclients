@@ -64,8 +64,14 @@
                                                                 Asha Worker
                                                             @elseif($client->category_type == 'healthcare_worker')
                                                                 Healthcare Worker
+                                                            @elseif($client->category_type == 'school')
+                                                                School
+                                                            @elseif($client->category_type == 'press_reporter')
+                                                                Press Reporter
+                                                            @elseif($client->category_type == 'market_president')
+                                                                Market President
                                                             @else
-                                                                {{ $client->category_type }}
+                                                                {{ ucfirst(str_replace('_', ' ', $client->category_type)) }}
                                                             @endif
                                                         </td>
                                                         <td>

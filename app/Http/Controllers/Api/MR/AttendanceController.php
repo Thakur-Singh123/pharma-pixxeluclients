@@ -86,117 +86,94 @@ class AttendanceController extends Controller
     }
 
     //Function for handle check-in and check-out attendance
-    public function mark(Request $request) {
+    public function mark(Request $request)
+    {
         $request->validate([
             'type' => 'required|string',
         ]);
 
         $type = strtolower(str_replace(['-', '_'], '', $request->input('type')));
-
-        //Get auth login detail
         $userId = Auth::id();
-        //check if auth exists or not
+
         if (!$userId) {
-            $error['status'] = 401;
-            $error['message'] = "Unauthorized access.";
-            return response()->json($error, 401);
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized access.'
+            ], 401);
         }
-        //Get current day
+
         $today = Carbon::today()->toDateString();
         $attendance = MRAttendance::where('user_id', $userId)
             ->whereDate('date', $today)
             ->first();
 
+        /*CHECK-IN*/
         if ($type === 'checkin') {
+
             $attendance = MRAttendance::firstOrCreate(
-                [
-                    'user_id' => $userId,
-                    'date' => $today,
-                ],
-                [
-                    'check_in' => Carbon::now()->toTimeString(),
-                    'status' => 'half',
-                ]
+                ['user_id' => $userId, 'date' => $today],
+                ['check_in' => Carbon::now()->toTimeString(), 'status' => 'present']
             );
 
             if (!$attendance->check_in) {
                 $attendance->check_in = Carbon::now()->toTimeString();
-                $attendance->status = 'half';
+                $attendance->status   = 'present';
                 $attendance->save();
             }
 
-            $success['status'] = 200;
-            $success['message'] = "Check-in successful.";
-            $success['data'] = $attendance->fresh();
-            return response()->json($success, 200);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Check-in successful.',
+                'data' => $attendance->fresh(),
+            ]);
         }
 
+        /*CHECK-OUT*/
         if ($type === 'checkout') {
+
             if (!$attendance || !$attendance->check_in) {
-                $error['status'] = 404;
-                $error['message'] = "No check-in found for today.";
-                return response()->json($error, 404);
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No check-in found for today.'
+                ], 404);
             }
 
             if ($attendance->check_out) {
-                $error['status'] = 409;
-                $error['message'] = "Already checked out for today.";
-                return response()->json($error, 409);
+                return response()->json([
+                    'status' => 409,
+                    'message' => 'Already checked out for today.'
+                ], 409);
             }
 
             $attendance->check_out = Carbon::now()->toTimeString();
 
-            $checkIn = Carbon::parse($attendance->check_in);
+            $checkIn  = Carbon::parse($attendance->check_in);
             $checkOut = Carbon::parse($attendance->check_out);
             $hoursWorked = $checkIn->diffInHours($checkOut);
 
-            if ($hoursWorked >= 8) {
+            if ($hoursWorked >= 10) {
                 $attendance->status = 'present';
-            } elseif ($hoursWorked >= 4) {
+            } elseif ($hoursWorked >= 5) {
                 $attendance->status = 'half';
+            } elseif ($hoursWorked >= 2) {
+                $attendance->status = 'short_leave';
             } else {
                 $attendance->status = 'absent';
             }
 
             $attendance->save();
 
-            $success['status'] = 200;
-            $success['message'] = "Check-out successful.";
-            $success['data'] = $attendance;
-            return response()->json($success, 200);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Check-out successful.',
+                'data' => $attendance,
+            ]);
         }
 
-        $error['status'] = 422;
-        $error['message'] = "Invalid attendance type provided.";
-        return response()->json($error, 422);
-    }
-
-    private function buildDailyAttendancePayload(int $userId, Carbon $date): array
-    {
-        $dateString = $date->toDateString();
-        $attendance = MRAttendance::where('user_id', $userId)
-            ->whereDate('date', $dateString)
-            ->first();
-
-        $record = [
-            'date' => $dateString,
-            'check_in' => $attendance?->check_in,
-            'check_out' => $attendance?->check_out,
-            'status' => $attendance?->status ?? 'absent',
-            'is_recorded' => (bool) $attendance,
-        ];
-
-        return [
-            'type' => 'daily',
-            'filters' => [
-                'date' => $dateString,
-            ],
-            'records' => [$record],
-            'summary' => [
-                'status' => $record['status'],
-                'is_recorded' => $record['is_recorded'],
-            ],
-        ];
+        return response()->json([
+            'status' => 422,
+            'message' => 'Invalid attendance type.'
+        ], 422);
     }
 
     private function buildMonthlyAttendancePayload(int $userId, int $month, int $year): array

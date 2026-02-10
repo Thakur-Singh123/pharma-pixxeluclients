@@ -53,6 +53,9 @@ input[type=number] {
                                                 <option value="healthcare_worker"
                                                     @if (old('category_type') == 'healthcare_worker') selected @endif>Any Healthcare Worker
                                                 </option>
+                                                <option value="school" @if (old('category_type') == 'school') selected @endif>School</option>
+                                                <option value="press_reporter" @if (old('category_type') == 'press_reporter') selected @endif>Press Reporter</option>
+                                                <option value="market_president" @if (old('category_type') == 'market_president') selected @endif>Market President</option>
                                                 <option value="others" @if (old('category_type') == 'others') selected @endif>
                                                     Others</option>
                                             </select>
@@ -476,6 +479,129 @@ input[type=number] {
                                             <label>Remarks</label>
                                             <input type="text" name="health_remarks" class="form-control"
                                                 value="{{ old('health_remarks') }}" placeholder="Enter remarks" required>
+                                        </div>
+                                    </div>
+                                    <!--School Details-->
+                                    <div class="col-md-12 extra school-heading" style="display:none;">
+                                        <h5 class="details-heading">*School Details</h5>
+                                    </div>
+                                    <div class="col-md-4 extra school" style="display:none;">
+                                        <div class="form-group">
+                                            <label>School Name</label>
+                                            <input type="text" name="school_name"  class="form-control name-input"
+                                                value="{{ old('school_name') }}" placeholder="Enter school name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra school" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Contact</label>
+                                            <input type="number" name="school_contact" class="form-control contact-input" maxlength="10"
+                                                value="{{ old('school_contact') }}" placeholder="Enter contact number"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra school" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" name="school_address"  class="form-control address-input"
+                                                value="{{ old('school_address') }}" placeholder="Enter address" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra school" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Particulars</label>
+                                            <input type="text" name="school_particulars" class="form-control"
+                                                value="{{ old('school_particulars') }}" placeholder="Enter particulars"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra school" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Remarks</label>
+                                            <input type="text" name="school_remarks" class="form-control"
+                                                value="{{ old('school_remarks') }}" placeholder="Enter remarks" required>
+                                        </div>
+                                    </div>
+                                    <!--Press Reporter Details-->
+                                    <div class="col-md-12 extra press_reporter-heading" style="display:none;">
+                                        <h5 class="details-heading">*Press Reporter Details</h5>
+                                    </div>
+                                    <div class="col-md-4 extra press_reporter" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Reporter Name</label>
+                                            <input type="text" name="reporter_name"  class="form-control name-input"
+                                                value="{{ old('reporter_name') }}" placeholder="Enter reporter name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra press_reporter" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Contact</label>
+                                            <input type="number" name="reporter_contact" class="form-control contact-input" maxlength="10"
+                                                value="{{ old('reporter_contact') }}" placeholder="Enter contact number"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra press_reporter" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" name="reporter_address"  class="form-control address-input"
+                                                value="{{ old('reporter_address') }}" placeholder="Enter address" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra press_reporter" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Particulars</label>
+                                            <input type="text" name="reporter_particulars" class="form-control"
+                                                value="{{ old('reporter_particulars') }}" placeholder="Enter particulars"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra press_reporter" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Remarks</label>
+                                            <input type="text" name="reporter_remarks" class="form-control"
+                                                value="{{ old('reporter_remarks') }}" placeholder="Enter remarks" required>
+                                        </div>
+                                    </div>
+                                    <!--Market President Details-->
+                                    <div class="col-md-12 extra market_president-heading" style="display:none;">
+                                        <h5 class="details-heading">*Market President Details</h5>
+                                    </div>
+                                    <div class="col-md-4 extra market_president" style="display:none;">
+                                        <div class="form-group">
+                                            <label>President Name</label>
+                                            <input type="text" name="president_name"  class="form-control name-input"
+                                                value="{{ old('president_name') }}" placeholder="Enter president name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra market_president" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Contact</label>
+                                            <input type="number" name="president_contact" class="form-control contact-input" maxlength="10"
+                                                value="{{ old('president_contact') }}" placeholder="Enter contact number"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra market_president" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" name="president_address"  class="form-control address-input"
+                                                value="{{ old('president_address') }}" placeholder="Enter address" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra market_president" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Particulars</label>
+                                            <input type="text" name="president_particulars" class="form-control"
+                                                value="{{ old('president_particulars') }}" placeholder="Enter particulars"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 extra market_president" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Remarks</label>
+                                            <input type="text" name="president_remarks" class="form-control"
+                                                value="{{ old('president_remarks') }}" placeholder="Enter remarks" required>
                                         </div>
                                     </div>
                                     <!--Other Details-->

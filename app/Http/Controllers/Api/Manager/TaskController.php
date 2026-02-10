@@ -13,7 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\services\FirebaseService;
+use App\Services\FirebaseService;
 class TaskController extends Controller
 {
 

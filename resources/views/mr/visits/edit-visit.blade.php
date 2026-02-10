@@ -11,7 +11,11 @@
             @endif
             <div class="card">
                <div class="card-header">
-                  <div class="card-title">Edit Visit</div>
+                  @if($visit_detail->status != 'Approved')
+                     <div class="card-title">Edit Visit</div>
+                  @else 
+                     <div class="card-title">Visit Detail</div>
+                  @endif
                </div>
                <div class="card-body">
                   <form action="{{ route('mr.update.visit', $visit_detail->id) }}" method="POST" autocomplete="off">

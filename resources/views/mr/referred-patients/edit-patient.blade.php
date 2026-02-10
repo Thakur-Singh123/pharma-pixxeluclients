@@ -11,7 +11,11 @@
                 @endif
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Edit Patient</h4>
+                        @if($patient_detail->status != 'approved')
+                            <h4 class="card-title">Edit Patient</h4>
+                        @else
+                            <h4 class="card-title">Patient Detail</h4>
+                        @endif
                     </div>
                     <div class="card-body">
                         <form action="{{ route('mr.patients.update', $patient_detail->id) }}" method="POST" enctype="multipart/form-data">

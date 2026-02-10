@@ -52,7 +52,8 @@
                                              </th>
                                              <th class="sorting" tabindex="0"
                                                 aria-controls="basic-datatables" rowspan="1"
-                                                colspan="1" style="width: 84.5px;">TA (amount)</th>
+                                                colspan="1" style="width: 84.5px;">TA (amount)
+                                             </th>
                                              <th class="sorting" tabindex="0"
                                                 aria-controls="basic-datatables" rowspan="1"
                                                 colspan="1" style="width: 184.234px;">DA (amount)
@@ -101,9 +102,9 @@
                                              <td>
                                                 <!--Check if image exists or not-->
                                                 @if($tada_record->attachment)
-                                                <a href="{{ asset('public/uploads/ta_da/' . $tada_record->attachment) }}" target="_blank">View</a>
+                                                   <a href="{{ asset('public/uploads/ta_da/' . $tada_record->attachment) }}" target="_blank">View</a>
                                                 @else
-                                                -
+                                                   -
                                                 @endif
                                              </td>
                                              <td>
@@ -121,7 +122,7 @@
                                                          <i class="fa fa-edit"></i>
                                                       </a>
                                                    @else
-                                                      <a href="{{ route('mr.tada.edit', $tada_record->id) }}" class="icon-button  view-btn custom-tooltip" data-tooltip="View">
+                                                      <a href="{{ route('mr.tada.edit', $tada_record->id) }}" class="icon-button view-btn custom-tooltip" data-tooltip="View">
                                                          <i class="fa fa-eye"></i>
                                                       </a>
                                                    @endif

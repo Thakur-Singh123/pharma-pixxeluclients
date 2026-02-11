@@ -30,8 +30,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('/delete-visit/{id}', [App\Http\Controllers\MR\VisitController::class, 'delete_visit']);
     //Task
     Route::resource('/tasks', App\Http\Controllers\MR\TaskController::class);
-    Route::get('/tasks-assigned-by-manager', [App\Http\Controllers\MR\TaskController::class,'assign_manger']);
-    Route::get('/tasks-himself', [App\Http\Controllers\MR\TaskController::class,'himself']);
+    Route::get('/tasks-assigned-by-manager', [App\Http\Controllers\MR\TaskController::class,'assign_manger'])->name('assign.manger');
+    Route::get('/tasks-himself', [App\Http\Controllers\MR\TaskController::class,'himself'])->name('himself');
     Route::get('/pending-approval', [App\Http\Controllers\MR\TaskController::class,'pending_approval']);
     Route::post('/task-update-status/{id}', [App\Http\Controllers\MR\TaskController::class,'update_status'])->name('tasks.update.status');
     //Tour plans
@@ -68,7 +68,7 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::get('events-assigned-by-manager', [App\Http\Controllers\MR\EventController::class,'assign_manger'])->name('events.assign-manger');
     Route::get('events-himself', [App\Http\Controllers\MR\EventController::class,'himself'])->name('events.himself');
     //Event users
-    Route::get('events-active-participations', [App\Http\Controllers\MR\EventController::class,'participations']);
+    Route::get('events-active-participations', [App\Http\Controllers\MR\EventController::class,'participations'])->name('participations');
     //Visit plans
     Route::get('visit-plans', [App\Http\Controllers\MR\VisitPlanController::class,'index'])->name('visit-plans.index');
     Route::post('visit-plans/{id}/interested', [App\Http\Controllers\MR\VisitPlanController::class,'expressInterest'])->name('visit-plan.interested');

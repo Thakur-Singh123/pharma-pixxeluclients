@@ -45,3 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.removeAttribute('title');
     });
 });
+
+function handleFilterChange(input) {
+    input.form.submit();
+}

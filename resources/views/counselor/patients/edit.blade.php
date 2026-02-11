@@ -231,7 +231,6 @@ if (\Illuminate\Support\Str::startsWith($patient->department, 'Others (')) {
                                 <button type="submit" class="btn btn-success">Update</button>
                                 <a href="{{ route('counselor.bookings.index') }}" class="btn btn-danger">Cancel</a>
                             </div>
-
                         </form>
                     </div>
                 </div>

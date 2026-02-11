@@ -200,4 +200,9 @@ class ClientController extends Controller
             return back()->with('error', 'Opps something went wrong!');
         }
     }
+
+    //Function for show create client form
+    public function create_client_category() {
+        return view('manager.add-client-category.create');
+    }
 }

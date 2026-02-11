@@ -188,7 +188,6 @@ class PatientController extends Controller
                         ->with('success', 'Patient booking updated successfully.');
     }
 
-
     //Function for destory patient
     public function destroy($id) {
         //Get patient

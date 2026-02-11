@@ -9,7 +9,11 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Edit Client</h4>
+                        @if($client_detail->status != 'Approved')
+                            <h4 class="card-title">Edit Client</h4>
+                        @else
+                            <h4 class="card-title">Client Detail</h4>
+                        @endif
                     </div>
 
                     <div class="card-body">

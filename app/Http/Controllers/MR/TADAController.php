@@ -69,13 +69,18 @@ class TADAController extends Controller
     }
 
     //Function for all TADA records
-    public function index() {
+    public function index(Request $request) {
         $query = TADARecords::where('mr_id', auth()->id());
         $query = $query->orderBy('created_at', 'desc');
         if(request()->has('status') && in_array(request('status'), ['pending', 'approved', 'rejected'])) {
             $query = $query->where('status', request('status'));
         }
+        //Date Filter
+        if ($request->filled('travel_date')) {
+            $query->whereDate('travel_date', $request->travel_date);
+        }
         $tada_records = $query->paginate(5);
+
         return view('mr.TADA.index', compact('tada_records'));
     }
 

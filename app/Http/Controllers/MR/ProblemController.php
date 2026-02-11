@@ -8,16 +8,22 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Problem;
 use App\Models\Visit;
 
-class ProblemController extends Controller
-{
-
+class ProblemController extends Controller {
+    
     //Function for all problems
-    public function index() {
+    public function index(Request $request) {
+        //Query
+        $query = Problem::OrderBy('ID', 'DESC')->where('mr_id', auth()->id());
+        //Filter by date
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_date', $request->start_date);
+        }
         //Get problems
-        $all_problems = Problem::with('visit_details')->where('mr_id', auth()->id())->OrderBy('ID', 'DESC')->paginate(5);
-        //echo "<pre>"; print_r($all_problems->toArray());exit;
+        $all_problems = $query->with('visit_details')->paginate(5);
+
         return view('mr.problems-challenges.all-problems', compact('all_problems'));
     }
+
     //Function for add problem
     public function create() {
         //Get visits

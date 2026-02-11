@@ -25,6 +25,12 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::resource('/clients', App\Http\Controllers\Manager\ClientController::class);
     Route::post('/clients/{id}/approve', [App\Http\Controllers\Manager\ClientController::class, 'client_approve'])->name('clients.approve');
     Route::post('/clients/{id}/reject', [App\Http\Controllers\Manager\ClientController::class, 'client_reject'])->name('clients.reject');
+    //Add client category
+    Route::get('/clients/create', [App\Http\Controllers\Manager\ClientCategoryController::class, 'create_client_category'])->name('clients.create');
+    Route::post('/clients/store', [App\Http\Controllers\Manager\ClientCategoryController::class, 'store_client_category'])->name('clients.store');
+    Route::get('/clients-category', [App\Http\Controllers\Manager\ClientCategoryController::class, 'client_category_list'])->name('clients.index');
+    Route::DELETE('/client-category-delete/{id}', [App\Http\Controllers\Manager\ClientCategoryController::class, 'delete_client_category'])->name('client.category.delete');
+    //Edit client
     //Daily visits
     Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
     Route::post('/visit-approve/{id}', [App\Http\Controllers\Manager\VisitController::class, 'approve'])->name('visit.approve');

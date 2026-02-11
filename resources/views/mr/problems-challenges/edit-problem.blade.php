@@ -16,7 +16,6 @@
                         @else
                             <h4 class="card-title">Problem / Challenge Detail</h4>                         
                         @endif
-                      </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('mr.problems.update', $problem_detail->id) }}" method="POST" autocomplete="off">
@@ -29,9 +28,7 @@
                                         <label for="title">Title</label>
                                         <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $problem_detail->title) }}" placeholder="Enter title">
                                         @error('title')
-                                            <small class="text-danger">
-                                                {{ $message }}
-                                            </small>
+                                        <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>

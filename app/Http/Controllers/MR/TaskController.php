@@ -15,12 +15,19 @@ class TaskController extends Controller
 {
     //Function for show all tasks
     public function index(Request $request) {
-        //Get tasks
+        //Query
         $query = Task::with('doctor')->orderBy('ID','DESC');
+        //Created By Filter
         if($request->filled('created_by')) {
             $query->where('created_by', $request->created_by);
         }
+        //Date Filter (Start Date)
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_date', $request->start_date);
+        }
+        //Get tasks
         $all_tasks = $query->orderBy('ID','DESC')->where('mr_id', auth()->id())->paginate(5);
+
         return view('mr.tasks.all-tasks', compact('all_tasks'));
     }
 
@@ -139,17 +146,32 @@ class TaskController extends Controller
     }
 
     //Function for manager assgin tasks
-    public function assign_manger() {
-        //Get manager tasks
+    public function assign_manger(Request $request) {
+        //Get manager 
         $manager_id = auth()->user()->managers->pluck('id')->first();
-        $manager_tasks = Task::OrderBy('ID','DESC')->where('manager_id', $manager_id)->where('created_by', 'Manager')->where('mr_id', auth()->id())->paginate(5);
+        //Query
+        $query = Task::OrderBy('ID','DESC')->where('manager_id', $manager_id)->where('created_by', 'Manager')->where('mr_id', auth()->id());
+        //Date Filter
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_date', $request->start_date);
+        }
+        //Get manager tasks
+        $manager_tasks = $query->paginate(5);
+
         return view('mr.tasks.all-tasks-manager', compact('manager_tasks'));
     }
 
     //Function for himself tasks
-    public function himself() {
+    public function himself(Request $request) {
+        //Query
+        $query = Task::OrderBy('ID','DESC')->where('mr_id', auth()->id())->where('created_by', 'mr');
+        //Date Filter
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_date', $request->start_date);
+        }
         //Get himself tasks
-        $himself_tasks = Task::OrderBy('ID','DESC')->where('mr_id', auth()->id())->where('created_by', 'mr')->paginate(5);
+        $himself_tasks = $query->paginate(5);
+
         return view('mr.tasks.all-tasks-mr', compact('himself_tasks'));
     }
 

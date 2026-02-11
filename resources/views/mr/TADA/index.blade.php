@@ -14,13 +14,20 @@
                   <div class="card">
                      <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title">All TA/DA Claims</h4>
-                        <form method="GET" action="{{ route('mr.tada.index') }}">
-                           <select name="status" class="form-control" onchange="this.form.submit()">
-                              <option value="">Filter by Status</option>
+                        <form method="GET" action="{{ route('mr.tada.index') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                           <select name="status" class="form-control" onchange="if(this.value==''){ window.location='{{ route('mr.tada.index') }}'; } else { this.form.submit(); }">>
+                              <option value="" disabled selected>Select Status</option>
+                              <option value="">All</option>
                               <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                               <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
                               <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
                            </select>
+                           <input type="date"
+                              name="travel_date"
+                              class="form-control"
+                              value="{{ request('travel_date') }}"
+                              onchange="this.form.submit()"
+                           >
                         </form>
                      </div>
                      <div class="card-body">
@@ -143,7 +150,7 @@
                                           @endforelse
                                        </tbody>
                                     </table>
-                                    {{ $tada_records->links('pagination::bootstrap-5') }}
+                                    {{ $tada_records->appends(request()->query())->links('pagination::bootstrap-5') }} 
                                  </div>
                               </div>
                            </div>

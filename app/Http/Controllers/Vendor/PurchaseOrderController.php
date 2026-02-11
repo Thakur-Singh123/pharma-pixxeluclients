@@ -10,19 +10,23 @@ use Illuminate\Support\Facades\Auth;
 
 class PurchaseOrderController extends Controller
 {
-    public function index(Request $request)
-    {
+    //Function for all orders
+    public function index(Request $request) {
+        //Get vendor detail
         $vendorId = Auth::id();
-
+        //Query
         $query = PurchaseOrder::with(['items', 'vendor'])
             ->where('vendor_id', $vendorId);
-
-        //Status Filter
+        //Status filter
         if($request->filled('is_delivered')){
             $query->where('is_delivered', $request->is_delivered);
         }
-
-        if($request->filled('date_range')){
+        //Order date filter
+        if($request->filled('order_date')){
+            $query->where('order_date', $request->order_date);
+        }
+        //Date range filter
+        if($request->filled('date_range')) {
             switch($request->date_range){
                 case 'today':
                     $query->whereDate('order_date', now());
@@ -39,47 +43,44 @@ class PurchaseOrderController extends Controller
                     break;
             }
         }
-
-        $orders = $query->latest()->paginate(10)->withQueryString();
+        //Get order
+        $orders = $query->latest()->paginate(5);
 
         return view('vendor.purchase_orders.index', compact('orders'));
     }
 
-    public function updateDelivery(Request $request, $id)
-    {
+    //Function for update delivery status
+    public function updateDelivery(Request $request, $id) {
+        //Validate input fields
         $request->validate([
             'is_delivered' => 'required|in:pending,completed',
         ]);
-
+        //Get Po detail
         $po = PurchaseOrder::where('vendor_id', Auth::id())->findOrFail($id);
-
+        //Get request
         $po->is_delivered = $request->is_delivered;
+        //Save
         $po->save();
 
         return redirect()->back()->with('success', 'Delivery status updated successfully!');
     }
 
-    public function export(Request $request)
-    {
+    //Function for export 
+    public function export(Request $request) {
+        //Filter
         $filters = $request->only(['is_delivered', 'date_range']);
         return Excel::download(new PurchaseOrdersExport($filters), 'purchase_orders.csv');
     }
 
     //Function for signle vendor detail
- public function single_detail($id)
-{
-    // echo "yes"; exit;
-    $vendorId = Auth::id(); 
+    public function single_detail($id) {
+        //Get auth login detail
+        $vendorId = Auth::id(); 
+        //Get Po detail
+        $order = PurchaseOrder::with(['items', 'vendor'])
+            ->where('vendor_id', $vendorId)
+            ->findOrFail($id);
 
-    // Order must belong to this vendor
-    $order = PurchaseOrder::with(['items', 'vendor'])
-        ->where('vendor_id', $vendorId)
-        ->findOrFail($id);
-
-        // echo "<pre>"; print_r($order->toArray());exit;
-
-    return view('vendor.purchase_orders.single-detail', compact('order'));
-}
-
-
+        return view('vendor.purchase_orders.single-detail', compact('order'));
+    }
 }

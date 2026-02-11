@@ -11,11 +11,16 @@ use App\Models\MangerMR;
 class ReferredPatientController extends Controller
 {
     //Function for show all patients
-    public function index() {
+    public function index(Request $request) {
         //Get login MR id
         $mr_id = auth()->id();
         //Get patients
-        $all_patients = ReferredPatient::with('doctor_detail')->where('mr_id', $mr_id)->OrderBy('ID', 'DESC')->paginate(5); 
+        $query = ReferredPatient::OrderBy('ID', 'DESC')->where('mr_id', $mr_id); 
+        //Filter by date
+        if ($request->filled('created_date')) {
+            $query->whereDate('created_at', $request->created_date);
+        }
+        $all_patients = $query->with('doctor_detail')->paginate(5); 
         return view('mr.referred-patients.all-patients', compact('all_patients'));
     }
 

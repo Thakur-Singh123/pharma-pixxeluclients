@@ -128,6 +128,10 @@ class PurchaseOrderController extends Controller
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
+        //Filter by date
+        if ($request->filled('order_date')) {
+            $query->whereDate('order_date', $request->order_date);
+        }
         //Vendor Filter
         if ($request->filled('vendor_id')) {
             $query->where('vendor_id', $request->vendor_id);

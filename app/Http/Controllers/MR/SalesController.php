@@ -12,9 +12,14 @@ use Auth;
 class SalesController extends Controller
 {
     //Function for show all sales
-    public function index() {
+    public function index(Request $request) {
         //Get sales
-        $sales = Sale::orderBy('created_at', 'desc')->with('items')->where('user_id', Auth::id())->paginate(5);
+        $query = Sale::orderBy('created_at', 'desc')->where('user_id', Auth::id());
+        //Filter by date
+        if ($request->filled('created_date')) {
+            $query->whereDate('created_at', $request->created_date);
+        }
+        $sales = $query->with('items')->paginate(5);
         return view('mr.sales.index', compact('sales'));
     }
 

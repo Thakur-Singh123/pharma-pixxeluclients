@@ -10,8 +10,20 @@ use App\Models\MangerMR;
 class ClientController extends Controller
 {
     //Function for show all clients
-    public function index() {
-        $all_clients = Client::OrderBy('ID', 'DESC')->where('mr_id', auth()->id())->paginate(5);
+    public function index(Request $request) {
+        //Query
+        $query = Client::OrderBy('ID', 'DESC')->where('mr_id', auth()->id());
+        //Category filter
+        if ($request->filled('category_type')) {
+            $query->where('category_type', $request->category_type);
+        }
+        //Date filter
+        if ($request->filled('created_date')) {
+            $query->whereDate('created_at', $request->created_date);
+        }
+        //Get clients
+        $all_clients = $query->paginate(5);
+
         return view('mr.clients.all-clients', compact('all_clients'));
     }
 

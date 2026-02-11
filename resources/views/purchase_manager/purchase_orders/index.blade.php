@@ -16,12 +16,19 @@
                                 <h4 class="card-title">All Purchase Orders</h4>
                                 <form method="GET" action="{{ route('purchase-manager.purchase-orders.index') }}" class="d-flex gap-2 align-items-center">
                                     {{--Status Filter--}}
-                                    <select name="status" class="form-control" onchange="this.form.submit()">
+                                    <select name="status" class="form-control" onchange="if(this.value==''){ window.location='{{ route('purchase-manager.purchase-orders.index') }}'; } else { this.form.submit(); }">
+                                        <option value="" disabled selected>Select Status</option>
                                         <option value="">All Status</option>
                                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                                         <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
                                         <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
                                     </select>
+                                    <input type="date"
+                                        name="order_date"
+                                        class="form-control"
+                                        value="{{ request('order_date') }}"
+                                        onchange="this.form.submit()"
+                                    >
                                     {{--Date Range--}}
                                     <select name="date_range" class="form-control" onchange="this.form.submit()">
                                         <option value="all" {{ request('date_range') == 'all' ? 'selected' : '' }}>All</option>
@@ -32,6 +39,7 @@
                                     </select>
                                     {{--Vendor Filter--}}
                                     <select name="vendor_id" class="form-control" onchange="this.form.submit()">
+                                        <option value="" disabled selected>Select Vendor</option>
                                         <option value="">All Vendors</option>
                                         <!--Get vendors-->
                                         @foreach ($vendors as $vendor)
@@ -57,7 +65,7 @@
                                                         <tr>
                                                             <th style="width: 80px;">Sr No.</th>
                                                             <th style="width: 120px;">Purchase Order No #</th>
-                                                            <th>Date</th>
+                                                            <th>Order Date</th>
                                                             <th>Vendor Name</th>
                                                             <th>Vendor Email</th>
                                                             <th>Nature Of Vendor</th>
@@ -126,7 +134,7 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $orders->links('pagination::bootstrap-5') }}
+                                                {{ $orders->appends(request()->query())->links('pagination::bootstrap-5') }} 
                                             </div>
                                         </div>
                                     </div>

@@ -13,7 +13,15 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h4 class="card-title">All Sales Data</h4>
+                                <h4 class="card-title">All Sales</h4>
+                                <form method="GET" action="{{ route('mr.sales.index') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                    <input type="date"
+                                        name="created_date"
+                                        class="form-control"
+                                        value="{{ request('created_date') }}"
+                                        onchange="this.form.submit()"
+                                    >
+                                </form>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -96,6 +104,11 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
+                                                                style="width: 156.312px;">Created Date
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -131,6 +144,7 @@
                                                                 <td>{{ $event->payment_mode }}</td>
                                                                 <!--<td>{{ $event->discount }}</td>
                                                                 <td>{{ $event->net_amount }}</td>-->
+                                                                <td>{{ \Carbon\Carbon::parse($event->created_at)->format('d M, Y') }}</td>
                                                                 <td>
                                                                     <span class="status-badge 
                                                                         {{ $event->status == 'Pending' ? 'status-pending' : '' }}
@@ -160,7 +174,7 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $sales->links('pagination::bootstrap-5') }}
+                                                {{ $sales->appends(request()->query())->links('pagination::bootstrap-5') }} 
                                             </div>
                                         </div>
                                     </div>

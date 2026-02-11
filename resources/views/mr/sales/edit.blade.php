@@ -20,11 +20,7 @@
                     <div class="card">
                         <div class="card-header">
                             @if($sale->status != 'Approved')
-<<<<<<< HEAD
-                                <div class="card-title">Edit Sale Entry</div>
-=======
                                 <div class="card-title">Edit Sale</div>
->>>>>>> cdf493cfb721166bb1b48d273116d06f942ebc14
                             @else
                                 <div class="card-title">Sale Detail</div>
                             @endif

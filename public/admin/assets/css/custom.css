@@ -1167,7 +1167,6 @@ h5.details-heading {
     background: #28a745;
     border-color: #28a745;
 }
-<<<<<<< HEAD
 
 .booking-checkbox.done input:checked + .checkmark::after {
     display: block;
@@ -1186,8 +1185,6 @@ h5.details-heading {
     background: #b6da16;
     border-color: #b6da16;
 }
-=======
->>>>>>> cdf493cfb721166bb1b48d273116d06f942ebc14
 
 .booking-checkbox.done input:checked + .checkmark::after {
     display: block;

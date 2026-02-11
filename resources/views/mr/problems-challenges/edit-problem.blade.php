@@ -16,10 +16,6 @@
                         @else
                             <h4 class="card-title">Problem / Challenge Detail</h4>                         
                         @endif
-<<<<<<< HEAD
-                      </div>
-=======
->>>>>>> cdf493cfb721166bb1b48d273116d06f942ebc14
                     </div>
                     <div class="card-body">
                         <form action="{{ route('mr.problems.update', $problem_detail->id) }}" method="POST" autocomplete="off">

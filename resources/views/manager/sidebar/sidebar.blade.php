@@ -107,12 +107,29 @@
                     </div>
                 </li>
                 <!---Add client Category section-->
-                <li class="nav-item {{ request()->is('manager/clients/create') || request()->is('manager/clients/*/edit') ? 'active' : '' }}">
-                    <a href="{{ url('manager/clients/create') }}"
-                        class="nav-link {{ request()->is('manager/clients/create') || request()->is('manager/clients/*/edit') ? 'active' : '' }}">
-                       <i class="fas fa-user-plus"></i>
-                        <p>Add Client Category</p>
+               <li class="nav-item {{ request()->is('manager/clients/create') || request()->is('manager/clients-category') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#collapsecategory"
+                        class="{{ request()->is('manager/clients/create') || request()->is('manager/clients-category') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('manager/clients/create') || request()->is('manager/clients-category') ? 'true' : 'false' }}">
+                        <i class="fas fa-user-plus"></i>
+                        <p>Client Category</p>
+                        <span class="caret"></span>
                     </a>
+                    <div class="collapse {{ request()->is('manager/clients/create') || request()->is('manager/clients-category')  ? 'show' : '' }}" id="collapsecategory">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->is('manager/clients/create') ? 'active' : '' }}">
+                                <a href="{{ url('manager/clients/create') }}">
+                                    <span class="sub-item">Add Category</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('manager/clients-category') ? 'active' : '' }}">
+                                <a href="{{ url('manager/clients-category') }}">
+                                    <span class="sub-item">All Categories</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
                 </li>
 
                 <!--clients section-->

@@ -25,9 +25,6 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::resource('/clients', App\Http\Controllers\Manager\ClientController::class);
     Route::post('/clients/{id}/approve', [App\Http\Controllers\Manager\ClientController::class, 'client_approve'])->name('clients.approve');
     Route::post('/clients/{id}/reject', [App\Http\Controllers\Manager\ClientController::class, 'client_reject'])->name('clients.reject');
-    //Add client category
-    Route::get('/clients/create', [App\Http\Controllers\Manager\ClientController::class, 'create_client_category'])->name('clients.create');
-    //Edit client
     //Daily visits
     Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
     Route::post('/visit-approve/{id}', [App\Http\Controllers\Manager\VisitController::class, 'approve'])->name('visit.approve');

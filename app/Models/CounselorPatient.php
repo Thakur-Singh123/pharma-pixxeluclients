@@ -17,6 +17,10 @@ class CounselorPatient extends Model
         'booking_done',
         'counselor_id',
         'remark',
+        'estimated_amount',
+        'booking_date',
+        'attachment',
+        'booking_reason',
     ];
 
     //Fucntion for get counsellor

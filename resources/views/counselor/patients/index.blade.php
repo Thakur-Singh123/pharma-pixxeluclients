@@ -33,6 +33,7 @@
                                                                 <th>Booking Amount</th>
                                                                 <th>Remark</th>
                                                                 <th>Booking Status</th>
+                                                                <th>Booking Date</th>
                                                                 <th>Action</th>
                                                             </tr>
                                                         </thead>
@@ -70,11 +71,13 @@
                                                                             <select name="booking_done"
                                                                                 class="custom-status-dropdown"
                                                                                 onchange="this.form.submit()">
-                                                                                <option value="Yes" {{ $patient->booking_done == 'Yes' ? 'selected' : '' }}>Yes</option>
-                                                                                <option value="No" {{ $patient->booking_done == 'No' ? 'selected' : '' }}>No</option>
+                                                                                <option value="yes" {{ $patient->booking_done == 'yes' ? 'selected' : '' }}>Yes</option>
+                                                                                <option value="no" {{ $patient->booking_done == 'no' ? 'selected' : '' }}>No</option>
+                                                                                <option value="on_hold" {{ $patient->booking_done == 'on_hold' ? 'selected' : '' }}>On Hold</option>
                                                                             </select>
                                                                         </form>
                                                                     </td>
+                                                                    <td>{{ $patient->booking_date ?? '—' }}</td>
                                                                     <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('counselor.bookings.edit', $patient->id) }}"

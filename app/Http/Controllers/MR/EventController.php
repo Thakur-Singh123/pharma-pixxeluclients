@@ -17,39 +17,64 @@ class EventController extends Controller
 {
     //Functions for event management can be added here
     public function index(Request $request) {
-        //Get events
+        //Query
         $query = Events::orderby('id', 'desc')->where('mr_id', auth()->id());
-         if(request()->filled('created_by')) {
-             $query = $query->where('created_by', request('created_by'));
-         }
+        //Filter by created by
+        if(request()->filled('created_by')) {
+            $query = $query->where('created_by', request('created_by'));
+        }
+        //Filter by start date
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_datetime', '=', $request->start_date);
+        }
+        //Get events
         $events = $query->with('doctor_detail')->orderBy('created_at', 'desc')->paginate(5);
+
         return view('mr.events.index', compact('events'));
     }
 
-    //function for pending approval
-    public function pendingForApproval() {
-        //Get events
+    //Function for pending approval
+    public function pendingForApproval(Request $request) {
+        //Query
         $query = Events::orderby('id', 'desc')->where('mr_id', auth()->id());
-         if(request()->filled('created_by')) {
-             $query = $query->where('created_by', request('created_by'));
-         }
+        //Filter by start date
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_datetime', $request->start_date);
+        }
+        //Get events
         $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(5);
+
         return view('mr.events.pending-approval', compact('events'));
     }
 
-      //Function for manager assgin events
-    public function assign_manger() {
-        //Get manager tasks
-        $manager_event = Events::orderby('id', 'desc')->where('created_by', 'manager')->with('doctor_detail')->paginate(5);
+    //Function for manager assgin events
+    public function assign_manger(Request $request) {
+        //Query
+        $query = Events::orderby('id', 'desc')->where('created_by', 'manager');
+        //Filter by start date
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_datetime', '=', $request->start_date);
+        }
+        //Get manager events
+        $manager_event = $query->with('doctor_detail')->paginate(5);
+
         return view('mr.events.all-events-manager', compact('manager_event'));
     }
 
     //Function for himself events
-    public function himself() {
-        //Get himself tasks
-        $himself_event = Events::orderby('id', 'desc')->where('created_by', 'mr')->with('doctor_detail')->paginate(5);
+    public function himself(Request $request) {
+        //Query
+        $query = Events::orderby('id', 'desc')->where('created_by', 'mr');
+        //Filter by start date
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_datetime', '=', $request->start_date);
+        }
+        //Get himself events
+        $himself_event = $query->with('doctor_detail')->paginate(5);
+
         return view('mr.events.all-evenst-mr', compact('himself_event'));
     }
+
     //Function for add events
     public function create() {
         //Get auth login
@@ -217,9 +242,16 @@ class EventController extends Controller
     }
 
     //Function for active participations
-    public function participations() {
+    public function participations(Request $request) {
+        //Query
+        $query = EventUser::OrderBy('ID', 'DESC');
+        //Filter by date
+        if ($request->filled('created_date')) {
+            $query->whereDate('created_at', $request->created_date);
+        }
         //Get participations
-        $all_participations = EventUser::with(['event_detail.mr'])->OrderBy('ID', 'DESC')->paginate(5);
+        $all_participations = $query->with(['event_detail.mr'])->paginate(5);
+        
         return view('mr.event-users.active-participations', compact('all_participations'));
     }
 }

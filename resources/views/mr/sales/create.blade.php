@@ -18,7 +18,7 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Add New Sale Entry</div>
+                        <div class="card-title">Add New Sale</div>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('mr.sales.store') }}" enctype="multipart/form-data">

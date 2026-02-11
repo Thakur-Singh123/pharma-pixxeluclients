@@ -28,13 +28,6 @@ class EventController extends Controller
             $query->whereDate('start_datetime', '=', $request->start_date);
         }
         //Get events
-<<<<<<< HEAD
-        $query = Events::orderby('id', 'desc')->where('mr_id', auth()->id());
-         if(request()->filled('created_by')) {
-             $query = $query->where('created_by', request('created_by'));
-         }
-=======
->>>>>>> cdf493cfb721166bb1b48d273116d06f942ebc14
         $events = $query->with('doctor_detail')->orderBy('created_at', 'desc')->paginate(5);
 
         return view('mr.events.index', compact('events'));
@@ -49,24 +42,11 @@ class EventController extends Controller
             $query->whereDate('start_datetime', $request->start_date);
         }
         //Get events
-<<<<<<< HEAD
-        $query = Events::orderby('id', 'desc')->where('mr_id', auth()->id());
-         if(request()->filled('created_by')) {
-             $query = $query->where('created_by', request('created_by'));
-         }
-=======
->>>>>>> cdf493cfb721166bb1b48d273116d06f942ebc14
         $events = $query->with('mr')->orderBy('created_at', 'desc')->where('is_active', 0)->paginate(5);
 
         return view('mr.events.pending-approval', compact('events'));
     }
 
-<<<<<<< HEAD
-      //Function for manager assgin events
-    public function assign_manger() {
-        //Get manager tasks
-        $manager_event = Events::orderby('id', 'desc')->where('created_by', 'manager')->with('doctor_detail')->paginate(5);
-=======
     //Function for manager assgin events
     public function assign_manger(Request $request) {
         //Query
@@ -78,16 +58,10 @@ class EventController extends Controller
         //Get manager events
         $manager_event = $query->with('doctor_detail')->paginate(5);
 
->>>>>>> cdf493cfb721166bb1b48d273116d06f942ebc14
         return view('mr.events.all-events-manager', compact('manager_event'));
     }
 
     //Function for himself events
-<<<<<<< HEAD
-    public function himself() {
-        //Get himself tasks
-        $himself_event = Events::orderby('id', 'desc')->where('created_by', 'mr')->with('doctor_detail')->paginate(5);
-=======
     public function himself(Request $request) {
         //Query
         $query = Events::orderby('id', 'desc')->where('created_by', 'mr');
@@ -98,7 +72,6 @@ class EventController extends Controller
         //Get himself events
         $himself_event = $query->with('doctor_detail')->paginate(5);
 
->>>>>>> cdf493cfb721166bb1b48d273116d06f942ebc14
         return view('mr.events.all-evenst-mr', compact('himself_event'));
     }
 

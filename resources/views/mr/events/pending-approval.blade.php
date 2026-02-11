@@ -61,6 +61,11 @@
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
                                                                     colspan="1"
+                                                                    style="width: 156.312px;">Whatsapp Link
+                                                                </th>    
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="basic-datatables" rowspan="1"
+                                                                    colspan="1"
                                                                     style="width: 156.312px;">QR Code</th>
                                                                 <th class="sorting" tabindex="0"
                                                                     aria-controls="basic-datatables" rowspan="1"
@@ -84,6 +89,7 @@
                                                                     <td>{{ $event->pin_code }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, h:i A') }}</td>
                                                                     <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, h:i A') }}</td>
+                                                                    <td><a href="{{ $event->whatsapp_link }}" target="_blank">{{ $event->whatsapp_link }}</td>
                                                                     <td>
                                                                         {!! $event->qr_code_path 
                                                                             ? '<img src="' . asset('public/qr_codes/' . $event->qr_code_path) . '" alt="qr code" width="100" height="100">' 

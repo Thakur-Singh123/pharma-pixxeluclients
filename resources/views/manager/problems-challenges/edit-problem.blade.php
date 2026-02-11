@@ -8,17 +8,17 @@
                 <div class="alert alert-success">
                 {{ session('success') }}
                 </div>
-                @endif
+                @endif 
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Edit Problem / Challenge</h4>
+                        <h4 class="card-title">Problem / Challenge Detail</h4>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('manager.problems.update', $problem_detail->id) }}" method="POST" autocomplete="off">
                             @csrf
                             @method('PUT')
                             <div class="row">
-                                <!--Title-->
+                                <!--Title--> 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="title">Title</label>

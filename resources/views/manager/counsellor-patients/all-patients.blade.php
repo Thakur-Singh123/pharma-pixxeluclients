@@ -53,6 +53,7 @@
                                                         <th>Booking Amount</th>
                                                         <th>Remark</th>
                                                         <th>Booking Status</th>
+                                                        <th>Booking Date</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -83,6 +84,7 @@
                                                         </td>
                                                         <td>{{ $patient->remark ?? '—' }}</td>
                                                         <td>{{ $patient->booking_done ?? '—' }}</td>
+                                                        <td>{{ $patient->booking_date ?? '—' }}</td>
                                                         <td>
                                                             <div class="form-button-action">
                                                                 <a href="{{ url('manager/counsellor-booking-edit/' . $patient->id) }}"

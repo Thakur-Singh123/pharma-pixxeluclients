@@ -18,7 +18,7 @@ class EventController extends Controller
     //Functions for event management can be added here
     public function index(Request $request) {
         //Get events
-        $query = Events::where('mr_id', auth()->id());
+        $query = Events::orderby('id', 'desc')->where('mr_id', auth()->id());
          if(request()->filled('created_by')) {
              $query = $query->where('created_by', request('created_by'));
          }
@@ -29,7 +29,7 @@ class EventController extends Controller
     //function for pending approval
     public function pendingForApproval() {
         //Get events
-        $query = Events::where('mr_id', auth()->id());
+        $query = Events::orderby('id', 'desc')->where('mr_id', auth()->id());
          if(request()->filled('created_by')) {
              $query = $query->where('created_by', request('created_by'));
          }
@@ -40,14 +40,14 @@ class EventController extends Controller
       //Function for manager assgin events
     public function assign_manger() {
         //Get manager tasks
-        $manager_event = Events::where('created_by', 'manager')->with('doctor_detail')->paginate(5);
+        $manager_event = Events::orderby('id', 'desc')->where('created_by', 'manager')->with('doctor_detail')->paginate(5);
         return view('mr.events.all-events-manager', compact('manager_event'));
     }
 
     //Function for himself events
     public function himself() {
         //Get himself tasks
-        $himself_event = Events::where('created_by', 'mr')->with('doctor_detail')->paginate(5);
+        $himself_event = Events::orderby('id', 'desc')->where('created_by', 'mr')->with('doctor_detail')->paginate(5);
         return view('mr.events.all-evenst-mr', compact('himself_event'));
     }
     //Function for add events
@@ -68,6 +68,7 @@ class EventController extends Controller
             'location' => 'nullable|string|max:255',
             'start_datetime' => 'required|date',
             'end_datetime' => 'required|date|after_or_equal:start_datetime',
+            'whatsapp_link' => 'nullable|url|max:255',
         ]);
 
         //manager id
@@ -83,6 +84,7 @@ class EventController extends Controller
         $event->pin_code       = $request->pin_code;
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime   = $request->end_datetime;
+        $event->whatsapp_link   = $request->whatsapp_link;
         $event->status         = 'pending';
         $event->created_by     = 'mr';
         $event->save();
@@ -128,6 +130,7 @@ class EventController extends Controller
             'pin_code' =>'nullable|string|max:255',
             'start_datetime' =>'required|date',
             'end_datetime' =>'required|date|after_or_equal:start_datetime',
+            'whatsapp_link' => 'nullable|url|max:255',
         ]);
         //Find event
         $event = Events::findOrFail($id);
@@ -140,6 +143,7 @@ class EventController extends Controller
             'doctor_id' => $request->doctor_id,
             'start_datetime' => $request->start_datetime,
             'end_datetime' => $request->end_datetime,
+            'whatsapp_link' => $request->whatsapp_link,
         ]);
 
         return redirect()->route('mr.events.index')->with('success', 'Event updated successfully.');
@@ -204,6 +208,7 @@ class EventController extends Controller
             'uid' => $uid,
             'disease' => $request->disease,
             'health_declare' => $request->health_declare,
+            'address' => $request->address,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

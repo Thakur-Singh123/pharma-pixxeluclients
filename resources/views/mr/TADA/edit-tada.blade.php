@@ -11,7 +11,11 @@
                 @endif
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Edit TA/DA Claim</h4>
+                        @if($tada_detail->status != 'approved')
+                            <h4 class="card-title">Edit TA/DA Claim</h4>
+                        @else
+                            <h4 class="card-title"> TA/DA Claim Detail</h4>
+                        @endif   
                     </div>
                     <div class="card-body">
                         <form action="{{ route('mr.tada.update', $tada_detail->id) }}" method="POST" enctype="multipart/form-data">

@@ -163,6 +163,7 @@ button:active { transform: scale(0.97); }
             <input type="number" name="pin_code" placeholder="Enter Pin Code" required>
         </div>
         <textarea name="disease" placeholder="Any weakness, IVF, Allergy, Asthma, Diabetes, Heart problems, High BP, body pains etc (optional)"></textarea>
+        <textarea name="address" placeholder="Enter Address"></textarea>
          <div class="checkbox-wrapper">
             <input type="checkbox" name="health_declare" value="1" required>
             <label>I declare that I am fit to participate in this activity at my own risk.</label>

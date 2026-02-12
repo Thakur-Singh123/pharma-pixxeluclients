@@ -245,11 +245,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const reasonBox = document.getElementById('reasonBox');
             const reasonLabel = document.getElementById('reasonLabel');
 
-            if (this.checked && this.value === 'On Hold') {
+            if (this.checked && this.value === 'on_hold') {
                 reasonBox.style.display = 'block';
                 reasonLabel.innerText = 'Reason for Hold';
             }
-            else if (this.checked && this.value === 'No') {
+            else if (this.checked && this.value === 'no') {
                 reasonBox.style.display = 'block';
                 reasonLabel.innerText = 'Reason for No Booking';
             }

@@ -34,6 +34,7 @@
                                                                 <th>Remark</th>
                                                                 <th>Booking Status</th>
                                                                 <th>Booking Date</th>
+                                                                <th>Comment</th>
                                                                 <th>Action</th>
                                                             </tr>
                                                         </thead>
@@ -79,6 +80,13 @@
                                                                     </td>
                                                                     <td>{{ $patient->booking_date ?? '—' }}</td>
                                                                     <td>
+                                                                        @forelse ($patient->comments as $comment)
+                                                                            <span class="d-block small">{{ $comment->comment }}</span>
+                                                                        @empty
+                                                                            —
+                                                                        @endforelse
+                                                                    </td>
+                                                                    <td>
                                                                         <div class="form-button-action">
                                                                             <a href="{{ route('counselor.bookings.edit', $patient->id) }}"
                                                                                 class="icon-button edit-btn custom-tooltip"
@@ -102,7 +110,7 @@
                                                                 </tr>
                                                             @empty
                                                                 <tr>
-                                                                    <td colspan="9" class="text-center">
+                                                                    <td colspan="11" class="text-center">
                                                                         No patient record found
                                                                     </td>
                                                                 </tr>

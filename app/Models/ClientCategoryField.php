@@ -15,6 +15,11 @@ class ClientCategoryField extends Model
         'type',
         'input_type',
         'validation_type',
+        'options',
+    ];
+
+    protected $casts = [
+        'options' => 'array',
     ];
 
      public function category()

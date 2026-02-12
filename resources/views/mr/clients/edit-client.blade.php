@@ -91,6 +91,25 @@
                                             </div>
                                         @endif
 
+                                        {{-- DROPDOWN --}}
+                                        @if ($field->type === 'dropdown')
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>{{ $field->label }}</label>
+                                                    <select name="{{ $field->name }}"
+                                                            class="form-control
+                                                            {{ $field->validation_type === 'name' ? 'name-input' : '' }}
+                                                            {{ $field->validation_type === 'contact' ? 'contact-input' : '' }}
+                                                            {{ $field->validation_type === 'address' ? 'address-input' : '' }}">
+                                                        <option value="">Select {{ $field->label }}</option>
+                                                        @foreach ($field->options ?? [] as $opt)
+                                                            <option value="{{ $opt }}" {{ old($field->name, $client->details[$field->name] ?? '') == $opt ? 'selected' : '' }}>{{ $opt }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        @endif
+
                                     @endforeach
 
                                 </div>

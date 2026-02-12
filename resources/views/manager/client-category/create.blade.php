@@ -16,14 +16,17 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('manager.clients.store') }}" method="POST">
+                        <form action="{{ route('manager.client.category.store') }}" method="POST">
                             @csrf
 
                             <!-- Category -->
                             <div class="form-group">
                                 <label>Category</label>
-                                <input type="text" name="name" class="form-control"
-                                       placeholder="Enter Category" required>
+                                <input type="text" name="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
+                                       placeholder="Enter Category" value="{{ old('name') }}" required>
+                                @error('name')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <!-- Status -->
@@ -43,7 +46,7 @@
                             <div id="fields-wrapper">
 
                                 <!-- Default Field -->
-                                <div class="row field-row mb-2">
+                                <div class="row field-row mb-2 align-items-start">
                                     <div class="col-md-2">
                                         <input type="text"
                                                name="fields[0][label]"
@@ -64,13 +67,14 @@
                                             <option value="">Field Type</option>
                                             <option value="input">Input</option>
                                             <option value="textarea">Textarea</option>
+                                            <option value="dropdown">Dropdown</option>
                                         </select>
                                     </div>
 
-                                    <!-- Input Type -->
+                                    <!-- Input Type (for input only) -->
                                     <div class="col-md-2 input-type-wrapper">
                                         <select name="fields[0][input_type]"
-                                                class="form-control" required>
+                                                class="form-control">
                                             <option value="">Input Type</option>
                                             <option value="text">Text</option>
                                             <option value="number">Number</option>
@@ -78,20 +82,31 @@
                                         </select>
                                     </div>
 
-                                        <!-- Validation Type -->
-                                        <div class="col-md-2 input-type-wrapper">
-                                            <select name="fields[0][validation_type]" class="form-control" required>
-                                                <option value="">Validation Type</option>
-                                                <option value="name">name</option>
-                                                <option value="contact">contact</option>
-                                                <option value="address">address</option>
-                                                <option value="none">none</option>
-                                            </select>
-                                        </div>
+                                    <!-- Validation Type -->
+                                    <div class="col-md-2 validation-type-wrapper">
+                                        <select name="fields[0][validation_type]" class="form-control">
+                                            <option value="">Validation Type</option>
+                                            <option value="name">name</option>
+                                            <option value="contact">contact</option>
+                                            <option value="address">address</option>
+                                            <option value="none">none</option>
+                                        </select>
+                                    </div>
 
                                     <div class="col-md-2">
                                         <button type="button"
                                                 class="btn btn-danger remove-field">X</button>
+                                    </div>
+
+                                    <!-- Dropdown options (shown when type=dropdown) -->
+                                    <div class="col-12 mt-2 dropdown-options-wrapper" style="display:none;">
+                                        <label class="small text-muted">Dropdown options (add one per line or use +)</label>
+                                        <div class="dropdown-options-list">
+                                            <div class="input-group input-group-sm mb-1">
+                                                <input type="text" name="fields[0][options][]" class="form-control" placeholder="Option 1">
+                                                <button type="button" class="btn btn-outline-secondary add-dropdown-option">+</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -126,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
     addBtn.addEventListener('click', function () {
 
         let html = `
-        <div class="row field-row mb-2">
+        <div class="row field-row mb-2 align-items-start">
             <div class="col-md-2">
                 <input type="text"
                        name="fields[${fieldIndex}][label]"
@@ -147,21 +162,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     <option value="">Field Type</option>
                     <option value="input">Input</option>
                     <option value="textarea">Textarea</option>
+                    <option value="dropdown">Dropdown</option>
                 </select>
             </div>
 
             <div class="col-md-2 input-type-wrapper">
                 <select name="fields[${fieldIndex}][input_type]"
-                        class="form-control" required>
+                        class="form-control">
                     <option value="">Input Type</option>
                     <option value="text">Text</option>
                     <option value="number">Number</option>
                     <option value="url">URL</option>
                 </select>
             </div>
-            <div class="col-md-2 input-type-wrapper">
+            <div class="col-md-2 validation-type-wrapper">
                 <select name="fields[${fieldIndex}][validation_type]"
-                        class="form-control" required>
+                        class="form-control">
                     <option value="">Validation Type</option>
                     <option value="name">name</option>
                     <option value="contact">contact</option>
@@ -173,6 +189,16 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="col-md-2">
                 <button type="button"
                         class="btn btn-danger remove-field">X</button>
+            </div>
+
+            <div class="col-12 mt-2 dropdown-options-wrapper" style="display:none;">
+                <label class="small text-muted">Dropdown options (add one per line or use +)</label>
+                <div class="dropdown-options-list">
+                    <div class="input-group input-group-sm mb-1">
+                        <input type="text" name="fields[${fieldIndex}][options][]" class="form-control" placeholder="Option 1">
+                        <button type="button" class="btn btn-outline-secondary add-dropdown-option">+</button>
+                    </div>
+                </div>
             </div>
         </div>`;
         wrapper.insertAdjacentHTML('beforeend', html);
@@ -186,17 +212,48 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    /* -------- SHOW / HIDE INPUT TYPE -------- */
+    /* -------- SHOW / HIDE INPUT TYPE & DROPDOWN OPTIONS -------- */
     document.addEventListener('change', function (e) {
         if (!e.target.classList.contains('field-type')) return;
 
         const row = e.target.closest('.field-row');
         const inputTypeWrapper = row.querySelector('.input-type-wrapper');
+        const dropdownOptionsWrapper = row.querySelector('.dropdown-options-wrapper');
 
-        if (e.target.value === 'textarea') {
-            inputTypeWrapper.style.display = 'none';
-        } else {
-            inputTypeWrapper.style.display = 'block';
+        if (inputTypeWrapper) {
+            inputTypeWrapper.style.display = (e.target.value === 'input') ? 'block' : 'none';
+            const inputTypeSelect = inputTypeWrapper.querySelector('select');
+            if (inputTypeSelect) inputTypeSelect.required = (e.target.value === 'input');
+        }
+        if (dropdownOptionsWrapper) dropdownOptionsWrapper.style.display = (e.target.value === 'dropdown') ? 'block' : 'none';
+    });
+
+    /* -------- ADD DROPDOWN OPTION -------- */
+    document.addEventListener('click', function (e) {
+        if (!e.target.classList.contains('add-dropdown-option')) return;
+
+        const list = e.target.closest('.dropdown-options-list');
+        const row = e.target.closest('.field-row');
+        const fieldName = row.querySelector('.field-type').name; // e.g. fields[0][type]
+        const match = fieldName.match(/fields\[(\d+)\]/);
+        const idx = match ? match[1] : '0';
+        const count = list.querySelectorAll('.input-group').length + 1;
+
+        const div = document.createElement('div');
+        div.className = 'input-group input-group-sm mb-1';
+        div.innerHTML = `
+            <input type="text" name="fields[${idx}][options][]" class="form-control" placeholder="Option ${count}">
+            <button type="button" class="btn btn-outline-danger remove-dropdown-option">−</button>
+        `;
+        list.appendChild(div);
+    });
+
+    /* -------- REMOVE DROPDOWN OPTION -------- */
+    document.addEventListener('click', function (e) {
+        if (!e.target.classList.contains('remove-dropdown-option')) return;
+        const list = e.target.closest('.dropdown-options-list');
+        if (list && list.querySelectorAll('.input-group').length > 1) {
+            e.target.closest('.input-group').remove();
         }
     });
 

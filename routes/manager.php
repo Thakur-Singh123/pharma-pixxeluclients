@@ -21,15 +21,15 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('/user/{id}/approve', [App\Http\Controllers\Manager\UserStatusController::class, 'approve_user'])->name('user.approve');
     Route::post('/users/{id}/reject', [App\Http\Controllers\Manager\UserStatusController::class, 'reject_user'])->name('user.reject');
     Route::post('/users/{id}/pending', [App\Http\Controllers\Manager\UserStatusController::class, 'pending_user'])->name('user.pending');
-    //Clients
-    Route::resource('/clients', App\Http\Controllers\Manager\ClientController::class);
+    //Client category (separate from clients – no route conflict)
+    Route::get('/client-category/create', [App\Http\Controllers\Manager\ClientCategoryController::class, 'create_client_category'])->name('client.category.create');
+    Route::post('/client-category/store', [App\Http\Controllers\Manager\ClientCategoryController::class, 'store_client_category'])->name('client.category.store');
+    Route::get('/client-category', [App\Http\Controllers\Manager\ClientCategoryController::class, 'client_category_list'])->name('client.category.list');
+    Route::delete('/client-category/{id}', [App\Http\Controllers\Manager\ClientCategoryController::class, 'delete_client_category'])->name('client.category.delete');
+    //Clients (create is in ClientCategoryController – Add Category uses /client-category/create)
+    Route::resource('clients', App\Http\Controllers\Manager\ClientController::class)->except(['create']);
     Route::post('/clients/{id}/approve', [App\Http\Controllers\Manager\ClientController::class, 'client_approve'])->name('clients.approve');
     Route::post('/clients/{id}/reject', [App\Http\Controllers\Manager\ClientController::class, 'client_reject'])->name('clients.reject');
-    //Add client category
-    Route::get('/clients/create', [App\Http\Controllers\Manager\ClientCategoryController::class, 'create_client_category'])->name('clients.create');
-    Route::post('/clients/store', [App\Http\Controllers\Manager\ClientCategoryController::class, 'store_client_category'])->name('clients.store');
-    Route::get('/clients-category', [App\Http\Controllers\Manager\ClientCategoryController::class, 'client_category_list'])->name('clients.index');
-    Route::DELETE('/client-category-delete/{id}', [App\Http\Controllers\Manager\ClientCategoryController::class, 'delete_client_category'])->name('client.category.delete');
     //Edit client
     //Daily visits
     Route::resource('visits', App\Http\Controllers\Manager\VisitController::class);
@@ -132,7 +132,8 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('counsellor-patients', [App\Http\Controllers\Manager\CounsellorController::class, 'all_cpatients'])->name('all.cpatients');  
     Route::get('counsellor-booking-edit/{id}', [App\Http\Controllers\Manager\CounsellorController::class, 'edit_booking']);   
     Route::post('counsellor-booking-update/{id}', [App\Http\Controllers\Manager\CounsellorController::class, 'update_booking'])->name('update.booking'); 
-    Route::get('counsellor-booking-delete/{id}', [App\Http\Controllers\Manager\CounsellorController::class, 'delete_booking']);   
+    Route::get('counsellor-booking-delete/{id}', [App\Http\Controllers\Manager\CounsellorController::class, 'delete_booking']);
+    Route::post('counsellor-patient-add-comment', [App\Http\Controllers\Manager\CounsellorController::class, 'add_comment'])->name('counsellor.patient.add.comment');   
     //Camp reports
     Route::get('export-camp-report', [App\Http\Controllers\Manager\CampReportExportController::class, 'export_campReport']);
 });

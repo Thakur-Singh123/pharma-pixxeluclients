@@ -53,13 +53,21 @@ class ClientCategoryController extends Controller
         return redirect()->back()->with('success', 'Client category added successfully.');
     }
 
-    //function for show client category list
-    public function client_category_list() {
-        $categories = ClientCategory::OrderBy('ID', 'DESC')->paginate(10);
+    //Function for show client category list
+    public function client_category_list(Request $request) {
+        //Query
+        $query = ClientCategory::OrderBy('ID', 'DESC');
+        //Search filter
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        //Categories
+        $categories = $query->paginate(10);
+
         return view('manager.client-category.index', compact('categories'));
     }
 
-    //function for delete client category
+    //Function for delete client category
     public function delete_client_category($id) {
         $category = ClientCategory::findOrFail($id);
         $category->delete();

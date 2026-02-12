@@ -11,11 +11,19 @@ use Illuminate\Support\Facades\Hash;
 
 class MRController extends Controller
 {
-   //Function for all mrs
-    public function index() {
-        //Get mrs
+    //Function for all mrs
+    public function index(Request $request) {
+        //Get users
         $manager = User::find(auth()->id());
-        $mrs = $manager->mrs()->OrderBy('ID', 'DESC')->paginate(5);
+        //Query
+        $query = $manager->mrs()->OrderBy('ID', 'DESC');
+        //Date Filter
+        if ($request->filled('joining_date')) {
+            $query->whereDate('joining_date', $request->joining_date);
+        }
+        //Get mrs
+        $mrs = $query->paginate(5);
+
         return view('manager.mr-management.index', compact('mrs'));
     }
 

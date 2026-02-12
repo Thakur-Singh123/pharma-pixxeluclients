@@ -21,7 +21,11 @@ class TaskController extends Controller
         //Get tasks
         $query = Task::with('doctor');
         if($request->filled('created_by')) {
-             $query->where('created_by', $request->created_by);
+            $query->where('created_by', $request->created_by);
+        }
+        //Date Filter (Start Date)
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_date', $request->start_date);
         }
         $tasks = $query->orderBy('ID','DESC')->where('manager_id', auth()->id())->paginate(5);
 

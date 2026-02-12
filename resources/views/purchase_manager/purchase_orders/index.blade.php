@@ -79,8 +79,7 @@
                                                         <tr>
                                                             <td>{{ $count++ }}.</td>
                                                             <td>#{{ $po->id }}</td>
-                                                            <td>{{ \Carbon\Carbon::parse($po->order_date)->format('d M, Y') }}
-                                                            </td>
+                                                            <td>{{ \Carbon\Carbon::parse($po->order_date)->format('d M, Y') }}</td>
                                                             <td> {{ $po->vendor?->name ?? '—' }}</td>
                                                             <td> {{ $po->vendor?->email ?? '—' }}</td>
                                                             <td>{{ $po->nature_of_vendor }}</td>

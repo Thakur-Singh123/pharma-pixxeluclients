@@ -14,6 +14,27 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title">All Clients</h4>
+                            <form method="GET" action="{{ route('manager.clients.index') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                <!--Category Filter-->
+                                <!-- <select name="category_type" class="form-control"
+                                    onchange="if(this.value==''){ window.location='{{ route('manager.clients.index') }}'; } else { this.form.submit(); }">
+                                    <option value="all" disabled selected>Select Category</option>
+                                    <option value="">All Categories</option>
+                                    @foreach ($client_categories as $category)
+                                        <option value="{{ $category->name }}"
+                                            {{ request('category_type') == $category->name ? 'selected' : '' }}>
+                                            {{ ucfirst($category->name) }}
+                                        </option>
+                                    @endforeach
+                                </select> -->
+                                <!--Date Filter-->
+                                <!-- <input type="date"
+                                    name="created_date"
+                                    class="form-control"
+                                    value="{{ request('created_date') }}"
+                                    onchange="this.form.submit()"
+                                > -->
+                            </form>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -37,6 +58,12 @@
                                                             aria-controls="basic-datatables" rowspan="1"
                                                             colspan="1"
                                                             style="width: 184.234px;">Category Details
+                                                        </th> 
+                                                        <th class="sorting" tabindex="0"
+                                                            aria-controls="basic-datatables" rowspan="1"
+                                                            colspan="1"
+                                                            aria-label="Salary: activate to sort column ascending"
+                                                            style="width: 156.312px;">Created Date
                                                         </th>
                                                         <th class="sorting" tabindex="0"
                                                             aria-controls="basic-datatables" rowspan="1"
@@ -85,6 +112,7 @@
                                                                 N/A
                                                             @endif
                                                         </td>
+                                                        <td>{{ \Carbon\Carbon::parse($client->created_at)->format('d M, Y') }}</td>
                                                         <td>
                                                             <span class="status-badge 
                                                                 {{ $client->status == 'Pending' ? 'status-pending' : '' }}

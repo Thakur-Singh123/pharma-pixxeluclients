@@ -13,7 +13,20 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title">All Clients</h4>
+                            <h4 class="card-title mb-0">All Clients</h4>
+                            <form method="GET"
+                                action="{{ route('manager.clients.index') }}"
+                                class="d-flex align-items-center gap-2 mb-0">
+                                <input type="text"
+                                    name="search"
+                                    class="form-control"
+                                    placeholder="Search category name..."
+                                    value="{{ request('search') }}"
+                                    style="width: 180px;">
+                                <button type="submit" class="btn btn-primary">
+                                    Search
+                                </button>
+                            </form>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

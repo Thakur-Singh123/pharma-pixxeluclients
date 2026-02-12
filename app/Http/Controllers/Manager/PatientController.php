@@ -10,10 +10,22 @@ use App\Models\ReferredPatient;
 class PatientController extends Controller
 {
     //Function for show all patients
-    public function index() {
-        //Get patients
+    public function index(Request $request) {
+        //Get mrs
         $mrs = auth()->user()->mrs->pluck('id');
-        $all_patients = ReferredPatient::whereIn('mr_id',$mrs)->with('mr_detail','doctor_detail')->OrderBy('ID','DESC')->paginate(5);
+        //Query
+        $query = ReferredPatient::whereIn('mr_id',$mrs)->with('mr_detail','doctor_detail')->OrderBy('ID','DESC');
+        //MR Filter
+        if ($request->filled('mr_id')) {
+            $query->where('mr_id', $request->mr_id);
+        }
+        //Date Filter
+        if ($request->filled('created_at')) {
+            $query->whereDate('created_at', $request->created_at);
+        }
+        //Get patient
+        $all_patients = $query->paginate(5);
+        
         return view('manager.patients.all-patients', compact('all_patients'));
     }
 

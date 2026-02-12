@@ -15,11 +15,16 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class EventController extends Controller
 {
     //Functions for show all events
-    public function index() {
-        //Filter event
+    public function index(Request $request) {
+        //Query
         $query = Events::where('manager_id', auth()->id());
+        //Filter created by
         if(request()->filled('created_by')) {
             $query = $query->where('created_by', request('created_by'));
+        }
+        //Filter by date
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_datetime', '=', $request->start_date);
         }
         //Get events
         $events = $query->with('mr','doctor_detail')->OrderBy('ID', 'DESC')->where('is_active', 1)->paginate(5);
@@ -28,17 +33,15 @@ class EventController extends Controller
     }
 
     //Function for show waiting for approval events
-    public function waitingForApproval() {
+    public function waitingForApproval(Request $request) {
         //Filter event
         $query = Events::where('manager_id', auth()->id());
-        if(request()->filled('created_by')) {
-            $query = $query->where('created_by', request('created_by'));
+        //Filter by date
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_datetime', '=', $request->start_date);
         }
         //Get events
         $events = $query->with('mr','doctor_detail')->orderBy('ID', 'DESC')->where('is_active', 0)->paginate(5);
-        // echo "<pre>";
-        // print_r($events->toArray());
-        // echo "</pre>";die;
 
         return view('manager.events.waiting-for-approval', compact('events'));
     }
@@ -238,9 +241,16 @@ class EventController extends Controller
     }
 
     //Function for active participations
-    public function participations() {
+    public function participations(Request $request) {
+        //Query
+        $query = EventUser::with(['event_detail.mr'])->OrderBy('ID', 'DESC');
+        //Filter by date
+        if ($request->filled('created_date')) {
+            $query->whereDate('created_at', $request->created_date);
+        }
         //Get participations
-        $all_participations = EventUser::with(['event_detail.mr'])->OrderBy('ID', 'DESC')->paginate(5);
+        $all_participations = $query->paginate(5);
+
         return view('manager.event-users.active-participations', compact('all_participations'));
     }
 }

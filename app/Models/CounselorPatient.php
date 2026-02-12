@@ -27,4 +27,9 @@ class CounselorPatient extends Model
     public function counsellor() {
         return $this->belongsTo(User::class, 'counselor_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(CounsellorPatientComment::class, 'counselor_patient_id')->orderBy('id', 'DESC');
+    }
 }

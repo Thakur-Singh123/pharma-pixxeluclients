@@ -54,6 +54,8 @@
                                                         <th>Remark</th>
                                                         <th>Booking Status</th>
                                                         <th>Booking Date</th>
+                                                        <th>Comment</th>
+                                                        <th>Add Comment</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -86,6 +88,22 @@
                                                         <td>{{ $patient->booking_done ?? '—' }}</td>
                                                         <td>{{ $patient->booking_date ?? '—' }}</td>
                                                         <td>
+                                                            @forelse ($patient->comments as $comment)
+                                                                <span class="d-block small">{{ $comment->comment }}</span>
+                                                            @empty
+                                                                —
+                                                            @endforelse
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-success btn-sm"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#counsellorCommentModal"
+                                                                data-patient-id="{{ $patient->id }}"
+                                                                data-patient-name="{{ $patient->patient_name }}">
+                                                                Add comment
+                                                            </button>
+                                                        </td>
+                                                        <td>
                                                             <div class="form-button-action">
                                                                 <a href="{{ url('manager/counsellor-booking-edit/' . $patient->id) }}"
                                                                     class="icon-button edit-btn custom-tooltip"
@@ -102,7 +120,7 @@
                                                     </tr>
                                                     @empty
                                                     <tr>
-                                                        <td colspan="9" class="text-center">No patient record
+                                                        <td colspan="13" class="text-center">No patient record
                                                             found
                                                         </td>
                                                     </tr>
@@ -127,4 +145,42 @@
         </div>
     </div>
 </div>
+<!-- Add Comment Modal -->
+<div class="modal fade" id="counsellorCommentModal" tabindex="-1" aria-labelledby="counsellorCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="{{ route('manager.counsellor.patient.add.comment') }}" method="POST">
+                @csrf
+                <input type="hidden" name="counselor_patient_id" id="modalPatientId" value="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="counsellorCommentModalLabel">Add Comment – <span id="modalPatientName"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Comment (follow-up / reason for hold or no booking)</label>
+                    <textarea name="comment" id="modalComment" class="form-control" rows="4" placeholder="Enter comment" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('counsellorCommentModal');
+    if (modal) {
+        modal.addEventListener('show.bs.modal', function (event) {
+            var btn = event.relatedTarget;
+            if (btn) {
+                document.getElementById('modalPatientId').value = btn.getAttribute('data-patient-id') || '';
+                document.getElementById('modalPatientName').textContent = btn.getAttribute('data-patient-name') || '';
+                document.getElementById('modalComment').value = '';
+            }
+        });
+    }
+});
+</script>
 @endsection

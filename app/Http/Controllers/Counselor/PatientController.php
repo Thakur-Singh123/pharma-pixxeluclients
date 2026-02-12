@@ -15,7 +15,8 @@ class PatientController extends Controller
     //Fucntion for all patients
     public function index() {
         //Get patients
-        $patients = CounselorPatient::where('counselor_id', Auth::id())
+        $patients = CounselorPatient::with('comments')
+            ->where('counselor_id', Auth::id())
             ->orderBy('id', 'DESC')
             ->paginate(5);
         return view('counselor.patients.index', compact('patients'));

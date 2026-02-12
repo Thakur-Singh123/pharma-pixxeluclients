@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CounselorPatient;
+use App\Models\CounsellorPatientComment;
 use App\Models\User;
 
 class CounsellorController extends Controller
@@ -16,7 +17,7 @@ class CounsellorController extends Controller
         $manager = Auth::user();
         $counsellorIds = $manager->counsellors()->pluck('counsellor_id');
         //Query
-        $query = CounselorPatient::with('counsellor')
+        $query = CounselorPatient::with(['counsellor', 'comments'])
             ->whereIn('counselor_id', $counsellorIds);
         //Counsellor filter
         if ($request->filled('counsellor_id')) {
@@ -77,5 +78,23 @@ class CounsellorController extends Controller
         $patient = CounselorPatient::where('id', $id)->delete();
         //Success msg
         return redirect()->route('manager.all.cpatients')->with('success', 'Patient booking deleted successfully.');
+    }
+
+    //Function for add comment (follow-up / reason for hold or no booking)
+    public function add_comment(Request $request) {
+        $request->validate([
+            'counselor_patient_id' => 'required|exists:counselor_patients,id',
+            'comment' => 'required|string|max:2000',
+        ]);
+        $manager = Auth::user();
+        $counsellorIds = $manager->counsellors()->pluck('counsellor_id');
+        $patient = CounselorPatient::whereIn('counselor_id', $counsellorIds)->findOrFail($request->counselor_patient_id);
+        CounsellorPatientComment::create([
+            'counselor_patient_id' => $patient->id,
+            'user_id' => $manager->id,
+            'role' => 'manager',
+            'comment' => $request->comment,
+        ]);
+        return redirect()->back()->with('success', 'Comment added successfully.');
     }
 }

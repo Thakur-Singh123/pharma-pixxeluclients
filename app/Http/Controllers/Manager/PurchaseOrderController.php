@@ -43,6 +43,10 @@ class PurchaseOrderController extends Controller
         if ($request->filled('purchase_manager_id')) {
             $ordersQuery->where('purchase_manager_id', $request->purchase_manager_id);
         }
+        //Filter by Date
+        if ($request->filled('order_date')) {
+            $ordersQuery->where('order_date', $request->order_date);
+        }
         //Filter by date range
         if ($request->filled('date_range')) {
             switch ($request->date_range) {

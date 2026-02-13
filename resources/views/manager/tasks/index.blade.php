@@ -17,15 +17,22 @@
                             <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">All Tasks</h4>
-                                    <form method="GET" action="{{ route('manager.tasks.index') }}">
-                                        <select name="created_by" class="form-control" onchange="handleFilterChange(this)">
-                                            <option value="">📋 All Tasks</option>
+                                    <form method="GET" action="{{ route('manager.tasks.index') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                        <select name="created_by" class="form-control" onchange="if(this.value==''){ window.location='{{ route('manager.tasks.index') }}'; } else { this.form.submit(); }">
+                                            <option value="" disabled selected>Select Tasks</option>    
+                                            <option value="">All Tasks</option>
                                             <option value="manager"
-                                                {{ request('created_by') == 'manager' ? 'selected' : '' }}>👤 Created by Me
+                                                {{ request('created_by') == 'manager' ? 'selected' : '' }}>Created by Me
                                                 (manager)</option>
                                             <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>
-                                                🧑‍💼 Created by MR</option>
+                                                Created by MR</option>
                                         </select>
+                                        <input type="date"
+                                            name="start_date"
+                                            class="form-control"
+                                            value="{{ request('start_date') }}"
+                                            onchange="this.form.submit()"
+                                        >
                                     </form>
                                 </div>
                                 <div class="card-body">

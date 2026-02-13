@@ -12,8 +12,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All MRs</h4>
+                                <form method="GET" action="{{ route('manager.mrs.index') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                <input type="date"
+                                        name="joining_date"
+                                        class="form-control"
+                                        value="{{ request('joining_date') }}"
+                                        onchange="this.form.submit()"
+                                    >
+                                </form>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

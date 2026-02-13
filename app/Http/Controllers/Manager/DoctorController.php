@@ -89,6 +89,9 @@ class DoctorController extends Controller
         if(request()->filled('created_by')) {
             $query = $query->where('created_by', request('created_by'));
         }
+        if(request()->filled('created_date')) {
+            $query = $query->whereDate('created_at', request('created_date'));
+        }
         //Get doctors
         $all_doctors = $query->OrderBy('ID', 'DESC')->where('approval_status', 'Approved')->paginate(5);
         
@@ -233,8 +236,14 @@ class DoctorController extends Controller
 
     //Function for waiting for approval doctor mr
     public function waiting_for_approval() {
-        //Get pending doctors
-        $all_pending_doctors = Doctor::OrderBy('ID', 'Desc')->whereIn('approval_status', ['Pending','Reject'])->paginate(5);
+        //Query
+        $query = Doctor::OrderBy('ID', 'Desc')->whereIn('approval_status', ['Pending','Reject']);
+        //Filter by data
+        if(request()->filled('created_date')) {
+            $query = $query->whereDate('created_at', request('created_date'));
+        }
+        $all_pending_doctors = $query->paginate(5);
+        
         return view('manager.doctors.waiting-for-approval', compact('all_pending_doctors'));
     }
 }

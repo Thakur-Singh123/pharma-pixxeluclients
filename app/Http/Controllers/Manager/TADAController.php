@@ -8,7 +8,7 @@ use App\Models\User;
 
 class TADAController extends Controller
 {
-    //function for view all TADA records
+    //Function for view all TADA records
     public function index(Request $request)
     {
         $manger = auth()->user();
@@ -16,15 +16,28 @@ class TADAController extends Controller
         $mrs = $manger->mrs()->pluck('users.id');
         if(request()->has('status') && in_array(request('status'), ['pending', 'approved', 'rejected'])) {
             $tada_records = TADARecords::OrderBy('ID', 'DESC')->whereIn('mr_id', $mrs)
-                ->where('status', request('status'))
-                ->paginate(5);
-        } else {
-            $tada_records = TADARecords::OrderBy('ID', 'DESC')->whereIn('mr_id', $mrs)->paginate(5);
+                ->where('status', request('status'));
+        //Date Filter
+        if ($request->filled('travel_date')) {
+            $tada_records->whereDate('travel_date', $request->travel_date);
         }
+
+        $tada_records = $tada_records->paginate(5);
+
+        } else {
+            $tada_records = TADARecords::OrderBy('ID', 'DESC')->whereIn('mr_id', $mrs);
+            //Date Filter
+            if ($request->filled('travel_date')) {
+                $tada_records->whereDate('travel_date', $request->travel_date);
+            }
+
+            $tada_records = $tada_records->paginate(5);
+        }
+
         return view('manager.TADA.index', compact('tada_records'));
     }
 
-    //function for approve TADA record
+    //Function for approve TADA record
     public function approve($id)
     {
         $tada_record              = TADARecords::findOrFail($id);

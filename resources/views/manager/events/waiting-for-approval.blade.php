@@ -14,6 +14,14 @@
                         <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">Waiting For Approval Events</h4>
+                                <form method="GET" action="{{ route('manager.waiting.for.approval') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                    <input type="date"
+                                        name="start_date"
+                                        class="form-control"
+                                        value="{{ request('start_date') }}"
+                                        onchange="this.form.submit()"
+                                    >
+                                </form>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -145,7 +153,7 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $events->links('pagination::bootstrap-5') }}
+                                                {{ $events->appends(request()->query())->links('pagination::bootstrap-5') }}    
                                             </div>
                                         </div>
                                     </div>

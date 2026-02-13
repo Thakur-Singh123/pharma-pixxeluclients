@@ -14,12 +14,19 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Doctors</h4>
-                                <form method="GET" action="{{ route('manager.doctors') }}">
-                                    <select name="created_by" class="form-control" onchange="handleFilterChange(this)">
-                                        <option value="">👨‍⚕️ All Doctors</option>
-                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>🧑‍💼 Created by Me (Manager)</option>
-                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>📋 Created by MR</option>
+                                <form method="GET" action="{{ route('manager.doctors') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                    <select name="created_by" class="form-control"  onchange="if(this.value==''){ window.location='{{ route('manager.doctors') }}'; } else { this.form.submit(); }">
+                                        <option value="" disabled selected>Select Doctors</option>
+                                        <option value="">All Doctors</option>
+                                        <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>Created by Me (Manager)</option>
+                                        <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>Created by MR</option>
                                     </select>
+                                    <input type="date"
+                                        name="created_date"
+                                        class="form-control"
+                                        value="{{ request('created_date') }}"
+                                        onchange="this.form.submit()"
+                                    >
                                 </form>
                             </div>
                             <div class="card-body">
@@ -112,6 +119,12 @@
                                                                 aria-controls="basic-datatables" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Salary: activate to sort column ascending"
+                                                                style="width: 156.312px;">Created Date
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="basic-datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Salary: activate to sort column ascending"
                                                                 style="width: 156.312px;">Status
                                                             </th>
                                                             <th class="sorting" tabindex="0"
@@ -149,6 +162,7 @@
                                                                 -
                                                             @endif
                                                             </td>
+                                                            <td>{{ \Carbon\Carbon::parse($doctor->created_at)->format('d M, Y') }}</td>
                                                             <td>
                                                                 <form action="{{ route('manager.doctor.update.status', $doctor->id) }}" method="POST" class="status-form">
                                                                     @csrf

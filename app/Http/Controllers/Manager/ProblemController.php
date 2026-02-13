@@ -11,12 +11,22 @@ use App\Models\Visit;
 class ProblemController extends Controller
 {
     //Function for all problems
-    public function index() {
+    public function index(Request $request) {
         //Get patients
         $mrs = auth()->user()->mrs->pluck('id');
+        //Query
+        $query = Problem::with('mr_detail','visit_details')->whereIn('mr_id',$mrs)->OrderBy('ID', 'DESC');
+        //MR Filter
+        if ($request->filled('mr_id')) {
+            $query->where('mr_id', $request->mr_id);
+        }
+        //Date Filter
+        if ($request->filled('created_at')) {
+            $query->whereDate('created_at', $request->created_at);
+        }
         //Get problems
-        $all_problems = Problem::with('mr_detail','visit_details')->whereIn('mr_id',$mrs)->OrderBy('ID', 'DESC')->paginate(5);
-        // echo "<pre>"; print_r($all_problems->toArray());exit;
+        $all_problems = $query->paginate(5);
+
         return view('manager.problems-challenges.all-problems', compact('all_problems'));
     }
     //Function for edit

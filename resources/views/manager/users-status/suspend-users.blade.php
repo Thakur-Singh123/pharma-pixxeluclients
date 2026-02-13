@@ -13,10 +13,17 @@
                     <div class="col-md-12">
                         <div class="card">
                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">Active users</h4>
-                                    <form method="GET" action="#">
-                                        <select name="user_type" class="form-control" onchange="handleFilterChange(this)">
-                                            <option value="">All Suspend Users</option>
+                                    <h4 class="card-title">Suspend users</h4>
+                                    <form method="GET" action="{{ route('manager.suspend.users') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                        <input type="date"
+                                            name="joining_date"
+                                            class="form-control"
+                                            value="{{ request('joining_date') }}"
+                                            onchange="this.form.submit()"
+                                        >
+                                        <select name="user_type" class="form-control" onchange="if(this.value==''){ window.location='{{ route('manager.suspend.users') }}'; } else { this.form.submit(); }">
+                                            <option value="" disabled selected>Select User</option>   
+                                            <option value="">All Users</option>
                                             <option value="MR" {{ request('user_type') == 'MR' ? 'selected' : '' }}>MR</option>
                                             <option value="vendor" {{ request('user_type') == 'vendor' ? 'selected' : '' }}>Vendor</option>
                                             <option value="purchase_manager" {{ request('user_type') == 'purchase_manager' ? 'selected' : '' }}>Purchase Manager</option>
@@ -171,7 +178,7 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                {{ $all_users->links('pagination::bootstrap-5') }}
+                                                {{ $all_users->appends(request()->query())->links('pagination::bootstrap-5') }} 
                                             </div>
                                         </div>
                                     </div>

@@ -15,19 +15,35 @@ class SalesController extends Controller
 {
     //Function for all sales
     public function index(Request $request) {
-        //Get auth login detail
+        //Get mrs
         $mrs_id = MangerMR::where('manager_id', auth()->user()->id)->pluck('mr_id')->toArray();
-        $mrs = User::where('can_sale', 1)->where('status','Active')->whereIn('id', $mrs_id)->get();
-        //Get sales
+        //Get users
+        $mrs = User::where('can_sale', 1)
+            ->where('status','Active')
+            ->whereIn('id', $mrs_id)
+            ->get();
+        //Query
         $query = Sale::orderBy('created_at', 'desc')
-        ->where(function($q) use ($mrs_id) {
-            $q->whereIn('user_id', $mrs_id)
-              ->whereNull('manager_id'); 
-        })
-        ->orWhere('manager_id', Auth::id()); 
+            ->where(function($q) use ($mrs_id) {
+                $q->where(function($sub) use ($mrs_id) {
+                    $sub->whereIn('user_id', $mrs_id)
+                    ->whereNull('manager_id');
+                })
+                ->orWhere('manager_id', auth()->id());
+            });
+        //Date filter
+        if ($request->filled('created_date')) {
+            $query->whereDate('created_at', $request->created_date);
+        }
+        //MR filter
+        if ($request->filled('created_by')) {
+            $query->where('user_id', $request->created_by);
+        }
         //Get sales
-        $sales = $query->with('user','items')->paginate(5);
-        
+        $sales = $query->with('user','items')
+            ->paginate(5)
+            ->appends($request->query());
+
         return view('manager.sales.index', compact('sales','mrs'));
     }
 

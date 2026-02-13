@@ -14,12 +14,19 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Events</h4>
-                                <form method="GET" action="{{ route('manager.events.index') }}">
-                                <select name="created_by" class="form-control" onchange="handleFilterChange(this)">
-                                    <option value="">📋 All Events</option>
-                                    <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>👤 Created by Me (Manager)</option>
-                                    <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>🧑‍💼 Created by MR</option>
+                                <form method="GET" action="{{ route('manager.events.index') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                <select name="created_by" class="form-control" onchange="if(this.value==''){ window.location='{{ route('manager.events.index') }}'; } else { this.form.submit(); }">
+                                    <option value="" disabled selected>Select Events</option>
+                                    <option value="">All Events</option>
+                                    <option value="manager" {{ request('created_by') == 'manager' ? 'selected' : '' }}>Created by Me (Manager)</option>
+                                    <option value="mr" {{ request('created_by') == 'mr' ? 'selected' : '' }}>Created by MR</option>
                                 </select>
+                                <input type="date"
+                                    name="start_date"
+                                    class="form-control"
+                                    value="{{ request('start_date') }}"
+                                    onchange="this.form.submit()"
+                                >
                                 </form>
                             </div>
                             <div class="card-body">

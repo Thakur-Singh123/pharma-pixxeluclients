@@ -23,7 +23,7 @@
                                         </select>
                                         <input type="date"
                                             name="start_date"
-                                            class="form-control date-wrapper"
+                                            class="form-control"
                                             value="{{ request('start_date') }}"
                                             onchange="this.form.submit()"
                                         >

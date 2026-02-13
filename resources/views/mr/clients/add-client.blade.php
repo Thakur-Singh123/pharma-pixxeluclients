@@ -36,7 +36,6 @@
                                                 class="form-control"
                                                 required>
                                             <option value="">Select Category</option>
-
                                             @foreach ($client_categories as $category)
                                                 <option value="{{ $category->name }}"
                                                         data-id="{{ $category->id }}">

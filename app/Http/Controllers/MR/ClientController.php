@@ -13,10 +13,12 @@ class ClientController extends Controller
 {
     //Function for show all clients
     public function index(Request $request) {
+        //Categories
+        $client_categories = ClientCategory::where('status', 'active')->with('fields')->get();
         //Query
         $query = Client::OrderBy('ID', 'DESC')->where('mr_id', auth()->id());
         //Category filter
-        if ($request->filled('category_type')) {
+        if ($request->category_type) {
             $query->where('category_type', $request->category_type);
         }
         //Date filter
@@ -26,7 +28,7 @@ class ClientController extends Controller
         //Get clients
         $all_clients = $query->paginate(5);
 
-        return view('mr.clients.all-clients', compact('all_clients'));
+        return view('mr.clients.all-clients', compact('all_clients','client_categories'));
     }
 
     //Function for show clients

@@ -52,6 +52,8 @@ Route::prefix('mr')->name('mr.')->middleware(['web','auth','mr'])->group(functio
     Route::resource('/patients', App\Http\Controllers\MR\ReferredPatientController::class);
     //TADA
     Route::resource('/tada', App\Http\Controllers\MR\TADAController::class);
+    //TADA reports
+    Route::get('tada-export', [App\Http\Controllers\MR\Export\TadaExportController::class, 'export_tada'])->name('tada.export');
     //Calnedar
     Route::get('/calendar', [App\Http\Controllers\MR\CalendarController::class, 'index'])->name('calendar.index');
     Route::get('/calendar/tasks', [App\Http\Controllers\MR\CalendarController::class, 'getTasks'])->name('calendar.tasks');

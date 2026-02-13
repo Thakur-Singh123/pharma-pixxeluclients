@@ -124,6 +124,10 @@ class PurchaseOrderController extends Controller
         //Query
         $query = PurchaseOrder::with(['vendor', 'purchaseManager'])
             ->where('purchase_manager_id', $pmId);
+        //Date Filter
+        if ($request->filled('order_date')) {
+            $query->where('order_date', $request->order_date);
+        }
         //Status Filter
         if ($request->filled('status')) {
             $query->where('status', $request->status);

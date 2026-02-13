@@ -23,16 +23,21 @@ class VisitPlanController extends Controller
 
     //Function for show all visit plans   
     public function index(Request $request) {
-        //query
+        //Query
         $query = VisitPlan::OrderBy('ID','DESC')
             ->where('created_by', auth()->id())
             ->with('comments');
-            //filter
+        //Status Filter
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
+        //Date Filter
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_date', $request->start_date);
+        }
         //Get visits
         $visit_plans = $query->paginate(5);
+
         return view('manager.visit_plans.index', compact('visit_plans'));
     }
 
@@ -90,11 +95,19 @@ class VisitPlanController extends Controller
     }
 
     //Function for show interested mrs for a visit plan
-    public function showInterestedMRS() {
+    public function showInterestedMRS(Request $request) {
         //Get mrs
         $mrs = auth()->user()->mrs->pluck('id')->toArray();
         //Get interested mrs
-        $intrested_mrs = VisitPlanInterest::OrderBy('ID', 'DESC')->whereIn('mr_id', $mrs)->with('mr','visitPlan')->paginate(5);
+        $query = VisitPlanInterest::OrderBy('ID', 'DESC')->whereIn('mr_id', $mrs);
+        //Date Filter
+        if ($request->filled('start_date')) {
+            $query->whereHas('visitPlan', function ($q) use ($request) {
+                $q->whereDate('start_date', $request->start_date);
+            });
+        }
+        $intrested_mrs = $query->with('mr','visitPlan')->paginate(5);
+
         return view('manager.visit_plans.interested_mrs', compact('intrested_mrs'));
     }
 

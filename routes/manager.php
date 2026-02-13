@@ -59,7 +59,7 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::post('approved-events/{id}', [App\Http\Controllers\Manager\EventController::class,'approvedevents'])->name('approved.events');
     Route::post('rejected-events/{id}', [App\Http\Controllers\Manager\EventController::class,'rejectedevents'])->name('rejected.events');
     //Event users
-    Route::get('events-active-participations', [App\Http\Controllers\Manager\EventController::class,'participations']);
+    Route::get('events-active-participations', [App\Http\Controllers\Manager\EventController::class,'participations'])->name('participations');
     //Patient
     Route::resource('patients', App\Http\Controllers\Manager\PatientController::class);
     Route::post('/patient/{id}/approve', [App\Http\Controllers\Manager\PatientController::class, 'approve_patient'])->name('patient.approve');
@@ -72,7 +72,7 @@ Route::prefix('manager')->name('manager.')->middleware(['web', 'auth', 'manager'
     Route::get('/doctors/create', [App\Http\Controllers\Manager\DoctorController::class, 'add_doctor']);
     Route::post('/submit-doctor', [App\Http\Controllers\Manager\DoctorController::class, 'submit_doctor'])->name('submit.doctor');
     Route::get('/doctors', [App\Http\Controllers\Manager\DoctorController::class, 'all_doctors'])->name('doctors');
-    Route::get('/doctors-waiting-for-approval', [App\Http\Controllers\Manager\DoctorController::class,'waiting_for_approval']);
+    Route::get('/doctors-waiting-for-approval', [App\Http\Controllers\Manager\DoctorController::class,'waiting_for_approval'])->name('pending.doctor');
     Route::post('/doctor-approve/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'approve'])->name('doctor.approve');
     Route::post('/doctor-reject/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'reject'])->name('doctor.reject');
     Route::get('/doctors/edit/{id}', [App\Http\Controllers\Manager\DoctorController::class, 'edit_doctor']);

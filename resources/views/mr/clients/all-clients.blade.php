@@ -20,19 +20,12 @@
                                     onchange="if(this.value==''){ window.location='{{ route('mr.clients.index') }}'; } else { this.form.submit(); }">
                                     <option value="all" disabled selected>Select Category</option>
                                     <option value="">All Categories</option>
-                                    <option value="doctor" {{ request('category_type') == 'doctor' ? 'selected' : '' }}>Doctor</option>
-                                    <option value="nurse" {{ request('category_type') == 'nurse' ? 'selected' : '' }}>Nurse</option>
-                                    <option value="lab_technician" {{ request('category_type') == 'lab_technician' ? 'selected' : '' }}>Lab Technician</option>
-                                    <option value="chemist" {{ request('category_type') == 'chemist' ? 'selected' : '' }}>Chemist</option>
-                                    <option value="asha_worker" {{ request('category_type') == 'asha_worker' ? 'selected' : '' }}>Asha Worker</option>
-                                    <option value="sarpanch" {{ request('category_type') == 'sarpanch' ? 'selected' : '' }}>Sarpanch</option>
-                                    <option value="mc" {{ request('category_type') == 'mc' ? 'selected' : '' }}>MC</option>
-                                    <option value="franchisee" {{ request('category_type') == 'franchisee' ? 'selected' : '' }}>Franchisee</option>
-                                    <option value="healthcare_worker" {{ request('category_type') == 'healthcare_worker' ? 'selected' : '' }}>Any Healthcare Worker</option>
-                                    <option value="school" {{ request('category_type') == 'school' ? 'selected' : '' }}>School</option>
-                                    <option value="press_reporter" {{ request('category_type') == 'press_reporter' ? 'selected' : '' }}>Press Reporter</option>
-                                    <option value="market_president" {{ request('category_type') == 'market_president' ? 'selected' : '' }}>Market President</option>
-                                    <option value="others" {{ request('category_type') == 'others' ? 'selected' : '' }}>Others</option>
+                                    @foreach ($client_categories as $category)
+                                        <option value="{{ $category->name }}"
+                                            {{ request('category_type') == $category->name ? 'selected' : '' }}>
+                                            {{ ucfirst($category->name) }}
+                                        </option>
+                                    @endforeach
                                 </select>
                                 <!--Date Filter-->
                                 <input type="date"

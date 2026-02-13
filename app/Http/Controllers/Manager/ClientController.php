@@ -5,14 +5,28 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\ClientCategory;
 
 class ClientController extends Controller
 {
     //Function for show all clients
-    public function index() {
+    public function index(Request $request) {
+        //Categories
+        $client_categories = ClientCategory::where('status', 'active')->with('fields')->get();
+        //Query
+        $query  = Client::OrderBy('ID','DESC')->where('manager_id', auth()->id());
+        //Category filter
+        if ($request->category_type) {
+            $query->where('category_type', $request->category_type);
+        }
+        //Date filter
+        if ($request->filled('created_date')) {
+            $query->whereDate('created_at', $request->created_date);
+        }
         //Get clients
-        $all_clients = Client::OrderBy('ID','DESC')->where('manager_id', auth()->id())->paginate(5);
-        return view('manager.clients.all-clients', compact('all_clients'));
+        $all_clients = $query->paginate(5);
+
+        return view('manager.clients.all-clients', compact('all_clients','client_categories'));
     }
 
     //Function for approval client

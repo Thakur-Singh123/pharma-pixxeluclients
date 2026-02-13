@@ -14,9 +14,16 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">All Visit Plans</h4>
-                                <form method="GET" action="{{ route('manager.visit-plans.index') }}">
-                                    <select name="status" class="form-control" onchange="this.form.submit()">
-                                        <option value="">Filter by Status</option>
+                                <form method="GET" action="{{ route('manager.visit-plans.index') }}" class="m-0 d-flex align-items-center" style="gap: 10px;">
+                                    <input type="date"
+                                        name="start_date"
+                                        class="form-control"
+                                        value="{{ request('start_date') }}"
+                                        onchange="this.form.submit()"
+                                    >
+                                    <select name="status" class="form-control" onchange="if(this.value==''){ window.location='{{ route('manager.visit-plans.index') }}'; } else { this.form.submit(); }">
+                                        <option value="" disabled selected>Select Status</option>
+                                        <option value="">All Status</option>
                                         <option value="open" {{ request('open') == 'open' ? 'selected' : '' }}>
                                             Open</option>
                                         <option value="interested"
@@ -111,7 +118,7 @@
                                                     @endforelse
                                                 </tbody>
                                             </table>
-                                            {{ $visit_plans->links('pagination::bootstrap-5') }}
+                                            {{ $visit_plans->appends(request()->query())->links('pagination::bootstrap-5') }}
                                         </div>
                                     </div>
                                 </div>
